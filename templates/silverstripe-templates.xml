@@ -200,11 +200,9 @@ class ${file_name}_Controller extends Page_Controller {
     description="A new SilverStripe Class"
     id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.class"
     context="php"
-    enabled="true">&lt;?php
-class ${file_name} {
+    enabled="true">class ${file_name} {
     ${cursor}
-}
-?&gt;</template>
+}</template>
 
 <!-- SS File Templates -->
 <template
