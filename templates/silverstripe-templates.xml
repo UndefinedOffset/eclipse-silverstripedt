@@ -72,7 +72,7 @@ class ${file_name}Controller extends ContentController {
 
 <template
     name="New SilverStripe Extension"
-    description="A new SilverStripe Extension extending Extension"
+    description="A new SilverStripe Extension"
     id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.extension"
     context="php_new_file_context"
     enabled="true">&lt;?php
@@ -175,29 +175,25 @@ class ${file_name}_Controller extends Page_Controller {
 
 <template
     name="class"
-    description="A new SilverStripe Extension extending Extension"
+    description="A new SilverStripe Extension"
     id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.extension"
     context="php"
-    enabled="true">&lt;?php
-class ${file_name} extends Extension {
+    enabled="true">class ${file_name} extends Extension {
     public function extraStatics() {
         ${cursor}
     }
-}
-?&gt;</template>
+}</template>
 
 <template
     name="class"
     description="A new SilverStripe Data Object Decorator"
     id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.dod"
     context="php"
-    enabled="true">&lt;?php
-class ${file_name} extends DataObjectDecorator {
+    enabled="true">class ${file_name} extends DataObjectDecorator {
     public function extraStatics() {
         ${cursor}
     }
-}
-?&gt;</template>
+}</template>
 
 <template
     name="class"
