@@ -35,10 +35,6 @@
 
    <url>
       <update label="Ed Chipman&apos;s SilverStripe PDT Extensions" url="http://downloads.edchipman.ca/silverStripePDT"/>
-      <discovery label="SilverStripe Documentation" url="http://doc.silverstripe.org"/>
-      <discovery label="SilverStripe API Docs" url="http://api.silverstripe.org/"/>
-      <discovery label="SilverStripe Open Source website" url="http://silverstripe.org"/>
-      <discovery label="SilverStripe Forms" url="http://silverstripe.org/forums"/>
    </url>
 
    <requires>
