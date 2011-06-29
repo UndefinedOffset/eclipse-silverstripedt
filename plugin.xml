@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension point="org.eclipse.ui.startup">
+        <startup class="ca.edchipman.silverstripepdt.RegisterResolvers"></startup>
+    </extension>
+    
+    <extension point="org.eclipse.core.contenttype.contentTypes">
+        <content-type
+                base-type="org.eclipse.php.core.phpsource"
+                file-extensions="ss"
+                id="SilverStripeTemplate"
+                name="SilverStripe Template File"
+                priority="normal">
+        </content-type>
+    </extension>
+    
+    <extension point="org.eclipse.ui.editors.templates">
+        <contextType name="ca.edchipman.silverStripePDT.SilverStripeTemplate"
+                                            class="ca.edchipman.silverstripepdt.SilverStripeTemplateContextType"
+                                            id="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+        
+        <include file="templates/silverstripe-templates.xml" />
+    </extension>
+    
+    <extension point="org.eclipse.ui.perspectiveExtensions">
+        <perspectiveExtension targetID="org.eclipse.php.perspective">
+            <newWizardShortcut id="ca.edchipman.silverStripePDT.wizards.SilverStripeTemplateFileCreationWizard" />
+        </perspectiveExtension>
+    </extension>
+    
+    <extension point="org.eclipse.ui.newWizards">
+        <wizard id="ca.edchipman.silverStripePDT.wizards.SilverStripeTemplateFileCreationWizard"
+                         category="org.eclipse.php.project.ui" class="ca.edchipman.silverstripepdt.SilverStripeTemplateFileCreationWizard"
+                         name="SilverStripe Template File" icon="icons/add_ss_file.gif" />
+    </extension>
+    
+    <extension point="org.eclipse.ui.editors">
+        <editor class="ca.edchipman.silverstripepdt.SilverStripeTemplateStructuredEditor"
+                        contributorClass="org.eclipse.php.internal.ui.editor.ActionContributorForPhp"
+                        default="true" icon="icons/ss_file.gif" id="ca.edchipman.silverStripePDT.SilverStripe.editor"
+                        name="SilverStripe Template Editor" symbolicFontName="org.eclipse.wst.sse.ui.textfont">
+            <contentTypeBinding contentTypeId="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+        </editor>
+    </extension>
+    
+    <extension point="org.eclipse.wst.sse.ui.editorConfiguration">
+        <sourceViewerConfiguration
+                        class="org.eclipse.php.internal.ui.editor.configuration.PHPStructuredTextViewerConfiguration"
+                        target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+        <contentOutlineConfiguration
+                        class="org.eclipse.php.internal.ui.outline.PHPContentOutlineConfiguration"
+                        target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+        <propertySheetConfiguration
+                        class="org.eclipse.wst.xml.ui.views.properties.XMLPropertySheetConfiguration"
+                        target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+        <provisionalConfiguration type="sourceeditingtexttools"
+                        class="org.eclipse.wst.xml.ui.internal.provisional.XMLSourceEditingTextTools"
+                        target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+        <provisionalConfiguration type="characterpairmatcher"
+                        class="org.eclipse.php.internal.ui.text.PHPDocumentRegionEdgeMatcher"
+                        target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+        <provisionalDefinition type="spellingregions"
+                        value="XML_COMMENT_TEXT, PHP_CONTENT, XML_CONTENT" target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+        <provisionalConfiguration
+                        type="org.eclipse.jface.text.quickassist.IQuickAssistProcessor" 
+                        class="org.eclipse.php.internal.ui.text.correction.PHPCorrectionProcessor"
+                        target="org.eclipse.php.PHP_DEFAULT" />
+     </extension>
+</plugin>

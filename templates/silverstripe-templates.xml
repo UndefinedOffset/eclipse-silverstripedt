@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+<!-- new PHP templates -->
+<template
+    name="New SilverStripe Page Type"
+    description="A new SilverStripe Page type extending Page and Page_Controller"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.pagetype"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} extends Page {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$defaults=array(
+                                );
+    
+    ${cursor}
+}
+
+class ${file_name}_Controller extends Page_Controller {
+    
+}
+?&gt;</template>
+
+<template
+    name="New Data Object"
+    description="A new SilverStripe Data Object"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.dataobject"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} extends DataObject {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$belongs_many=array(
+                                 );
+    
+    public static $$many_many=array(
+                                 );
+    
+    public static $$defaults=array(
+                                );
+    
+    ${cursor}
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe Controller"
+    description="A new SilverStripe Controller extending ContentController"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.controller"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name}Controller extends ContentController {
+    ${cursor}
+}
+?&gt;</template>
+
+<!-- auto complete templates -->
+<template
+    name="class"
+    description="A new SilverStripe Page type extending Page and Page_Controller"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.pagetype"
+    context="php"
+    enabled="true">class ${file_name} extends Page {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$defaults=array(
+                                );
+    
+    ${cursor}
+}
+
+class ${file_name}_Controller extends Page_Controller {
+    
+}</template>
+
+<template
+    name="class"
+    description="A new SilverStripe Data Object"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.dataobject"
+    context="php"
+    enabled="true"
+    autoinsert="false">class ${file_name} extends DataObject {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$belongs_many=array(
+                                 );
+    
+    public static $$many_many=array(
+                                 );
+    
+    public static $$defaults=array(
+                                );
+    
+    ${cursor}
+}</template>
+
+<template
+    name="class"
+    description="A new SilverStripe Controller extending ContentController"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.controller"
+    context="php"
+    enabled="true"
+    autoinsert="false">class ${file_name}Controller extends ContentController {
+    ${cursor}
+}</template>
+
+<!-- SS File Templates -->
+<template
+    name="New Top Level SilverStripe Template"
+    description="A new Top Level SilverStripe Template"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newss.toplevel"
+    context="php_ss"
+    enabled="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; &gt;
+    &lt;head&gt;
+        &lt;title&gt;$$Title.XML - $$SiteConfig.Title.XML&lt;% if SiteConfig.Tagline %&gt; - $$SiteConfig.Tagline.XML&lt;% end_if %&gt;&lt;/title&gt;
+        $$MetaTags(false)
+        &lt;% base_tag %&gt;
+        
+        &lt;% require themedCSS(layout) %&gt;
+        &lt;% require themedCSS(typography) %&gt;
+        &lt;% require themedCSS(form) %&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;Main&quot;&gt;
+            &lt;div id=&quot;Content&quot; class=&quot;typography&quot;&gt;
+                $$Layout
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;% if IsAdmin %&gt;
+            $$SilverStripeNavigator
+        &lt;% end_if %&gt;
+        
+        &lt;script type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</template>
+<template
+    name="New SilverStripe Template"
+    description="A new SilverStripe Template"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newss.template"
+    context="php_ss"
+    enabled="true">&lt;h2&gt;$$Title.XML&lt;/h2&gt;
+
+$$Content
+$$Form
+$$PageComments</template>
+</templates>
