@@ -70,6 +70,45 @@ class ${file_name}Controller extends ContentController {
 }
 ?&gt;</template>
 
+<template
+    name="New SilverStripe Extension"
+    description="A new SilverStripe Extension extending Extension"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.extension"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} extends Extension {
+    public function extraStatics() {
+        ${cursor}
+    }
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe Data Object Decorator"
+    description="A new SilverStripe Data Object Decorator"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.dod"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} extends DataObjectDecorator {
+    public function extraStatics() {
+        ${cursor}
+    }
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe Class"
+    description="A new SilverStripe Class"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.class"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} extends DataObjectDecorator {
+    public function extraStatics() {
+        ${cursor}
+    }
+}
+?&gt;</template>
+
 <!-- auto complete templates -->
 <template
     name="class"
@@ -133,6 +172,43 @@ class ${file_name}_Controller extends Page_Controller {
     autoinsert="false">class ${file_name}Controller extends ContentController {
     ${cursor}
 }</template>
+
+<template
+    name="class"
+    description="A new SilverStripe Extension extending Extension"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.extension"
+    context="php"
+    enabled="true">&lt;?php
+class ${file_name} extends Extension {
+    public function extraStatics() {
+        ${cursor}
+    }
+}
+?&gt;</template>
+
+<template
+    name="class"
+    description="A new SilverStripe Data Object Decorator"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.dod"
+    context="php"
+    enabled="true">&lt;?php
+class ${file_name} extends DataObjectDecorator {
+    public function extraStatics() {
+        ${cursor}
+    }
+}
+?&gt;</template>
+
+<template
+    name="class"
+    description="A new SilverStripe Class"
+    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.class"
+    context="php"
+    enabled="true">&lt;?php
+class ${file_name} {
+    ${cursor}
+}
+?&gt;</template>
 
 <!-- SS File Templates -->
 <template
