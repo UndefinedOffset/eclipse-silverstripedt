@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+<!-- new PHP templates -->
+<template
+    name="New SilverStripe project _config.php template"
+    description="A new SilverStripe project _config.php template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.config"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+global $$project;
+$$project = 'mysite';
+
+global $$databaseConfig;
+$$databaseConfig = array(
+    "type" => "MySQLDatabase",
+    "server" => "localhost",
+    "username" => "${username}",
+    "password" => "${password}",
+    "database" => "${database}",
+);
+
+MySQLDatabase::set_connection_charset('utf8');
+
+
+// Sites running on the following servers will be run in development mode.
+Director::set_dev_servers(array(
+    'localhost',
+    '127.0.0.1',
+));
+Director::set_environment_type('dev');
+
+//Set's the current theme
+SSViewer::set_theme('${theme_name}');
+
+//Enable nested urls
+SiteTree::enable_nested_urls();
+
+//Error Logging
+if(Director::isLive()) {
+    SS_Log::add_writer(new SS_LogEmailWriter('${support_email}'), SS_Log::WARN);
+    SS_Log::add_writer(new SS_LogEmailWriter('${support_email}'), SS_Log::ERR);
+}
+?&gt;</template>
+
+
+<template
+    name="New SilverStripe module _config.php template"
+    description="A new SilverStripe module _config.php template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssmodule.config"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+
+?&gt;</template>
+
+
+<template
+    name="New SilverStripe project Page class template"
+    description="A new SilverStripe project Page class template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.defaultpage"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+class Page extends SiteTree {
+    public static $$db=array(
+                           );
+    
+    public static $$defaults=array(
+                                );
+    
+    /**
+     * Gets whether the user is an administrator
+     * @return {bool} True if the user is an admin false if not
+     */
+    function getIsAdmin() {
+        if(Permission::check('ADMIN')) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+}
+
+class Page_Controller extends ContentController {
+    public function init() {
+        parent::init();
+    }
+    
+    /**
+     * Site search form 
+     */ 
+    public function SearchForm() {
+        $$searchText = (isset($$_REQUEST['Search']) ? $$_REQUEST['Search']:'Search');
+        $$fields = new FieldSet(
+              new TextField("Search", "", $$searchText)
+          );
+        $$actions = new FieldSet(
+              new FormAction('results', 'Search')
+          );
+
+          return new SearchForm($$this, "SearchForm", $$fields, $$actions);
+    }
+    
+    /**
+     * Process and render search results
+     */
+    public function results($$data, $$form){
+          $$data = array(
+             'Results' => $$form->getResults(),
+             'Query' => $$form->getSearchQuery(),
+              'Title' => DBField::create('Varchar','Search Results')
+          );
+
+          return $$this->customise($$data)->renderWith(array('Page_results', 'Page'));
+    }
+}
+?&gt;</template>
+</templates>

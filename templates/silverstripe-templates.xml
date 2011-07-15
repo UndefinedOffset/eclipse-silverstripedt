@@ -6,7 +6,7 @@
 <template
     name="New SilverStripe Page Type"
     description="A new SilverStripe Page type extending Page and Page_Controller"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.pagetype"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.pagetype"
     context="php_new_file_context"
     enabled="true">&lt;?php
 class ${file_name} extends Page {
@@ -33,7 +33,7 @@ class ${file_name}_Controller extends Page_Controller {
 <template
     name="New Data Object"
     description="A new SilverStripe Data Object"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.dataobject"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.dataobject"
     context="php_new_file_context"
     enabled="true">&lt;?php
 class ${file_name} extends DataObject {
@@ -62,7 +62,7 @@ class ${file_name} extends DataObject {
 <template
     name="New SilverStripe Controller"
     description="A new SilverStripe Controller extending ContentController"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.controller"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.controller"
     context="php_new_file_context"
     enabled="true">&lt;?php
 class ${file_name}Controller extends ContentController {
@@ -73,7 +73,7 @@ class ${file_name}Controller extends ContentController {
 <template
     name="New SilverStripe Extension"
     description="A new SilverStripe Extension"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.extension"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.extension"
     context="php_new_file_context"
     enabled="true">&lt;?php
 class ${file_name} extends Extension {
@@ -86,7 +86,7 @@ class ${file_name} extends Extension {
 <template
     name="New SilverStripe Data Object Decorator"
     description="A new SilverStripe Data Object Decorator"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.dod"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.dod"
     context="php_new_file_context"
     enabled="true">&lt;?php
 class ${file_name} extends DataObjectDecorator {
@@ -99,7 +99,7 @@ class ${file_name} extends DataObjectDecorator {
 <template
     name="New SilverStripe Class"
     description="A new SilverStripe Class"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.class"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.class"
     context="php_new_file_context"
     enabled="true">&lt;?php
 class ${file_name} extends DataObjectDecorator {
@@ -113,7 +113,7 @@ class ${file_name} extends DataObjectDecorator {
 <template
     name="class"
     description="A new SilverStripe Page type extending Page and Page_Controller"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.pagetype"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.pagetype"
     context="php"
     enabled="true">class ${file_name} extends Page {
     public static $$db=array(
@@ -138,7 +138,7 @@ class ${file_name}_Controller extends Page_Controller {
 <template
     name="class"
     description="A new SilverStripe Data Object"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.dataobject"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.dataobject"
     context="php"
     enabled="true"
     autoinsert="false">class ${file_name} extends DataObject {
@@ -166,7 +166,7 @@ class ${file_name}_Controller extends Page_Controller {
 <template
     name="class"
     description="A new SilverStripe Controller extending ContentController"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.controller"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.controller"
     context="php"
     enabled="true"
     autoinsert="false">class ${file_name}Controller extends ContentController {
@@ -176,7 +176,7 @@ class ${file_name}_Controller extends Page_Controller {
 <template
     name="class"
     description="A new SilverStripe Extension"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.extension"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.extension"
     context="php"
     enabled="true">class ${file_name} extends Extension {
     public function extraStatics() {
@@ -187,7 +187,7 @@ class ${file_name}_Controller extends Page_Controller {
 <template
     name="class"
     description="A new SilverStripe Data Object Decorator"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.dod"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.dod"
     context="php"
     enabled="true">class ${file_name} extends DataObjectDecorator {
     public function extraStatics() {
@@ -198,7 +198,7 @@ class ${file_name}_Controller extends Page_Controller {
 <template
     name="class"
     description="A new SilverStripe Class"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newphp.class"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.class"
     context="php"
     enabled="true">class ${file_name} {
     ${cursor}
@@ -208,7 +208,7 @@ class ${file_name}_Controller extends Page_Controller {
 <template
     name="New Top Level SilverStripe Template"
     description="A new Top Level SilverStripe Template"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newss.toplevel"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.toplevel"
     context="php_ss"
     enabled="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
@@ -239,7 +239,7 @@ class ${file_name}_Controller extends Page_Controller {
 <template
     name="New SilverStripe Template"
     description="A new SilverStripe Template"
-    id="ca.edchipman.silverStripePDT.SilverStripe.templates.newss.template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.template"
     context="php_ss"
     enabled="true">&lt;h2&gt;$$Title.XML&lt;/h2&gt;
 

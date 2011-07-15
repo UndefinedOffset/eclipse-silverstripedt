@@ -1,4 +1,4 @@
-package ca.edchipman.silverstripepdt;
+package ca.edchipman.silverstripepdt.templates;
 
 import org.eclipse.jface.text.templates.*;
 import org.eclipse.ui.IEditorInput;

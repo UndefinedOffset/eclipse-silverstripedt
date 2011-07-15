@@ -1,15 +1,20 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SilverStripePDT
-Bundle-SymbolicName: ca.edchipman.silverStripePDT;singleton:=true
+Bundle-SymbolicName: ca.edchipman.silverstripepdt;singleton:=true
 Bundle-Version: 1.0.2
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.php.core
+ org.eclipse.php.core,
+ org.eclipse.php.ui;bundle-version="3.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipse.core.resources,
  org.eclipse.dltk.core,
+ org.eclipse.dltk.internal.ui.util,
+ org.eclipse.dltk.internal.ui.wizards,
+ org.eclipse.dltk.internal.ui.wizards.dialogfields,
  org.eclipse.dltk.ui.templates,
+ org.eclipse.dltk.ui.wizards,
  org.eclipse.jface.text,
  org.eclipse.jface.text.templates,
  org.eclipse.jface.text.templates.persistence,
@@ -28,6 +33,7 @@ Import-Package: org.eclipse.core.resources,
  org.eclipse.ui.editors.text.templates,
  org.eclipse.ui.ide,
  org.eclipse.ui.texteditor,
+ org.eclipse.wst.jsdt.core,
  org.eclipse.wst.sse.core.internal.filebuffers,
  org.eclipse.wst.sse.ui.internal.editor
 Bundle-Activator: ca.edchipman.silverstripepdt.Activator

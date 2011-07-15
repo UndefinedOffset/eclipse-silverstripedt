@@ -1,4 +1,4 @@
-package ca.edchipman.silverstripepdt;
+package ca.edchipman.silverstripepdt.templates;
 
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.ui.templates.ScriptTemplateContext;

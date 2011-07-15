@@ -10,6 +10,10 @@ import org.osgi.framework.*;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.corext.template.php.CodeTemplateContextType;
 
+import ca.edchipman.silverstripepdt.templates.FileNameTemplateResolver;
+import ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard;
+import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
+
 @SuppressWarnings("restriction")
 public class RegisterResolvers implements IStartup {
     /**
@@ -25,6 +29,7 @@ public class RegisterResolvers implements IStartup {
             
             ContextTypeRegistry registry = PHPUiPlugin.getDefault().getCodeTemplateContextRegistry();
             registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE));
+            registry.addContextType(new CodeTemplateContextType(NewSilverStripeProjectWizard.NEW_SS_PROJECT_TEMPLATE_CONTEXTTYPE));
         } else {
             // register listener to get informed, when plug-in becomes active
             final BundleContext bundleContext = Activator.getDefault().getBundle().getBundleContext();

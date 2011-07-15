@@ -9,7 +9,7 @@
  *     IBM Corporation - initial API and implementation
  *     Zend Technologies
  *******************************************************************************/
-package ca.edchipman.silverstripepdt;
+package ca.edchipman.silverstripepdt.wizards;
 
 import org.eclipse.php.internal.ui.wizards.NewPhpTemplatesWizardPage;
 

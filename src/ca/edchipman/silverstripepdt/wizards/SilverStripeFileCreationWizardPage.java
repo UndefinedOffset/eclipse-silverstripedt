@@ -1,29 +1,25 @@
-package ca.edchipman.silverstripepdt;
-
-import java.net.MalformedURLException;
-import java.net.URL;
+package ca.edchipman.silverstripepdt.wizards;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.jface.dialogs.IDialogPage;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.php.internal.ui.wizards.PHPFileCreationWizardPage;
 import org.eclipse.swt.widgets.Composite;
 
+import ca.edchipman.silverstripepdt.SilverStripePluginImages;
+
 @SuppressWarnings("restriction")
 public class SilverStripeFileCreationWizardPage extends PHPFileCreationWizardPage {
-	public static final ImageDescriptor DESC_ADD_SS_FILE = create("newssfile_wiz.gif");//$NON-NLS-1$
-
 	public SilverStripeFileCreationWizardPage(ISelection selection) {
 		super(selection);
 		
 		setTitle("New SilverStripe Template File"); //$NON-NLS-1$
 		setDescription("Create a new SilverStripe template file"); //$NON-NLS-1$
-		setImageDescriptor(SilverStripeFileCreationWizardPage.DESC_ADD_SS_FILE);
+		setImageDescriptor(SilverStripePluginImages.DESC_ADD_SS_FILE);
 	}
 	
 	/**
@@ -78,7 +74,7 @@ public class SilverStripeFileCreationWizardPage extends PHPFileCreationWizardPag
 			}
 		}
 
-		final IContentType contentType = Platform.getContentTypeManager().getContentType("ca.edchipman.silverStripePDT.SilverStripeTemplate");
+		final IContentType contentType = Platform.getContentTypeManager().getContentType("ca.edchipman.silverstripepdt.SilverStripeTemplate");
 		if (!contentType.isAssociatedWith(fileName)) {
 			StringBuffer buffer = new StringBuffer(PHPUIMessages.PHPFileCreationWizardPage_17); //$NON-NLS-1$
 			buffer.append(".ss");
@@ -89,21 +85,4 @@ public class SilverStripeFileCreationWizardPage extends PHPFileCreationWizardPag
 
 		updateStatus(null);
 	}
-	
-	private static ImageDescriptor create(String name) {
-		try {
-			return ImageDescriptor.createFromURL(makeIconFileURL(name));
-		} catch (MalformedURLException e) {
-			return ImageDescriptor.getMissingImageDescriptor();
-		}
-	}
-
-	private static URL makeIconFileURL(String name)
-		throws MalformedURLException {
-			URL fgIconBaseURL=Platform.getBundle(Activator.PLUGIN_ID).getEntry("/icons/");
-			if (fgIconBaseURL == null)
-				throw new MalformedURLException();
-	
-			return new URL(fgIconBaseURL, name);
-		}
 }

@@ -16,52 +16,87 @@
     </extension>
     
     <extension point="org.eclipse.ui.editors.templates">
-        <contextType name="ca.edchipman.silverStripePDT.SilverStripeTemplate"
-                                            class="ca.edchipman.silverstripepdt.SilverStripeTemplateContextType"
-                                            id="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+        <contextType name="ca.edchipman.silverstripepdt.SilverStripeTemplate"
+                                            class="ca.edchipman.silverstripepdt.templates.SilverStripeTemplateContextType"
+                                            id="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         
         <include file="templates/silverstripe-templates.xml" />
     </extension>
     
+    <extension point="org.eclipse.ui.editors.templates">
+        <contextType name="ca.edchipman.silverstripepdt.SilverStripeProjectTemplate"
+                                            class="ca.edchipman.silverstripepdt.templates.SilverStripeTemplateContextType"
+                                            id="ca.edchipman.silverstripepdt.SilverStripeProjectTemplate" />
+        
+        <include file="templates/silverstripe-project-templates.xml" />
+    </extension>
+    
     <extension point="org.eclipse.ui.perspectiveExtensions">
         <perspectiveExtension targetID="org.eclipse.php.perspective">
-            <newWizardShortcut id="ca.edchipman.silverStripePDT.wizards.SilverStripeTemplateFileCreationWizard" />
+            <newWizardShortcut id="ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard" />
+            <newWizardShortcut id="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard" />
         </perspectiveExtension>
     </extension>
     
     <extension point="org.eclipse.ui.newWizards">
-        <wizard id="ca.edchipman.silverStripePDT.wizards.SilverStripeTemplateFileCreationWizard"
-                         category="org.eclipse.php.project.ui" class="ca.edchipman.silverstripepdt.SilverStripeTemplateFileCreationWizard"
-                         name="SilverStripe Template File" icon="icons/add_ss_file.gif" />
+        <wizard id="ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard"
+                category="org.eclipse.php.project.ui"
+                class="ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard"
+                name="New SilverStripe Project" icon="icons/full/obj16/add_ss_project.gif"
+                finalPerspective="org.eclipse.php.perspective" preferredPerspectives="org.eclipse.php.perspective"
+                project="true">
+            <description>Create a new SilverStripe mysite, theme, or module project</description>
+            <selection class="org.eclipse.core.resources.IResource" />
+        </wizard>
+        <wizard id="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard"
+                         category="org.eclipse.php.project.ui" class="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard"
+                         name="SilverStripe Template File" icon="icons/full/obj16/add_ss_file.gif" />
+    </extension>
+    
+    <extension id="SilverStripeNature" name="SilverStripe Properties" point="org.eclipse.core.resources.natures">
+        <runtime>
+            <run class="ca.edchipman.silverstripepdt.SilverStripeNature"></run>
+        </runtime>
+    </extension>
+    
+    <extension point="org.eclipse.ui.ide.projectNatureImages">
+        <image icon="icons/full/ovr16/ss_ovr.gif" id="ca.edchipman.silverstripepdt.SilverStripeProjectNatureImage" natureId="ca.edchipman.silverstripepdt.SilverStripeNature" />
+    </extension>
+    
+    <extension point="org.eclipse.ui.workingSets">
+        <workingSet name="SilverStripe"
+            pageClass="org.eclipse.php.internal.ui.workingset.PhpWorkingSetPage"
+            updaterClass="org.eclipse.dltk.internal.ui.workingsets.ScriptWorkingSetUpdater"
+            icon="icons/full/obj16/ss_project_obj.gif" id="ca.edchipman.silverstripepdt.workingsets.SilverStripeWorkingSetPage" />
     </extension>
     
     <extension point="org.eclipse.ui.editors">
-        <editor class="ca.edchipman.silverstripepdt.SilverStripeTemplateStructuredEditor"
+        <editor class="ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStructuredEditor"
                         contributorClass="org.eclipse.php.internal.ui.editor.ActionContributorForPhp"
-                        default="true" icon="icons/ss_file.gif" id="ca.edchipman.silverStripePDT.SilverStripe.editor"
+                        default="true" icon="icons/full/obj16/ss_file.gif" id="ca.edchipman.silverstripepdt.SilverStripe.editor"
                         name="SilverStripe Template Editor" symbolicFontName="org.eclipse.wst.sse.ui.textfont">
-            <contentTypeBinding contentTypeId="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+            <contentTypeBinding contentTypeId="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         </editor>
     </extension>
     
     <extension point="org.eclipse.wst.sse.ui.editorConfiguration">
         <sourceViewerConfiguration
                         class="org.eclipse.php.internal.ui.editor.configuration.PHPStructuredTextViewerConfiguration"
-                        target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+                        target="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         <contentOutlineConfiguration
                         class="org.eclipse.php.internal.ui.outline.PHPContentOutlineConfiguration"
-                        target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+                        target="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         <propertySheetConfiguration
                         class="org.eclipse.wst.xml.ui.views.properties.XMLPropertySheetConfiguration"
-                        target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+                        target="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         <provisionalConfiguration type="sourceeditingtexttools"
                         class="org.eclipse.wst.xml.ui.internal.provisional.XMLSourceEditingTextTools"
-                        target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+                        target="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         <provisionalConfiguration type="characterpairmatcher"
                         class="org.eclipse.php.internal.ui.text.PHPDocumentRegionEdgeMatcher"
-                        target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+                        target="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         <provisionalDefinition type="spellingregions"
-                        value="XML_COMMENT_TEXT, PHP_CONTENT, XML_CONTENT" target="ca.edchipman.silverStripePDT.SilverStripeTemplate" />
+                        value="XML_COMMENT_TEXT, PHP_CONTENT, XML_CONTENT" target="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         <provisionalConfiguration
                         type="org.eclipse.jface.text.quickassist.IQuickAssistProcessor" 
                         class="org.eclipse.php.internal.ui.text.correction.PHPCorrectionProcessor"
