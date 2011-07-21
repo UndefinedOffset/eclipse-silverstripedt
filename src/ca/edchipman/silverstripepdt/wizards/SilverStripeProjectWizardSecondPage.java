@@ -347,16 +347,14 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
             // setting PHP4/5 and ASP-Tags :
             setPhpLangOptions();
             
-            if(fFirstPage.IsThemeLayout()) {
-                //Disable asp tags
-                if(CorePreferencesSupport.getInstance().getPreferencesValue(Keys.EDITOR_USE_ASP_TAGS, null, null)=="true") {
-                    ProjectOptions.setSupportingAspTags(false, getProject());
-                }
-                
-                //Disable short tags
-                if(CorePreferencesSupport.getInstance().getPreferencesValue(Keys.EDITOR_USE_SHORT_TAGS, null, null)=="true") {
-                    CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(Keys.EDITOR_USE_SHORT_TAGS, "false", getProject());
-                }
+            //Disable asp tags
+            if(CorePreferencesSupport.getInstance().getPreferencesValue(Keys.EDITOR_USE_ASP_TAGS, null, null)=="true") {
+                ProjectOptions.setSupportingAspTags(false, getProject());
+            }
+            
+            //Disable short tags
+            if(CorePreferencesSupport.getInstance().getPreferencesValue(Keys.EDITOR_USE_SHORT_TAGS, null, null)=="true") {
+                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(Keys.EDITOR_USE_SHORT_TAGS, "false", getProject());
             }
             
 

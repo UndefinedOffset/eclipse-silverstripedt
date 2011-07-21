@@ -65,14 +65,14 @@
     
     <extension point="org.eclipse.ui.workingSets">
         <workingSet name="SilverStripe"
-            pageClass="org.eclipse.php.internal.ui.workingset.PhpWorkingSetPage"
+            pageClass="org.eclipse.php.internal.ui.workingset.SilverStripeWorkingSetPage"
             updaterClass="org.eclipse.dltk.internal.ui.workingsets.ScriptWorkingSetUpdater"
             icon="icons/full/obj16/ss_project_obj.gif" id="ca.edchipman.silverstripepdt.workingsets.SilverStripeWorkingSetPage" />
     </extension>
     
     <extension point="org.eclipse.ui.editors">
-        <editor class="ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStructuredEditor"
-                        contributorClass="org.eclipse.php.internal.ui.editor.ActionContributorForPhp"
+        <editor class="ca.edchipman.silverstripepdt.editor.SilverStripeTemplateStructuredEditor"
+                        contributorClass="org.eclipse.php.internal.ui.editor.ActionContributorForSilverStripe"
                         default="true" icon="icons/full/obj16/ss_file.gif" id="ca.edchipman.silverstripepdt.SilverStripe.editor"
                         name="SilverStripe Template Editor" symbolicFontName="org.eclipse.wst.sse.ui.textfont">
             <contentTypeBinding contentTypeId="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
@@ -101,5 +101,12 @@
                         type="org.eclipse.jface.text.quickassist.IQuickAssistProcessor" 
                         class="org.eclipse.php.internal.ui.text.correction.PHPCorrectionProcessor"
                         target="org.eclipse.php.PHP_DEFAULT" />
-     </extension>
+    </extension>
+     
+    <extension point="org.eclipse.ui.popupMenus">
+        <objectContribution id="org.eclipse.php.smarty.ui.contextmenu" objectClass="org.eclipse.dltk.core.IScriptProject" adaptable="true">
+            <action class="ca.edchipman.silverstripepdt.actions.RemoveSilverStripeNatureAction" enablesFor="+" id="ca.edchipman.silverstripepdt.actions.RemoveSilverStripeNature" label="Remove SilverStripe Support..." menubarPath="org.eclipse.ui.projectConfigure/additions" /> 
+            <action class="ca.edchipman.silverstripepdt.actions.AddSilverStripeNatureAction" enablesFor="+" id="ca.edchipman.silverstripepdt.actions.SetupSilverStripeNature" label="Add SilverStripe Support..." menubarPath="org.eclipse.ui.projectConfigure/additions" /> 
+        </objectContribution>
+    </extension>
 </plugin>
