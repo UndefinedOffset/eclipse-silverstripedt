@@ -20,7 +20,7 @@ public class SilverStripePluginImages {
 
     private static URL makeIconFileURL(String name, String type)
         throws MalformedURLException {
-            URL fgIconBaseURL=Platform.getBundle(Activator.PLUGIN_ID).getEntry("/icons/full/"+type+"/");
+            URL fgIconBaseURL=Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID).getEntry("/icons/full/"+type+"/");
             if (fgIconBaseURL == null)
                 throw new MalformedURLException();
     

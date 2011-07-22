@@ -22,7 +22,7 @@ public class RegisterResolvers implements IStartup {
      */
     public void earlyStartup() {
         // check if plug-in org.eclipse.jdt.ui is already active
-        final Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
+        final Bundle bundle = Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID);
         if (bundle != null && bundle.getState() == Bundle.ACTIVE) {
             // register resolvers
             registerResolvers();
@@ -32,11 +32,11 @@ public class RegisterResolvers implements IStartup {
             registry.addContextType(new CodeTemplateContextType(NewSilverStripeProjectWizard.NEW_SS_PROJECT_TEMPLATE_CONTEXTTYPE));
         } else {
             // register listener to get informed, when plug-in becomes active
-            final BundleContext bundleContext = Activator.getDefault().getBundle().getBundleContext();
+            final BundleContext bundleContext = SilverStripePDTPlugin.getDefault().getBundle().getBundleContext();
             bundleContext.addBundleListener(new BundleListener() {
                 public void bundleChanged(final BundleEvent pEvent) {
                     final Bundle bundle2 = pEvent.getBundle();
-                    if (!bundle2.getSymbolicName().equals(Activator.PLUGIN_ID)) {
+                    if (!bundle2.getSymbolicName().equals(SilverStripePDTPlugin.PLUGIN_ID)) {
                         return;
                     }
                     if (bundle2.getState() == Bundle.ACTIVE) {

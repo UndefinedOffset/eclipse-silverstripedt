@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SilverStripePDT
 Bundle-SymbolicName: ca.edchipman.silverstripepdt;singleton:=true
-Bundle-Version: 1.1.0
+Bundle-Version: 1.1.1
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.php.core,
@@ -38,5 +38,5 @@ Import-Package: org.eclipse.core.resources,
  org.eclipse.wst.sse.core.internal.filebuffers,
  org.eclipse.wst.sse.ui.internal,
  org.eclipse.wst.sse.ui.internal.editor
-Bundle-Activator: ca.edchipman.silverstripepdt.Activator
+Bundle-Activator: ca.edchipman.silverstripepdt.SilverStripePDTPlugin
 Bundle-ActivationPolicy: lazy
