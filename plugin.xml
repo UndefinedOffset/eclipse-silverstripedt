@@ -109,4 +109,21 @@
             <action class="ca.edchipman.silverstripepdt.actions.AddSilverStripeNatureAction" enablesFor="+" id="ca.edchipman.silverstripepdt.actions.SetupSilverStripeNature" label="Add SilverStripe Support..." menubarPath="org.eclipse.ui.projectConfigure/additions" /> 
         </objectContribution>
     </extension>
+   
+   <extension point="org.eclipse.ui.preferencePages">
+        <page class="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
+            id="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage" name="SilverStripe">
+            <keywordReference id="ca.edchipman.silverstripepdt.general" />
+        </page>
+        <!--<page category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
+            class="ca.edchipman.silverstripepdt.preferences.SilverStripeEditorPreferencePage"
+            id="ca.edchipman.silverstripepdt.preferences.SilverStripeEditorPreferencePage" name="Editor">
+            <keywordReference id="ca.edchipman.silverstripepdt.SilverStripe.editor" />
+        </page>-->
+        <page category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
+            class="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage"
+            id="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage" name="Templates">
+            <keywordReference id="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
+        </page>
+   </extension>
 </plugin>

@@ -40,6 +40,7 @@ import org.eclipse.dltk.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.dltk.ui.wizards.BuildpathsBlock;
 import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.Template;
+import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.php.internal.core.includepath.IncludePath;
@@ -53,11 +54,8 @@ import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
-import org.eclipse.php.internal.ui.viewsupport.ProjectTemplateStore;
-import org.eclipse.php.internal.ui.wizards.PHPFileCreationWizard;
 import org.eclipse.php.internal.ui.wizards.PHPProjectWizardFirstPage;
 import org.eclipse.php.internal.ui.wizards.PHPProjectWizardSecondPage;
-import org.eclipse.php.internal.ui.wizards.PHPFileCreationWizard.FileCreator;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -66,6 +64,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 
 import ca.edchipman.silverstripepdt.SilverStripeNature;
+import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 
 @SuppressWarnings("restriction")
 public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondPage {
@@ -76,7 +75,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
     protected void updateProject(IProgressMonitor monitor)
             throws CoreException, InterruptedException {
         
-        ProjectTemplateStore templateStore=new ProjectTemplateStore(null);
+        TemplateStore templateStore=SilverStripePDTPlugin.getDefault().getTemplateStore();
         try {
             templateStore.load();
         } catch (IOException e) {
@@ -120,7 +119,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
 
             IBuildpathEntry[] buildpathEntries = null;
             IncludePath[] includepathEntries = null;
-            ContextTypeRegistry templateRegistry=PHPUiPlugin.getDefault().getCodeTemplateContextRegistry();
+            ContextTypeRegistry templateRegistry=SilverStripePDTPlugin.getDefault().getTemplateContextRegistry();
 
             if (fFirstPage.getDetect()) {
                 includepathEntries = setProjectBaseIncludepath();
