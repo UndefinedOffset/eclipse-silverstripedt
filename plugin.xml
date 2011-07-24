@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-    <!--<extension-point id="languageModelProviders" name="SilverStripe 2.4 Language Model Provider" schema="schema/ss24languageModelProviders.exsd"/>-->
-    
-    <extension point="org.eclipse.ui.startup">
+	<extension point="org.eclipse.ui.startup">
         <startup class="ca.edchipman.silverstripepdt.RegisterResolvers"></startup>
     </extension>
     
