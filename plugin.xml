@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+    <!--<extension-point id="languageModelProviders" name="SilverStripe 2.4 Language Model Provider" schema="schema/ss24languageModelProviders.exsd"/>-->
+    
     <extension point="org.eclipse.ui.startup">
         <startup class="ca.edchipman.silverstripepdt.RegisterResolvers"></startup>
     </extension>
@@ -115,15 +117,32 @@
             id="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage" name="SilverStripe">
             <keywordReference id="ca.edchipman.silverstripepdt.general" />
         </page>
-        <!--<page category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
-            class="ca.edchipman.silverstripepdt.preferences.SilverStripeEditorPreferencePage"
-            id="ca.edchipman.silverstripepdt.preferences.SilverStripeEditorPreferencePage" name="Editor">
-            <keywordReference id="ca.edchipman.silverstripepdt.SilverStripe.editor" />
-        </page>-->
         <page category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
             class="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage"
             id="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage" name="Templates">
             <keywordReference id="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         </page>
    </extension>
+   
+    <extension point="org.eclipse.dltk.core.buildpathContainerInitializer">
+        <buildpathContainerInitializer
+            class="ca.edchipman.silverstripepdt.language.LanguageModelInitializer"
+            id="ca.edchipman.silverstripepdt.LANGUAGE">
+        </buildpathContainerInitializer>
+    </extension>
+    
+    <extension point="org.eclipse.ui.propertyPages">
+        <page
+            class="ca.edchipman.silverstripepdt.preferences.SilverStripeVersionPreferencePage"
+            id="ca.edchipman.silverstripepdt.propertyPages.SilverStripeVersionPreferencePage"
+            name="SilverStripe Version">
+            
+            <enabledWhen>
+                <adapt type="org.eclipse.core.resources.IProject">
+                </adapt>
+            </enabledWhen>
+            
+            <filter name="nature" value="ca.edchipman.silverstripepdt.SilverStripeNature" />
+        </page>
+    </extension>
 </plugin>

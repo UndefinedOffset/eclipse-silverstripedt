@@ -1,6 +1,5 @@
 package ca.edchipman.silverstripepdt.wizards;
 
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,7 +10,6 @@ import org.eclipse.dltk.internal.ui.wizards.dialogfields.SelectionButtonDialogFi
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.php.internal.ui.PHPUIMessages;
-import org.eclipse.php.internal.ui.preferences.PHPProjectLayoutPreferencePage;
 import org.eclipse.php.internal.ui.wizards.CompositeData;
 import org.eclipse.php.internal.ui.wizards.DetectGroup;
 import org.eclipse.php.internal.ui.wizards.LocationGroup;
@@ -25,11 +23,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.ui.dialogs.PreferencesUtil;
 
 @SuppressWarnings("restriction")
 public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPage {
     protected SilverStripeLayoutGroup fLayoutGroup;
+    protected SilverStripeVersionGroup fSSVersionGroup;
     
     public SilverStripeProjectWizardFirstPage() {
         super();
@@ -54,6 +52,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
 
         fVersionGroup = new VersionGroup(composite);
         fLayoutGroup = new SilverStripeLayoutGroup(composite);
+        fSSVersionGroup = new SilverStripeVersionGroup(composite);
         fJavaScriptSupportGroup = new SilverStripeJavaScriptSupportGroup(composite, this);
 
         fDetectGroup = new DetectGroup(composite, fPHPLocationGroup, fNameGroup);
@@ -61,6 +60,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         // establish connections
         fNameGroup.addObserver(fPHPLocationGroup);
         fDetectGroup.addObserver(fLayoutGroup);
+        fDetectGroup.addObserver(fSSVersionGroup);
 
         fPHPLocationGroup.addObserver(fDetectGroup);
         // initialize all elements
@@ -102,6 +102,22 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
      */
     public boolean IsModuleLayout() {
         return fLayoutGroup.isModuleLayout();
+    }
+    
+    /**
+     * Gets the whether the project is a SilverStripe 2.4 project
+     * @return Returns boolean true if the project is a SilverStripe 2.4 project
+     */
+    public boolean IsSS24Project() {
+        return fSSVersionGroup.isSS24();
+    }
+    
+    /**
+     * Gets the whether the project is a SilverStripe 2.3 project
+     * @return Returns boolean true if the project is a SilverStripe 2.3 project
+     */
+    public boolean IsSS23Project() {
+        return fSSVersionGroup.isSS23();
     }
     
     /**
@@ -224,11 +240,106 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         }
 
         public void widgetDefaultSelected(SelectionEvent e) {
+            fProjectRadio.setSelection(true);
+        }
+    }
+    
+    /**
+     * Request a SilverStripe Version.
+     */
+    public class SilverStripeVersionGroup implements Observer, SelectionListener, IDialogFieldListener {
+        private final SelectionButtonDialogField fSS24Radio, fSS23Radio;
+        private Group fGroup;
 
-            String prefID = PHPProjectLayoutPreferencePage.PREF_ID;
+        public SilverStripeVersionGroup(Composite composite) {
+            final int numColumns = 3;
+            
+            fSS24Radio = new SelectionButtonDialogField(SWT.RADIO);
+            fSS24Radio.setLabelText("SilverStripe 2.4"); //$NON-NLS-1$
+            fSS24Radio.setDialogFieldListener(this);
+            fSS24Radio.setSelection(true);
+            
+            fSS23Radio = new SelectionButtonDialogField(SWT.RADIO);
+            fSS23Radio.setLabelText("SilverStripe 2.3"); //$NON-NLS-1$
+            fSS23Radio.setDialogFieldListener(this);
+            
+            // createContent
+            fGroup = new Group(composite, SWT.NONE);
+            fGroup.setFont(composite.getFont());
+            fGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            fGroup.setLayout(initGridLayout(new GridLayout(numColumns, false), true));
+            fGroup.setText(PHPUIMessages.LayoutGroup_OptionBlock_Title); //$NON-NLS-1$
 
-            Map data = null;
-            PreferencesUtil.createPreferenceDialogOn(getShell(), prefID, new String[] { prefID }, data).open();
+            fSS24Radio.doFillIntoGrid(fGroup, 2);
+            fSS23Radio.doFillIntoGrid(fGroup, 2);
+            
+            updateEnableState();
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.util.Observer#update(java.util.Observable,
+         * java.lang.Object)
+         */
+        public void update(Observable o, Object arg) {
+            updateEnableState();
+        }
+
+        private void updateEnableState() {
+            if (fDetectGroup == null)
+                return;
+
+            final boolean detect = fDetectGroup.mustDetect();
+            fSS24Radio.setEnabled(!detect);
+            fSS23Radio.setEnabled(!detect);
+
+            if (fGroup != null) {
+                fGroup.setEnabled(!detect);
+            }
+        }
+        
+        /**
+         * Gets the whether the SilverStripe 2.4 radio is selected
+         * @return Returns boolean true if the SilverStripe 2.4 radio is selected
+         */
+        public boolean isSS24() {
+            return fSS24Radio.isSelected();
+        }
+        
+        /**
+         * Gets the whether the SilverStripe 2.3 radio is selected
+         * @return Returns boolean true if the SilverStripe 2.3 radio is selected
+         */
+        public boolean isSS23() {
+            return fSS23Radio.isSelected();
+        }
+        
+        /*
+         * (non-Javadoc)
+         * 
+         * @see
+         * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse
+         * .swt.events.SelectionEvent)
+         */
+        public void widgetSelected(SelectionEvent e) {
+            widgetDefaultSelected(e);
+        }
+
+        /*
+         * @see
+         * org.eclipse.jdt.internal.ui.wizards.dialogfields.IDialogFieldListener
+         * #dialogFieldChanged(org.eclipse.jdt.internal.ui.wizards.dialogfields.
+         * DialogField)
+         * 
+         * @since 3.5
+         */
+        public void dialogFieldChanged(DialogField field) {
+            updateEnableState();
+        }
+
+        public void widgetDefaultSelected(SelectionEvent e) {
+            fSS24Radio.setSelection(true);
         }
     }
     

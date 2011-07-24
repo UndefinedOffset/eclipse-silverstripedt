@@ -47,11 +47,11 @@ import org.eclipse.php.internal.core.includepath.IncludePath;
 import org.eclipse.php.internal.core.includepath.IncludePathManager;
 import org.eclipse.php.internal.core.language.LanguageModelInitializer;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
+import org.eclipse.php.internal.core.preferences.ProjectPreferencesPropagator;
 import org.eclipse.php.internal.core.preferences.CorePreferenceConstants.Keys;
 import org.eclipse.php.internal.core.project.ProjectOptions;
 import org.eclipse.php.internal.ui.Logger;
 import org.eclipse.php.internal.ui.PHPUIMessages;
-import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
 import org.eclipse.php.internal.ui.wizards.PHPProjectWizardFirstPage;
@@ -62,6 +62,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
+import org.eclipse.core.internal.resources.ProjectPreferences;
 
 import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
@@ -87,7 +88,17 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
         super.init(create, null, false);
         fCurrProjectLocation = getProjectLocationURI();
         SilverStripeProjectWizardFirstPage fFirstPage=(SilverStripeProjectWizardFirstPage) this.fFirstPage;
-
+        
+        String ssVersion="SS2.4";
+        
+        if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsSS23Project()) {
+            ssVersion="SS2.3";
+        }
+        
+        Path silverStripeContainer=new Path("ca.edchipman.silverstripepdt.LANGUAGE");
+        
+        
+        
         if (monitor == null) {
             monitor = new NullProgressMonitor();
         }
@@ -172,6 +183,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 final IPath projectPath = getProject().getFullPath();
                 List cpEntries = new ArrayList();
                 cpEntries.add(DLTKCore.newSourceEntry(projectPath));
+                cpEntries.add(DLTKCore.newContainerEntry(silverStripeContainer));
                 
                 buildpathEntries = (IBuildpathEntry[]) cpEntries.toArray(new IBuildpathEntry[cpEntries.size()]);
                 includepathEntries = setProjectBaseIncludepath();
@@ -239,6 +251,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 final IPath projectPath = getProject().getFullPath();
                 List cpEntries = new ArrayList();
                 cpEntries.add(DLTKCore.newSourceEntry(projectPath));
+                cpEntries.add(DLTKCore.newContainerEntry(silverStripeContainer));
 
                 buildpathEntries = (IBuildpathEntry[]) cpEntries.toArray(new IBuildpathEntry[cpEntries.size()]);
                 includepathEntries = setProjectBaseIncludepath();
@@ -374,7 +387,9 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                     new IBuildpathEntry[] {});
             IncludePathManager.getInstance().setIncludePath(getProject(),
                     includepathEntries);
-
+            
+            
+            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_version", ssVersion, getProject());
         } finally {
             monitor.done();
         }
@@ -434,7 +449,22 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
         
         return null;
     }
-
+    
+    /**
+     * Creates a folder resource handle for the folder with the given name.
+     * The folder handle is created relative to the container specified during
+     * object creation.
+     *
+     * @param folderName the name of the folder resource to create a handle for
+     * @return the new folder resource handle
+     */
+    private IFolder createFolderHandle(IPath folderPath) {
+        IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+        IFolder folderHandle = workspaceRoot.getFolder(folderPath);
+        
+        return folderHandle;
+    }
+    
     /**
      * A static nested class for the creation of a new PHP File.
      * 
