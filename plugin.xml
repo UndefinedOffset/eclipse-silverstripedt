@@ -104,7 +104,7 @@
     </extension>
      
     <extension point="org.eclipse.ui.popupMenus">
-        <objectContribution id="ca.edchipman.silverstripepdt.contextmenu" objectClass="org.eclipse.dltk.core.IScriptProject" adaptable="true">
+        <objectContribution id="ca.edchipman.silverstripepdt.contextmenu.addnature" objectClass="org.eclipse.dltk.core.IScriptProject" adaptable="true">
             <action class="ca.edchipman.silverstripepdt.actions.AddSilverStripeNatureAction" enablesFor="+" id="ca.edchipman.silverstripepdt.actions.SetupSilverStripeNature" label="Add SilverStripe Support..." menubarPath="org.eclipse.ui.projectConfigure/additions" />
             
             <visibility>
@@ -114,7 +114,7 @@
     </extension>
      
     <extension point="org.eclipse.ui.popupMenus">
-        <objectContribution id="ca.edchipman.silverstripepdt.contextmenu" objectClass="org.eclipse.dltk.core.IScriptProject" adaptable="true">
+        <objectContribution id="ca.edchipman.silverstripepdt.contextmenu.removenature" objectClass="org.eclipse.dltk.core.IScriptProject" adaptable="true">
             <action class="ca.edchipman.silverstripepdt.actions.RemoveSilverStripeNatureAction" enablesFor="+" id="ca.edchipman.silverstripepdt.actions.RemoveSilverStripeNature" label="Remove SilverStripe Support..." menubarPath="org.eclipse.ui.projectConfigure/additions" />
             
             <visibility>
