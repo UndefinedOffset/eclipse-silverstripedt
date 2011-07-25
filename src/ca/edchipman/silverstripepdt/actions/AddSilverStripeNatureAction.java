@@ -1,8 +1,8 @@
 package ca.edchipman.silverstripepdt.actions;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -18,7 +18,7 @@ import ca.edchipman.silverstripepdt.SilverStripeNature;
 @SuppressWarnings("restriction")
 public class AddSilverStripeNatureAction implements IObjectActionDelegate {
 
-	private IScriptProject selProj = null;
+	private IProject selProj = null;
 	private IWorkbenchPart part = null; 
 	
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
@@ -61,7 +61,7 @@ public class AddSilverStripeNatureAction implements IObjectActionDelegate {
 		if(selection instanceof IStructuredSelection) {
 			IStructuredSelection structuredSel = (IStructuredSelection)selection;
 			if(!selection.isEmpty()) {
-				selProj = (IScriptProject)structuredSel.getFirstElement();
+				selProj = (IProject)structuredSel.getFirstElement();
 
 				IProjectDescription description;
 				try {
