@@ -113,7 +113,8 @@ class ${file_name} {
     description="A SilverStripe Page type extending Page and Page_Controller"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.pagetype"
     context="php"
-    enabled="true">class ${file_name} extends Page {
+    enabled="true"
+    autoinsert="true">class ${file_name} extends Page {
     public static $$db=array(
                          );
     
@@ -139,7 +140,7 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.dataobject"
     context="php"
     enabled="true"
-    autoinsert="false">class ${file_name} extends DataObject {
+    autoinsert="true">class ${file_name} extends DataObject {
     public static $$db=array(
                          );
     
@@ -167,7 +168,7 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.controller"
     context="php"
     enabled="true"
-    autoinsert="false">class ${file_name}Controller extends ContentController {
+    autoinsert="true">class ${file_name}Controller extends ContentController {
     ${cursor}
 }</template>
 
@@ -176,7 +177,8 @@ class ${file_name}_Controller extends Page_Controller {
     description="A SilverStripe Extension"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.extension"
     context="php"
-    enabled="true">class ${file_name} extends Extension {
+    enabled="true"
+    autoinsert="true">class ${file_name} extends Extension {
     public function extraStatics() {
         ${cursor}
     }
@@ -187,7 +189,8 @@ class ${file_name}_Controller extends Page_Controller {
     description="A SilverStripe Data Object Decorator"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.dod"
     context="php"
-    enabled="true">class ${file_name} extends DataObjectDecorator {
+    enabled="true"
+    autoinsert="true">class ${file_name} extends DataObjectDecorator {
     public function extraStatics() {
         ${cursor}
     }
@@ -198,7 +201,8 @@ class ${file_name}_Controller extends Page_Controller {
     description="A SilverStripe Class"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.class"
     context="php"
-    enabled="true">class ${file_name} {
+    enabled="true"
+    autoinsert="true">class ${file_name} {
     ${cursor}
 }</template>
 
@@ -207,7 +211,8 @@ class ${file_name}_Controller extends Page_Controller {
     description="A SilverStripe getCMSFields() Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.getCMSFields"
     context="php"
-    enabled="true">public function getCMSFields() {
+    enabled="true"
+    autoinsert="true">public function getCMSFields() {
     $$fields=parent::getCMSFields();
 
     ${cursor}
