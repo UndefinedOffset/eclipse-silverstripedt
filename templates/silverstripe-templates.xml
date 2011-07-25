@@ -31,7 +31,7 @@ class ${file_name}_Controller extends Page_Controller {
 ?&gt;</template>
 
 <template
-    name="New Data Object"
+    name="New SilverStripe Data Object"
     description="A new SilverStripe Data Object"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.dataobject"
     context="php_new_file_context"
@@ -102,17 +102,15 @@ class ${file_name} extends DataObjectDecorator {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.class"
     context="php_new_file_context"
     enabled="true">&lt;?php
-class ${file_name} extends DataObjectDecorator {
-    public function extraStatics() {
-        ${cursor}
-    }
+class ${file_name} {
+    ${cursor}
 }
 ?&gt;</template>
 
 <!-- auto complete templates -->
 <template
     name="class"
-    description="A new SilverStripe Page type extending Page and Page_Controller"
+    description="A SilverStripe Page type extending Page and Page_Controller"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.pagetype"
     context="php"
     enabled="true">class ${file_name} extends Page {
@@ -137,7 +135,7 @@ class ${file_name}_Controller extends Page_Controller {
 
 <template
     name="class"
-    description="A new SilverStripe Data Object"
+    description="A SilverStripe Data Object"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.dataobject"
     context="php"
     enabled="true"
@@ -165,7 +163,7 @@ class ${file_name}_Controller extends Page_Controller {
 
 <template
     name="class"
-    description="A new SilverStripe Controller extending ContentController"
+    description="A SilverStripe Controller extending ContentController"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.controller"
     context="php"
     enabled="true"
@@ -175,8 +173,8 @@ class ${file_name}_Controller extends Page_Controller {
 
 <template
     name="class"
-    description="A new SilverStripe Extension"
-    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.extension"
+    description="A SilverStripe Extension"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.extension"
     context="php"
     enabled="true">class ${file_name} extends Extension {
     public function extraStatics() {
@@ -186,8 +184,8 @@ class ${file_name}_Controller extends Page_Controller {
 
 <template
     name="class"
-    description="A new SilverStripe Data Object Decorator"
-    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.dod"
+    description="A SilverStripe Data Object Decorator"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.dod"
     context="php"
     enabled="true">class ${file_name} extends DataObjectDecorator {
     public function extraStatics() {
@@ -197,11 +195,24 @@ class ${file_name}_Controller extends Page_Controller {
 
 <template
     name="class"
-    description="A new SilverStripe Class"
-    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.class"
+    description="A SilverStripe Class"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.class"
     context="php"
     enabled="true">class ${file_name} {
     ${cursor}
+}</template>
+
+<template
+    name="getCMSFields"
+    description="A SilverStripe getCMSFields() Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.getCMSFields"
+    context="php"
+    enabled="true">public function getCMSFields() {
+    $$fields=parent::getCMSFields();
+
+    ${cursor}
+
+    return $$fields;
 }</template>
 
 <!-- SS File Templates -->

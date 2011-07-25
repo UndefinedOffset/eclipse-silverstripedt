@@ -14,11 +14,13 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IBuildpathEntry;
+import org.eclipse.dltk.internal.core.ModelElement;
 import org.eclipse.dltk.internal.core.ScriptProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.php.internal.core.buildpath.BuildPathUtils;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.preferences.CorePreferenceConstants.Keys;
 import org.eclipse.php.internal.core.project.ProjectOptions;
@@ -64,53 +66,18 @@ public class AddSilverStripeNatureAction implements IObjectActionDelegate {
                 CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(Keys.EDITOR_USE_SHORT_TAGS, "false", selProj.getProject());
             }
             
+            
+            //Add Build Path Entry
             ScriptProject project=new ScriptProject(selProj, null);
-            
-            IBuildpathEntry[] rawBuildPath = project.getRawBuildpath();
             IBuildpathEntry ssBuildPath=DLTKCore.newContainerEntry(new Path("ca.edchipman.silverstripepdt.LANGUAGE"));
-            boolean entryFound=false;
-            for(int i=0;i<rawBuildPath.length;i++) {
-            	if(rawBuildPath[i].equals(ssBuildPath)) {
-            		entryFound=true;
-            		break;
-            	}
-            }
-            
-            if(entryFound) {
-                List<IBuildpathEntry> buildPath = new ArrayList<IBuildpathEntry>();
-                buildPath.addAll(Arrays.asList(rawBuildPath));
-            	buildPath.add(ssBuildPath);
-            	
-            	IProgressMonitor monitor = new IProgressMonitor() {
-					@Override
-					public void worked(int work) {}
-					
-					@Override
-					public void subTask(String name) {}
-					
-					@Override
-					public void setTaskName(String name) {}
-					
-					@Override
-					public void setCanceled(boolean value) {}
-					
-					@Override
-					public boolean isCanceled() {
-						return false;
-					}
-					
-					@Override
-					public void internalWorked(double work) {}
-					
-					@Override
-					public void done() {}
-					
-					@Override
-					public void beginTask(String name, int totalWork) {}
-				};
-				
-            	project.setRawBuildpath(buildPath.toArray(rawBuildPath), monitor); //TODO not working
-            }
+            List<IBuildpathEntry> buildPath = new ArrayList<IBuildpathEntry>();
+        	buildPath.add(ssBuildPath);
+        	
+        	try {
+        		BuildPathUtils.addNonDupEntriesToBuildPath(project, buildPath);
+        	}catch (NullPointerException e) {
+        		//TODO Figure out why there is one nothing seems to be null in the trace and it appears to work
+        	}
             
             CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_version", "SS2.4", selProj);
 		}catch (Exception e) {

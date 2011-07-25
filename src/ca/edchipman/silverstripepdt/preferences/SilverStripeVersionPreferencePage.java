@@ -49,10 +49,18 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
         fConfigurationBlock = new SilverStripeVersionGroup(getProject(), parent);
 
         super.createControl(parent);
-
+        
         //PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IPHPHelpContextIds.PHP_INTERPRETER_PREFERENCES);
     }
-
+    
+    protected boolean isProjectPreferencePage() {
+    	return false;
+    }
+    
+    protected boolean offerLink() {
+    	return false;
+    }
+    
     /*
      * (non-Javadoc)
      * 
