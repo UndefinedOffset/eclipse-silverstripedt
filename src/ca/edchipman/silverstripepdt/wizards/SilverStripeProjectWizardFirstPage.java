@@ -60,7 +60,6 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         // establish connections
         fNameGroup.addObserver(fPHPLocationGroup);
         fDetectGroup.addObserver(fLayoutGroup);
-        fDetectGroup.addObserver(fSSVersionGroup);
 
         fPHPLocationGroup.addObserver(fDetectGroup);
         // initialize all elements
@@ -268,7 +267,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             fGroup.setFont(composite.getFont());
             fGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             fGroup.setLayout(initGridLayout(new GridLayout(numColumns, false), true));
-            fGroup.setText(PHPUIMessages.LayoutGroup_OptionBlock_Title); //$NON-NLS-1$
+            fGroup.setText("SilverStripe Version"); //$NON-NLS-1$
 
             fSS24Radio.doFillIntoGrid(fGroup, 2);
             fSS23Radio.doFillIntoGrid(fGroup, 2);

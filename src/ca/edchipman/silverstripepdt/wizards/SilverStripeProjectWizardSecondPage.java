@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -34,6 +35,7 @@ import org.eclipse.dltk.core.DLTKLanguageManager;
 import org.eclipse.dltk.core.IBuildpathEntry;
 import org.eclipse.dltk.core.IDLTKLanguageToolkit;
 import org.eclipse.dltk.core.IScriptProject;
+import org.eclipse.dltk.internal.core.ScriptProject;
 import org.eclipse.dltk.internal.ui.util.CoreUtility;
 import org.eclipse.dltk.internal.ui.wizards.BuildpathDetector;
 import org.eclipse.dltk.internal.ui.wizards.NewWizardMessages;
@@ -43,6 +45,7 @@ import org.eclipse.jface.text.templates.Template;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.php.internal.core.buildpath.BuildPathUtils;
 import org.eclipse.php.internal.core.includepath.IncludePath;
 import org.eclipse.php.internal.core.includepath.IncludePathManager;
 import org.eclipse.php.internal.core.language.LanguageModelInitializer;
@@ -136,12 +139,13 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 includepathEntries = setProjectBaseIncludepath();
                 if (!getProject().getFile(FILENAME_BUILDPATH).exists()) {
 
-                    IDLTKLanguageToolkit toolkit = DLTKLanguageManager
-                            .getLanguageToolkit(getScriptNature());
-                    final BuildpathDetector detector = createBuildpathDetector(
-                            monitor, toolkit);
-                    buildpathEntries = detector.getBuildpath();
-
+                	final IPath projectPath = getProject().getFullPath();
+                    List cpEntries = new ArrayList();
+                    cpEntries.add(DLTKCore.newSourceEntry(projectPath));
+                    cpEntries.add(DLTKCore.newContainerEntry(silverStripeContainer));
+                    
+                    buildpathEntries = (IBuildpathEntry[]) cpEntries.toArray(new IBuildpathEntry[cpEntries.size()]);
+                    includepathEntries = setProjectBaseIncludepath();
                 } else {
                     monitor.worked(20);
                 }
