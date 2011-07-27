@@ -262,4 +262,11 @@ class ${file_name}_Controller extends Page_Controller {
 $$Content
 $$Form
 $$PageComments</template>
+<template
+    name="New Blank SilverStripe Template"
+    description="A new SilverStripe Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.blank"
+    context="php_ss"
+    enabled="true">
+</template>
 </templates>
