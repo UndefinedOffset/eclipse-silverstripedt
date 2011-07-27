@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <templates>
 
 <!-- new PHP templates -->
@@ -77,8 +76,20 @@ class ${file_name}Controller extends ContentController {
     context="php_new_file_context"
     enabled="true">&lt;?php
 class ${file_name} extends Extension {
+    /**
+     * Adds the extra statics for this extension
+     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     */
     public function extraStatics() {
         ${cursor}
+    }
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     */
+    public function updateCMSFields(FieldSet &$$fields) {
+        
     }
 }
 ?&gt;</template>
@@ -90,8 +101,20 @@ class ${file_name} extends Extension {
     context="php_new_file_context"
     enabled="true">&lt;?php
 class ${file_name} extends DataObjectDecorator {
+    /**
+     * Adds the extra statics for this extension
+     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     */
     public function extraStatics() {
         ${cursor}
+    }
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     */
+    public function updateCMSFields(FieldSet &$$fields) {
+        
     }
 }
 ?&gt;</template>
@@ -179,8 +202,20 @@ class ${file_name}_Controller extends Page_Controller {
     context="php"
     enabled="true"
     autoinsert="true">class ${file_name} extends Extension {
+    /**
+     * Adds the extra statics for this extension
+     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     */
     public function extraStatics() {
         ${cursor}
+    }
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     */
+    public function updateCMSFields(FieldSet &$$fields) {
+        
     }
 }</template>
 
@@ -191,8 +226,20 @@ class ${file_name}_Controller extends Page_Controller {
     context="php"
     enabled="true"
     autoinsert="true">class ${file_name} extends DataObjectDecorator {
+    /**
+     * Adds the extra statics for this extension
+     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     */
     public function extraStatics() {
         ${cursor}
+    }
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     */
+    public function updateCMSFields(FieldSet &$$fields) {
+        
     }
 }</template>
 
@@ -253,8 +300,8 @@ class ${file_name}_Controller extends Page_Controller {
     &lt;/body&gt;
 &lt;/html&gt;</template>
 <template
-    name="New SilverStripe Template"
-    description="A new SilverStripe Template"
+    name="New SilverStripe Layout Template"
+    description="A new SilverStripe Layout Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.template"
     context="php_ss"
     enabled="true">&lt;h2&gt;$$Title.XML&lt;/h2&gt;
@@ -264,7 +311,7 @@ $$Form
 $$PageComments</template>
 <template
     name="New Blank SilverStripe Template"
-    description="A new SilverStripe Template"
+    description="A new blank SilverStripe Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.blank"
     context="php_ss"
     enabled="true">

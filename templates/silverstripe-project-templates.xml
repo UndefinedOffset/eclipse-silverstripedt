@@ -31,6 +31,9 @@ Director::set_dev_servers(array(
 ));
 Director::set_environment_type('dev');
 
+//Set Admin Email
+Email::setAdminEmail('me@example.com');
+
 //Set's the current theme
 SSViewer::set_theme('THEME NAME');
 
