@@ -277,18 +277,8 @@ a img {
     list-style: none;
     padding: 5px;
     margin: 0;
-    font-size: 1em;
     border-bottom: 1px dotted #bbb;
 }
-
-#PageComments li p span {
-    font-style: italic;
-}
-
-#PageComments a.deletelink {
-    font-weight: bold;
-}
-
             
 #PageNumbers {
     padding: 5px;
@@ -442,6 +432,22 @@ a img {
 /* OTHER */
 #PageComments {
     list-style: none;
+}
+
+#PageComments li {
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+    font-size: 1em;
+    border-bottom: 1px dotted #bbb;
+}
+
+#PageComments li p span {
+    font-style: italic;
+}
+
+#PageComments a.deletelink {
+    font-weight: bold;
 }
 
 #PageNumbers {
