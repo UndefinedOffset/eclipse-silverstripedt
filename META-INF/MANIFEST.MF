@@ -48,3 +48,4 @@ Import-Package: org.eclipse.core.filesystem,
  org.eclipse.wst.sse.ui.internal.editor
 Bundle-Activator: ca.edchipman.silverstripepdt.SilverStripePDTPlugin
 Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Ed Chipman
