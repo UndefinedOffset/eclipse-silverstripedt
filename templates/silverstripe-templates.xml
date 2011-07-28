@@ -88,7 +88,7 @@ class ${file_name} extends Extension {
      * Updates the CMS fields adding the fields defined in this extension
      * @param {FieldSet} $$fields Field Set that new fields will be added to
      */
-    public function updateCMSFields(FieldSet &$$fields) {
+    public function updateCMSFields(FieldSet &amp;$$fields) {
         
     }
 }
@@ -113,7 +113,7 @@ class ${file_name} extends DataObjectDecorator {
      * Updates the CMS fields adding the fields defined in this extension
      * @param {FieldSet} $$fields Field Set that new fields will be added to
      */
-    public function updateCMSFields(FieldSet &$$fields) {
+    public function updateCMSFields(FieldSet &amp;$$fields) {
         
     }
 }
@@ -214,7 +214,7 @@ class ${file_name}_Controller extends Page_Controller {
      * Updates the CMS fields adding the fields defined in this extension
      * @param {FieldSet} $$fields Field Set that new fields will be added to
      */
-    public function updateCMSFields(FieldSet &$$fields) {
+    public function updateCMSFields(FieldSet &amp;$$fields) {
         
     }
 }</template>
@@ -238,7 +238,7 @@ class ${file_name}_Controller extends Page_Controller {
      * Updates the CMS fields adding the fields defined in this extension
      * @param {FieldSet} $$fields Field Set that new fields will be added to
      */
-    public function updateCMSFields(FieldSet &$$fields) {
+    public function updateCMSFields(FieldSet &amp;$$fields) {
         
     }
 }</template>

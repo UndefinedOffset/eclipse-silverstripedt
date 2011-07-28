@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SilverStripePDT
 Bundle-SymbolicName: ca.edchipman.silverstripepdt;singleton:=true
-Bundle-Version: 1.2.5
+Bundle-Version: 1.2.6
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.php.core,
