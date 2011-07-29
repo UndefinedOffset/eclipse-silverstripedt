@@ -265,9 +265,9 @@ class ${file_name}_Controller extends Page_Controller {
  */
 public function getCMSFields() {
     $$fields=parent::getCMSFields();
-
+    
     ${cursor}
-
+    
     return $$fields;
 }</template>
 
