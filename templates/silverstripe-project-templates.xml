@@ -185,6 +185,8 @@ form fieldset {
 }
 
 form div.field {
+    clear: both;
+    
     margin-top: 14px;
 }
 
@@ -196,6 +198,12 @@ form label {
     display: block;
     font-size: 1.1em;
     color: #000000;
+    
+    text-align: left !important;
+}
+
+form .field.checkbox label {
+    display: inline;
 }
 
 form label.FormHeading {
