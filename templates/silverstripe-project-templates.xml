@@ -190,6 +190,10 @@ form div.field {
     margin-top: 14px;
 }
 
+form p.field {
+    clear: both;
+}
+
 form div.middleColumn {
     margin-top: 4px;
 }
