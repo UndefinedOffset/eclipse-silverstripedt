@@ -259,7 +259,11 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.getCMSFields"
     context="php"
     enabled="true"
-    autoinsert="true">public function getCMSFields() {
+    autoinsert="true">/**
+ * Gets fields used in the cms
+ * @return {FieldSet} Fields to be used
+ */
+public function getCMSFields() {
     $$fields=parent::getCMSFields();
 
     ${cursor}
