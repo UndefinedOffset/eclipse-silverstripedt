@@ -325,7 +325,12 @@ a img {
 }
 
 .typography hr {
-    padding: 5px;
+    padding: 0;
+    margin: 20px 0;
+    
+    border: 0;
+    
+    border-bottom: 3px solid #2D67B2;
 }
 
 .typography p,
