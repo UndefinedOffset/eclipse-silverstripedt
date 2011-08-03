@@ -5,13 +5,25 @@
         <startup class="ca.edchipman.silverstripepdt.RegisterResolvers"></startup>
     </extension>
     
+    <extension
+        point="org.eclipse.core.filebuffers.documentCreation"
+        id="org.eclipse.php.core.documentfactories"
+        name="SilverStripe Template Creation Factory">
+        <!-- This is a base factory class included in WST -->
+        <factory
+            contentTypeId="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"
+            class="org.eclipse.wst.sse.core.internal.filebuffers.BasicStructuredDocumentFactory" />
+    </extension>
+    
     <extension point="org.eclipse.core.contenttype.contentTypes">
         <content-type
                 base-type="org.eclipse.php.core.phpsource"
                 file-extensions="ss"
-                id="SilverStripeTemplate"
-                name="SilverStripe Template File"
-                priority="normal">
+                id="SilverStripeTemplateSource"
+                name="SilverStripe Template Content Type"
+                priority="high">
+                
+                <describer class="org.eclipse.php.internal.core.documentModel.ContentDescriberForPHP"/>
         </content-type>
     </extension>
     
@@ -75,7 +87,7 @@
                         contributorClass="org.eclipse.php.internal.ui.editor.ActionContributorForPhp"
                         default="true" icon="icons/full/obj16/ss_file.gif" id="ca.edchipman.silverstripepdt.SilverStripe.editor"
                         name="SilverStripe Template Editor" symbolicFontName="org.eclipse.wst.sse.ui.textfont">
-            <contentTypeBinding contentTypeId="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
+            <contentTypeBinding contentTypeId="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         </editor>
     </extension>
     
