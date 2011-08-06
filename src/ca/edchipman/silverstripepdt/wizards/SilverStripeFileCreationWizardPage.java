@@ -74,7 +74,7 @@ public class SilverStripeFileCreationWizardPage extends PHPFileCreationWizardPag
 			}
 		}
 
-		final IContentType contentType = Platform.getContentTypeManager().getContentType("ca.edchipman.silverstripepdt.SilverStripeTemplate");
+		final IContentType contentType = Platform.getContentTypeManager().getContentType("ca.edchipman.silverstripepdt.SilverStripeTemplateSource");
 		if (!contentType.isAssociatedWith(fileName)) {
 			StringBuffer buffer = new StringBuffer(PHPUIMessages.PHPFileCreationWizardPage_17); //$NON-NLS-1$
 			buffer.append(".ss");

@@ -130,6 +130,18 @@ class ${file_name} {
 }
 ?&gt;</template>
 
+<template
+    name="New SilverStripe language file"
+    description="A new SilverStripe language file"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.lang"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+global $$lang;
+
+//$$lang['${file_name}']['EXAMPLE_CLASS']['MY_EXAMPLE']='My Example';
+//$$lang['${file_name}']['Example.ss']['MY_EXAMPLE']='My Example';
+?&gt;</template>
+
 <!-- auto complete templates -->
 <template
     name="class"
@@ -269,6 +281,58 @@ public function getCMSFields() {
     ${cursor}
     
     return $$fields;
+}</template>
+
+<template
+    name="lang"
+    description="A SilverStripe language file template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.lang"
+    context="php"
+    enabled="true">global $$lang;
+
+$$lang['${file_name}']['${scope}']['${key_name}']='${text}';
+</template>
+
+<template
+    name="extension"
+    description="A SilverStripe Object::add_extension() template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.extensionadd"
+    context="php"
+    enabled="true">Object::add_extension('${base_class}','${extended_class}');</template>
+
+<template
+    name="extension"
+    description="A SilverStripe Object::remove_extension() template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.extensionrm"
+    context="php"
+    enabled="true">Object::remove_extension('${base_class}','${extended_class}');</template>
+
+<template
+    name="updateCMSFields"
+    description="A SilverStripe updateCMSFields() Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.updateCMSFields"
+    context="php"
+    enabled="true"
+    autoinsert="true">/**
+ * Updates the fields used in the cms
+ * @param {FieldSet} $$fields Fields to be extended
+ */
+public function updateCMSFields(FieldSet &amp;$$fields) {
+    ${cursor}
+}</template>
+
+<template
+    name="updateCMSActions"
+    description="A SilverStripe updateCMSActions Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.updateCMSFields"
+    context="php"
+    enabled="true"
+    autoinsert="true">/**
+ * Updates the actions used in the cms
+ * @param {FieldSet} $$actions Actions to be extended
+ */
+public function updateCMSActions(FieldSet &amp;$$actions) {
+    ${cursor}
 }</template>
 
 <!-- SS File Templates -->
