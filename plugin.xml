@@ -19,11 +19,11 @@
         <content-type
                 base-type="org.eclipse.wst.html.core.htmlsource"
                 file-extensions="ss"
-                id="SilverStripeTemplateSource"
+                id="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"
                 name="SilverStripe Template Content Type"
                 priority="high">
                 
-                <describer class="org.eclipse.wst.html.core.internal.contenttype.ContentDescriberForHTML"/>
+                <!-- <describer class="org.eclipse.wst.html.core.internal.contenttype.ContentDescriberForHTML"/> -->
         </content-type>
     </extension>
     
@@ -94,16 +94,16 @@
     <extension point="org.eclipse.wst.sse.ui.editorConfiguration">
         <sourceViewerConfiguration
             class="org.eclipse.wst.html.ui.StructuredTextViewerConfigurationHTML"
-            target="org.eclipse.wst.html.core.htmlsource" />
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <contentOutlineConfiguration
             class="org.eclipse.wst.html.ui.views.contentoutline.HTMLContentOutlineConfiguration"
-            target="org.eclipse.wst.html.core.htmlsource" />
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <quickOutlineConfiguration
             class="org.eclipse.wst.xml.ui.internal.quickoutline.XMLQuickOutlineConfiguration"
-            target="org.eclipse.wst.html.core.htmlsource"/>
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"/>
         <propertySheetConfiguration
             class="org.eclipse.wst.xml.ui.views.properties.XMLPropertySheetConfiguration"
-            target="org.eclipse.wst.html.core.htmlsource" />
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <documentationTextHover
             class="org.eclipse.wst.html.ui.internal.taginfo.HTMLTagInfoHoverProcessor"
             target="org.eclipse.wst.html.HTML_DEFAULT">
@@ -111,15 +111,15 @@
         <provisionalConfiguration
             type="sourceeditingtexttools"
             class="org.eclipse.wst.xml.ui.internal.provisional.XMLSourceEditingTextTools"
-            target="org.eclipse.wst.html.core.htmlsource" />
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <provisionalConfiguration
             type="characterpairmatcher"
             class="org.eclipse.wst.html.ui.internal.text.HTMLDocumentRegionEdgeMatcher"
-            target="org.eclipse.wst.html.core.htmlsource" />
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <provisionalConfiguration
             type="foldingstrategy"
             class="org.eclipse.wst.xml.ui.internal.projection.XMLFoldingStrategy"
-            target="org.eclipse.wst.html.core.htmlsource" />
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <provisionalConfiguration
             type="org.eclipse.jface.text.quickassist.IQuickAssistProcessor"
             class="org.eclipse.wst.xml.ui.internal.correction.XMLQuickAssistProcessor"
@@ -130,16 +130,16 @@
             target="org.eclipse.wst.html.HTML_DEFAULT, org.eclipse.wst.html.HTML_DECLARATION" />
         <provisionalDefinition
             type="preferencepages"
-            value="org.eclipse.wst.html.ui.preferences.html, org.eclipse.wst.html.ui.preferences.source, org.eclipse.wst.html.ui.preferences.templates, org.eclipse.wst.html.ui.preferences.styles,org.eclipse.wst.html.ui.preferences.validation, org.eclipse.wst.html.ui.preferences.contentassist"
-            target="org.eclipse.wst.html.core.htmlsource" />
+            value="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage, org.eclipse.php.ui.preferences.PHPTemplatesPreferencePage, org.eclipse.wst.html.ui.preferences.html, org.eclipse.wst.html.ui.preferences.source, org.eclipse.wst.html.ui.preferences.templates, org.eclipse.wst.html.ui.preferences.styles,org.eclipse.wst.html.ui.preferences.validation, org.eclipse.wst.html.ui.preferences.contentassist"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <provisionalDefinition
             type="spellingregions"
             value="XML_COMMENT_TEXT, XML_CONTENT"
-            target="org.eclipse.wst.html.core.htmlsource" />
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <provisionalDefinition
             type="activecontexts"
             value="org.eclipse.wst.html.core.htmlsource, org.eclipse.wst.html.occurrences, org.eclipse.core.runtime.xml, org.eclipse.wst.xml.navigation, org.eclipse.wst.xml.selection, org.eclipse.wst.sse.comments"
-            target="org.eclipse.wst.html.core.htmlsource" />
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
     </extension>
      
     <extension point="org.eclipse.ui.popupMenus">
