@@ -98,7 +98,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
             ssVersion="SS2.3";
         }
         
-        Path silverStripeContainer=new Path("ca.edchipman.silverstripepdt.LANGUAGE");
+        Path silverStripeContainer=new Path(SilverStripePDTPlugin.NATURE_ID);
         
         
         
@@ -491,16 +491,16 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
          * @throws CoreException
          * @see {@link #createFile(Wizard, String, String, IProgressMonitor, String, String)}
          */
-        public void createFile(Wizard wizard, String containerName, String fileName, IProgressMonitor monitor, String contents, boolean openFileOnCreate) throws CoreException {
-            createFile(wizard, containerName, fileName, monitor, contents, 0, null, openFileOnCreate);
+        public IFile createFile(Wizard wizard, String containerName, String fileName, IProgressMonitor monitor, String contents, boolean openFileOnCreate) throws CoreException {
+            return createFile(wizard, containerName, fileName, monitor, contents, 0, null, openFileOnCreate);
         }
 
-        public void createFile(Wizard wizard, String containerName, String fileName, IProgressMonitor monitor, String contents, int offset) throws CoreException {
-            createFile(wizard, containerName, fileName, monitor, contents, offset, null, false);
+        public IFile createFile(Wizard wizard, String containerName, String fileName, IProgressMonitor monitor, String contents, int offset) throws CoreException {
+            return createFile(wizard, containerName, fileName, monitor, contents, offset, null, false);
         }
 
-        public void createFile(Wizard wizard, String containerName, String fileName, IProgressMonitor monitor, String contents, int offset, boolean openFileOnCreate) throws CoreException {
-            createFile(wizard, containerName, fileName, monitor, contents, offset, null, openFileOnCreate);
+        public IFile createFile(Wizard wizard, String containerName, String fileName, IProgressMonitor monitor, String contents, int offset, boolean openFileOnCreate) throws CoreException {
+            return createFile(wizard, containerName, fileName, monitor, contents, offset, null, openFileOnCreate);
         }
 
         /**
@@ -518,7 +518,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
          *            null).
          * @throws CoreException
          */
-        public void createFile(Wizard wizard, String containerName, String fileName, IProgressMonitor monitor, String contents, final int offset, final String editorID, final boolean openFileOnCreate) throws CoreException {
+        public IFile createFile(Wizard wizard, String containerName, String fileName, IProgressMonitor monitor, String contents, final int offset, final String editorID, final boolean openFileOnCreate) throws CoreException {
             // create a sample file
             monitor.beginTask(
                     NLS.bind(PHPUIMessages.newPhpFile_create, fileName), 2);
@@ -559,7 +559,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 stream.close();
             } catch (IOException e) {
                 Logger.logException(e);
-                return;
+                return null;
             }
             
             if(openFileOnCreate) {
@@ -582,12 +582,13 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                                 StructuredTextViewer textViewer=((PHPStructuredEditor) editor).getTextViewer();
                                 textViewer.setSelectedRange(offset, 0);
                             }
-                        } catch (PartInitException e) {
-                        }
+                        } catch (PartInitException e) {}
                     }
                 });
                 monitor.worked(1);
             }
+            
+            return file;
         }
 
         /**

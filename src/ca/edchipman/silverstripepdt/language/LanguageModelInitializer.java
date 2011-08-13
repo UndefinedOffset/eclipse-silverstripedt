@@ -23,7 +23,7 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
     /**
      * Path of the language model for php projects
      */
-    public static final String CONTAINER_PATH = SilverStripePDTPlugin.PLUGIN_ID + ".LANGUAGE"; //$NON-NLS-1$
+    public static final String CONTAINER_PATH = SilverStripePDTPlugin.NATURE_ID; //$NON-NLS-1$
     public static final Path LANGUAGE_CONTAINER_PATH = new Path(LanguageModelInitializer.CONTAINER_PATH);
 
     /**

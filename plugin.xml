@@ -51,8 +51,10 @@
     </extension>
     
     <extension point="org.eclipse.ui.newWizards">
+        <category name="SilverStripe" id="ca.edchipman.silverstripepdt.category" />
+        
         <wizard id="ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard"
-                category="org.eclipse.php.project.ui"
+                category="ca.edchipman.silverstripepdt.category"
                 class="ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard"
                 name="New SilverStripe Project" icon="icons/full/obj16/add_ss_project.gif"
                 finalPerspective="org.eclipse.php.perspective" preferredPerspectives="org.eclipse.php.perspective"
@@ -61,8 +63,17 @@
             <selection class="org.eclipse.core.resources.IResource" />
         </wizard>
         <wizard id="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard"
-                         category="org.eclipse.php.project.ui" class="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard"
-                         name="SilverStripe Template File" icon="icons/full/obj16/add_ss_file.gif" />
+                         category="ca.edchipman.silverstripepdt.category" class="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard"
+                         name="SilverStripe Template File" icon="icons/full/obj16/add_ss_file.gif">
+            <description>Create a new SilverStripe template file</description>
+            <selection class="org.eclipse.core.resources.IResource" />
+        </wizard>
+        <wizard id="ca.edchipman.silverstripepdt.wizards.SilverStripeClassCreationWizard"
+                         category="ca.edchipman.silverstripepdt.category" class="ca.edchipman.silverstripepdt.wizards.SilverStripeClassCreationWizard"
+                         name="SilverStripe Class" icon="icons/full/obj16/add_ss_file.gif">
+            <description>Create a new SilverStripe Class</description>
+            <selection class="org.eclipse.core.resources.IResource" />
+        </wizard>
     </extension>
     
     <extension id="SilverStripeNature" name="SilverStripe Properties" point="org.eclipse.core.resources.natures">

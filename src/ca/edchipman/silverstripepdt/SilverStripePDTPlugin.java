@@ -22,7 +22,7 @@ import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
 public class SilverStripePDTPlugin extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "ca.edchipman.silverstripepdt"; //$NON-NLS-1$
-	
+	public static final String NATURE_ID = "ca.edchipman.silverstripepdt.LANGUAGE"; //$NON-NLS-1$
 	protected TemplateStore templateStore = null;
     protected ContextTypeRegistry fContextTypeRegistry = null;
 

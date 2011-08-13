@@ -8,6 +8,7 @@ import javax.swing.ProgressMonitor;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -28,6 +29,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 import ca.edchipman.silverstripepdt.SilverStripeNature;
+import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 
 @SuppressWarnings("restriction")
 public class AddSilverStripeNatureAction implements IObjectActionDelegate {
@@ -69,7 +71,7 @@ public class AddSilverStripeNatureAction implements IObjectActionDelegate {
             
             //Add Build Path Entry
             ScriptProject project=new ScriptProject(selProj, null);
-            IBuildpathEntry ssBuildPath=DLTKCore.newContainerEntry(new Path("ca.edchipman.silverstripepdt.LANGUAGE"));
+            IBuildpathEntry ssBuildPath=DLTKCore.newContainerEntry(new Path(SilverStripePDTPlugin.NATURE_ID));
             List<IBuildpathEntry> buildPath = new ArrayList<IBuildpathEntry>();
         	buildPath.add(ssBuildPath);
         	
@@ -80,6 +82,8 @@ public class AddSilverStripeNatureAction implements IObjectActionDelegate {
         	}
             
             CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_version", "SS2.4", selProj);
+            
+            selProj.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 		}catch (Exception e) {
 			MessageDialog.openInformation(
 			         this.part.getSite().getShell(),
