@@ -11,6 +11,8 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IMethod;
 import org.eclipse.dltk.core.IModelElement;
@@ -29,10 +31,16 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.php.internal.core.PHPCoreConstants;
+import org.eclipse.php.internal.core.compiler.ast.nodes.PHPDocBlock;
+import org.eclipse.php.internal.core.compiler.ast.nodes.PHPDocTag;
+import org.eclipse.php.internal.core.documentModel.provisional.contenttype.ContentTypeIdForPHP;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.typeinference.PHPModelUtils;
+import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.php.internal.ui.corext.codemanipulation.StubUtility;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
@@ -91,6 +99,11 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
         
         sourceFolder = new Text(container, SWT.BORDER);
         sourceFolder.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        sourceFolder.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged(false);
+            }
+        });
         
         Button btnBrowse = new Button(container, SWT.NONE);
         btnBrowse.addSelectionListener(new SelectionAdapter() {
@@ -108,6 +121,11 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
         
         className = new Text(container, SWT.BORDER);
         className.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        className.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged(false);
+            }
+        });
         new Label(container, SWT.NONE);
         
         Label label = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -221,6 +239,73 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
         new Label(container, SWT.NONE);
         
         initialize();
+        dialogChanged(true);
+        setPageComplete(false);
+    }
+    
+    private String getFileName() {
+        return getClassName()+".php";
+    }
+
+    protected void updateStatus(final String message) {
+        setErrorMessage(message);
+        setPageComplete(message == null);
+    }
+
+    protected IContainer getContainer(final String text) {
+        final Path path = new Path(text);
+
+        final IResource resource = ResourcesPlugin.getWorkspace().getRoot()
+                .findMember(path);
+        return resource instanceof IContainer ? (IContainer) resource : null;
+    }
+    
+    /**
+     * Ensures that both text fields are set.
+     */
+    protected void dialogChanged(Boolean wizardInit) {
+        final String container = getContainerName();
+        final String fileName = getFileName();
+
+        if (container.length() == 0) {
+            updateStatus(PHPUIMessages.PHPFileCreationWizardPage_10); //$NON-NLS-1$
+            return;
+        }
+        final IContainer containerFolder = getContainer(container);
+        if (containerFolder == null || !containerFolder.exists()) {
+            updateStatus(PHPUIMessages.PHPFileCreationWizardPage_11); //$NON-NLS-1$
+            return;
+        }
+        if (!containerFolder.getProject().isOpen()) {
+            updateStatus(PHPUIMessages.PHPFileCreationWizardPage_12); //$NON-NLS-1$
+            return;
+        }
+        
+        if(wizardInit) {
+            updateStatus(null);
+            return;
+        }
+        
+        if (fileName != null && !fileName.equals("") && containerFolder.getFile(new Path(fileName)).exists()) { //$NON-NLS-1$
+            updateStatus("Specified class already exists"); //$NON-NLS-1$
+            return;
+        }
+
+        if (getClassName().length() == 0) {
+            updateStatus("Class name must be specified"); //$NON-NLS-1$
+            return;
+        }
+        
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex != -1) {
+            String fileNameWithoutExtention = fileName.substring(0, dotIndex);
+            if(fileNameWithoutExtention.matches("^(?=_*[A-z]+)[A-z0-9_]+$")==false) {
+                updateStatus("Class name contains illegal characters"); //$NON-NLS-1$
+                return;
+            }
+        }
+
+        updateStatus(null);
     }
 
     /**
@@ -456,9 +541,11 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
             finalFile+=" {"+lineDelimiter+tabCharacter;
             
             if(btnSuperConstruct.getSelection() && superClassType!=null) {
-                finalFile+="public function __construct(";
-                
                 IMethod[] constructor = PHPModelUtils.getTypeMethod(superClassType, "__construct", false);
+                PHPDocBlock docBlock = PHPModelUtils.getDocBlock(constructor[0]);
+                
+                finalFile+=renderDocBlock(docBlock,lineDelimiter,tabCharacter)+tabCharacter+"public function __construct(";
+                
                 
                 IParameter[] params=constructor[0].getParameters();
                 String paramStr="";
@@ -493,8 +580,10 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
                 
                 for(IMethod method : unimplemented) {
                     try {
+                        PHPDocBlock docBlock = PHPModelUtils.getDocBlock(method);
+                        
                         String source = method.getSource().trim();
-                        source = lineDelimiter+tabCharacter+lineDelimiter+tabCharacter + source.substring(0, source.length()-1);
+                        source = lineDelimiter+tabCharacter+lineDelimiter+tabCharacter+renderDocBlock(docBlock,lineDelimiter,tabCharacter)+tabCharacter+source.substring(0, source.length()-1);
                         source += " {"+lineDelimiter+tabCharacter+tabCharacter+"//@TODO Automatically created abstract method stub"+lineDelimiter+tabCharacter+"}";
                         finalFile+=source;
                     } catch (ModelException e) {
@@ -574,5 +663,58 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
             return '\t';
         }
         return (Boolean.valueOf(useTab).booleanValue()) ? '\t' : ' ';
+    }
+    
+    private String renderDocBlock(PHPDocBlock docBlock, String lineDelemiter, String tabCharacter) {
+        String result="/**"+lineDelemiter;
+        
+        result+=docFormatLine(docBlock.getShortDescription(), lineDelemiter, tabCharacter)+lineDelemiter+tabCharacter+" * "+lineDelemiter;
+        
+        PHPDocTag[] tags = docBlock.getTags();
+        for(PHPDocTag tag : tags) {
+            result+=docFormatLine("@"+PHPDocTag.getTagKind(tag.getTagKind())+tag.getValue(), lineDelemiter, tabCharacter)+lineDelemiter;
+        }
+        
+        return result+tabCharacter+" */"+lineDelemiter;
+    }
+    
+    private String docFormatLine(String content, String lineDelemiter, String tabCharacter) {
+        content = content.trim();
+        
+        String[] lines = content.split("\r?\n|\r");
+        
+        for(int i=0;i<lines.length;i++) {
+            lines[i]=tabCharacter+" * "+lines[i].trim();
+        }
+        
+        return implodeArray(lines, lineDelemiter);
+    }
+    
+    /**
+     * Method to join array elements of type string
+     * 
+     * @author Hendrik Will, imwill.com
+     * @param inputArray Array which contains strings
+     * @param glueString String between each array element
+     * @return String containing all array elements seperated by glue string
+     */
+    public static String implodeArray(String[] inputArray, String glueString) {
+
+        /** Output variable */
+        String output = "";
+
+        if (inputArray.length > 0) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(inputArray[0]);
+
+            for (int i = 1; i < inputArray.length; i++) {
+                sb.append(glueString);
+                sb.append(inputArray[i]);
+            }
+
+            output = sb.toString();
+        }
+
+        return output;
     }
 }
