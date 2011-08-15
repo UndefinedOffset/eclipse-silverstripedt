@@ -570,12 +570,11 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
             
             
             if(getAbstractMethods()) {
-                IFile file = new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getContainerName(), typeName+".php", monitor, finalFile, true);
+                IFile file = new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getContainerName(), typeName+".php", monitor, finalFile+lineDelimiter+"}"+lineDelimiter+"?>"+lineDelimiter, true);
                 
                 ISourceModule sourceModule = DLTKCore.createSourceModuleFrom(file);
                 IType createdType = sourceModule.getType(typeName);
                 
-                //@TODO get unimplemented methods look at PHPModelUtils.internalGetUnimplementedMethods might be able to get using ast.internalStructuralPropertiesForType
                 IMethod[] unimplemented=PHPModelUtils.getUnimplementedMethods(createdType, monitor);
                 
                 for(IMethod method : unimplemented) {
