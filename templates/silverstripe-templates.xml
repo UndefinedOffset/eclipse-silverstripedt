@@ -25,7 +25,6 @@ class ${file_name} extends Page {
 }
 
 class ${file_name}_Controller extends Page_Controller {
-    
 }
 ?&gt;</template>
 
@@ -331,7 +330,7 @@ public function updateCMSFields(FieldSet &amp;$$fields) {
 <template
     name="updateCMSActions"
     description="A SilverStripe updateCMSActions Template"
-    id="ca.edchipman.silverstripepdt.SilverStripe.templates.updateCMSFields"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.updateCMSActions"
     context="php"
     enabled="true"
     autoinsert="true">/**
