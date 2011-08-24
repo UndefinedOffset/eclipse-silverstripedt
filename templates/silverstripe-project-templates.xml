@@ -95,26 +95,26 @@ class Page_Controller extends ContentController {
     public function SearchForm() {
         $$searchText = (isset($$_REQUEST['Search']) ? $$_REQUEST['Search']:'Search');
         $$fields = new FieldSet(
-              new TextField("Search", "", $$searchText)
-          );
+                                new TextField("Search", "", $$searchText)
+                            );
         $$actions = new FieldSet(
-              new FormAction('results', 'Search')
-          );
-
-          return new SearchForm($$this, "SearchForm", $$fields, $$actions);
+                                new FormAction('results', 'Search')
+                            );
+        
+        return new SearchForm($$this, "SearchForm", $$fields, $$actions);
     }
     
     /**
      * Process and render search results
      */
     public function results($$data, $$form){
-          $$data = array(
-             'Results' => $$form->getResults(),
-             'Query' => $$form->getSearchQuery(),
-              'Title' => DBField::create('Varchar','Search Results')
-          );
-
-          return $$this->customise($$data)->renderWith(array('Page_results', 'Page'));
+        $$data = array(
+            'Results' => $$form->getResults(),
+            'Query' => $$form->getSearchQuery(),
+            'Title' => DBField::create('Varchar','Search Results')
+        );
+        
+        return $$this->customise($$data)->renderWith(array('Page_results', 'Page'));
     }
 }
 ?&gt;</template>
