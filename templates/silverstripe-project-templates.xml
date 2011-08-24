@@ -27,7 +27,7 @@ MySQLDatabase::set_connection_charset('utf8');
 // Sites running on the following servers will be run in development mode.
 Director::set_dev_servers(array(
     'localhost',
-    '127.0.0.1',
+    '127.0.0.1'
 ));
 Director::set_environment_type('dev');
 
