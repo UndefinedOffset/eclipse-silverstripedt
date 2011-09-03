@@ -19,6 +19,7 @@ import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -66,6 +67,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.core.internal.resources.ProjectPreferences;
+import org.osgi.framework.Bundle;
 
 import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
@@ -263,7 +265,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 // need to create sub-folders and set special build/include
                 // paths
                 IPath cssPath = new Path("css");
-                IPath imagesPath = new Path("images");
+                IPath treeIconsPath = new Path("images/treeicons");
                 IPath javascriptPath = new Path("javascript");
                 IPath layoutPath = new Path("templates/Layout");
                 IPath includePath = new Path("templates/Includes");
@@ -275,8 +277,8 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                     monitor.worked(10);
                 }
                 
-                if (imagesPath.segmentCount() > 0) {
-                    IFolder folder = getProject().getFolder(imagesPath);
+                if (treeIconsPath.segmentCount() > 0) {
+                    IFolder folder = getProject().getFolder(treeIconsPath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
                 } else {
                     monitor.worked(10);
@@ -339,6 +341,35 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 PHPTemplateStore.CompiledTemplate pageResultsTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageResultsTemplateToCompile, getProject().getName()+"/templates/Layout", "Page_results.ss");
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates/Layout", "Page_results.ss", monitor, pageResultsTemplate.string, pageResultsTemplate.offset);
                 
+                
+                //Copy the Home Icon
+                try {
+                    Bundle bundle = Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID);
+                    InputStream stream;
+                    
+                    stream = FileLocator.openStream(bundle, new Path("resources/theme/images/treeicons/home-file.gif"), false);
+                    
+                    IFile file = getProject().getFile("images/treeicons/home-file.gif");
+                    file.create(stream, true, null);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                
+                //Copy the News Icon
+                try {
+                    Bundle bundle = Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID);
+                    InputStream stream;
+                    
+                    stream = FileLocator.openStream(bundle, new Path("resources/theme/images/treeicons/news-file.gif"), false);
+                    
+                    IFile file = getProject().getFile("images/treeicons/news-file.gif");
+                    file.create(stream, true, null);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 
                 
                 // configure the buildpath entries, including the default

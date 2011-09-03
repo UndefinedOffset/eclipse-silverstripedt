@@ -542,26 +542,26 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
             
             if(btnSuperConstruct.getSelection() && superClassType!=null) {
                 IMethod[] constructor = PHPModelUtils.getTypeMethod(superClassType, "__construct", false);
-                PHPDocBlock docBlock = PHPModelUtils.getDocBlock(constructor[0]);
-                
-                finalFile+=renderDocBlock(docBlock,lineDelimiter,tabCharacter)+tabCharacter+"public function __construct(";
-                
-                
-                IParameter[] params=constructor[0].getParameters();
-                String paramStr="";
-                for(int i=0;i<params.length;i++) {
-                    finalFile+=params[i].getName()+(params[i].getDefaultValue()!="" ? "="+params[i].getDefaultValue():"");
-                    paramStr+=params[i].getName();
+                if(constructor.length>0) {
+                    PHPDocBlock docBlock = PHPModelUtils.getDocBlock(constructor[0]);
                     
-                    if(i<params.length-1) {
-                        finalFile+=", ";
-                        paramStr+=", ";
+                    finalFile+=renderDocBlock(docBlock,lineDelimiter,tabCharacter)+tabCharacter+"public function __construct(";
+                    
+                    
+                    IParameter[] params=constructor[0].getParameters();
+                    String paramStr="";
+                    for(int i=0;i<params.length;i++) {
+                        finalFile+=params[i].getName()+(params[i].getDefaultValue()!="" ? "="+params[i].getDefaultValue():"");
+                        paramStr+=params[i].getName();
+                        
+                        if(i<params.length-1) {
+                            finalFile+=", ";
+                            paramStr+=", ";
+                        }
                     }
+                    
+                    finalFile+=") {"+lineDelimiter+tabCharacter+tabCharacter+"parent::__construct("+paramStr+");"+lineDelimiter+tabCharacter+tabCharacter+lineDelimiter+tabCharacter+"}";
                 }
-                
-                finalFile+=") {"+lineDelimiter+tabCharacter+tabCharacter+"parent::__construct("+paramStr+");"+lineDelimiter+tabCharacter+tabCharacter+lineDelimiter+tabCharacter+"}";
-            }else {
-                finalFile+=lineDelimiter;
             }
             
             if (monitor.isCanceled()) {

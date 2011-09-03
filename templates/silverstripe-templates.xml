@@ -25,6 +25,7 @@ class ${file_name} extends Page {
 }
 
 class ${file_name}_Controller extends Page_Controller {
+    
 }
 ?&gt;</template>
 
@@ -63,7 +64,7 @@ class ${file_name} extends DataObject {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.controller"
     context="php_new_file_context"
     enabled="true">&lt;?php
-class ${file_name}Controller extends ContentController {
+class ${file_name} extends ContentController {
     ${cursor}
 }
 ?&gt;</template>
@@ -202,7 +203,7 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.controller"
     context="php"
     enabled="true"
-    autoinsert="true">class ${file_name}Controller extends ContentController {
+    autoinsert="true">class ${file_name} extends ContentController {
     ${cursor}
 }</template>
 
