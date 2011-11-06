@@ -27,14 +27,6 @@
         </content-type>
     </extension>
     
-    <extension point="org.eclipse.wst.sse.core.modelHandler">
-        <modelHandler
-            class="ca.edchipman.silverstripepdt.modelhandler.ModelHandlerForSS"
-            associatedContentTypeId="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"
-            id="ca.edchipman.silverstripepdt.modelhandler">
-        </modelHandler>
-    </extension>
-    
     <extension point="org.eclipse.ui.editors.templates">
         <contextType name="ca.edchipman.silverstripepdt.SilverStripeTemplate"
                                             class="ca.edchipman.silverstripepdt.templates.SilverStripeTemplateContextType"
@@ -112,7 +104,7 @@
     
     <extension point="org.eclipse.wst.sse.ui.editorConfiguration">
         <sourceViewerConfiguration
-            class="ca.edchipman.silverstripepdt.editor.StructuredTextViewerConfigurationSS"
+            class="org.eclipse.wst.html.ui.StructuredTextViewerConfigurationHTML"
             target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <contentOutlineConfiguration
             class="org.eclipse.wst.html.ui.views.contentoutline.HTMLContentOutlineConfiguration"
