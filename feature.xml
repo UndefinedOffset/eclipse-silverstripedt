@@ -2,7 +2,7 @@
 <feature
       id="ca.edchipman.silverstripepdt.Feature"
       label="SilverStripePDT"
-      version="1.4.0"
+      version="1.3.3"
       provider-name="Ed Chipman">
 
    <description url="http://programs.edchipman.ca/eclipse/silverstripe-pdt">
