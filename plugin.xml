@@ -27,6 +27,14 @@
         </content-type>
     </extension>
     
+    <extension point="org.eclipse.wst.sse.core.modelHandler">
+        <modelHandler
+            class="ca.edchipman.silverstripepdt.modelhandler.ModelHandlerForSS"
+            associatedContentTypeId="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"
+            id="ca.edchipman.silverstripepdt.modelhandler">
+        </modelHandler>
+    </extension>
+    
     <extension point="org.eclipse.ui.editors.templates">
         <contextType name="ca.edchipman.silverstripepdt.SilverStripeTemplate"
                                             class="ca.edchipman.silverstripepdt.templates.SilverStripeTemplateContextType"
@@ -41,6 +49,14 @@
                                             id="ca.edchipman.silverstripepdt.SilverStripeProjectTemplate" />
         
         <include file="templates/silverstripe-project-templates.xml" />
+    </extension>
+    
+    <extension point="org.eclipse.ui.editors.templates">
+        <contextType name="ca.edchipman.silverstripepdt.SilverStripeContentAssistTemplate"
+                                            class="ca.edchipman.silverstripepdt.templates.SilverStripeTemplateContextType"
+                                            id="ca.edchipman.silverstripepdt.SilverStripeContentAssistTemplate" />
+        
+        <include file="templates/silverstripe-contentassist-templates.xml" />
     </extension>
     
     <extension point="org.eclipse.ui.perspectiveExtensions">
@@ -104,7 +120,7 @@
     
     <extension point="org.eclipse.wst.sse.ui.editorConfiguration">
         <sourceViewerConfiguration
-            class="org.eclipse.wst.html.ui.StructuredTextViewerConfigurationHTML"
+            class="ca.edchipman.silverstripepdt.editor.StructuredTextViewerConfigurationSS"
             target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <contentOutlineConfiguration
             class="org.eclipse.wst.html.ui.views.contentoutline.HTMLContentOutlineConfiguration"
@@ -170,16 +186,36 @@
             </visibility>  
         </objectContribution>
     </extension>
+    
+    
+    <!-- initialize ss lexer preferences -->
+   <extension point="org.eclipse.core.runtime.preferences">
+         <initializer class="ca.edchipman.silverstripepdt.preferences.SilverStripePDTPreferenceInitializer" />
+   </extension>
    
    <extension point="org.eclipse.ui.preferencePages">
         <page class="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
             id="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage" name="SilverStripe">
             <keywordReference id="ca.edchipman.silverstripepdt.general" />
         </page>
+        <page
+            name="Content Assist"
+            category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
+            class="ca.edchipman.silverstripepdt.preferences.SSTemplatesContentAssistPreferencesPage"
+            id="ca.edchipman.silverstripepdt.preferences.styles">
+            <keywordReference id="ca.edchipman.silverstripepdt.SSTemplatesContentAssistPreferencesPage" />
+        </page>
         <page category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
             class="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage"
             id="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage" name="Templates">
             <keywordReference id="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
+        </page>
+        <page
+            name="Syntax Coloring"
+            category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
+            class="ca.edchipman.silverstripepdt.preferences.SilverStripeSyntaxColoringPage"
+            id="ca.edchipman.silverstripepdt.preferences.styles">
+            <keywordReference id="ca.edchipman.silverstripepdt.SilverStripeSyntaxColoringPage" />
         </page>
    </extension>
    
@@ -204,4 +240,27 @@
             <filter name="nature" value="ca.edchipman.silverstripepdt.SilverStripeNature" />
         </page>
     </extension>
+    
+    <extension point="org.eclipse.wst.sse.ui.completionProposal">
+       <proposalCategory
+           icon="icons/full/obj16/silverstripe.gif"
+           id="ca.edchipman.silverstripepdt.ssTemplates"
+           name="SilverStripe Proposals">
+       </proposalCategory>
+       <proposalComputer
+            activate="true"
+            categoryId="ca.edchipman.silverstripepdt.ssTemplates"
+            class="ca.edchipman.silverstripepdt.contentassist.SSTemplateCompletionProposalComputer"
+            id="ca.edchipman.silverstripepdt.SSTemplateProposalComputer">
+                <contentType id="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"></contentType>
+       </proposalComputer>
+    </extension>
+    
+    <extension point="org.eclipse.wst.sse.ui.completionProposalCategoriesConfiguration">
+        <categoriesConfiguration
+              class="ca.edchipman.silverstripepdt.preferences.SSTemplatesCompletionProposalCategoriesConfiguration"
+              contentTypeID="ca.edchipman.silverstripepdt.SilverStripeTemplateSource">
+        </categoriesConfiguration>
+    </extension>
+    <!-- org.eclipse.wst.sse.ui.completionProposal -->
 </plugin>

@@ -21,9 +21,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+import ca.edchipman.silverstripepdt.editor.SilverStripeTemplateStructuredEditor;
 
 @SuppressWarnings("restriction")
 public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage {
@@ -289,6 +296,23 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
                     CoreUtility.getBuildJob(fProject).schedule();
                 }
             }
+            
+            if(hasChanges) {
+                IWorkbenchWindow win = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+                IWorkbenchPage page = win.getActivePage();
+                if (page != null) {
+                    IEditorReference[] editors = page.getEditorReferences();
+                    for(int i=0;i<editors.length;i++) {
+                        IEditorReference editorRef = editors[i];
+                        IEditorPart editor = editorRef.getEditor(false);
+                        
+                        if(editor instanceof SilverStripeTemplateStructuredEditor) {
+                            ((SilverStripeTemplateStructuredEditor) editor).setSSVersion(ssVersion);
+                        }
+                    }
+                }
+            }
+            
             return true;
         }
 

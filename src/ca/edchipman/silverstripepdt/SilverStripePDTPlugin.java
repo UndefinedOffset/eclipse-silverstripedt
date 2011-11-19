@@ -18,6 +18,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
+import ca.edchipman.silverstripepdt.contentassist.SSTemplateCompletionProcessor;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
 
@@ -31,6 +32,9 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
 	public static final String NATURE_ID = "ca.edchipman.silverstripepdt.LANGUAGE"; //$NON-NLS-1$
 	protected TemplateStore templateStore = null;
     protected ContextTypeRegistry fContextTypeRegistry = null;
+    
+    protected TemplateStore caTemplateStore = null;
+    protected ContextTypeRegistry caContextTypeRegistry = null;
 
 	// The shared instance
 	private static SilverStripePDTPlugin plugin;
@@ -113,5 +117,40 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
             }
         }
         return templateStore;
+    }
+
+    /**
+     * Returns the content assist template context type registry for the xml plugin.
+     * 
+     * @return the content assist template context type registry for the xml plugin
+     */
+    public ContextTypeRegistry getCATemplateContextRegistry() {
+        if (caContextTypeRegistry == null) {
+            ContributionContextTypeRegistry registry = new ContributionContextTypeRegistry();
+
+            registry.addContextType(new CodeTemplateContextType(SSTemplateCompletionProcessor.TEMPLATE_CONTEXT_ID));
+
+            caContextTypeRegistry = registry;
+        }
+
+        return caContextTypeRegistry;
+    }
+
+    /**
+     * Returns the template store for the xml editor templates.
+     * 
+     * @return the template store for the xml editor templates
+     */
+    public TemplateStore getCATemplateStore() {
+        if (caTemplateStore == null) {
+            caTemplateStore = new PHPTemplateStore(getCATemplateContextRegistry(), getPreferenceStore(), "ca.edchipman.silverstripepdt.contentassist.templates");
+            
+            try {
+                caTemplateStore.load();
+            } catch (IOException e) {
+                Logger.logException(e);
+            }
+        }
+        return caTemplateStore;
     }
 }

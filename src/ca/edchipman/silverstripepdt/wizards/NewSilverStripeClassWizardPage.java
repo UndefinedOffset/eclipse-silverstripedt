@@ -540,6 +540,7 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
             
             finalFile+=" {"+lineDelimiter+tabCharacter;
             
+            Boolean constructorCreated=false;
             if(btnSuperConstruct.getSelection() && superClassType!=null) {
                 IMethod[] constructor = PHPModelUtils.getTypeMethod(superClassType, "__construct", false);
                 if(constructor.length>0) {
@@ -561,6 +562,8 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
                     }
                     
                     finalFile+=") {"+lineDelimiter+tabCharacter+tabCharacter+"parent::__construct("+paramStr+");"+lineDelimiter+tabCharacter+tabCharacter+lineDelimiter+tabCharacter+"}";
+                    
+                    constructorCreated=true;
                 }
             }
             
@@ -577,14 +580,23 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
                 
                 IMethod[] unimplemented=PHPModelUtils.getUnimplementedMethods(createdType, monitor);
                 
+                int i=0;
+                
+                if(constructorCreated) {
+                    i++;
+                }
+                
                 for(IMethod method : unimplemented) {
                     try {
                         PHPDocBlock docBlock = PHPModelUtils.getDocBlock(method);
                         
                         String source = method.getSource().trim();
-                        source = lineDelimiter+tabCharacter+lineDelimiter+tabCharacter+renderDocBlock(docBlock,lineDelimiter,tabCharacter)+tabCharacter+source.substring(0, source.length()-1);
+                        
+                        source = (i>0 ? lineDelimiter+tabCharacter+lineDelimiter+tabCharacter:"")+renderDocBlock(docBlock,lineDelimiter,tabCharacter)+tabCharacter+source.substring(0, source.length()-1);
                         source += " {"+lineDelimiter+tabCharacter+tabCharacter+"//@TODO Automatically created abstract method stub"+lineDelimiter+tabCharacter+"}";
                         finalFile+=source;
+                        
+                        i++;
                     } catch (ModelException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();

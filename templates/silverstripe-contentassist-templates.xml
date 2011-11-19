@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+<template
+    name="Control Block"
+    description="A SilverStripe control block"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.control"
+    context="ss_proposal"
+    enabled="true">&lt;% control ${args} %&gt;
+    ${content}
+&lt;% end_control %&gt;</template>
+<template
+    name="Control"
+    description="A SilverStripe control"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.controlstart"
+    context="ss_proposal"
+    enabled="true">&lt;% control ${args} %&gt;</template>
+<template
+    name="End Control"
+    description="A SilverStripe end_control"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.controlend"
+    context="ss_proposal"
+    enabled="true">&lt;% end_control %&gt;</template>
+<template
+    name="If Statement"
+    description="A SilverStripe if statement"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.if"
+    context="ss_proposal"
+    enabled="true">&lt;% if ${args} %&gt;
+    ${content}
+&lt;% end_if %&gt;</template>
+<template
+    name="If Condition"
+    description="A SilverStripe if condition"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.ifcond"
+    context="ss_proposal"
+    enabled="true">&lt;% if ${args} %&gt;</template>
+<template
+    name="Else If Condition"
+    description="A SilverStripe else_if condition"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.elseif"
+    context="ss_proposal"
+    enabled="true">&lt;% else_if ${args} %&gt;</template>
+<template
+    name="Else Condition"
+    description="A SilverStripe else condition"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.else"
+    context="ss_proposal"
+    enabled="true">&lt;% else %&gt;</template>
+<template
+    name="End If"
+    description="A SilverStripe end_if"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.endif"
+    context="ss_proposal"
+    enabled="true">&lt;% else_if ${args} %&gt;</template>
+<template
+    name="Base Tag"
+    description="A SilverStripe base tag"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.base"
+    context="ss_proposal"
+    enabled="true">&lt;% base_tag %&gt;</template>
+<template
+    name="SilverStripe Comment"
+    description="A SilverStripe comment"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.comment"
+    context="ss_proposal"
+    enabled="true">&lt;%-- ${content} --%&gt;</template>
+<template
+    name="Cached"
+    description="A SilverStripe cached block"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.cached"
+    context="ss_proposal"
+    enabled="true">&lt;% cached ${args} %&gt;
+    ${content}
+&lt;% end_cached %&gt;</template>
+<template
+    name="Cached Start"
+    description="A SilverStripe cache block start"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.cachedstart"
+    context="ss_proposal"
+    enabled="true">&lt;% cached ${args} %&gt;</template>
+<template
+    name="End Cached"
+    description="A SilverStripe cached block end"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.cachedend"
+    context="ss_proposal"
+    enabled="true">&lt;% end_cached %&gt;</template>
+<template
+    name="Uncached Block"
+    description="A SilverStripe cached block"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.uncached"
+    context="ss_proposal"
+    enabled="true">&lt;% uncached ${args} %&gt;
+    ${content}
+&lt;% end_uncached %&gt;</template>
+<template
+    name="Uncached Start"
+    description="A SilverStripe uncache block start"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.uncachedstart"
+    context="ss_proposal"
+    enabled="true">&lt;% uncached ${args} %&gt;</template>
+<template
+    name="End Uncached"
+    description="A SilverStripe uncached end"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.uncachedend"
+    context="ss_proposal"
+    enabled="true">&lt;% end_uncached %&gt;</template>
+</templates>
