@@ -262,5 +262,22 @@
               contentTypeID="ca.edchipman.silverstripepdt.SilverStripeTemplateSource">
         </categoriesConfiguration>
     </extension>
-    <!-- org.eclipse.wst.sse.ui.completionProposal -->
+    
+    <extension id="SSValidator" name="SilverStripe Template Validator" point="org.eclipse.wst.validation.validatorV2">
+        <validator
+                build="true"
+                class="ca.edchipman.silverstripepdt.validation.SSTemplateValidator"
+                manual="true"
+                sourceid="ca.edchipman.silverstripepdt.SSTemplateValidator"
+                version="1"
+                markerId="org.eclipse.wst.html.core.validationMarker">
+            <include>
+                <rules>
+                    <contentType id="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"></contentType>
+                    <fileext caseSensitive="false" ext="ss"/>
+                </rules>
+            </include>
+            <group id="org.eclipse.wst.sse.core.structuredModelGroup"/>
+        </validator>
+    </extension>
 </plugin>
