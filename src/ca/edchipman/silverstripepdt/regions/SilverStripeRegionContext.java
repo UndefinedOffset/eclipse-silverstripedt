@@ -25,4 +25,7 @@ public interface SilverStripeRegionContext {
     public static final String SS_UNCACHED_OPEN = "SS_UNCACHED_OPEN"; //$NON-NLS-1$
     public static final String SS_UNCACHED_CONTENT = "SS_UNCACHED_CONTENT"; //$NON-NLS-1$
     public static final String SS_END_UNCACHED = "SS_END_UNCACHED"; //$NON-NLS-1$
+    public static final String SS_TEMPLATE_FUNCTION_OPEN = "SS_TEMPLATE_FUNCTION_OPEN"; //$NON-NLS-1$
+    public static final String SS_TEMPLATE_FUNCTION_CONTENT = "SS_TEMPLATE_FUNCTION_CONTENT"; //$NON-NLS-1$
+    public static final String SS_TEMPLATE_FUNCTION_END = "SS_TEMPLATE_FUNCTION_END"; //$NON-NLS-1$
 }

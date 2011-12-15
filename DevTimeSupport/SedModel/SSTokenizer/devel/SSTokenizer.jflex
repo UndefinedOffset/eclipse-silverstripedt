@@ -532,6 +532,13 @@ private final String scanSSUncacheBlockText() throws IOException {
     //  context as usual.
     return doScan("%>", false, SS_UNCACHED_CONTENT, ST_SS_UNCACHED_END, ST_SS_UNCACHED_END);
 }
+private final String scanSSTemplateFunctionText() throws IOException {
+    // Scan for '%>' and return the text up to that point as
+    //   XML_COMMENT_TEXT unless the string occurs IMMEDIATELY, in which
+    //  case change to the ST_SS_TEMPLATE_FUNCTION_END state and return the next
+    //  context as usual.
+    return doScan("%>", false, SS_TEMPLATE_FUNCTION_CONTENT, ST_SS_TEMPLATE_FUNCTION_END, ST_SS_TEMPLATE_FUNCTION_END);
+}
 %}
 
 %eof{
@@ -599,6 +606,8 @@ private final String scanSSUncacheBlockText() throws IOException {
 %state ST_SS_CONTROL_END
 %state ST_SS_INCLUDE_CONTENT
 %state ST_SS_INCLUDE_END
+%state ST_SS_TEMPLATE_FUNCTION_CONTENT
+%state ST_SS_TEMPLATE_FUNCTION_END
 %state ST_SS_CACHEBLOCK_CONTENT
 %state ST_SS_CACHEBLOCK_END
 %state ST_SS_UNCACHED_CONTENT
@@ -997,6 +1006,9 @@ SSIfCondition = ({SSIfConditionStart}.*%>)
 // [92] SSEndIF ::= 'end_if %>'
 SSEndIF = (end_if.*%>)
 
+// [93] SSTemplateFunction ::= '<% functionname(' ((Char - '-') | ('-' (Char - '-')))* ') %>'
+SSTemplateFunction = (([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\()
+
 // SilverStripe Variables
 SSVariable1 = (\u007B\$([A-Za-z_][A-Za-z0-9_]*)\(([^),]+), *([^),]+)\)\.([A-Za-z0-9_]+)\.([A-Za-z0-9_]+)\u007D)
 SSVariable2 = (\u007B\$([A-Za-z_][A-Za-z0-9_]*)\(([^),]+), *([^),]+)\)\.([A-Za-z0-9_]+)\u007D)
@@ -1339,6 +1351,35 @@ SSVariable21 = (\$([A-Za-z_][A-Za-z0-9_]*))
 <ST_SS_INCLUDE_END> {SSend} {
     if(SSTokenizer.debugTokenizer)
         dump("SilverStripe include end");//$NON-NLS-1$
+    yybegin(YYINITIAL);
+    return SS_CLOSE;
+}
+
+//Template functions
+<ST_SS> {SSTemplateFunction} {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe template function Start");//$NON-NLS-1$
+    yypushback(1);
+    yybegin(ST_SS_TEMPLATE_FUNCTION_CONTENT);
+    return SS_TEMPLATE_FUNCTION_OPEN;
+}
+
+<ST_SS_TEMPLATE_FUNCTION_CONTENT> . {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe template function content");//$NON-NLS-1$
+    return scanSSTemplateFunctionText();
+}
+
+<ST_SS_TEMPLATE_FUNCTION_END> {SSend} {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe template function end");//$NON-NLS-1$
+    yybegin(YYINITIAL);
+    return SS_CLOSE;
+}
+
+<ST_SS> {SSend} {
+    //if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe end");//$NON-NLS-1$
     yybegin(YYINITIAL);
     return SS_CLOSE;
 }

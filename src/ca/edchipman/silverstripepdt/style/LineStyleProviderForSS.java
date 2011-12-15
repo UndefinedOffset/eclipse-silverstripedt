@@ -85,7 +85,12 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_UNCACHED_CONTENT);
         } else if (type == SilverStripeRegionContext.SS_END_UNCACHED) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_END_UNCACHED);
+        } else if (type == SilverStripeRegionContext.SS_TEMPLATE_FUNCTION_OPEN) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
+        } else if (type == SilverStripeRegionContext.SS_TEMPLATE_FUNCTION_CONTENT) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
         }
+        
         
         // first try "standard" tag attributes from super class
         return super.getAttributeFor(region);
@@ -123,6 +128,8 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         addTextAttribute(IStyleConstantsSS.SS_INCLUDE_OPEN);
         addTextAttribute(IStyleConstantsSS.SS_INCLUDE_CONTENT);
         addTextAttribute(IStyleConstantsSS.SS_VARIABLE);
+        addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
+        addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
         
         if(this.ssVersion.equals("SS3.0")==false) {
             addTextAttribute(IStyleConstantsSS.SS_CONTROL_OPEN);

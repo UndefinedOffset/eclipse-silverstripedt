@@ -108,6 +108,14 @@ public class SilverStripePDTPreferenceInitializer extends AbstractPreferenceInit
         styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_COMMENT_TEXT, 63, 95, 191) + NOBACKGROUNDNOBOLD;
         store.setDefault(IStyleConstantsSS.SS_COMMENT_TEXT, styleValue);
         
+        //Set style for template functions
+        styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN, 127, 0, 85) + NOBACKGROUNDBOLD;
+        store.setDefault(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN, styleValue);
+        
+        //Set style for template functions
+        styleValue = "null" + JUSTITALIC;
+        store.setDefault(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT, styleValue);
+        
         // Defaults for Content Assist preference page
         store.setDefault(HTMLUIPreferenceNames.CONTENT_ASSIST_DO_NOT_DISPLAY_ON_DEFAULT_PAGE, "");
         store.setDefault(HTMLUIPreferenceNames.CONTENT_ASSIST_DO_NOT_DISPLAY_ON_OWN_PAGE, "");

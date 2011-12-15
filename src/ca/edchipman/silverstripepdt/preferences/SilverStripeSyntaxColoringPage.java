@@ -729,6 +729,8 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
             styles.add(IStyleConstantsSS.SS_END_CONTROL);
             styles.add(IStyleConstantsSS.SS_INCLUDE_OPEN);
             styles.add(IStyleConstantsSS.SS_INCLUDE_CONTENT);
+            styles.add(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
+            styles.add(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
             
             fStylePreferenceKeys = styles;
         }
@@ -836,6 +838,8 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
         fContextToStyleMap.put(SilverStripeRegionContext.SS_END_CONTROL, IStyleConstantsSS.SS_END_CONTROL);
         fContextToStyleMap.put(SilverStripeRegionContext.SS_INCLUDE_OPEN, IStyleConstantsSS.SS_INCLUDE_OPEN);
         fContextToStyleMap.put(SilverStripeRegionContext.SS_INCLUDE_CONTENT, IStyleConstantsSS.SS_INCLUDE_CONTENT);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_TEMPLATE_FUNCTION_OPEN, IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_TEMPLATE_FUNCTION_CONTENT, IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
     }
 
     @SuppressWarnings("unchecked")
@@ -856,6 +860,8 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
         fStyleToDescriptionMap.put(IStyleConstantsSS.SS_CONTROL_OPEN, "Control");
         fStyleToDescriptionMap.put(IStyleConstantsSS.SS_CONTROL_CONTENT, "Control Content");
         fStyleToDescriptionMap.put(IStyleConstantsSS.SS_END_CONTROL, "End Control");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN, "Template Function");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT, "Template Function Content");
     }
 
     protected void performDefaults() {
