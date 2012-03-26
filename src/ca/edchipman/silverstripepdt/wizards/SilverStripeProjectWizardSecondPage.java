@@ -336,10 +336,15 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 PHPTemplateStore.CompiledTemplate pageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageTemplateToCompile, getProject().getName()+"/templates/Layout", "Page.ss");
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates/Layout", "Page.ss", monitor, pageTemplate.string, pageTemplate.offset);
                 
-                //Generate the Page.ss file
+                //Generate the Page_results.ss file
                 Template pageResultsTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.pageresults");
                 PHPTemplateStore.CompiledTemplate pageResultsTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageResultsTemplateToCompile, getProject().getName()+"/templates/Layout", "Page_results.ss");
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates/Layout", "Page_results.ss", monitor, pageResultsTemplate.string, pageResultsTemplate.offset);
+                
+                //Generate the Navigation.ss file
+                Template navigationTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.navigation");
+                PHPTemplateStore.CompiledTemplate navigationTemplate=PHPTemplateStore.compileTemplate(templateRegistry, navigationTemplateToCompile, getProject().getName()+"/templates/Includes", "Navigation.ss");
+                new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates/Includes", "Navigation.ss", monitor, navigationTemplate.string, navigationTemplate.offset);
                 
                 
                 //Copy the Home Icon

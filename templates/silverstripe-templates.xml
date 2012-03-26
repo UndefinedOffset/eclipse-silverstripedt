@@ -362,6 +362,8 @@ public function updateCMSActions(FieldSet &amp;$$actions) {
     &lt;/head&gt;
     &lt;body&gt;
         &lt;div id=&quot;Main&quot;&gt;
+            &lt;% include Navigation %&gt;
+            
             &lt;div id=&quot;Content&quot; class=&quot;typography&quot;&gt;
                 $$Layout
             &lt;/div&gt;
