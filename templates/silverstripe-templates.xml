@@ -360,11 +360,11 @@ public function updateCMSActions(FieldSet &amp;$$actions) {
         &lt;% require themedCSS(typography) %&gt;
         &lt;% require themedCSS(form) %&gt;
     &lt;/head&gt;
-    &lt;body&gt;
+    &lt;body class=&quot;typography&quot;&gt;
         &lt;div id=&quot;Main&quot;&gt;
             &lt;% include Navigation %&gt;
             
-            &lt;div id=&quot;Content&quot; class=&quot;typography&quot;&gt;
+            &lt;div id=&quot;Content&quot;&gt;
                 $$Layout
             &lt;/div&gt;
         &lt;/div&gt;
