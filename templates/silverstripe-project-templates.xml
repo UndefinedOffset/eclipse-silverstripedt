@@ -75,7 +75,7 @@ class Page extends SiteTree {
      * Gets whether the user is an administrator
      * @return {bool} True if the user is an admin false if not
      */
-    function getIsAdmin() {
+    public function getIsAdmin() {
         if(Permission::check('ADMIN')) {
             return true;
         }else {
