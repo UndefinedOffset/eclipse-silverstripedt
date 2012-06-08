@@ -104,4 +104,51 @@
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.uncachedend"
     context="ss_proposal"
     enabled="true">&lt;% end_uncached %&gt;</template>
+<template
+    name="Loop Block"
+    description="A SilverStripe loop block"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.loop"
+    context="ss_proposal"
+    enabled="true">&lt;% loop ${args} %&gt;
+    ${content}
+&lt;% end_loop %&gt;</template>
+<template
+    name="Loop"
+    description="A SilverStripe control"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.loopstart"
+    context="ss_proposal"
+    enabled="true">&lt;% loop ${args} %&gt;</template>
+<template
+    name="End Loop"
+    description="A SilverStripe end_loop"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.loopend"
+    context="ss_proposal"
+    enabled="true">&lt;% end_loop %&gt;</template>
+</templates>
+<template
+    name="With Block"
+    description="A SilverStripe with block"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.with"
+    context="ss_proposal"
+    enabled="true">&lt;% with ${args} %&gt;
+    ${content}
+&lt;% end_with %&gt;</template>
+<template
+    name="With"
+    description="A SilverStripe with"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.withstart"
+    context="ss_proposal"
+    enabled="true">&lt;% with ${args} %&gt;</template>
+<template
+    name="End With"
+    description="A SilverStripe end_loop"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.withend"
+    context="ss_proposal"
+    enabled="true">&lt;% end_with %&gt;</template>
+<template
+    name="i18n"
+    description="A SilverStripe i18n tag"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.i18n"
+    context="ss_proposal"
+    enabled="true">&lt;%t ${args} %&gt;</template>
 </templates>

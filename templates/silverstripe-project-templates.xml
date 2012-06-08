@@ -570,4 +570,37 @@ a img {
         &lt;/li&gt;
     &lt;% end_control %&gt;
 &lt;/ul&gt;</template>
+
+
+<template
+    name="New SilverStripe 3.0 theme Navigation.ss template"
+    description="A new SilverStripe 3.0 theme Navigation.ss template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.navigation"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;ul class=&quot;menu-bar&quot;&gt;
+    &lt;% loop $$Menu(1) %&gt;
+        &lt;li>
+            &lt;a href=&quot;$Link&quot; class=&quot;$LinkingMode&lt;% if $$Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$MenuTitle&lt;/span&gt;&lt;/a&gt;
+            &lt;% if $$Children %&gt;
+                &lt;ul&gt;
+                    &lt;% loop $$Children %&gt;
+                        &lt;li>
+                            &lt;a href=&quot;$Link&quot; class=&quot;$LinkingMode&quot;&gt;$MenuTitle&lt;/a&gt;
+                            
+                            &lt;% if $$Children %&gt;
+                                &lt;ul&gt;
+                                    &lt;% loop $$Children %&gt;
+                                        &lt;li&gt;
+                                            &lt;a href=&quot;$Link&quot; class=&quot;$LinkingMode&quot;>$MenuTitle&lt;/a&gt;
+                                        &lt;/li&gt;
+                                    &lt;% end_loop %&gt;
+                                &lt;/ul&gt;
+                            &lt;% end_if %&gt;
+                        &lt;/li&gt;
+                    &lt;% end_loop %&gt;
+                &lt;/ul&gt;
+            &lt;% end_if %&gt;
+        &lt;/li&gt;
+    &lt;% end_loop %&gt;
+&lt;/ul&gt;</template>
 </templates>

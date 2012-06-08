@@ -40,6 +40,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
@@ -82,7 +83,10 @@ import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 @SuppressWarnings("restriction")
 public class NewSilverStripeTemplatesWizardPage extends WizardPage {
 	public static final String NEW_SS_TEMPLATE_CONTEXTTYPE="php_ss";
-	
+    public static final String NEW_SS_30_TEMPLATE_CONTEXTTYPE="php_ss_30";
+    
+    public String ssVersion="";
+    
 	/**
      * Content provider for templates
      */
@@ -101,7 +105,11 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
          * @see IStructuredContentProvider#getElements(Object)
          */
         public Object[] getElements(Object input) {
-            return fStore.getTemplates(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
+            if(ssVersion.equals("SS3.0")==false) {
+                return fStore.getTemplates(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
+            } else {
+                return fStore.getTemplates(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
+            }
         }
 
         /*
@@ -209,6 +217,9 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
     }
 
     public void createControl(Composite ancestor) {
+        SilverStripeTemplateFileCreationWizard wizard=(SilverStripeTemplateFileCreationWizard) getWizard();
+        ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", wizard.getCurrentProject());
+        
         Composite parent = new Composite(ancestor, SWT.NONE);
         GridLayout layout = new GridLayout();
         layout.numColumns = 2;
@@ -380,7 +391,12 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
 
         Template template = getSelectedTemplate();
         if (template != null) {
-            TemplateContextType contextType = SilverStripePDTPlugin.getDefault().getTemplateContextRegistry().getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
+            TemplateContextType contextType;
+            if(ssVersion.equals("SS3.0")==false) {
+                contextType = SilverStripePDTPlugin.getDefault().getTemplateContextRegistry().getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
+            } else {
+                contextType = SilverStripePDTPlugin.getDefault().getTemplateContextRegistry().getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
+            }
             IDocument document = new Document();
             TemplateContext context = new DocumentTemplateContext(contextType, document, 0, 0);
             try {
@@ -457,7 +473,11 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
 
         if (templateName != null && templateName.length() > 0) {
             // pick the last used template
-            template = fTemplateStore.findTemplate(templateName, NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
+            if(ssVersion.equals("SS3.0")==false) {
+                template = fTemplateStore.findTemplate(templateName, NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
+            } else {
+                template = fTemplateStore.findTemplate(templateName, NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
+            }
         }
 
         // no record of last used template so just pick first element
@@ -515,7 +535,13 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
     
     protected String getTemplatesLocationMessage() {
         ContextTypeRegistry templateContextRegistry = getTemplatesContextTypeRegistry();
-        TemplateContextType templateContextType = templateContextRegistry.getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
+        TemplateContextType templateContextType;
+        if(ssVersion.equals("SS3.0")==false) {
+            templateContextType = templateContextRegistry.getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
+        } else {
+            templateContextType = templateContextRegistry.getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
+        }
+        
         String name = templateContextType.getName();
         return NLS
                 .bind(PHPUIMessages.newPhpFile_wizard_templatePage_phpTemplatesLocation,

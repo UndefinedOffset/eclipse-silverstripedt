@@ -393,4 +393,54 @@ $$PageComments</template>
     context="php_ss"
     enabled="true">
 </template>
+<template
+    name="New Top Level SilverStripe 3.0 Template"
+    description="A new Top Level SilverStripe Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.toplevel"
+    context="php_ss_30"
+    enabled="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; &gt;
+    &lt;head&gt;
+        &lt;title&gt;$$Title.XML - $$SiteConfig.Title.XML&lt;% if $$SiteConfig.Tagline %&gt; - $$SiteConfig.Tagline.XML&lt;% end_if %&gt;&lt;/title&gt;
+        $$MetaTags(false)
+        &lt;% base_tag %&gt;
+        
+        &lt;% require themedCSS(layout) %&gt;
+        &lt;% require themedCSS(typography) %&gt;
+        &lt;% require themedCSS(form) %&gt;
+    &lt;/head&gt;
+    &lt;body class=&quot;typography&quot;&gt;
+        &lt;div id=&quot;Main&quot;&gt;
+            &lt;% include Navigation %&gt;
+            
+            &lt;div id=&quot;Content&quot;&gt;
+                $$Layout
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;% if $$IsAdmin %&gt;
+            $$SilverStripeNavigator
+        &lt;% end_if %&gt;
+        
+        &lt;script type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</template>
+<template
+    name="New SilverStripe Layout Template"
+    description="A new SilverStripe Layout Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.template"
+    context="php_ss_30"
+    enabled="true">&lt;h2&gt;$$Title.XML&lt;/h2&gt;
+
+$$Content
+$$Form
+$$PageComments</template>
+<template
+    name="New Blank SilverStripe Template"
+    description="A new blank SilverStripe Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.blank"
+    context="php_ss_30"
+    enabled="true">
+</template>
 </templates>
