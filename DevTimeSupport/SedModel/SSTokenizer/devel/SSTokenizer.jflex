@@ -32,7 +32,7 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 %%
 
 %{
-    public static boolean debugTokenizer = false;
+    public static boolean debugTokenizer = true;
     
 	private int fTokenCount = 0;
  
@@ -511,6 +511,27 @@ private final String scanSSControlText() throws IOException {
     //  context as usual.
     return doScan("%>", false, SS_CONTROL_CONTENT, ST_SS_CONTROL_END, ST_SS_CONTROL_END);
 }
+private final String scanSSi18nText() throws IOException {
+    // Scan for '%>' and return the text up to that point as
+    //   XML_COMMENT_TEXT unless the string occurs IMMEDIATELY, in which
+    //  case change to the ST_SS_I18N_END state and return the next
+    //  context as usual.
+    return doScan("%>", false, SS_I18N_CONTENT, ST_SS_I18N_END, ST_SS_I18N_END);
+}
+private final String scanSSWithText() throws IOException {
+    // Scan for '%>' and return the text up to that point as
+    //   XML_COMMENT_TEXT unless the string occurs IMMEDIATELY, in which
+    //  case change to the ST_SS_WITH_END state and return the next
+    //  context as usual.
+    return doScan("%>", false, SS_WITH_CONTENT, ST_SS_WITH_END, ST_SS_WITH_END);
+}
+private final String scanSSLoopText() throws IOException {
+    // Scan for '%>' and return the text up to that point as
+    //   XML_COMMENT_TEXT unless the string occurs IMMEDIATELY, in which
+    //  case change to the ST_SS_LOOP_END state and return the next
+    //  context as usual.
+    return doScan("%>", false, SS_LOOP_CONTENT, ST_SS_LOOP_END, ST_SS_LOOP_END);
+}
 private final String scanSSIncludeText() throws IOException {
     // Scan for '%>' and return the text up to that point as
     //   XML_COMMENT_TEXT unless the string occurs IMMEDIATELY, in which
@@ -604,6 +625,10 @@ private final String scanSSTemplateFunctionText() throws IOException {
 %state ST_SS_REQUIREMENT_END
 %state ST_SS_CONTROL_CONTENT
 %state ST_SS_CONTROL_END
+%state ST_SS_WITH_CONTENT
+%state ST_SS_WITH_END
+%state ST_SS_LOOP_CONTENT
+%state ST_SS_LOOP_END
 %state ST_SS_INCLUDE_CONTENT
 %state ST_SS_INCLUDE_END
 %state ST_SS_TEMPLATE_FUNCTION_CONTENT
@@ -612,6 +637,8 @@ private final String scanSSTemplateFunctionText() throws IOException {
 %state ST_SS_CACHEBLOCK_END
 %state ST_SS_UNCACHED_CONTENT
 %state ST_SS_UNCACHED_END
+%state ST_SS_I18N_CONTENT
+%state ST_SS_I18N_END
 
 // Letter = ([A-Za-z])
 // Digit = ([0-9])
@@ -1009,6 +1036,10 @@ SSEndIF = (end_if.*%>)
 // [93] SSTemplateFunction ::= '<% functionname(' ((Char - '-') | ('-' (Char - '-')))* ') %>'
 SSTemplateFunction = (([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\()
 
+// [94] i18n ::= '<%t Something.SOMETHING "_My Content{test}" test=$MyVar %>'
+SSi18nStart = (t)
+SSi18n = ({SSi18nStart}.*%>)
+
 // SilverStripe Variables
 SSVariable1 = (\u007B\$([A-Za-z_][A-Za-z0-9_]*)\(([^),]+), *([^),]+)\)\.([A-Za-z0-9_]+)\.([A-Za-z0-9_]+)\u007D)
 SSVariable2 = (\u007B\$([A-Za-z_][A-Za-z0-9_]*)\(([^),]+), *([^),]+)\)\.([A-Za-z0-9_]+)\u007D)
@@ -1276,6 +1307,84 @@ SSVariable21 = (\$([A-Za-z_][A-Za-z0-9_]*))
         dump("\nSilverStripe end_control");//$NON-NLS-1$
     yybegin(YYINITIAL);
     return SS_END_CONTROL;
+}
+
+//With
+<ST_SS> with {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe with Start");//$NON-NLS-1$
+    yybegin(ST_SS_WITH_CONTENT);
+    return SS_WITH_OPEN;
+}
+
+<ST_SS_WITH_CONTENT> . {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe with content");//$NON-NLS-1$
+    return scanSSWithText();
+}
+
+<ST_SS_WITH_END> {SSend} {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe with end");//$NON-NLS-1$
+    yybegin(YYINITIAL);
+    return SS_CLOSE;
+}
+
+// i18n
+<ST_SS> {SSi18nStart} {
+    if(SSTokenizer.debugTokenizer)
+        dump("\nSilverStripe i18n start");//$NON-NLS-1$
+    //yypushback(1);
+    yybegin(ST_SS_I18N_CONTENT);
+    return SS_I18N_OPEN;
+}
+
+<ST_SS_I18N_CONTENT> . {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe i18n content");//$NON-NLS-1$
+    return scanSSi18nText();
+}
+
+<ST_SS_I18N_END> {SSend} {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe i18n end");//$NON-NLS-1$
+    yybegin(YYINITIAL);
+    return SS_CLOSE;
+}
+
+<ST_SS> end_with {
+    if(SSTokenizer.debugTokenizer)
+        dump("\nSilverStripe end_with");//$NON-NLS-1$
+    yybegin(YYINITIAL);
+    return SS_END_WITH;
+}
+
+//Loop
+<ST_SS> loop {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe loop Start");//$NON-NLS-1$
+    yybegin(ST_SS_LOOP_CONTENT);
+    return SS_LOOP_OPEN;
+}
+
+<ST_SS_LOOP_CONTENT> . {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe loop content");//$NON-NLS-1$
+    return scanSSLoopText();
+}
+
+<ST_SS_LOOP_END> {SSend} {
+    if(SSTokenizer.debugTokenizer)
+        dump("SilverStripe loop end");//$NON-NLS-1$
+    yybegin(YYINITIAL);
+    return SS_CLOSE;
+}
+
+<ST_SS> end_loop {
+    if(SSTokenizer.debugTokenizer)
+        dump("\nSilverStripe end_loop");//$NON-NLS-1$
+    yybegin(YYINITIAL);
+    return SS_END_LOOP;
 }
 
 //Cache Block

@@ -17,7 +17,7 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
 
     public IPath getPath(IScriptProject project) {
         try {
-            return new Path(getLanguageLibraryPath(project, CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS2.4", project.getProject())));
+            return new Path(getLanguageLibraryPath(project, CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", project.getProject())));
         } catch (Exception e) {
             Logger.logException(e);
             return null;
@@ -29,13 +29,15 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
     }
 
     private String getLanguageLibraryPath(IScriptProject project, String ssVersion) {
-        if (ssVersion == SiverStripeVersion.SS24) {
+        if (ssVersion == SiverStripeVersion.SS30) {
+            return LANGUAGE_LIBRARY_PATH + "3.0";
+        }else if (ssVersion == SiverStripeVersion.SS24) {
             return LANGUAGE_LIBRARY_PATH + "2.4";
         }else if (ssVersion == SiverStripeVersion.SS23) {
             return LANGUAGE_LIBRARY_PATH + "2.3";
         }
         
-        return LANGUAGE_LIBRARY_PATH + "2.4";
+        return LANGUAGE_LIBRARY_PATH + "3.0";
     }
 
     public Plugin getPlugin() {

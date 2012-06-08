@@ -94,9 +94,11 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
         fCurrProjectLocation = getProjectLocationURI();
         SilverStripeProjectWizardFirstPage fFirstPage=(SilverStripeProjectWizardFirstPage) this.fFirstPage;
         
-        String ssVersion="SS2.4";
+        String ssVersion="SS3.0";
         
-        if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsSS23Project()) {
+        if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsSS24Project()) {
+            ssVersion="SS2.4";
+        }else if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsSS23Project()) {
             ssVersion="SS2.3";
         }
         

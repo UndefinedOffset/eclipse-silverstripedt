@@ -650,10 +650,16 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
                 "                    <% control Menu(1) %>\n"+
                 "                        <li><a href=\"$Link\" title=\"Go to the $Title page\" class=\"$LinkingMode\">$MenuTitle</a></li>\n"+
                 "                    <% end_control %>\n"+
+                "                    <% loop $Menu(1) %>\n"+
+                "                        <li><a href=\"$Link\" title=\"Go to the $Title page\" class=\"$LinkingMode\">$MenuTitle</a></li>\n"+
+                "                    <% end_loop %>\n"+
                 "                </ul>\n"+
                 "                <% end_if %>\n"+
                 "            </div>\n"+
                 "            <div id=\"Content\" class=\"typography\">\n"+
+                "                <% with $Parent %>\n"+
+                "                    Parent: $Title.XML\n"+
+                "                <% end_with %>\n"+
                 "                $Layout\n"+
                 "            </div>\n"+
                 "            <div id=\"Footer\">\n"+
@@ -664,7 +670,8 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
                 "        <% if IsAdmin %>\n"+
                 "            $SilverStripeNavigator\n"+
                 "        <% else %>\n"+
-                "            Not an Admin\n"+
+                "            <%t Main.NOT_ADMIN \"_Not an Admin\" %>\n"+
+                "            <% _t('NOT_ADMIN', '_Not an Admin') %>\n"+
                 "        <% end_if %>\n"+
                 "        \n"+
                 "        <%-- SilverStripe Comment --%>\n"+
@@ -731,6 +738,14 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
             styles.add(IStyleConstantsSS.SS_INCLUDE_CONTENT);
             styles.add(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
             styles.add(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
+            styles.add(IStyleConstantsSS.SS_LOOP_OPEN);
+            styles.add(IStyleConstantsSS.SS_LOOP_CONTENT);
+            styles.add(IStyleConstantsSS.SS_END_LOOP);
+            styles.add(IStyleConstantsSS.SS_WITH_OPEN);
+            styles.add(IStyleConstantsSS.SS_WITH_CONTENT);
+            styles.add(IStyleConstantsSS.SS_END_WITH);
+            styles.add(IStyleConstantsSS.SS_I18N_OPEN);
+            styles.add(IStyleConstantsSS.SS_I18N_CONTENT);
             
             fStylePreferenceKeys = styles;
         }
@@ -840,6 +855,14 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
         fContextToStyleMap.put(SilverStripeRegionContext.SS_INCLUDE_CONTENT, IStyleConstantsSS.SS_INCLUDE_CONTENT);
         fContextToStyleMap.put(SilverStripeRegionContext.SS_TEMPLATE_FUNCTION_OPEN, IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
         fContextToStyleMap.put(SilverStripeRegionContext.SS_TEMPLATE_FUNCTION_CONTENT, IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_LOOP_OPEN, IStyleConstantsSS.SS_LOOP_OPEN);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_LOOP_CONTENT, IStyleConstantsSS.SS_LOOP_CONTENT);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_END_LOOP, IStyleConstantsSS.SS_END_LOOP);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_WITH_OPEN, IStyleConstantsSS.SS_WITH_OPEN);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_WITH_CONTENT, IStyleConstantsSS.SS_WITH_CONTENT);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_END_WITH, IStyleConstantsSS.SS_END_WITH);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_I18N_OPEN, IStyleConstantsSS.SS_I18N_OPEN);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_I18N_CONTENT, IStyleConstantsSS.SS_I18N_CONTENT);
     }
 
     @SuppressWarnings("unchecked")
@@ -862,6 +885,14 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
         fStyleToDescriptionMap.put(IStyleConstantsSS.SS_END_CONTROL, "End Control");
         fStyleToDescriptionMap.put(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN, "Template Function");
         fStyleToDescriptionMap.put(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT, "Template Function Content");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_LOOP_OPEN, "Loop");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_LOOP_CONTENT, "Loop Content");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_END_LOOP, "End Loop");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_WITH_OPEN, "With");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_WITH_CONTENT, "With Content");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_END_WITH, "End With");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_I18N_OPEN, "Translation");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_I18N_CONTENT, "Translation Content");
     }
 
     protected void performDefaults() {

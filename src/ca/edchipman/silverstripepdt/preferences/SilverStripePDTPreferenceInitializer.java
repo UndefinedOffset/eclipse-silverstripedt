@@ -72,15 +72,15 @@ public class SilverStripePDTPreferenceInitializer extends AbstractPreferenceInit
         styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_END_CONTROL, 127, 0, 85) + NOBACKGROUNDBOLD;
         store.setDefault(IStyleConstantsSS.SS_END_CONTROL, styleValue);
         
-        //Set style for control
+        //Set style for cacheblock
         styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_CACHEBLOCK_OPEN, 127, 0, 85) + NOBACKGROUNDBOLD;
         store.setDefault(IStyleConstantsSS.SS_CACHEBLOCK_OPEN, styleValue);
         
-        //Set style for control text
+        //Set style for cacheblock text
         styleValue = "null" + JUSTITALIC;
         store.setDefault(IStyleConstantsSS.SS_CACHEBLOCK_CONTENT, styleValue);
         
-        //Set style for end_control
+        //Set style for end_cacheblock
         styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_END_CACHEBLOCK, 127, 0, 85) + NOBACKGROUNDBOLD;
         store.setDefault(IStyleConstantsSS.SS_END_CACHEBLOCK, styleValue);
         
@@ -91,6 +91,38 @@ public class SilverStripePDTPreferenceInitializer extends AbstractPreferenceInit
         //Set style for require content
         styleValue = "null" + JUSTITALIC;
         store.setDefault(IStyleConstantsSS.SS_REQUIREMENT_CONTENT, styleValue);
+        
+        //Set style for with
+        styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_WITH_OPEN, 127, 0, 85) + NOBACKGROUNDBOLD;
+        store.setDefault(IStyleConstantsSS.SS_WITH_OPEN, styleValue);
+        
+        //Set style for with text
+        styleValue = "null" + JUSTITALIC;
+        store.setDefault(IStyleConstantsSS.SS_WITH_CONTENT, styleValue);
+        
+        //Set style for end_with
+        styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_END_WITH, 127, 0, 85) + NOBACKGROUNDBOLD;
+        store.setDefault(IStyleConstantsSS.SS_END_WITH, styleValue);
+        
+        //Set style for loop
+        styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_LOOP_OPEN, 127, 0, 85) + NOBACKGROUNDBOLD;
+        store.setDefault(IStyleConstantsSS.SS_LOOP_OPEN, styleValue);
+        
+        //Set style for loop text
+        styleValue = "null" + JUSTITALIC;
+        store.setDefault(IStyleConstantsSS.SS_LOOP_CONTENT, styleValue);
+        
+        //Set style for end_loop
+        styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_END_LOOP, 127, 0, 85) + NOBACKGROUNDBOLD;
+        store.setDefault(IStyleConstantsSS.SS_END_LOOP, styleValue);
+        
+        //Set style for i18n
+        styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_I18N_OPEN, 127, 0, 85) + NOBACKGROUNDBOLD;
+        store.setDefault(IStyleConstantsSS.SS_I18N_OPEN, styleValue);
+        
+        //Set style for i18n text
+        styleValue = "null" + JUSTITALIC;
+        store.setDefault(IStyleConstantsSS.SS_I18N_CONTENT, styleValue);
 
         //SS Delims
         styleValue = "null" + NOBACKGROUNDBOLD; //$NON-NLS-1$

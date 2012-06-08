@@ -159,7 +159,7 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
         private Group fGroup;
         private IProject fProject;
         private Shell fShell;
-        private SelectionButtonDialogField fSS24Radio, fSS23Radio;
+        private SelectionButtonDialogField fSS24Radio, fSS23Radio, fSS30Radio;
         private IWorkbenchPreferenceContainer fContainer;
         
         public boolean hasChanges = false;
@@ -183,6 +183,10 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
             layout.verticalSpacing = 10;
             composite.setLayout(layout);
             
+            fSS30Radio = new SelectionButtonDialogField(SWT.RADIO);
+            fSS30Radio.setLabelText("SilverStripe 3.0"); //$NON-NLS-1$
+            fSS30Radio.setDialogFieldListener(this);
+            
             fSS24Radio = new SelectionButtonDialogField(SWT.RADIO);
             fSS24Radio.setLabelText("SilverStripe 2.4"); //$NON-NLS-1$
             fSS24Radio.setDialogFieldListener(this);
@@ -197,21 +201,32 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
             fGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             fGroup.setLayout(layout);
             fGroup.setText(PHPUIMessages.LayoutGroup_OptionBlock_Title); //$NON-NLS-1$
-
+            
+            fSS30Radio.doFillIntoGrid(fGroup, 2);
             fSS24Radio.doFillIntoGrid(fGroup, 2);
             fSS23Radio.doFillIntoGrid(fGroup, 2);
             
-            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "2.4", fProject.getProject());
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", fProject.getProject());
             
-            if(ssVersion=="SS2.4") {
+            if(ssVersion=="SS3.0") {
+                fSS30Radio.setSelection(true);
+            }else if(ssVersion=="SS2.4") {
                 fSS24Radio.setSelection(true);
             }else if(ssVersion=="SS2.3") {
                 fSS23Radio.setSelection(true);
             }else {
-                fSS24Radio.setSelection(true);                
+                fSS30Radio.setSelection(true);                
             }
             
             return composite;
+        }
+        
+        /**
+         * Gets the whether the SilverStripe 3.0 radio is selected
+         * @return Returns boolean true if the SilverStripe 3.0 radio is selected
+         */
+        public boolean isSS30() {
+            return fSS30Radio.isSelected();
         }
         
         /**
@@ -266,15 +281,17 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
         }
 
         protected boolean processChanges(IWorkbenchPreferenceContainer container) {
-            String ssVersion="SS2.4";
+            String ssVersion="SS3.0";
             
-            if(fSS24Radio.isSelected()) {
+            if(fSS30Radio.isSelected()) {
+                ssVersion="SS3.0";
+            }else if(fSS24Radio.isSelected()) {
                 ssVersion="SS2.4";
             }else if(fSS23Radio.isSelected()) {
                 ssVersion="SS2.3";
             }
             
-            if(ssVersion!=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS2.4", fProject.getProject())) {
+            if(ssVersion!=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", fProject.getProject())) {
                 hasChanges=true;
             }
             

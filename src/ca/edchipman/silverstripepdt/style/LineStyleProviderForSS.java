@@ -19,7 +19,7 @@ import ca.edchipman.silverstripepdt.regions.SilverStripeRegionContext;
 public class LineStyleProviderForSS extends LineStyleProviderForHTML {
     private IPreferenceStore preferenceStore;
     
-    protected String ssVersion="SS2.4";
+    protected String ssVersion="SS3.0";
     
     public LineStyleProviderForSS() {
         super();
@@ -89,6 +89,22 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
         } else if (type == SilverStripeRegionContext.SS_TEMPLATE_FUNCTION_CONTENT) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
+        } else if (type == SilverStripeRegionContext.SS_LOOP_OPEN) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_LOOP_OPEN);
+        } else if (type == SilverStripeRegionContext.SS_LOOP_CONTENT) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_LOOP_CONTENT);
+        } else if (type == SilverStripeRegionContext.SS_END_LOOP) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_END_LOOP);
+        } else if (type == SilverStripeRegionContext.SS_WITH_OPEN) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_WITH_OPEN);
+        } else if (type == SilverStripeRegionContext.SS_WITH_CONTENT) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_WITH_CONTENT);
+        } else if (type == SilverStripeRegionContext.SS_END_WITH) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_END_WITH);
+        } else if (type == SilverStripeRegionContext.SS_I18N_OPEN) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_I18N_OPEN);
+        } else if (type == SilverStripeRegionContext.SS_I18N_CONTENT) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_I18N_CONTENT);
         }
         
         
@@ -135,8 +151,15 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
             addTextAttribute(IStyleConstantsSS.SS_CONTROL_OPEN);
             addTextAttribute(IStyleConstantsSS.SS_CONTROL_CONTENT);
             addTextAttribute(IStyleConstantsSS.SS_END_CONTROL);
-        }else {
-            //@TODO add 3.0 stuff here
+        }else if(this.ssVersion.equals("SS3.0")) {
+            addTextAttribute(IStyleConstantsSS.SS_LOOP_OPEN);
+            addTextAttribute(IStyleConstantsSS.SS_LOOP_CONTENT);
+            addTextAttribute(IStyleConstantsSS.SS_END_LOOP);
+            addTextAttribute(IStyleConstantsSS.SS_WITH_OPEN);
+            addTextAttribute(IStyleConstantsSS.SS_WITH_CONTENT);
+            addTextAttribute(IStyleConstantsSS.SS_END_WITH);
+            addTextAttribute(IStyleConstantsSS.SS_I18N_OPEN);
+            addTextAttribute(IStyleConstantsSS.SS_I18N_CONTENT);
         }
         
         if(this.ssVersion.equals("SS2.3")==false) {
@@ -231,6 +254,86 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
                 getHighlighter().refreshDisplay();
             } else if (IStyleConstantsSS.SS_INCLUDE_CONTENT.equals(prefKey)) {
                 addTextAttribute(IStyleConstantsSS.SS_INCLUDE_CONTENT);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_CACHEBLOCK_OPEN.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_CACHEBLOCK_OPEN);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_CACHEBLOCK_CONTENT.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_CACHEBLOCK_CONTENT);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_END_CACHEBLOCK.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_END_CACHEBLOCK);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_UNCACHED_OPEN.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_UNCACHED_OPEN);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_UNCACHED_CONTENT.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_UNCACHED_CONTENT);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_END_UNCACHED.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_END_UNCACHED);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_WITH_OPEN.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_WITH_OPEN);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_WITH_CONTENT.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_WITH_CONTENT);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_END_WITH.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_END_WITH);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_LOOP_OPEN.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_LOOP_OPEN);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_LOOP_CONTENT.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_LOOP_CONTENT);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_END_LOOP.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_END_LOOP);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_I18N_OPEN.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_I18N_OPEN);
+
+                // this is what AbstractLineStyleProvider.propertyChange() does
+                getHighlighter().refreshDisplay();
+            } else if (IStyleConstantsSS.SS_I18N_CONTENT.equals(prefKey)) {
+                addTextAttribute(IStyleConstantsSS.SS_I18N_CONTENT);
 
                 // this is what AbstractLineStyleProvider.propertyChange() does
                 getHighlighter().refreshDisplay();

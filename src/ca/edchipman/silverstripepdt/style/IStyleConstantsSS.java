@@ -27,4 +27,12 @@ public interface IStyleConstantsSS extends IStyleConstantsHTML {
     public static final String SS_END_UNCACHED = "SS_END_UNCACHED"; //$NON-NLS-1$
     public static final String SS_TEMPLATE_FUNCTION_OPEN = "SS_TEMPLATE_FUNCTION_OPEN"; //$NON-NLS-1$
     public static final String SS_TEMPLATE_FUNCTION_CONTENT = "SS_TEMPLATE_FUNCTION_CONTENT"; //$NON-NLS-1$
+    public static final String SS_LOOP_OPEN = "SS_LOOP_OPEN"; //$NON-NLS-1$
+    public static final String SS_LOOP_CONTENT = "SS_LOOP_CONTENT"; //$NON-NLS-1$
+    public static final String SS_END_LOOP = "SS_END_LOOP"; //$NON-NLS-1$
+    public static final String SS_WITH_OPEN = "SS_WITH_OPEN"; //$NON-NLS-1$
+    public static final String SS_WITH_CONTENT = "SS_WITH_CONTENT"; //$NON-NLS-1$
+    public static final String SS_END_WITH = "SS_END_WITH"; //$NON-NLS-1$
+    public static final String SS_I18N_OPEN = "SS_I18N_OPEN"; //$NON-NLS-1$
+    public static final String SS_I18N_CONTENT = "SS_I18N_CONTENT"; //$NON-NLS-1$
 }

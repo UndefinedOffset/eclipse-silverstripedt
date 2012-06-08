@@ -247,16 +247,20 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
      * Request a SilverStripe Version.
      */
     public class SilverStripeVersionGroup implements Observer, SelectionListener, IDialogFieldListener {
-        private final SelectionButtonDialogField fSS24Radio, fSS23Radio;
+        private final SelectionButtonDialogField fSS24Radio, fSS23Radio, fSS30Radio;
         private Group fGroup;
 
         public SilverStripeVersionGroup(Composite composite) {
             final int numColumns = 3;
             
+            fSS30Radio = new SelectionButtonDialogField(SWT.RADIO);
+            fSS30Radio.setLabelText("SilverStripe 3.0"); //$NON-NLS-1$
+            fSS30Radio.setDialogFieldListener(this);
+            fSS30Radio.setSelection(true);
+            
             fSS24Radio = new SelectionButtonDialogField(SWT.RADIO);
             fSS24Radio.setLabelText("SilverStripe 2.4"); //$NON-NLS-1$
             fSS24Radio.setDialogFieldListener(this);
-            fSS24Radio.setSelection(true);
             
             fSS23Radio = new SelectionButtonDialogField(SWT.RADIO);
             fSS23Radio.setLabelText("SilverStripe 2.3"); //$NON-NLS-1$
@@ -269,6 +273,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             fGroup.setLayout(initGridLayout(new GridLayout(numColumns, false), true));
             fGroup.setText("SilverStripe Version"); //$NON-NLS-1$
 
+            fSS30Radio.doFillIntoGrid(fGroup, 2);
             fSS24Radio.doFillIntoGrid(fGroup, 2);
             fSS23Radio.doFillIntoGrid(fGroup, 2);
             
