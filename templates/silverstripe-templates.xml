@@ -45,7 +45,7 @@ class ${file_name} extends DataObject {
     public static $$has_many=array(
                              );
     
-    public static $$belongs_many=array(
+    public static $$belongs_many_many=array(
                                  );
     
     public static $$many_many=array(
@@ -120,7 +120,7 @@ class ${file_name} extends Extension {
     public static $$has_many=array(
                              );
     
-    public static $$belongs_many=array(
+    public static $$belongs_many_many=array(
                                  );
     
     public static $$many_many=array(
@@ -229,7 +229,7 @@ class ${file_name}_Controller extends Page_Controller {
     public static $$has_many=array(
                              );
     
-    public static $$belongs_many=array(
+    public static $$belongs_many_many=array(
                                  );
     
     public static $$many_many=array(
@@ -301,7 +301,7 @@ class ${file_name}_Controller extends Page_Controller {
     public static $$has_many=array(
                              );
     
-    public static $$belongs_many=array(
+    public static $$belongs_many_many=array(
                                  );
     
     public static $$many_many=array(
