@@ -1,53 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="tokenizer" default="SSTokenizer">
-	<target name="init" depends="properties">
-		<property name="workspace.dir" value="../.."/>
-		<property name="jflex.jar" value="resources/jflex.jar"/>
-		<property name="jflex.maxmemory" value="470000000"/>
-		<property name="jflex.opt" value="-skel SedModel/SSTokenizer/devel/skeleton.sse"/>
-	</target>
+    <target name="init" depends="properties">
+        <property name="workspace.dir" value="../.."/>
+        <property name="jflex.jar" value="resources/jflex.jar"/>
+        <property name="jflex.maxmemory" value="470000000"/>
+        <property name="jflex.opt" value="-skel SedModel/SSTokenizer/devel/skeleton.sse"/>
+    </target>
 
-	<target name="properties" if="eclipse.running">
-		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-	</target>
+    <target name="properties" if="eclipse.running">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+    </target>
 
-	<target name="SSTokenizer" depends="init">
-		<property name="src.dir" value="SedModel/SSTokenizer/devel"/>
-		<property name="src.file" value="SSTokenizer.jflex"/>			
-		<property name="dest.dir" value="../src/ca/edchipman/silverstripepdt/parser/"/>
-		<antcall target="build-tokenizer"/>
-	</target>
+    <target name="SSTokenizer" depends="init">
+        <property name="src.dir" value="SedModel/SSTokenizer/devel"/>
+        <property name="src.file" value="SSTokenizer.jflex"/>            
+        <property name="dest.dir" value="../src/ca/edchipman/silverstripepdt/parser/"/>
+        <antcall target="build-tokenizer"/>
+    </target>
 
-	<target name="build-tokenizer" depends="init">
-		<antcall target="run-jflex"/>
-		<antcall target="copy"/>
-		<antcall target="clean"/>
-	</target>
+    <target name="build-tokenizer" depends="init">
+        <antcall target="run-jflex"/>
+        <antcall target="copy"/>
+        <antcall target="clean"/>
+    </target>
 
-	<target name="run-jflex" depends="init">
-		<java classname="JFlex.Main" maxmemory="${jflex.maxmemory}" fork="yes" >
-			<arg line="${src.dir}/${src.file} ${jflex.opt}"/>
-			<classpath>
-				<pathelement location="${jflex.jar}"/>
-			</classpath>
-		</java>
-	</target>
+    <target name="run-jflex" depends="init">
+        <java classname="JFlex.Main" maxmemory="${jflex.maxmemory}" fork="yes" >
+            <arg line="${src.dir}/${src.file} ${jflex.opt}"/>
+            <classpath>
+                <pathelement location="${jflex.jar}"/>
+            </classpath>
+        </java>
+    </target>
+    
+    <target name="copy" depends="init">
+        <copy todir="${dest.dir}" overwrite="true" verbose="true">
+            <fileset dir="${src.dir}">
+                <include name="*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="clean" depends="init">
+        <delete verbose="true">
+            <fileset dir="${src.dir}" defaultexcludes="no">
+                <include name="*~"/>
+            </fileset>
+        </delete>
+    </target>
 	
-	<target name="copy" depends="init">
-		<copy todir="${dest.dir}" overwrite="true" verbose="true">
-			<fileset dir="${src.dir}">
-				<include name="*.java"/>
-			</fileset>
-		</copy>
+	<target name="cleanupCache">
+        <delete verbose="true">
+            <fileset dir="cache" defaultexcludes="no">
+                <include name="*.*"/>
+            </fileset>
+        </delete>
 	</target>
-	
-	<target name="clean" depends="init">
-		<delete verbose="true">
-			<fileset dir="${src.dir}" defaultexcludes="no">
-				<include name="*~"/>
-			</fileset>
-		</delete>
-	</target>
-	
-
+    
+    <target name="setupEnviroment" depends="cleanupCache">
+    	<!-- Fetch 3.0 -->
+        <get src="http://www.silverstripe.org/pre-releases/" dest="cache/pre-releases.html" verbose="true"/>
+        
+        <loadfile srcfile="cache/pre-releases.html" property="resultStable">
+            <filterchain>
+                <linecontains>
+                    <contains value="assets/releases/SilverStripe-cms-v3.0"/>
+                </linecontains>
+                <tokenfilter>
+                    <replaceregex pattern="&lt;div class=&quot;download&quot;&gt;&lt;a class=&quot;tracklink&quot; href=&quot;(.*)&quot;&gt;(\s*)&lt;span class=&quot;green-button(.*)&lt;/div&gt;" replace="\1"/>
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+    	
+        <get src="http://www.silverstripe.org/${resultStable}" dest="cache/silverstripe-3.0.tar.gz" verbose="true"/>
+    	
+        <!-- Fetch 2.3 and 2.4 latest -->
+        <get src="http://www.silverstripe.org/security-releases/" dest="cache/security-releases.html" verbose="true"/>
+    	
+    	<loadfile srcfile="cache/security-releases.html" property="result24">
+            <filterchain>
+                <linecontains>
+                    <contains value="assets/downloads/SilverStripe-v2.4."/>
+                </linecontains>
+                <tokenfilter>
+                    <replaceregex pattern="&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;(.*)&quot; target(.*)&lt;/li&gt;" replace="\1"/>
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+    	<script language="javascript">
+    		var tmp=result24.split("\n");
+    		project.setProperty("result24", tmp[0].replace(/\r/,""));
+		</script>
+        
+    	<get src="http://www.silverstripe.org/${result24}" dest="cache/silverstripe-2.4.tar.gz" verbose="true"/>
+        
+    	
+        <loadfile srcfile="cache/security-releases.html" property="result23">
+            <filterchain>
+                <linecontains>
+                    <contains value="assets/downloads/SilverStripe-v2.3."/>
+                </linecontains>
+                <tokenfilter>
+                    <replaceregex pattern="&lt;li&gt;&lt;a href=&quot;(.*)&quot; target(.*)&lt;/li&gt;" replace="\1"/>
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+        <script language="javascript">
+            var tmp=result23.split("\n");
+            project.setProperty("result23", tmp[0].replace(/\r/,""));
+        </script>
+        
+        <get src="http://www.silverstripe.org/${result23}" dest="cache/silverstripe-2.3.tar.gz" verbose="true"/>
+        
+        <untar src="cache/silverstripe-3.0.tar.gz" dest="cache/SS3.0" compression="gzip">
+            <patternset>
+                <include name="**/cms/code/**/*.php"/>
+                <include name="**/framework/**/*.php"/>
+                <exclude name="**/framework/*.php"/>
+                <exclude name="**/framework/admin/_config.php"/>
+                <exclude name="**/framework/tests/*"/>
+                <exclude name="**/framework/thirdparty/**"/>
+                <exclude name="**/framework/javascript/*"/>
+            </patternset>
+            <cutdirsmapper dirs="1"/>
+        </untar>
+    	
+    	
+    	<untar src="cache/silverstripe-2.4.tar.gz" dest="cache/SS2.4" compression="gzip">
+    		<patternset>
+    		    <include name="**/cms/code/*.php"/>
+                <include name="**/sapphire/**/*.php"/>
+    			<exclude name="**/sapphire/*.php"/>
+                <exclude name="**/sapphire/tests/*"/>
+                <exclude name="**/sapphire/lang/*"/>
+    			<exclude name="**/sapphire/thirdparty/**"/>
+                <exclude name="**/sapphire/javascript/*"/>
+			</patternset>
+    		<cutdirsmapper dirs="1"/>
+    	</untar>
+        
+        <untar src="cache/silverstripe-2.3.tar.gz" dest="cache/SS2.3" compression="gzip">
+            <patternset>
+                <include name="**/cms/code/*.php"/>
+                <include name="**/sapphire/**/*.php"/>
+                <exclude name="**/sapphire/*.php"/>
+                <exclude name="**/sapphire/tests/*"/>
+                <exclude name="**/sapphire/lang/*"/>
+                <exclude name="**/sapphire/thirdparty/**"/>
+                <exclude name="**/sapphire/javascript/*"/>
+            </patternset>
+            <cutdirsmapper dirs="1"/>
+        </untar>
+    	
+    	<move file="cache/SS3.0" todir="../resources"/>
+    	<move file="cache/SS2.4" todir="../resources"/>
+		<move file="cache/SS2.3" todir="../resources"/>
+    </target>
 </project>
