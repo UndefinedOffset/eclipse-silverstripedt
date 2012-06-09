@@ -4,8 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.filebuffers.FileBuffers;
+import org.eclipse.core.filebuffers.ITextFileBuffer;
+import org.eclipse.core.filebuffers.ITextFileBufferManager;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.wst.html.ui.internal.templates.TemplateContextTypeIdsHTML;
 import org.eclipse.wst.sse.ui.contentassist.CompletionProposalInvocationContext;
 import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
@@ -42,9 +51,21 @@ public class SSTemplateCompletionProposalComputer extends DefaultXMLCompletionPr
         
         /**
          * @see org.eclipse.wst.xml.ui.internal.contentassist.DefaultXMLCompletionProposalComputer#addEmptyDocumentProposals(org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest, org.eclipse.wst.sse.ui.contentassist.CompletionProposalInvocationContext)
+         * TODO This doesn't seem to be working, it's not adding the proposals
          */
         protected void addEmptyDocumentProposals(ContentAssistRequest contentAssistRequest, CompletionProposalInvocationContext context) {
-            addTemplates(contentAssistRequest, NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE, context); // TODO Find away to switch to the 3.0 templates, need project access
+            IProject project=getProject(context.getDocument());
+            String ssVersion="SS3.0";
+            
+            if(project!=null) {
+                ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", project);
+            }
+            
+            if(ssVersion.equals("SS3.0")==false) {
+                addTemplates(contentAssistRequest, NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE, context);
+            } else {
+                addTemplates(contentAssistRequest, NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE, context);
+            }
         }
         
         /**
@@ -73,6 +94,19 @@ public class SSTemplateCompletionProposalComputer extends DefaultXMLCompletionPr
             }
             
             return templateProposals;
+        }
+        
+        private static IProject getProject(IDocument document) {
+            ITextFileBufferManager fileBufferMgr = FileBuffers.getTextFileBufferManager();
+            ITextFileBuffer fileBuffer = fileBufferMgr.getTextFileBuffer(document);
+            
+            if (fileBuffer != null) {
+                IWorkspace workspace = ResourcesPlugin.getWorkspace();
+                IResource res = workspace.getRoot().findMember(fileBuffer.getLocation());
+                if (res != null) return res.getProject();           
+            }
+            
+            return null;
         }
         
         /**

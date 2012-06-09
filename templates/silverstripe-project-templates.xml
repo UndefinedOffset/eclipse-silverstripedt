@@ -49,6 +49,47 @@ if(Director::isLive()) {
 
 
 <template
+    name="New SilverStripe project _config.php template"
+    description="A new SilverStripe project _config.php template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.config"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+global $$project;
+$$project = 'mysite';
+
+global $$databaseConfig;
+$$databaseConfig = array(
+    "type" => "MySQLDatabase",
+    "server" => "localhost",
+    "username" => "USERNAME",
+    "password" => "PASSWORD",
+    "database" => "DATABASE",
+);
+
+MySQLDatabase::set_connection_charset('utf8');
+
+
+// Enable development mode.
+Director::set_environment_type('dev');
+
+//Set Admin Email
+Email::setAdminEmail('me@example.com');
+
+//Set's the current theme
+SSViewer::set_theme('THEME NAME');
+
+//Enable nested urls
+SiteTree::enable_nested_urls();
+
+//Error Logging
+if(Director::isLive()) {
+    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::WARN);
+    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::ERR);
+}
+?&gt;</template>
+
+
+<template
     name="New SilverStripe module _config.php template"
     description="A new SilverStripe module _config.php template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssmodule.config"
@@ -115,6 +156,40 @@ class Page_Controller extends ContentController {
         );
         
         return $$this->customise($$data)->renderWith(array('Page_results', 'Page'));
+    }
+}
+?&gt;</template>
+
+
+<template
+    name="New SilverStripe 3.0 project Page class template"
+    description="A new SilverStripe 3.0 project Page class template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.defaultpage"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+class Page extends SiteTree {
+    public static $$db=array(
+                           );
+    
+    public static $$defaults=array(
+                                );
+    
+    /**
+     * Gets whether the user is an administrator
+     * @return {bool} True if the user is an admin false if not
+     */
+    public function getIsAdmin() {
+        if(Permission::check('ADMIN')) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+}
+
+class Page_Controller extends ContentController {
+    public function init() {
+        parent::init();
     }
 }
 ?&gt;</template>

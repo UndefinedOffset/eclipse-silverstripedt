@@ -32,7 +32,7 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 %%
 
 %{
-    public static boolean debugTokenizer = true;
+    public static boolean debugTokenizer = false;
     
 	private int fTokenCount = 0;
  

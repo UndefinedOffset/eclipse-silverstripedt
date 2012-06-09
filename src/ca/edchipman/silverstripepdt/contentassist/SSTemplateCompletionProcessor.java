@@ -90,7 +90,7 @@ public class SSTemplateCompletionProcessor extends TemplateCompletionProcessor {
         context.setVariable("selection", prefix); //$NON-NLS-1$
         
         // TODO Filter based on the completion region context ie if SS open only show ss_open stuff
-        Template[] templates = getTemplates(TEMPLATE_CONTEXT_ID);
+        Template[] templates = getTemplates(fContextTypeId);
 
         List matches = new ArrayList();
         for (int i = 0; i < templates.length; i++) {
@@ -101,7 +101,7 @@ public class SSTemplateCompletionProcessor extends TemplateCompletionProcessor {
             catch (TemplateException e) {
                 continue;
             }
-            if (template.matches(prefix, TEMPLATE_CONTEXT_ID))
+            if (template.matches(prefix, fContextTypeId))
                 matches.add(createProposal(template, context, (IRegion) region, getRelevance(template, prefix)));
         }
 

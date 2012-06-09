@@ -124,7 +124,6 @@
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.loopend"
     context="ss_proposal"
     enabled="true">&lt;% end_loop %&gt;</template>
-</templates>
 <template
     name="With Block"
     description="A SilverStripe with block"
