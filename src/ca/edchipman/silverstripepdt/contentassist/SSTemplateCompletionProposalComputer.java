@@ -51,7 +51,6 @@ public class SSTemplateCompletionProposalComputer extends DefaultXMLCompletionPr
         
         /**
          * @see org.eclipse.wst.xml.ui.internal.contentassist.DefaultXMLCompletionProposalComputer#addEmptyDocumentProposals(org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest, org.eclipse.wst.sse.ui.contentassist.CompletionProposalInvocationContext)
-         * TODO This doesn't seem to be working, it's not adding the proposals
          */
         protected void addEmptyDocumentProposals(ContentAssistRequest contentAssistRequest, CompletionProposalInvocationContext context) {
             IProject project=getProject(context.getDocument());
