@@ -622,18 +622,18 @@ a img {
     enabled="true">&lt;ul class=&quot;menu-bar&quot;&gt;
     &lt;% control Menu(1) %&gt;
         &lt;li>
-            &lt;a href=&quot;$Link&quot; class=&quot;$LinkingMode&lt;% if Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$MenuTitle&lt;/span&gt;&lt;/a&gt;
+            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&lt;% if Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$$MenuTitle.XML&lt;/span&gt;&lt;/a&gt;
             &lt;% if Children %&gt;
                 &lt;ul&gt;
                     &lt;% control Children %&gt;
                         &lt;li>
-                            &lt;a href=&quot;$Link&quot; class=&quot;$LinkingMode&quot;&gt;$MenuTitle&lt;/a&gt;
+                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;&gt;$$MenuTitle.XML&lt;/a&gt;
                             
                             &lt;% if Children %&gt;
                                 &lt;ul&gt;
                                     &lt;% control Children %&gt;
                                         &lt;li&gt;
-                                            &lt;a href=&quot;$Link&quot; class=&quot;$LinkingMode&quot;>$MenuTitle&lt;/a&gt;
+                                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;>$$MenuTitle.XML&lt;/a&gt;
                                         &lt;/li&gt;
                                     &lt;% end_control %&gt;
                                 &lt;/ul&gt;
@@ -655,18 +655,18 @@ a img {
     enabled="true">&lt;ul class=&quot;menu-bar&quot;&gt;
     &lt;% loop $$Menu(1) %&gt;
         &lt;li>
-            &lt;a href=&quot;$Link&quot; class=&quot;$LinkingMode&lt;% if $$Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$MenuTitle&lt;/span&gt;&lt;/a&gt;
+            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&lt;% if $$Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$$MenuTitle.XML&lt;/span&gt;&lt;/a&gt;
             &lt;% if $$Children %&gt;
                 &lt;ul&gt;
                     &lt;% loop $$Children %&gt;
                         &lt;li>
-                            &lt;a href=&quot;$Link&quot; class=&quot;$LinkingMode&quot;&gt;$MenuTitle&lt;/a&gt;
+                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;&gt;$$MenuTitle.XML&lt;/a&gt;
                             
                             &lt;% if $$Children %&gt;
                                 &lt;ul&gt;
                                     &lt;% loop $$Children %&gt;
                                         &lt;li&gt;
-                                            &lt;a href=&quot;$Link&quot; class=&quot;$LinkingMode&quot;>$MenuTitle&lt;/a&gt;
+                                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;>$$MenuTitle.XML&lt;/a&gt;
                                         &lt;/li&gt;
                                     &lt;% end_loop %&gt;
                                 &lt;/ul&gt;
