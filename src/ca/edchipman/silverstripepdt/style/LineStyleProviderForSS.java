@@ -147,6 +147,10 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
         addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
         
+        if(this.ssVersion==null) {
+            this.ssVersion="SS3.0";
+        }
+        
         if(this.ssVersion.equals("SS3.0")==false) {
             addTextAttribute(IStyleConstantsSS.SS_CONTROL_OPEN);
             addTextAttribute(IStyleConstantsSS.SS_CONTROL_CONTENT);
