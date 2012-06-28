@@ -59,15 +59,15 @@
     
     <target name="setupEnviroment" depends="cleanupCache">
     	<!-- Fetch 3.0 -->
-        <get src="http://www.silverstripe.org/pre-releases/" dest="cache/pre-releases.html" verbose="true"/>
+        <get src="http://www.silverstripe.org/stable-download/" dest="cache/stable-download.html" verbose="true"/>
         
-        <loadfile srcfile="cache/pre-releases.html" property="resultStable">
+        <loadfile srcfile="cache/stable-download.html" property="resultStable">
             <filterchain>
                 <linecontains>
                     <contains value="assets/releases/SilverStripe-cms-v3.0"/>
                 </linecontains>
                 <tokenfilter>
-                    <replaceregex pattern="&lt;div class=&quot;download&quot;&gt;&lt;a class=&quot;tracklink&quot; href=&quot;(.*)&quot;&gt;(\s*)&lt;span class=&quot;green-button(.*)&lt;/div&gt;" replace="\1"/>
+                    <replaceregex pattern="(\s*)&lt;a class=&quot;tracklink&quot; href=&quot;http://www.silverstripe.org/(.*)&quot;&gt;&lt;div class=&quot;green-button action-download&quot;&gt;&lt;span&gt;Download for free&lt;/span&gt;&lt;/div&gt;&lt;/a&gt;" replace="\2"/>
                 </tokenfilter>
             </filterchain>
         </loadfile>
