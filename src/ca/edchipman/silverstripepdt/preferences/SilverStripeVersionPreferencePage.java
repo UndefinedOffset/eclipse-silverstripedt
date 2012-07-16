@@ -208,11 +208,11 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
             
             String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", fProject.getProject());
             
-            if(ssVersion=="SS3.0") {
+            if(ssVersion.equals("SS3.0")) {
                 fSS30Radio.setSelection(true);
-            }else if(ssVersion=="SS2.4") {
+            }else if(ssVersion.equals("SS2.4")) {
                 fSS24Radio.setSelection(true);
-            }else if(ssVersion=="SS2.3") {
+            }else if(ssVersion.equals("SS2.3")) {
                 fSS23Radio.setSelection(true);
             }else {
                 fSS30Radio.setSelection(true);                

@@ -3,8 +3,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.eclipse.php.ui_3.0.0.v20110516-1100.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.eclipse.wst.jsdt.core_1.1.101.v201108151912.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.eclipse.core.filesystem_1.3.100.v20110423-0524.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
