@@ -70,8 +70,8 @@ class ${file_name} extends ContentController {
 ?&gt;</template>
 
 <template
-    name="New SilverStripe Extension"
-    description="A new SilverStripe Extension"
+    name="New SilverStripe 2.4 or earlier Extension"
+    description="A new SilverStripe 2.4 or earlier Extension"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.extension"
     context="php_new_file_context"
     enabled="true">&lt;?php
@@ -105,7 +105,7 @@ class ${file_name} extends Extension {
 }</template>
 
 <template
-    name="New SilverStripe Data Extension"
+    name="New SilverStripe 3.0 Data Extension"
     description="A SilverStripe 3.0 Data Extension"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss30.dataextension"
     context="php_new_file_context"
@@ -139,8 +139,8 @@ class ${file_name} extends Extension {
 }</template>
 
 <template
-    name="New SilverStripe Data Object Decorator"
-    description="A new SilverStripe Data Object Decorator"
+    name="New SilverStripe 2.4 or earlier Data Object Decorator"
+    description="A new SilverStripe 2.4 or earlier Data Object Decorator"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.dod"
     context="php_new_file_context"
     enabled="true">&lt;?php

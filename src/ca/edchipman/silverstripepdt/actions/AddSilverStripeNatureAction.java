@@ -30,6 +30,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 
 @SuppressWarnings("restriction")
 public class AddSilverStripeNatureAction implements IObjectActionDelegate {
@@ -81,7 +82,7 @@ public class AddSilverStripeNatureAction implements IObjectActionDelegate {
         		//TODO Figure out why there is one nothing seems to be null in the trace and it appears to work
         	}
             
-            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", selProj);
+            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, selProj);
             
             selProj.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 		}catch (Exception e) {

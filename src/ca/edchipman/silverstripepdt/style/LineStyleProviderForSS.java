@@ -13,13 +13,14 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.xml.ui.internal.style.IStyleConstantsXML;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.regions.SilverStripeRegionContext;
 
 @SuppressWarnings("restriction")
 public class LineStyleProviderForSS extends LineStyleProviderForHTML {
     private IPreferenceStore preferenceStore;
     
-    protected String ssVersion="SS3.0";
+    protected String ssVersion=SilverStripeVersion.SS3_0;
     
     public LineStyleProviderForSS() {
         super();
@@ -148,14 +149,14 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
         
         if(this.ssVersion==null) {
-            this.ssVersion="SS3.0";
+            this.ssVersion=SilverStripeVersion.SS3_0;
         }
         
-        if(this.ssVersion.equals("SS3.0")==false) {
+        if(this.ssVersion.equals(SilverStripeVersion.SS3_0)==false) {
             addTextAttribute(IStyleConstantsSS.SS_CONTROL_OPEN);
             addTextAttribute(IStyleConstantsSS.SS_CONTROL_CONTENT);
             addTextAttribute(IStyleConstantsSS.SS_END_CONTROL);
-        }else if(this.ssVersion.equals("SS3.0")) {
+        }else if(this.ssVersion.equals(SilverStripeVersion.SS3_0)) {
             addTextAttribute(IStyleConstantsSS.SS_LOOP_OPEN);
             addTextAttribute(IStyleConstantsSS.SS_LOOP_CONTENT);
             addTextAttribute(IStyleConstantsSS.SS_END_LOOP);
@@ -166,7 +167,7 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
             addTextAttribute(IStyleConstantsSS.SS_I18N_CONTENT);
         }
         
-        if(this.ssVersion.equals("SS2.3")==false) {
+        if(this.ssVersion.equals(SilverStripeVersion.SS2_3)==false) {
             addTextAttribute(IStyleConstantsSS.SS_CACHEBLOCK_OPEN);
             addTextAttribute(IStyleConstantsSS.SS_CACHEBLOCK_CONTENT);
             addTextAttribute(IStyleConstantsSS.SS_END_CACHEBLOCK);

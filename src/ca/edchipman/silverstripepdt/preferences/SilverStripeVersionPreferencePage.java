@@ -30,6 +30,7 @@ import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.editor.SilverStripeTemplateStructuredEditor;
 
 @SuppressWarnings("restriction")
@@ -206,7 +207,7 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
             fSS24Radio.doFillIntoGrid(fGroup, 2);
             fSS23Radio.doFillIntoGrid(fGroup, 2);
             
-            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", fProject.getProject());
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, fProject.getProject());
             
             if(ssVersion.equals("SS3.0")) {
                 fSS30Radio.setSelection(true);
@@ -281,17 +282,17 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
         }
 
         protected boolean processChanges(IWorkbenchPreferenceContainer container) {
-            String ssVersion="SS3.0";
+            String ssVersion=SilverStripeVersion.SS3_0;
             
             if(fSS30Radio.isSelected()) {
-                ssVersion="SS3.0";
+                ssVersion=SilverStripeVersion.SS3_0;
             }else if(fSS24Radio.isSelected()) {
-                ssVersion="SS2.4";
+                ssVersion=SilverStripeVersion.SS2_4;
             }else if(fSS23Radio.isSelected()) {
-                ssVersion="SS2.3";
+                ssVersion=SilverStripeVersion.SS2_3;
             }
             
-            if(ssVersion!=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", fProject.getProject())) {
+            if(ssVersion!=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, fProject.getProject())) {
                 hasChanges=true;
             }
             

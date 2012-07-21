@@ -146,8 +146,26 @@
     enabled="true">&lt;% end_with %&gt;</template>
 <template
     name="i18n"
-    description="A SilverStripe i18n tag"
-    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.i18n"
+    description="A SilverStripe 3.0 i18n tag"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.ss30.i18n"
     context="ss_proposal"
     enabled="true">&lt;%t ${args} %&gt;</template>
+<template
+    name="i18n"
+    description="A SilverStripe 2.4 and 2.3 i18n tag"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.i18n"
+    context="ss_proposal"
+    enabled="true">&lt;% _t(${path}, ${default}) %&gt;</template>
+<template
+    name="Include Tag"
+    description="A SilverStripe include tag"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.include"
+    context="ss_proposal"
+    enabled="true">&lt;% include ${template_name} %&gt;</template>
+<template
+    name="Themed CSS"
+    description="A SilverStripe Themed CSS tag"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.themedCSS"
+    context="ss_proposal"
+    enabled="true">&lt;% require themedCSS(${stylesheet_name}) %&gt;</template>
 </templates>

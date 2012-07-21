@@ -20,6 +20,7 @@ import org.eclipse.wst.sse.ui.contentassist.CompletionProposalInvocationContext;
 import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
 import org.eclipse.wst.xml.ui.internal.contentassist.DefaultXMLCompletionProposalComputer;
 
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
 
 public class SSTemplateCompletionProposalComputer extends DefaultXMLCompletionProposalComputer {
@@ -54,13 +55,13 @@ public class SSTemplateCompletionProposalComputer extends DefaultXMLCompletionPr
          */
         protected void addEmptyDocumentProposals(ContentAssistRequest contentAssistRequest, CompletionProposalInvocationContext context) {
             IProject project=getProject(context.getDocument());
-            String ssVersion="SS3.0";
+            String ssVersion=SilverStripeVersion.SS3_0;
             
             if(project!=null) {
-                ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", project);
+                ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, project);
             }
             
-            if(ssVersion.equals("SS3.0")==false) {
+            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false) {
                 addTemplates(contentAssistRequest, NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE, context);
             } else {
                 addTemplates(contentAssistRequest, NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE, context);

@@ -84,12 +84,12 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
         };
 
         project2SilverStripeVerListener.put(project, versionChangeListener);
-        SilverStripeVersionChangedHandler.getInstance().addPhpVersionChangedListener(versionChangeListener);
+        SilverStripeVersionChangedHandler.getInstance().addSilverStripeVersionChangedListener(versionChangeListener);
 
         ProjectRemovedObserversAttacher.getInstance().addProjectClosedObserver(
                 project, new IProjectClosedObserver() {
                     public void closed() {
-                        SilverStripeVersionChangedHandler.getInstance().removePhpVersionChangedListener(project2SilverStripeVerListener.remove(project));
+                        SilverStripeVersionChangedHandler.getInstance().removeSilverStripeVersionChangedListener(project2SilverStripeVerListener.remove(project));
                     }
                 });
     }

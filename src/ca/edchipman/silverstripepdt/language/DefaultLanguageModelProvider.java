@@ -9,7 +9,7 @@ import org.eclipse.php.internal.core.Logger;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
-import ca.edchipman.silverstripepdt.SiverStripeVersion;
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 
 @SuppressWarnings("restriction")
 public class DefaultLanguageModelProvider implements ILanguageModelProvider {
@@ -17,7 +17,7 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
 
     public IPath getPath(IScriptProject project) {
         try {
-            return new Path(getLanguageLibraryPath(project, CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "SS3.0", project.getProject())));
+            return new Path(getLanguageLibraryPath(project, CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, project.getProject())));
         } catch (Exception e) {
             Logger.logException(e);
             return null;
@@ -29,11 +29,9 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
     }
 
     private String getLanguageLibraryPath(IScriptProject project, String ssVersion) {
-        if (ssVersion == SiverStripeVersion.SS30) {
-            return LANGUAGE_LIBRARY_PATH + "3.0";
-        }else if (ssVersion == SiverStripeVersion.SS24) {
+        if (ssVersion.equals(SilverStripeVersion.SS2_4)) {
             return LANGUAGE_LIBRARY_PATH + "2.4";
-        }else if (ssVersion == SiverStripeVersion.SS23) {
+        }else if (ssVersion.equals(SilverStripeVersion.SS2_3)) {
             return LANGUAGE_LIBRARY_PATH + "2.3";
         }
         

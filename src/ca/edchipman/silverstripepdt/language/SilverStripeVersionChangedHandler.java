@@ -98,7 +98,7 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
 
     }
 
-    public void addPhpVersionChangedListener(
+    public void addSilverStripeVersionChangedListener(
             IPreferencesPropagatorListener listener) {
         IProject project = listener.getProject();
         HashSet<IPreferencesPropagatorListener> listeners = projectListeners
@@ -110,7 +110,7 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
         listeners.add(listener);
     }
 
-    public void removePhpVersionChangedListener(
+    public void removeSilverStripeVersionChangedListener(
             IPreferencesPropagatorListener listener) {
         if (listener == null) {// this was added since when working with RSE
             // project model, listener was NULL
