@@ -100,9 +100,11 @@ class ${file_name} extends Extension {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss30.extension"
     context="php_new_file_context"
     enabled="true"
-    autoinsert="true">class ${file_name} extends Extension {
+    autoinsert="true">&lt;?php
+class ${file_name} extends Extension {
     ${cursor}
-}</template>
+}
+?&gt;</template>
 
 <template
     name="New SilverStripe 3.0 Data Extension"
@@ -110,7 +112,8 @@ class ${file_name} extends Extension {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss30.dataextension"
     context="php_new_file_context"
     enabled="true"
-    autoinsert="true">class ${file_name} extends DataExtension {
+    autoinsert="true">&lt;?php
+class ${file_name} extends DataExtension {
     public static $$db=array(
                          );
     
@@ -136,7 +139,8 @@ class ${file_name} extends Extension {
     public function updateCMSFields(FieldList $$fields) {
         
     }
-}</template>
+}
+?&gt;</template>
 
 <template
     name="New SilverStripe 2.4 or earlier Data Object Decorator"
