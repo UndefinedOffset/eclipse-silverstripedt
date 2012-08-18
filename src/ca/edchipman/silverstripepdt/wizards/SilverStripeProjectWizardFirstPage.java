@@ -47,8 +47,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         data.setParetnt(composite);
         data.setSettings(getDialogSettings());
         data.setObserver(fPHPLocationGroup);
-        fragment = (WizardFragment) Platform.getAdapterManager().loadAdapter(
-                data, PHPProjectWizardFirstPage.class.getName());
+        fragment = (WizardFragment) Platform.getAdapterManager().loadAdapter(data, PHPProjectWizardFirstPage.class.getName());
 
         fVersionGroup = new VersionGroup(composite);
         fLayoutGroup = new SilverStripeLayoutGroup(composite);
@@ -117,6 +116,14 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
      */
     public boolean IsSS23Project() {
         return fSSVersionGroup.isSS23();
+    }
+    
+    /**
+     * Gets the whether the project is a SilverStripe Framework Only project
+     * @return Returns boolean true if the project is a SilverStripe Framework Only project
+     */
+    public boolean IsFrameworkOnlyProject() {
+        return fSSVersionGroup.isFrameworkOnly();
     }
     
     /**
@@ -247,11 +254,12 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
      * Request a SilverStripe Version.
      */
     public class SilverStripeVersionGroup implements Observer, SelectionListener, IDialogFieldListener {
-        private final SelectionButtonDialogField fSS24Radio, fSS23Radio, fSS30Radio;
+        private final SelectionButtonDialogField fSS24Radio, fSS23Radio, fSS30Radio, fFrameworkModel;
         private Group fGroup;
 
         public SilverStripeVersionGroup(Composite composite) {
             final int numColumns = 3;
+            
             
             fSS30Radio = new SelectionButtonDialogField(SWT.RADIO);
             fSS30Radio.setLabelText("SilverStripe 3.0"); //$NON-NLS-1$
@@ -266,6 +274,10 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             fSS23Radio.setLabelText("SilverStripe 2.3"); //$NON-NLS-1$
             fSS23Radio.setDialogFieldListener(this);
             
+            fFrameworkModel = new SelectionButtonDialogField(SWT.CHECK);
+            fFrameworkModel.setLabelText("Use SilverStripe Framework Only"); //$NON-NLS-1$
+            fFrameworkModel.setDialogFieldListener(this);
+            
             // createContent
             fGroup = new Group(composite, SWT.NONE);
             fGroup.setFont(composite.getFont());
@@ -276,6 +288,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             fSS30Radio.doFillIntoGrid(fGroup, 2);
             fSS24Radio.doFillIntoGrid(fGroup, 2);
             fSS23Radio.doFillIntoGrid(fGroup, 2);
+            fFrameworkModel.doFillIntoGrid(fGroup, 2);
             
             updateEnableState();
         }
@@ -301,6 +314,12 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             if (fGroup != null) {
                 fGroup.setEnabled(!detect);
             }
+            
+            if (fSS30Radio.isSelected()) {
+               fFrameworkModel.setEnabled(true); 
+            } else {
+                fFrameworkModel.setEnabled(false);
+            }
         }
         
         /**
@@ -317,6 +336,14 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
          */
         public boolean isSS23() {
             return fSS23Radio.isSelected();
+        }
+        
+        /**
+         * Gets the whether the SilverStripe Framework only checkbox is selected
+         * @return Returns boolean true if the SilverStripe Framework only checkbox is selected
+         */
+        public boolean isFrameworkOnly() {
+            return fFrameworkModel.isEnabled() && fFrameworkModel.isSelected();
         }
         
         /*

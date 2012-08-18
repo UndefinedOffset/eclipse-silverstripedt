@@ -49,7 +49,6 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.php.internal.core.buildpath.BuildPathUtils;
 import org.eclipse.php.internal.core.includepath.IncludePath;
 import org.eclipse.php.internal.core.includepath.IncludePathManager;
-import org.eclipse.php.internal.core.language.LanguageModelInitializer;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.preferences.ProjectPreferencesPropagator;
 import org.eclipse.php.internal.core.preferences.CorePreferenceConstants.Keys;
@@ -72,6 +71,7 @@ import org.osgi.framework.Bundle;
 import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.language.LanguageModelInitializer;
 
 @SuppressWarnings("restriction")
 public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondPage {
@@ -96,11 +96,16 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
         SilverStripeProjectWizardFirstPage fFirstPage=(SilverStripeProjectWizardFirstPage) this.fFirstPage;
         
         String ssVersion=SilverStripeVersion.SS3_0;
+        String ssFrameworkModel=SilverStripeVersion.FULL_CMS;
         
         if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsSS24Project()) {
             ssVersion=SilverStripeVersion.SS2_4;
         }else if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsSS23Project()) {
             ssVersion=SilverStripeVersion.SS2_3;
+        }
+        
+        if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsFrameworkOnlyProject()) {
+            ssFrameworkModel=SilverStripeVersion.FRAMEWORK_ONLY;
         }
         
         Path silverStripeContainer=new Path(SilverStripePDTPlugin.NATURE_ID);
@@ -447,20 +452,21 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
             if (fFirstPage.shouldSupportJavaScript()) {
                 addJavaScriptNature(monitor);
             }
-
-            // adding build paths, and language-Container:
-            getScriptProject().setRawBuildpath(buildpathEntries,
-                    new NullProgressMonitor());
-            LanguageModelInitializer.enableLanguageModelFor(getScriptProject());
-
-            // init, and adding include paths:
-            getBuildPathsBlock().init(getScriptProject(),
-                    new IBuildpathEntry[] {});
-            IncludePathManager.getInstance().setIncludePath(getProject(),
-                    includepathEntries);
             
-            
+            //Store Preferences
             CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_version", ssVersion, getProject());
+            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_framework_model", ssFrameworkModel, getProject());
+            
+            
+            
+            // adding build paths, and language-Container:
+            getScriptProject().setRawBuildpath(buildpathEntries, new NullProgressMonitor());
+            LanguageModelInitializer.enableLanguageModelFor(getScriptProject());
+            
+            
+            // init, and adding include paths:
+            getBuildPathsBlock().init(getScriptProject(), new IBuildpathEntry[] {});
+            IncludePathManager.getInstance().setIncludePath(getProject(), includepathEntries);
         } finally {
             monitor.done();
         }

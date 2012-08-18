@@ -23,6 +23,7 @@ import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 public class SilverStripeVersionChangedHandler implements IResourceChangeListener {
 
     private static final String SILVERSTRIPE_VERSION = "silverstripe_version";
+    private static final String SILVERSTRIPE_FRAMEWORK_MODEL = "silverstripe_framework_model";
 
     private HashMap<IProject, HashSet> projectListeners = new HashMap<IProject, HashSet>();
     private HashMap<IProject, PreferencesPropagatorListener> preferencesPropagatorListeners = new HashMap<IProject, PreferencesPropagatorListener>();
@@ -54,8 +55,7 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
         }
     }
 
-    private class PreferencesPropagatorListener implements
-            IPreferencesPropagatorListener {
+    private class PreferencesPropagatorListener implements IPreferencesPropagatorListener {
 
         private IProject project;
 
@@ -67,9 +67,7 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
             if (event.getNewValue() == null) {
                 // We take the workspace settings since there was a move from
                 // project-specific to workspace setings.
-                String newValue = PreferencesSupport
-                        .getWorkspacePreferencesValue((String) event.getKey(),
-                                store);
+                String newValue = PreferencesSupport.getWorkspacePreferencesValue((String) event.getKey(),store);
                 if (newValue == null || newValue.equals(event.getOldValue())) {
                     return; // No need to send a notification
                 }
@@ -81,9 +79,7 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
                 // At this stage the new value of the project-specific will
                 // always be as the workspace, so there is
                 // no need to send a notification.
-                String preferencesValue = PreferencesSupport
-                        .getWorkspacePreferencesValue((String) event.getKey(),
-                                store);
+                String preferencesValue = PreferencesSupport.getWorkspacePreferencesValue((String) event.getKey(),store);
                 if (preferencesValue != null
                         && preferencesValue.equals(event.getNewValue())) {
                     return; // No need to send a notification
@@ -98,11 +94,9 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
 
     }
 
-    public void addSilverStripeVersionChangedListener(
-            IPreferencesPropagatorListener listener) {
+    public void addSilverStripeVersionChangedListener(IPreferencesPropagatorListener listener) {
         IProject project = listener.getProject();
-        HashSet<IPreferencesPropagatorListener> listeners = projectListeners
-                .get(project);
+        HashSet<IPreferencesPropagatorListener> listeners = projectListeners.get(project);
         if (listeners == null) {
             projectAdded(project);
             listeners = projectListeners.get(project);
@@ -110,8 +104,7 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
         listeners.add(listener);
     }
 
-    public void removeSilverStripeVersionChangedListener(
-            IPreferencesPropagatorListener listener) {
+    public void removeSilverStripeVersionChangedListener(IPreferencesPropagatorListener listener) {
         if (listener == null) {// this was added since when working with RSE
             // project model, listener was NULL
             return;
@@ -130,19 +123,19 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
         projectListeners.put(project, new HashSet());
 
         // register as a listener to the PP on this project
-        PreferencesPropagatorListener listener = new PreferencesPropagatorListener(
-                project);
+        PreferencesPropagatorListener listener = new PreferencesPropagatorListener(project);
         preferencesPropagatorListeners.put(project, listener);
         preferencesPropagator.addPropagatorListener(listener, SILVERSTRIPE_VERSION);
+        preferencesPropagator.addPropagatorListener(listener, SILVERSTRIPE_FRAMEWORK_MODEL);
     }
 
     public void projectRemoved(IProject project) {
-        PreferencesPropagatorListener listener = preferencesPropagatorListeners
-                .get(project);
+        PreferencesPropagatorListener listener = preferencesPropagatorListeners.get(project);
         if (listener == null) {
             return;
         }
         preferencesPropagator.removePropagatorListener(listener, SILVERSTRIPE_VERSION);
+        preferencesPropagator.removePropagatorListener(listener, SILVERSTRIPE_FRAMEWORK_MODEL);
         preferencesPropagatorListeners.remove(project);
 
         projectListeners.remove(project);
