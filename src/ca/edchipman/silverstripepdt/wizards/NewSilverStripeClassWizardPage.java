@@ -635,28 +635,10 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
         char indentCharPref = getIndentationChar();
         int indentationSize = getIndentationSize();
 
-        for (int i = 0; i <= indentationSize; i++) {
-            StringBuffer prefix = new StringBuffer();
-            boolean appendTab = false;
-
-            for (int j = 0; j + i < indentationSize; j++)
-                prefix.append(indentCharPref);
-
-            if (i != 0) {
-                appendTab = true;
-            }
-
-            if (appendTab) {
-                prefix.append('\t');
-                // remove the tab so that indentation - tab is also an indent
-                // prefix
-                prefix.deleteCharAt(prefix.length() - 1);
-            }
-            result.append(prefix.toString());
+        for (int i = 0; i < indentationSize; i++) {
+            result.append(indentCharPref);
         }
-
-        result.append(""); //$NON-NLS-1$
-
+        
         return result.toString();
     }
     
@@ -670,10 +652,7 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
 
     private char getIndentationChar() {
         String useTab = CorePreferencesSupport.getInstance().getWorkspacePreferencesValue(PHPCoreConstants.FORMATTER_USE_TABS);
-        if (useTab == null) {
-            return '\t';
-        }
-        return (Boolean.valueOf(useTab).booleanValue()) ? '\t' : ' ';
+        return (Boolean.valueOf(useTab).booleanValue() ? '\t':' ');
     }
     
     private String renderDocBlock(PHPDocBlock docBlock, String lineDelemiter, String tabCharacter) {
