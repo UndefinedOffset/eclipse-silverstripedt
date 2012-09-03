@@ -383,6 +383,42 @@ a img {
 
 
 <template
+    name="New SilverStripe 3.0 theme layout.css template"
+    description="A new SilverStripe theme layout.css template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.layout"
+    context="php_new_ss_project_context"
+    enabled="true">/* Global Resetting */
+a img {
+    border: 0;
+}
+
+*:focus {
+    outline: 0;
+}
+
+.clear {
+    clear: both;
+}
+
+/* Layout CSS */
+#Main {
+    margin: 20px auto;
+    width: 955px;
+}
+            
+#PageNumbers {
+    padding: 5px;
+    border: 1px solid #DDDDDD;
+    background: #E9E9E9;
+}
+
+#PageNumbers * {
+    padding: 0 5px;
+}
+</template>
+
+
+<template
     name="New SilverStripe theme typography.css template"
     description="A new SilverStripe theme typography.css template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.typography"
@@ -545,6 +581,171 @@ a img {
     font-weight: bold;
 }
 
+#PageNumbers {
+    font-weight: bold;
+    color: #333333;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+#PageNumbers * {
+    line-height: 1.5em;
+}
+
+#PageNumbers a {
+    color: #0083C8;
+    text-decoration: none;
+}
+
+#PageNumbers a:hover {
+    text-decoration: underline;
+}
+</template>
+
+
+<template
+    name="New SilverStripe 3.0 theme typography.css template"
+    description="A new SilverStripe theme typography.css template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.typography"
+    context="php_new_ss_project_context"
+    enabled="true">/**
+ * This typography file is included in the WYSIWYG editor
+ */
+.typography * {
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 12px;
+}
+
+.typography blockquote {
+    margin-left: 20px;
+}
+
+.typography hr {
+    padding: 0;
+    margin: 20px 0;
+    
+    border: 0;
+    
+    border-bottom: 3px solid #2D67B2;
+}
+
+.typography p,
+.typography ul li,
+.typography ol li,
+.typography a {
+    color: #343434;
+    font-size: 12px;
+}
+
+.typography p {
+    margin-bottom: 20px;
+}
+
+
+/** CMS LIST STYLES **/
+.typography ul,
+.typography ol {
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+    .typography ul li,
+    .typography ol li {
+        margin: 4px 10px;
+        line-height: 1.4em;
+    }
+    
+        .typography ul li {
+            list-style-type: disc;
+        }
+        
+        .typography ol li {
+            list-style-type: decimal;
+        }
+
+/* HEADER STYLES */
+
+.typography h1,
+.typography h2,
+.typography h3,
+.typography h4 {
+    margin-bottom: 14px;
+    color: #0083C8;
+}
+
+.typography h1,
+.typography h4 {
+    font-weight: bold;
+}
+
+.typography h2,
+.typography h3 {
+    font-weight: normal;
+}
+
+    .typography h1 {
+        font-size: 2.2em;
+    }
+    
+    .typography h2 {
+        font-size: 2.2em;
+    }
+    
+    .typography h3 {
+        font-size: 1.6em;
+    }
+    
+    .typography h4 {
+        font-size: 1.4em;
+    }
+
+/* LINK STYLES */
+.typography a {
+    color: #0083C8;
+    font-size: 1em;
+    text-decoration: none;
+}
+
+    .typography a:hover {
+        text-decoration: underline;
+    }
+    
+    
+.typography table {
+    font-size: 1.1em;
+}
+
+    .typography table tr td {
+        padding: 3px 5px;
+    }
+
+    
+/* WYSIWYG EDITOR ALIGNMENT CLASSES */
+.typography .left {
+    text-align:left;
+}
+
+.typography .center {
+    text-align:center;
+}
+
+.typography .right {
+    text-align:right;
+}
+
+.typography img.right {
+    float:right;
+}
+
+.typography img.left {
+    float:left;
+}
+
+.typography p.MsoNormal, .typography p.MsoBodyText {
+    margin: 0;
+}
+
+/* OTHER */
 #PageNumbers {
     font-weight: bold;
     color: #333333;

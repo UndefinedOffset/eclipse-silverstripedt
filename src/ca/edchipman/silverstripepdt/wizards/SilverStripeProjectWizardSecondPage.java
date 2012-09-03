@@ -335,12 +335,22 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/css", "form.css", monitor, formTemplate.string, formTemplate.offset);
                 
                 //Generate the layout.css file
-                Template layoutTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.layout");
+                Template layoutTemplateToCompile;
+                if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
+                    layoutTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.layout");
+                }else {
+                    layoutTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.layout");
+                }
                 PHPTemplateStore.CompiledTemplate layoutTemplate=PHPTemplateStore.compileTemplate(templateRegistry, layoutTemplateToCompile, getProject().getName()+"/css", "layout.css");
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/css", "layout.css", monitor, layoutTemplate.string, layoutTemplate.offset);
                 
                 //Generate the typography.css file
-                Template typographyTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.typography");
+                Template typographyTemplateToCompile;
+                if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
+                    typographyTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.typography");
+                }else {
+                    typographyTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.typography");
+                }
                 PHPTemplateStore.CompiledTemplate typographyTemplate=PHPTemplateStore.compileTemplate(templateRegistry, typographyTemplateToCompile, getProject().getName()+"/css", "typography.css");
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/css", "typography.css", monitor, typographyTemplate.string, typographyTemplate.offset);
                 
