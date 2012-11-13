@@ -114,6 +114,7 @@
         
         <untar src="cache/silverstripe-3.0.tar.gz" dest="cache/SS3.0" compression="gzip">
             <patternset>
+                <include name="**/cms/code/*.php"/>
                 <include name="**/cms/code/**/*.php"/>
                 <include name="**/framework/**/*.php"/>
                 <exclude name="**/framework/*.php"/>
@@ -129,6 +130,7 @@
     	<untar src="cache/silverstripe-2.4.tar.gz" dest="cache/SS2.4" compression="gzip">
     		<patternset>
     		    <include name="**/cms/code/*.php"/>
+                <include name="**/cms/code/**/*.php"/>
                 <include name="**/sapphire/**/*.php"/>
     			<exclude name="**/sapphire/*.php"/>
                 <exclude name="**/sapphire/tests/*"/>
@@ -142,6 +144,7 @@
         <untar src="cache/silverstripe-2.3.tar.gz" dest="cache/SS2.3" compression="gzip">
             <patternset>
                 <include name="**/cms/code/*.php"/>
+                <include name="**/cms/code/**/*.php"/>
                 <include name="**/sapphire/**/*.php"/>
                 <exclude name="**/sapphire/*.php"/>
                 <exclude name="**/sapphire/tests/*"/>
