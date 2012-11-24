@@ -183,9 +183,9 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 //Generate the Page.php file
                 Template pageTemplateToCompile;
                 if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
-                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.defaultpage");
-                }else {
                     pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.defaultpage");
+                }else {
+                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.defaultpage");
                 }
                 PHPTemplateStore.CompiledTemplate pageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageTemplateToCompile, getProject().getName()+"/code", "Page.php");
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/code", "Page.php", monitor, pageTemplate.string, pageTemplate.offset);
@@ -194,9 +194,9 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 //Generate the _config.php file
                 Template configTemplateToCompile;
                 if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
-                    configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.config");
-                }else {
                     configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.config");
+                }else {
+                    configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.config");
                 }
                 PHPTemplateStore.CompiledTemplate configTemplate=PHPTemplateStore.compileTemplate(templateRegistry, configTemplateToCompile, getProject().getName(), "_config.php");
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName(), "_config.php", monitor, configTemplate.string, configTemplate.offset, true);
@@ -367,9 +367,9 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 //Generate the Page.ss file
                 Template pageTemplateToCompile;
                 if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
-                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newss.template");
-                } else {
                     pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.template");
+                } else {
+                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newss.template");
                 }
                 PHPTemplateStore.CompiledTemplate pageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageTemplateToCompile, getProject().getName()+"/templates/Layout", "Page.ss");
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates/Layout", "Page.ss", monitor, pageTemplate.string, pageTemplate.offset);
