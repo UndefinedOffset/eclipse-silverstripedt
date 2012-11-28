@@ -84,6 +84,14 @@ public class SilverStripePDTPreferenceInitializer extends AbstractPreferenceInit
         styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_END_CACHEBLOCK, 127, 0, 85) + NOBACKGROUNDBOLD;
         store.setDefault(IStyleConstantsSS.SS_END_CACHEBLOCK, styleValue);
         
+        //Set style for uncacheblock
+        styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_UNCACHED_OPEN, 127, 0, 85) + NOBACKGROUNDBOLD;
+        store.setDefault(IStyleConstantsSS.SS_UNCACHED_OPEN, styleValue);
+        
+        //Set style for end_uncacheblock
+        styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_END_UNCACHED, 127, 0, 85) + NOBACKGROUNDBOLD;
+        store.setDefault(IStyleConstantsSS.SS_END_UNCACHED, styleValue);
+        
         //Set style for base_tag
         styleValue = ColorHelper.findRGBString(registry, IStyleConstantsSS.SS_REQUIREMENT_OPEN, 127, 0, 85) + NOBACKGROUNDBOLD; //$NON-NLS-1$
         store.setDefault(IStyleConstantsSS.SS_BASE_TAG, styleValue); // specified value is black; leaving as widget default
