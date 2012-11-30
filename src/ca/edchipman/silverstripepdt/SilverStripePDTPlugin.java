@@ -19,6 +19,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 import ca.edchipman.silverstripepdt.contentassist.SSTemplateCompletionProcessor;
+import ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStore;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
 
@@ -42,8 +43,7 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
 	/**
 	 * The constructor
 	 */
-	public SilverStripePDTPlugin() {
-	}
+	public SilverStripePDTPlugin() {}
 
 	/*
 	 * (non-Javadoc)
@@ -130,8 +130,6 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
             ContributionContextTypeRegistry registry = new ContributionContextTypeRegistry();
 
             registry.addContextType(new CodeTemplateContextType(SSTemplateCompletionProcessor.TEMPLATE_CONTEXT_ID));
-            registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE));
-            registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE));
 
             caContextTypeRegistry = registry;
         }
@@ -146,7 +144,7 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
      */
     public TemplateStore getCATemplateStore() {
         if (caTemplateStore == null) {
-            caTemplateStore = new PHPTemplateStore(getCATemplateContextRegistry(), getPreferenceStore(), "ca.edchipman.silverstripepdt.contentassist.templates");
+            caTemplateStore = new SilverStripeTemplateStore(getCATemplateContextRegistry(), getPreferenceStore(), "ca.edchipman.silverstripepdt.contentassist.templates");
             
             try {
                 caTemplateStore.load();

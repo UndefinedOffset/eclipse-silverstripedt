@@ -6,6 +6,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.core.filebuffers.FileBuffers;
+import org.eclipse.core.filebuffers.ITextFileBuffer;
+import org.eclipse.core.filebuffers.ITextFileBufferManager;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.IDocument;
@@ -23,6 +30,7 @@ import org.eclipse.jface.text.templates.TemplateContextType;
 import org.eclipse.jface.text.templates.TemplateException;
 import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
+import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wst.xml.ui.internal.contentassist.ReplaceNameTemplateContext;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
@@ -38,7 +46,10 @@ import org.w3c.dom.Node;
 import org.eclipse.jface.text.templates.TemplateCompletionProcessor;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.regions.SilverStripeRegionContext;
+import ca.edchipman.silverstripepdt.templates.SilverStripeTemplate;
+import ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStore;
 
 public class SSTemplateCompletionProcessor extends TemplateCompletionProcessor {
     public static final String TEMPLATE_CONTEXT_ID = "ss_proposal";
@@ -63,6 +74,7 @@ public class SSTemplateCompletionProcessor extends TemplateCompletionProcessor {
         fTextViewer=viewer;
         IDocument document=viewer.getDocument();
         int documentPosition = offset;
+        String projectSSVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, this.getProject(document));
         
         IndexedRegion treeNode = ContentAssistUtils.getNodeAt(viewer, documentPosition);
 
@@ -101,8 +113,16 @@ public class SSTemplateCompletionProcessor extends TemplateCompletionProcessor {
             catch (TemplateException e) {
                 continue;
             }
-            if (template.matches(prefix, fContextTypeId))
+            
+            if(template instanceof SilverStripeTemplate) {
+                SilverStripeTemplate ssTemplate=(SilverStripeTemplate) template;
+                
+                if ((template.matches(prefix, fContextTypeId)) && (ssTemplate.ssVersions().length==0 || Arrays.asList(ssTemplate.ssVersions()).contains(projectSSVersion))) {
+                    matches.add(createProposal(template, context, (IRegion) region, getRelevance(template, prefix)));
+                }
+            }else if (template.matches(prefix, fContextTypeId)) {
                 matches.add(createProposal(template, context, (IRegion) region, getRelevance(template, prefix)));
+            }
         }
 
         Collections.sort(matches, fgProposalComparator);
@@ -370,6 +390,25 @@ public class SSTemplateCompletionProcessor extends TemplateCompletionProcessor {
                 (type == SilverStripeRegionContext.SS_CLOSE) ||
                 (type == SilverStripeRegionContext.SS_END_CONTROL) ||
                 (type == SilverStripeRegionContext.SS_END_IF) ||
+                (type == SilverStripeRegionContext.SS_END_CACHEBLOCK) ||
+                (type == SilverStripeRegionContext.SS_END_LOOP) ||
+                (type == SilverStripeRegionContext.SS_END_UNCACHED) ||
+                (type == SilverStripeRegionContext.SS_END_WITH) ||
                 (type == SilverStripeRegionContext.SS_COMMENT_CLOSE));
+    }
+    
+    private static IProject getProject(IDocument document) {
+        ITextFileBufferManager fileBufferMgr = FileBuffers.getTextFileBufferManager();
+        ITextFileBuffer fileBuffer = fileBufferMgr.getTextFileBuffer(document);
+        
+        if (fileBuffer != null) {
+            IWorkspace workspace = ResourcesPlugin.getWorkspace();
+            IResource res = workspace.getRoot().findMember(fileBuffer.getLocation());
+            if (res != null) {
+                return res.getProject();           
+            }
+        }
+        
+        return null;
     }
 }

@@ -5,6 +5,7 @@
     description="A SilverStripe control block"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.control"
     context="ss_proposal"
+    ss-versions="SS2.3,SS2.4"
     enabled="true">&lt;% control ${args} %&gt;
     ${content}
 &lt;% end_control %&gt;</template>
@@ -13,12 +14,14 @@
     description="A SilverStripe control"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.controlstart"
     context="ss_proposal"
+    ss-versions="SS2.3,SS2.4"
     enabled="true">&lt;% control ${args} %&gt;</template>
 <template
     name="End Control"
     description="A SilverStripe end_control"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.controlend"
     context="ss_proposal"
+    ss-versions="SS2.3,SS2.4"
     enabled="true">&lt;% end_control %&gt;</template>
 <template
     name="If Statement"
@@ -109,6 +112,7 @@
     description="A SilverStripe loop block"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.loop"
     context="ss_proposal"
+    ss-versions="SS3.0"
     enabled="true">&lt;% loop ${args} %&gt;
     ${content}
 &lt;% end_loop %&gt;</template>
@@ -117,18 +121,21 @@
     description="A SilverStripe loop"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.loopstart"
     context="ss_proposal"
+    ss-versions="SS3.0"
     enabled="true">&lt;% loop ${args} %&gt;</template>
 <template
     name="End Loop"
     description="A SilverStripe end_loop"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.loopend"
     context="ss_proposal"
+    ss-versions="SS3.0"
     enabled="true">&lt;% end_loop %&gt;</template>
 <template
     name="With Block"
     description="A SilverStripe with block"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.with"
     context="ss_proposal"
+    ss-versions="SS3.0"
     enabled="true">&lt;% with ${args} %&gt;
     ${content}
 &lt;% end_with %&gt;</template>
@@ -137,24 +144,28 @@
     description="A SilverStripe with"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.withstart"
     context="ss_proposal"
+    ss-versions="SS3.0"
     enabled="true">&lt;% with ${args} %&gt;</template>
 <template
     name="End With"
     description="A SilverStripe end_with"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.withend"
     context="ss_proposal"
+    ss-versions="SS3.0"
     enabled="true">&lt;% end_with %&gt;</template>
 <template
     name="i18n"
     description="A SilverStripe 3.0 i18n tag"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.ss30.i18n"
     context="ss_proposal"
+    ss-versions="SS3.0"
     enabled="true">&lt;%t ${args} %&gt;</template>
 <template
     name="i18n"
     description="A SilverStripe 2.4 and 2.3 i18n tag"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.i18n"
     context="ss_proposal"
+    ss-versions="SS2.3,SS2.4"
     enabled="true">&lt;% _t(${path}, ${default}) %&gt;</template>
 <template
     name="Include Tag"

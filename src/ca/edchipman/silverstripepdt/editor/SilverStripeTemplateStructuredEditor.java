@@ -10,6 +10,8 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
+
 @SuppressWarnings("restriction")
 public class SilverStripeTemplateStructuredEditor extends StructuredTextEditor {
     protected String ssVersion;
@@ -27,7 +29,7 @@ public class SilverStripeTemplateStructuredEditor extends StructuredTextEditor {
             IFile file = ((IFileEditorInput)input).getFile();
             IProject project = file.getProject();
 
-            this.ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", "2.4", project);
+            this.ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, project);
         }
     }
     
