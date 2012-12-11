@@ -65,6 +65,7 @@
             <filterchain>
                 <linecontains>
                     <contains value="assets/releases/SilverStripe-cms-v3.0"/>
+                    <contains value=".tar.gz"/>
                 </linecontains>
                 <tokenfilter>
                     <replaceregex pattern="(\s*)&lt;a class=&quot;tracklink&quot; href=&quot;http://www.silverstripe.org/(.*)&quot; onClick=&quot;_gaq.push\(\['_trackEvent', 'Downloads', 'Link', 'CMS'\]\);&quot;(\s*)&gt;" replace="\2"/>
