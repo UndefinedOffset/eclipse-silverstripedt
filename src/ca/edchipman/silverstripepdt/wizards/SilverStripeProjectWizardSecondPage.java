@@ -393,33 +393,35 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates/Includes", "Navigation.ss", monitor, navigationTemplate.string, navigationTemplate.offset);
                 
                 
-                //Copy the Home Icon
-                try {
-                    Bundle bundle = Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID);
-                    InputStream stream;
+                if(ssVersion.equals(SilverStripeVersion.SS3_0)==false) {
+                    //Copy the Home Icon
+                    try {
+                        Bundle bundle = Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID);
+                        InputStream stream;
+                        
+                        stream = FileLocator.openStream(bundle, new Path("resources/theme/images/treeicons/home-file.gif"), false);
+                        
+                        IFile file = getProject().getFile("images/treeicons/home-file.gif");
+                        file.create(stream, true, null);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+    
                     
-                    stream = FileLocator.openStream(bundle, new Path("resources/theme/images/treeicons/home-file.gif"), false);
-                    
-                    IFile file = getProject().getFile("images/treeicons/home-file.gif");
-                    file.create(stream, true, null);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-                
-                //Copy the News Icon
-                try {
-                    Bundle bundle = Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID);
-                    InputStream stream;
-                    
-                    stream = FileLocator.openStream(bundle, new Path("resources/theme/images/treeicons/news-file.gif"), false);
-                    
-                    IFile file = getProject().getFile("images/treeicons/news-file.gif");
-                    file.create(stream, true, null);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    //Copy the News Icon
+                    try {
+                        Bundle bundle = Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID);
+                        InputStream stream;
+                        
+                        stream = FileLocator.openStream(bundle, new Path("resources/theme/images/treeicons/news-file.gif"), false);
+                        
+                        IFile file = getProject().getFile("images/treeicons/news-file.gif");
+                        file.create(stream, true, null);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
                 
                 
