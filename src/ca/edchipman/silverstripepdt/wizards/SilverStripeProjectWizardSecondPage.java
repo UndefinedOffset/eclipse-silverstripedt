@@ -195,6 +195,8 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 Template configTemplateToCompile;
                 if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
                     configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.config");
+                }else if(ssVersion.equals(SilverStripeVersion.SS2_3)) {
+                    configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss23.config");
                 }else {
                     configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.config");
                 }

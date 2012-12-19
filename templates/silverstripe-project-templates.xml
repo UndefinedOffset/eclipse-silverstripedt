@@ -87,6 +87,45 @@ if(Director::isLive()) {
     SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::ERR);
 }
 ?&gt;</template>
+<template
+    name="New SilverStripe project _config.php template"
+    description="A new SilverStripe project _config.php template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss23.config"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+global $$project;
+$$project = 'mysite';
+
+global $$databaseConfig;
+$$databaseConfig = array(
+    "type" => "MySQLDatabase",
+    "server" => "localhost",
+    "username" => "USERNAME",
+    "password" => "PASSWORD",
+    "database" => "DATABASE",
+);
+
+
+// Sites running on the following servers will be run in development mode.
+Director::set_dev_servers(array(
+    'localhost',
+    '127.0.0.1'
+));
+Director::set_environment_type('dev');
+
+//Set Admin Email
+Email::setAdminEmail('me@example.com');
+
+//Set's the current theme
+SSViewer::set_theme('THEME NAME');
+
+
+//Error Logging
+if(Director::isLive()) {
+    Debug::send_warnings_to('me@example.com');
+    Debug::sent_errors_to('me@example.com');
+}
+?&gt;</template>
 
 
 <template
