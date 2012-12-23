@@ -97,7 +97,7 @@ public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegat
             
             if(_project!=null) {
                 try {
-                    if(_project.hasNature(SilverStripeNature.ID)) {
+                    if(_project.isOpen() && _project.hasNature(SilverStripeNature.ID)) {
                         action.setEnabled(true);
                         return;
                     }
