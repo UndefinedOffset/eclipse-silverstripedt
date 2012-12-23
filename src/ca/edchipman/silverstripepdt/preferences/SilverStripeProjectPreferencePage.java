@@ -1,17 +1,24 @@
 package ca.edchipman.silverstripepdt.preferences;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.dltk.internal.ui.dialogs.StatusUtil;
 import org.eclipse.dltk.internal.ui.preferences.PropertyAndPreferencePage;
 import org.eclipse.dltk.internal.ui.util.CoreUtility;
 import org.eclipse.dltk.internal.ui.wizards.dialogfields.DialogField;
 import org.eclipse.dltk.internal.ui.wizards.dialogfields.IDialogFieldListener;
+import org.eclipse.dltk.internal.ui.wizards.dialogfields.LayoutUtil;
 import org.eclipse.dltk.internal.ui.wizards.dialogfields.SelectionButtonDialogField;
+import org.eclipse.dltk.internal.ui.wizards.dialogfields.StringDialogField;
+import org.eclipse.dltk.ui.dialogs.StatusInfo;
+import org.eclipse.dltk.ui.util.IStatusChangeListener;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
-import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -26,7 +33,6 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
@@ -34,17 +40,18 @@ import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.editor.SilverStripeTemplateStructuredEditor;
 
 @SuppressWarnings("restriction")
-public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage {
-    public static final String PREF_ID = "ca.edchipman.silverstripepdt.preferences.SilverStripeVersionPreferencePage"; //$NON-NLS-1$
-    public static final String PROP_ID = "ca.edchipman.silverstripepdt.propertyPages.SilverStripeVersionPreferencePage"; //$NON-NLS-1$
+public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage {
+    public static final String PREF_ID = "ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"; //$NON-NLS-1$
+    public static final String PROP_ID = "ca.edchipman.silverstripepdt.propertyPages.SilverStripeProjectPreferencePage"; //$NON-NLS-1$
 
     private SilverStripeVersionGroup fConfigurationBlock;
+    private SiteBase fSiteBaseBlock;
 
-    public SilverStripeVersionPreferencePage() {
+    public SilverStripeProjectPreferencePage() {
         setPreferenceStore(SilverStripePDTPlugin.getDefault().getPreferenceStore());
 
         // only used when page is shown programatically
-        setTitle("SilverStripe Version");
+        setTitle("SilverStripe Project Preferences");
     }
 
     /*
@@ -53,10 +60,16 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
      * .Composite)
      */
     public void createControl(Composite parent) {
+        setTitle("SilverStripe Project Preferences");
+        
         IWorkbenchPreferenceContainer container = (IWorkbenchPreferenceContainer) getContainer();
-        fConfigurationBlock = new SilverStripeVersionGroup(getProject(), parent);
+        IProject project=getProject();
+        fConfigurationBlock = new SilverStripeVersionGroup(project, parent);
+        
+        fSiteBaseBlock = new SiteBase(project, parent, this);
 
         super.createControl(parent);
+        
         
         //PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IPHPHelpContextIds.PHP_INTERPRETER_PREFERENCES);
     }
@@ -75,8 +88,17 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
      * @seeorg.eclipse.jdt.internal.ui.preferences.PropertyAndPreferencePage#
      * createPreferenceContent(org.eclipse.swt.widgets.Composite)
      */
-    protected Control createPreferenceContent(Composite composite) {
-        return fConfigurationBlock.createContents(composite);
+    protected Control createPreferenceContent(Composite parent) {
+        Composite composite = new Composite(parent, SWT.NONE);
+        GridLayout layout = new GridLayout();
+        layout.verticalSpacing = 10;
+        composite.setLayout(layout);
+        composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+        
+        fConfigurationBlock.createContents(composite);
+        fSiteBaseBlock.createContents(composite);
+        
+        return composite;
     }
 
     /*
@@ -113,7 +135,7 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
      * @see org.eclipse.jface.preference.IPreferencePage#performOk()
      */
     public boolean performOk() {
-        if (fConfigurationBlock != null && !fConfigurationBlock.performOk()) {
+        if (fConfigurationBlock != null && !fConfigurationBlock.performOk() && fSiteBaseBlock != null && !fSiteBaseBlock.performOk()) {
             return false;
         }
         
@@ -126,6 +148,10 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
     public void performApply() {
         if (fConfigurationBlock != null) {
             fConfigurationBlock.performApply();
+        }
+        
+        if (fSiteBaseBlock != null) {
+            fSiteBaseBlock.performApply();
         }
     }
 
@@ -152,6 +178,12 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
         super.setElement(element);
         setDescription(null); // no description for property page
     }
+    
+    public void updateStatus(IStatus status) {
+        setValid(!status.matches(IStatus.ERROR));
+        StatusUtil.applyToStatusLine(this, status);
+    }
+
     
     /**
      * Request a SilverStripe Version.
@@ -182,7 +214,9 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
             Composite composite = new Composite(parent, SWT.NONE);
             GridLayout layout = new GridLayout();
             layout.verticalSpacing = 10;
+            
             composite.setLayout(layout);
+            composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             
             fSS30Radio = new SelectionButtonDialogField(SWT.RADIO);
             fSS30Radio.setLabelText("SilverStripe 3.0"); //$NON-NLS-1$
@@ -207,7 +241,7 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
             fGroup.setFont(composite.getFont());
             fGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             fGroup.setLayout(layout);
-            fGroup.setText(PHPUIMessages.LayoutGroup_OptionBlock_Title); //$NON-NLS-1$
+            fGroup.setText("SilverStripe Version"); //$NON-NLS-1$
             
             fSS30Radio.doFillIntoGrid(fGroup, 2);
             fSS24Radio.doFillIntoGrid(fGroup, 2);
@@ -368,14 +402,170 @@ public class SilverStripeVersionPreferencePage extends PropertyAndPreferencePage
             // running build
         }
     }
+    
+
+    
+    /**
+     * Request a SiteBase Field
+     */
+    public class SiteBase implements Observer, SelectionListener, IDialogFieldListener {
+        private Group fGroup;
+        private IProject fProject;
+        private Shell fShell;
+        private StringDialogField fSiteBase;
+        private IWorkbenchPreferenceContainer fContainer;
+        
+        public boolean hasChanges = false;
+        private IStatus fSiteBaseStatus;
+        private SilverStripeProjectPreferencePage fParent;
+        
+        public SiteBase(IProject project, Composite composite, SilverStripeProjectPreferencePage parent) {
+            fProject=project;
+            fParent=parent;
+        }
+
+        protected void setShell(Shell shell) {
+            fShell = shell;
+        }
+        
+        protected Shell getShell() {
+            return fShell;
+        }
+        
+        public Control createContents(Composite parent) {
+            setShell(parent.getShell());
+            Composite composite=new Composite(parent, SWT.NONE);
+            GridLayout layout=new GridLayout();
+            layout.verticalSpacing=10;
+            layout.numColumns=2;
+            composite.setLayout(layout);
+            composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            
+            
+            fSiteBase=new StringDialogField();
+            fSiteBase.setLabelText("Site Base URL: ");
+            fSiteBase.setMessage("http://localhost/");
+            fSiteBase.setDialogFieldListener(this);
+            fSiteBase.doFillIntoGrid(composite, 2);
+                        
+            String siteBase=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_site_base", "", fProject.getProject());
+            fSiteBase.setText(siteBase);
+            
+            
+            LayoutUtil.setHorizontalGrabbing(fSiteBase.getTextControl(null));
+            
+            return composite;
+        }
+        
+        /**
+         * Gets the site base set in the field
+         * @return String value of the site base field
+         */
+        public String getSiteBaseValue() {
+            return fSiteBase.getText();
+        }
+        
+        /*
+         * (non-Javadoc)
+         * 
+         * @see
+         * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse
+         * .swt.events.SelectionEvent)
+         */
+        public void widgetSelected(SelectionEvent e) {
+            widgetDefaultSelected(e);
+        }
+
+        public boolean performOk() {
+            return processChanges(fContainer);
+        }
+
+        public boolean performApply() {
+            return processChanges(null); // apply directly
+        }
+
+        protected boolean processChanges(IWorkbenchPreferenceContainer container) {
+            String siteBase=fSiteBase.getText();
+            
+            
+            if(siteBase!=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_site_base", null, fProject.getProject())) {
+                hasChanges=true;
+            }
+            
+            boolean doBuild = hasChanges;
+            if (doBuild) {
+                prepareForBuild();
+            }
+            if (container != null) {
+                // no need to apply the changes to the original store: will be done
+                // by the page container
+                if (doBuild) { // post build
+                    container.registerUpdateJob(CoreUtility.getBuildJob(fProject));
+                }
+            } else {
+                // apply changes right away
+                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_site_base", siteBase, fProject);
+                
+                if (doBuild) {
+                    CoreUtility.getBuildJob(fProject).schedule();
+                }
+            }
+            
+            return true;
+        }
+
+        protected void prepareForBuild() {
+            // implement this method for any actions that need to be taken before
+            // running build
+        }
+
+        @Override
+        public void dialogFieldChanged(DialogField arg0) {
+            fSiteBaseStatus=updateURLStatus();
+            fParent.updateStatus(fSiteBaseStatus);
+        }
+
+        @Override
+        public void widgetDefaultSelected(SelectionEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void update(Observable arg0, Object arg1) {
+            fSiteBaseStatus=updateURLStatus();
+            fParent.updateStatus(fSiteBaseStatus);
+        }
+        
+        private IStatus updateURLStatus() {
+            StatusInfo status=new StatusInfo();
+            try {
+                String address=fSiteBase.getText();
+                if(address.length()==0) {
+                    return status;
+                }
+                
+                URL url=new URL(address);
+                if(("http".equals(url.getProtocol())==false && "https".equals(url.getProtocol())==false) || url.getHost().length()==0) { //$NON-NLS-1$
+                    status.setError("URL is not a web address");
+                    return status;
+                }
+            }catch (MalformedURLException e) {
+                status.setError("Invalid URL");
+                return status;
+            }
+
+            return status;
+        }
+    }
 
     @Override
     protected String getPreferencePageId() {
-        return SilverStripeVersionPreferencePage.PREF_ID;
+        return SilverStripeProjectPreferencePage.PREF_ID;
     }
 
     @Override
     protected String getPropertyPageId() {
-        return SilverStripeVersionPreferencePage.PROP_ID;
+        return SilverStripeProjectPreferencePage.PROP_ID;
     }
 }

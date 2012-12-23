@@ -228,9 +228,9 @@
     
     <extension point="org.eclipse.ui.propertyPages">
         <page
-            class="ca.edchipman.silverstripepdt.preferences.SilverStripeVersionPreferencePage"
-            id="ca.edchipman.silverstripepdt.propertyPages.SilverStripeVersionPreferencePage"
-            name="SilverStripe Version">
+            class="ca.edchipman.silverstripepdt.preferences.SilverStripeProjectPreferencePage"
+            id="ca.edchipman.silverstripepdt.propertyPages.SilverStripeProjectPreferencePage"
+            name="SilverStripe">
             
             <enabledWhen>
                 <adapt type="org.eclipse.core.resources.IProject">
@@ -279,5 +279,47 @@
             </include>
             <group id="org.eclipse.wst.sse.core.structuredModelGroup"/>
         </validator>
+    </extension>
+    <extension
+          point="org.eclipse.ui.actionSets">
+       <actionSet
+             description="Actions used for SilverStripe Projects"
+             id="ca.edchipman.silverStripePDT.actionSet"
+             label="SilverStripe">
+          <action
+                class="ca.edchipman.silverstripepdt.actions.SilverStripeDevBuildAction"
+                definitionId="ca.silverStripePDT.commands.DevBuild"
+                disabledIcon="icons/full/actions/compile-disabled.png"
+                enablesFor="1"
+                icon="icons/full/actions/compile.png"
+                id="ca.edchipman.silverStripePDT.devBuildAction"
+                label="Build SilverStripe"
+                menubarPath="project/build"
+                style="push"
+                toolbarPath="debug"
+                tooltip="Run dev/build on the SilverStripe Project">
+          </action>
+       </actionSet>
+    </extension>
+    <extension
+          id="ca.silverStripePDT.commands.DevBuild"
+          name="Dev Build Command"
+          point="org.eclipse.ui.commands">
+    </extension>
+    <extension
+          point="org.eclipse.ui.views">
+       <view
+             allowMultiple="false"
+             category="ca.edchipman.silverStripePDT.category"
+             class="ca.edchipman.silverstripepdt.views.DevBuildViewer"
+             icon="icons/full/ss-logo.png"
+             id="ca.edchipman.silverstripepdt.views.DevBuildViewer"
+             name="Dev/Build Viewer"
+             restorable="true">
+       </view>
+       <category
+             id="ca.edchipman.silverStripePDT.category"
+             name="SilverStripe">
+       </category>
     </extension>
 </plugin>
