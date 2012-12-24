@@ -89,15 +89,6 @@ public class DevBuildViewer extends ViewPart {
 
     }
     
-    @Override
-    public void dispose() {
-        if(swtBrowser!=null) {
-            swtBrowser.removeProgressListener(progressListener);
-        }
-        
-        super.dispose();
-    }
-    
     
     
     class BuildProgressListener implements ProgressListener {
