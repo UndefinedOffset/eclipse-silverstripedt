@@ -84,4 +84,5 @@ Import-Package: com.ibm.icu.text;version="4.4.2.1",
 Bundle-Activator: ca.edchipman.silverstripepdt.SilverStripePDTPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Ed Chipman
-Export-Package: ca.edchipman.silverstripepdt
+Export-Package: ca.edchipman.silverstripepdt,
+ ca.edchipman.silverstripepdt.wizards
