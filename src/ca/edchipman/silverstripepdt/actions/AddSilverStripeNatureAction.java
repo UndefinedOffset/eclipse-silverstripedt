@@ -103,11 +103,13 @@ public class AddSilverStripeNatureAction implements IObjectActionDelegate {
 
 				IProjectDescription description;
 				try {
-					description = selProj.getProject().getDescription();
-
-					if(description.hasNature(SilverStripeNature.ID)) {
-						action.setEnabled(false);
-					}
+				    if(selProj.getProject().isAccessible()) {
+    					description = selProj.getProject().getDescription();
+    
+    					if(description.hasNature(SilverStripeNature.ID)) {
+    						action.setEnabled(false);
+    					}
+				    }
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}

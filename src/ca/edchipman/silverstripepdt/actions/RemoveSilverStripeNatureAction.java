@@ -42,7 +42,10 @@ public class RemoveSilverStripeNatureAction implements IObjectActionDelegate {
 			return;
 		
 		try {
-
+	        if(selProj.getProject().isAccessible()==false) {
+	            return;
+	        }
+	        
 			IProjectDescription description = selProj.getProject().getDescription();
 			
 			if(description.hasNature(SilverStripeNature.ID)) {
