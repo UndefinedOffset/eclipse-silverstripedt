@@ -85,7 +85,10 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
                     return; // No need to send a notification
                 }
             }
-            projectVersionChanged(project, event);
+            
+            if(project.isAccessible()) {
+                projectVersionChanged(project, event);
+            }
         }
 
         public IProject getProject() {
