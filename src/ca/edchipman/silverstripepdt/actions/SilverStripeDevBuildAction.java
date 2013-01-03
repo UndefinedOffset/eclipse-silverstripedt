@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.php.internal.core.documentModel.dom.ElementImplForPhp;
@@ -130,8 +131,28 @@ public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegat
      * @return Returns the selected resource
      */
     protected final IResource extractSelection(ISelection sel) {
-        if(!(sel instanceof IStructuredSelection)) {
-            return null;
+        if(!(sel instanceof IStructuredSelection) || (sel instanceof TextSelection)) {
+        	IWorkbench iworkbench=PlatformUI.getWorkbench();
+            if (iworkbench==null) {
+                return null;
+            }
+            
+            IWorkbenchWindow iworkbenchwindow=iworkbench.getActiveWorkbenchWindow();
+            if (iworkbenchwindow==null) {
+                return null;
+            }
+            
+            IWorkbenchPage iworkbenchpage=iworkbenchwindow.getActivePage();
+            if(iworkbenchpage==null) {
+                return null;
+            }
+            
+            IEditorPart ieditorpart=iworkbenchpage.getActiveEditor();
+            if(ieditorpart==null) {
+                return null;
+            }
+            
+            return extractResource(ieditorpart);
         }
         
         
