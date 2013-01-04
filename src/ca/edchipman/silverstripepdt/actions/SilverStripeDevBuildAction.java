@@ -51,7 +51,7 @@ public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegat
                 try {
                     String finalURL=siteBase;
                     
-                    if(finalURL.substring(finalURL.length()-1)!="/") {
+                    if(finalURL.substring(finalURL.length()-1).equals("/")==false) {
                         finalURL=finalURL.concat("/");
                     }
                     
