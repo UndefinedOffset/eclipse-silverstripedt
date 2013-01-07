@@ -71,6 +71,9 @@ public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegat
                     }
                     
                     browser.setTargetURL(finalURL);
+                    
+                    //Force view to show
+                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(browser);
                 }catch (SWTError e) {
                     MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
                     messageBox.setMessage("Browser cannot be initialized.");
