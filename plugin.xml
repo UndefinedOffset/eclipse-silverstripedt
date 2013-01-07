@@ -302,9 +302,13 @@
        </actionSet>
     </extension>
     <extension
-          id="ca.silverStripePDT.commands.DevBuild"
-          name="Dev Build Command"
           point="org.eclipse.ui.commands">
+       <command
+             categoryId="org.eclipse.ui.category.project"
+             description="Runs dev/build on the current SilverStripe project"
+             id="ca.silverStripePDT.commands.DevBuild"
+             name="Run Build SilverStripe">
+       </command>
     </extension>
     <extension
           point="org.eclipse.ui.views">
@@ -321,5 +325,14 @@
              id="ca.edchipman.silverStripePDT.category"
              name="SilverStripe">
        </category>
+    </extension>
+    <extension
+          point="org.eclipse.ui.bindings">
+       <key
+             commandId="ca.silverStripePDT.commands.DevBuild"
+             contextId="org.eclipse.ui.contexts.window"
+             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+             sequence="ALT+SHIFT+X B">
+       </key>
     </extension>
 </plugin>
