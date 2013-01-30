@@ -509,11 +509,11 @@ a img {
         line-height: 1.4em;
     }
     
-        .typography ul li {
+        .typography ul &gt; li {
             list-style-type: disc;
         }
         
-        .typography ol li {
+        .typography ol &gt; li {
             list-style-type: decimal;
         }
 
@@ -694,11 +694,11 @@ a img {
         line-height: 1.4em;
     }
     
-        .typography ul li {
+        .typography ul &gt; li {
             list-style-type: disc;
         }
         
-        .typography ol li {
+        .typography ol &gt; li {
             list-style-type: decimal;
         }
 
