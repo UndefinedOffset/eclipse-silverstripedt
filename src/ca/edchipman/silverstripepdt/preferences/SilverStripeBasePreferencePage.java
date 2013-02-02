@@ -10,12 +10,14 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+
 public class SilverStripeBasePreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	public SilverStripeBasePreferencePage() {
 		// TODO Auto-generated constructor stub
 		super();
-		setPreferenceStore(DLTKUIPlugin.getDefault().getPreferenceStore());
+		setPreferenceStore(SilverStripePDTPlugin.getDefault().getPreferenceStore());
 		setDescription("SilverStripe");
 
 	}

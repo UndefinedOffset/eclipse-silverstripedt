@@ -157,6 +157,9 @@ public class SilverStripePDTPreferenceInitializer extends AbstractPreferenceInit
         store.setDefault(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT, styleValue);
         
         // Defaults for Content Assist preference page
+        store.setDefault(HTMLUIPreferenceNames.AUTO_PROPOSE, true);
+        store.setDefault(HTMLUIPreferenceNames.AUTO_PROPOSE_CODE, "<=");
+        store.setDefault(HTMLUIPreferenceNames.AUTO_PROPOSE_DELAY, 500);
         store.setDefault(HTMLUIPreferenceNames.CONTENT_ASSIST_DO_NOT_DISPLAY_ON_DEFAULT_PAGE, "");
         store.setDefault(HTMLUIPreferenceNames.CONTENT_ASSIST_DO_NOT_DISPLAY_ON_OWN_PAGE, "");
         store.setDefault(HTMLUIPreferenceNames.CONTENT_ASSIST_DEFAULT_PAGE_SORT_ORDER,

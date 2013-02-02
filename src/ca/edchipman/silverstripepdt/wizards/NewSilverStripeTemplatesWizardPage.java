@@ -420,7 +420,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
     }
     
     private String getPreferencePageId() {
-        return "org.eclipse.php.ui.preferences.PHPCodeTemplatePreferencePage";
+        return "ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage";
     }
 
     /**
@@ -428,7 +428,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
      */
     protected void loadLastSavedPreferences() {
         fLastSelectedTemplateName = ""; //$NON-NLS-1$
-        String templateName = getPreferenceStore().getString(PreferenceConstants.NEW_PHP_FILE_TEMPLATE);
+        String templateName = getPreferenceStore().getString("newSilverStripeTemplate");
         if (templateName == null || templateName.length() == 0) {
             templateName = HTMLUIPlugin.getDefault().getPreferenceStore().getString(HTMLUIPreferenceNames.NEW_FILE_TEMPLATE_ID);
             if (templateName != null && templateName.length() > 0) {
@@ -444,7 +444,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
     }
     
     protected IPreferenceStore getPreferenceStore() {
-        return PreferenceConstants.getPreferenceStore();
+        return SilverStripePDTPlugin.getDefault().getPreferenceStore();
     }
     
     /**
@@ -458,8 +458,8 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
             templateName = template.getName();
         }
 
-        getPreferenceStore().setValue(PreferenceConstants.NEW_PHP_FILE_TEMPLATE, templateName);
-        PHPUiPlugin.getDefault().savePluginPreferences();
+        getPreferenceStore().setValue("newSilverStripeTemplate", templateName);
+        SilverStripePDTPlugin.getDefault().savePluginPreferences();
     }
     
     /**
@@ -544,8 +544,6 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
         }
         
         String name = templateContextType.getName();
-        return NLS
-                .bind(PHPUIMessages.newPhpFile_wizard_templatePage_phpTemplatesLocation,
-                        name);
+        return NLS.bind("Templates are \"{0}\" found in the <a>SilverStripe Templates</a> preference page.", name);
     }
 }

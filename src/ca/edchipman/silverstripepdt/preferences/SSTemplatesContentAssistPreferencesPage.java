@@ -22,6 +22,8 @@ import org.eclipse.wst.sse.ui.preferences.CodeAssistCyclingConfigurationBlock;
 import org.eclipse.wst.sse.ui.preferences.ICompletionProposalCategoriesConfigurationWriter;
 import org.eclipse.wst.xml.ui.internal.XMLUIMessages;
 
+import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+
 /**
  * <p>Defines the preference page for allowing the user to change the content
  * assist preferences</p>
@@ -109,7 +111,7 @@ public class SSTemplatesContentAssistPreferencesPage extends AbstractPreferenceP
      * @see org.eclipse.jface.preference.PreferencePage#doGetPreferenceStore()
      */
     protected IPreferenceStore doGetPreferenceStore() {
-        return HTMLUIPlugin.getDefault().getPreferenceStore();
+        return SilverStripePDTPlugin.getDefault().getPreferenceStore();
     }
 
     /**
