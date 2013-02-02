@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="ca.edchipman.silverstripepdt.Feature"
-      label="SilverStripePDT"
-      version="1.6.2"
+      label="SilverStripe Developer Tools"
+      version="1.6.3"
       provider-name="Ed Chipman">
 
-   <description url="http://programs.edchipman.ca/eclipse/silverstripe-pdt">
-      Extends PDT with useful addons for SilverStripe Development
+   <description url="http://programs.edchipman.ca/eclipse/silverstripe-dt">
+      Extends Eclipse with useful addons for SilverStripe Development
    </description>
 
    <copyright url="http://www.edchipman.ca">
@@ -38,7 +38,7 @@
    </license>
 
    <url>
-      <update label="Ed Chipman&apos;s SilverStripe PDT Extensions" url="http://downloads.edchipman.ca/silverStripePDT"/>
+      <update label="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://downloads.edchipman.ca/silverStripePDT"/>
    </url>
 
    <requires>
