@@ -38,7 +38,7 @@
    </license>
 
    <url>
-      <update label="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://downloads.edchipman.ca/silverStripePDT"/>
+      <update label="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://silverstripedt.edchipman.ca"/>
    </url>
 
    <requires>
