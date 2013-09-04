@@ -1,0 +1,22 @@
+
+# /
+/bin
+
+# /DevTimeSupport/SedModel/SSTokenizer/devel/
+/DevTimeSupport/SedModel/SSTokenizer/devel/*.java
+
+# /DevTimeSupport/cache/
+/DevTimeSupport/cache/*
+
+# /bin/
+/bin/*.*
+/bin/*
+
+# /resources/SS2.3/
+/resources/SS2.3/*
+
+# /resources/SS2.4/
+/resources/SS2.4/*
+
+# /resources/SS3.0/
+/resources/SS3.0/*

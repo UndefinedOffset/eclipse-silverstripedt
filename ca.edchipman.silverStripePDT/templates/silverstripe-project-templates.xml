@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+<!-- new PHP templates -->
+<template
+    name="New SilverStripe project _config.php template"
+    description="A new SilverStripe project _config.php template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.config"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+global $$project;
+$$project = 'mysite';
+
+global $$databaseConfig;
+$$databaseConfig = array(
+    "type" => "MySQLDatabase",
+    "server" => "localhost",
+    "username" => "USERNAME",
+    "password" => "PASSWORD",
+    "database" => "DATABASE",
+);
+
+MySQLDatabase::set_connection_charset('utf8');
+
+
+// Sites running on the following servers will be run in development mode.
+Director::set_dev_servers(array(
+    'localhost',
+    '127.0.0.1'
+));
+Director::set_environment_type('dev');
+
+//Set Admin Email
+Email::setAdminEmail('me@example.com');
+
+//Set's the current theme
+SSViewer::set_theme('THEME NAME');
+
+//Enable nested urls
+SiteTree::enable_nested_urls();
+
+//Error Logging
+if(Director::isLive()) {
+    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::WARN);
+    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::ERR);
+}
+?&gt;</template>
+
+
+<template
+    name="New SilverStripe project _config.php template"
+    description="A new SilverStripe project _config.php template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.config"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+global $$project;
+$$project = 'mysite';
+
+global $$databaseConfig;
+$$databaseConfig = array(
+    "type" => "MySQLDatabase",
+    "server" => "localhost",
+    "username" => "USERNAME",
+    "password" => "PASSWORD",
+    "database" => "DATABASE",
+);
+
+MySQLDatabase::set_connection_charset('utf8');
+
+
+// Enable development mode.
+Director::set_environment_type('dev');
+
+//Set Admin Email
+Email::setAdminEmail('me@example.com');
+
+//Set's the current theme
+SSViewer::set_theme('THEME NAME');
+
+//Enable nested urls
+SiteTree::enable_nested_urls();
+
+//Error Logging
+if(Director::isLive()) {
+    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::WARN);
+    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::ERR);
+}
+?&gt;</template>
+<template
+    name="New SilverStripe project _config.php template"
+    description="A new SilverStripe project _config.php template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss23.config"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+global $$project;
+$$project = 'mysite';
+
+global $$databaseConfig;
+$$databaseConfig = array(
+    "type" => "MySQLDatabase",
+    "server" => "localhost",
+    "username" => "USERNAME",
+    "password" => "PASSWORD",
+    "database" => "DATABASE",
+);
+
+
+// Sites running on the following servers will be run in development mode.
+Director::set_dev_servers(array(
+    'localhost',
+    '127.0.0.1'
+));
+Director::set_environment_type('dev');
+
+//Set Admin Email
+Email::setAdminEmail('me@example.com');
+
+//Set's the current theme
+SSViewer::set_theme('THEME NAME');
+
+
+//Error Logging
+if(Director::isLive()) {
+    Debug::send_warnings_to('me@example.com');
+    Debug::sent_errors_to('me@example.com');
+}
+?&gt;</template>
+
+
+<template
+    name="New SilverStripe module _config.php template"
+    description="A new SilverStripe module _config.php template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssmodule.config"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+
+?&gt;</template>
+
+
+<template
+    name="New SilverStripe project Page class template"
+    description="A new SilverStripe project Page class template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.defaultpage"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+class Page extends SiteTree {
+    public static $$db=array(
+                           );
+    
+    public static $$defaults=array(
+                                );
+    
+    /**
+     * Gets whether the user is an administrator
+     * @return {bool} True if the user is an admin false if not
+     */
+    public function getIsAdmin() {
+        if(Permission::check('ADMIN')) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+}
+
+class Page_Controller extends ContentController {
+    public function init() {
+        parent::init();
+    }
+    
+    /**
+     * Site search form 
+     */ 
+    public function SearchForm() {
+        $$searchText = (isset($$_REQUEST['Search']) ? $$_REQUEST['Search']:'Search');
+        $$fields = new FieldSet(
+                                new TextField("Search", "", $$searchText)
+                            );
+        $$actions = new FieldSet(
+                                new FormAction('results', 'Search')
+                            );
+        
+        return new SearchForm($$this, "SearchForm", $$fields, $$actions);
+    }
+    
+    /**
+     * Process and render search results
+     */
+    public function results($$data, $$form){
+        $$data = array(
+            'Results' => $$form->getResults(),
+            'Query' => $$form->getSearchQuery(),
+            'Title' => DBField::create('Varchar','Search Results')
+        );
+        
+        return $$this->customise($$data)->renderWith(array('Page_results', 'Page'));
+    }
+}
+?&gt;</template>
+
+
+<template
+    name="New SilverStripe 3.0 project Page class template"
+    description="A new SilverStripe 3.0 project Page class template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.defaultpage"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+class Page extends SiteTree {
+    public static $$db=array(
+                           );
+    
+    public static $$defaults=array(
+                                );
+    
+    /**
+     * Gets whether the user is an administrator
+     * @return {bool} True if the user is an admin false if not
+     */
+    public function getIsAdmin() {
+        if(Permission::check('ADMIN')) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+}
+
+class Page_Controller extends ContentController {
+    public function init() {
+        parent::init();
+    }
+}
+?&gt;</template>
+
+
+<template
+    name="New SilverStripe theme editor.css template"
+    description="A new SilverStripe theme editor.css template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.editor"
+    context="php_new_ss_project_context"
+    enabled="true">/**
+ * This support file is used to style the WYSIWYG editor in the CMS
+ */
+
+@import "typography.css";
+
+body.mceContentBody {
+    min-height: 200px;
+    font-size: 62.5%;
+}
+body.mceContentBody a.broken {
+    background-color: #FF7B71;
+    border: 1px red solid;
+}
+</template>
+
+
+<template
+    name="New SilverStripe theme form.css template"
+    description="A new SilverStripe theme form.css template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.form"
+    context="php_new_ss_project_context"
+    enabled="true">/* GENERIC FORM STYLING */
+form fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.message.bad, .message.required, .message.validation {
+    background: #FED0D0 !important;
+    border: 4px solid #FF7373 !important;
+    margin: 0 0 15px 0 !important;
+    padding: 5px !important;
+    display: block;
+    color: #DC1313 !important;
+    
+    width: 292px;
+}
+
+.message.warning {
+    background: none repeat scroll 0 0 #FFFFEA !important;
+    border: 4px solid #F7F8B4 !important;
+    margin: 0 auto 15px auto !important;
+    padding: 5px !important;
+    color: #979908 !important;
+    
+    width: 292px;
+}
+
+.message.good, .message.success {
+    display: block;
+    background: none repeat scroll 0 0 #EAFFEC !important;
+    border: 4px solid #B4F8BC !important;
+    margin: 0 0 15px 0 !important;
+    padding: 5px !important;
+    color: #089916 !important;
+}
+
+form div.field {
+    clear: both;
+    
+    margin-top: 14px;
+}
+
+form p.field {
+    clear: both;
+}
+
+form div.middleColumn {
+    margin-top: 4px;
+}
+
+form label {
+    display: block;
+    font-size: 1.1em;
+    color: #000000;
+    
+    text-align: left !important;
+}
+
+form .field.checkbox label {
+    display: inline;
+}
+
+form label.FormHeading {
+    font-size: 1.3em;
+    color: #ff7200;
+    font-weight: bold;
+}
+
+form input.text, form textarea, form select {
+    width: 300px;
+    color: #000000 !important;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 3px;
+}
+
+form input.numeric {
+    width: 20px;
+    background: #f0f0f0;
+    border: 1px solid #CCCCCC;
+    padding: 3px;
+    color: #000;
+    margin-right: 4px;
+}
+
+form textarea {
+    resize: none;
+}
+
+form input.year {
+    width: 35px;
+}
+
+form p.Actions {
+    text-align: right;
+    padding: 0 22px 15px 0;
+}
+
+form p.Actions input {
+    padding: 2px;
+}
+
+#MemberLoginForm_LoginForm #Remember label {
+    display: inline;
+}
+</template>
+
+
+<template
+    name="New SilverStripe theme layout.css template"
+    description="A new SilverStripe theme layout.css template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.layout"
+    context="php_new_ss_project_context"
+    enabled="true">/* Global Resetting */
+a img {
+    border: 0;
+}
+
+*:focus {
+    outline: 0;
+}
+
+.clear {
+    clear: both;
+}
+
+/* Layout CSS */
+#Main {
+    margin: 20px auto;
+    width: 955px;
+}
+
+#PageComments {
+    background: #E9E9E9;
+    border: 1px solid #CCCCCC;
+    border-bottom: 0;
+    padding: 0;
+    margin: 0;
+}
+
+#PageComments li {
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+    border-bottom: 1px dotted #bbb;
+}
+            
+#PageNumbers {
+    padding: 5px;
+    border: 1px solid #DDDDDD;
+    background: #E9E9E9;
+}
+
+#PageNumbers * {
+    padding: 0 5px;
+}
+</template>
+
+
+<template
+    name="New SilverStripe 3.0 theme layout.css template"
+    description="A new SilverStripe theme layout.css template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.layout"
+    context="php_new_ss_project_context"
+    enabled="true">/* Global Resetting */
+a img {
+    border: 0;
+}
+
+*:focus {
+    outline: 0;
+}
+
+.clear {
+    clear: both;
+}
+
+/* Layout CSS */
+#Main {
+    margin: 20px auto;
+    width: 955px;
+}
+            
+#PageNumbers {
+    padding: 5px;
+    border: 1px solid #DDDDDD;
+    background: #E9E9E9;
+}
+
+#PageNumbers * {
+    padding: 0 5px;
+}
+</template>
+
+
+<template
+    name="New SilverStripe theme typography.css template"
+    description="A new SilverStripe theme typography.css template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.typography"
+    context="php_new_ss_project_context"
+    enabled="true">/**
+ * This typography file is included in the WYSIWYG editor
+ */
+.typography * {
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 12px;
+}
+
+.typography blockquote {
+    margin-left: 20px;
+}
+
+.typography hr {
+    padding: 0;
+    margin: 20px 0;
+    
+    border: 0;
+    
+    border-bottom: 3px solid #2D67B2;
+}
+
+.typography p,
+.typography ul li,
+.typography ol li,
+.typography a {
+    color: #343434;
+    font-size: 12px;
+}
+
+.typography p {
+    margin-bottom: 20px;
+}
+
+
+/** CMS LIST STYLES **/
+.typography ul,
+.typography ol {
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+    .typography ul li,
+    .typography ol li {
+        margin: 4px 10px;
+        line-height: 1.4em;
+    }
+    
+        .typography ul &gt; li {
+            list-style-type: disc;
+        }
+        
+        .typography ol &gt; li {
+            list-style-type: decimal;
+        }
+
+/* HEADER STYLES */
+
+.typography h1,
+.typography h2,
+.typography h3,
+.typography h4 {
+    margin-bottom: 14px;
+    color: #0083C8;
+}
+
+.typography h1,
+.typography h4 {
+    font-weight: bold;
+}
+
+.typography h2,
+.typography h3 {
+    font-weight: normal;
+}
+
+    .typography h1 {
+        font-size: 2.2em;
+    }
+    
+    .typography h2 {
+        font-size: 2.2em;
+    }
+    
+    .typography h3 {
+        font-size: 1.6em;
+    }
+    
+    .typography h4 {
+        font-size: 1.4em;
+    }
+
+/* LINK STYLES */
+.typography a {
+    color: #0083C8;
+    font-size: 1em;
+    text-decoration: none;
+}
+
+    .typography a:hover {
+        text-decoration: underline;
+    }
+    
+    
+.typography table {
+    font-size: 1.1em;
+}
+
+    .typography table tr td {
+        padding: 3px 5px;
+    }
+
+    
+/* WYSIWYG EDITOR ALIGNMENT CLASSES */
+.typography .left {
+    text-align:left;
+}
+
+.typography .center {
+    text-align:center;
+}
+
+.typography .right {
+    text-align:right;
+}
+
+.typography img.right {
+    float:right;
+}
+
+.typography img.left {
+    float:left;
+}
+
+.typography p.MsoNormal, .typography p.MsoBodyText {
+    margin: 0;
+}
+
+/* OTHER */
+#PageComments {
+    list-style: none;
+}
+
+#PageComments li {
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+    font-size: 1em;
+    border-bottom: 1px dotted #bbb;
+}
+
+#PageComments li p span {
+    font-style: italic;
+}
+
+#PageComments a.deletelink {
+    font-weight: bold;
+}
+
+#PageNumbers {
+    font-weight: bold;
+    color: #333333;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+#PageNumbers * {
+    line-height: 1.5em;
+}
+
+#PageNumbers a {
+    color: #0083C8;
+    text-decoration: none;
+}
+
+#PageNumbers a:hover {
+    text-decoration: underline;
+}
+</template>
+
+
+<template
+    name="New SilverStripe 3.0 theme typography.css template"
+    description="A new SilverStripe theme typography.css template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.typography"
+    context="php_new_ss_project_context"
+    enabled="true">/**
+ * This typography file is included in the WYSIWYG editor
+ */
+.typography * {
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 12px;
+}
+
+.typography blockquote {
+    margin-left: 20px;
+}
+
+.typography hr {
+    padding: 0;
+    margin: 20px 0;
+    
+    border: 0;
+    
+    border-bottom: 3px solid #2D67B2;
+}
+
+.typography p,
+.typography ul li,
+.typography ol li,
+.typography a {
+    color: #343434;
+    font-size: 12px;
+}
+
+.typography p {
+    margin-bottom: 20px;
+}
+
+
+/** CMS LIST STYLES **/
+.typography ul,
+.typography ol {
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+    .typography ul li,
+    .typography ol li {
+        margin: 4px 10px;
+        line-height: 1.4em;
+    }
+    
+        .typography ul &gt; li {
+            list-style-type: disc;
+        }
+        
+        .typography ol &gt; li {
+            list-style-type: decimal;
+        }
+
+/* HEADER STYLES */
+
+.typography h1,
+.typography h2,
+.typography h3,
+.typography h4 {
+    margin-bottom: 14px;
+    color: #0083C8;
+}
+
+.typography h1,
+.typography h4 {
+    font-weight: bold;
+}
+
+.typography h2,
+.typography h3 {
+    font-weight: normal;
+}
+
+    .typography h1 {
+        font-size: 2.2em;
+    }
+    
+    .typography h2 {
+        font-size: 2.2em;
+    }
+    
+    .typography h3 {
+        font-size: 1.6em;
+    }
+    
+    .typography h4 {
+        font-size: 1.4em;
+    }
+
+/* LINK STYLES */
+.typography a {
+    color: #0083C8;
+    font-size: 1em;
+    text-decoration: none;
+}
+
+    .typography a:hover {
+        text-decoration: underline;
+    }
+    
+    
+.typography table {
+    font-size: 1.1em;
+}
+
+    .typography table tr td {
+        padding: 3px 5px;
+    }
+
+    
+/* WYSIWYG EDITOR ALIGNMENT CLASSES */
+.typography .left {
+    text-align:left;
+}
+
+.typography .center {
+    text-align:center;
+}
+
+.typography .right {
+    text-align:right;
+}
+
+.typography img.right {
+    float:right;
+}
+
+.typography img.left {
+    float:left;
+}
+
+.typography p.MsoNormal, .typography p.MsoBodyText {
+    margin: 0;
+}
+
+/* OTHER */
+#PageNumbers {
+    font-weight: bold;
+    color: #333333;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+#PageNumbers * {
+    line-height: 1.5em;
+}
+
+#PageNumbers a {
+    color: #0083C8;
+    text-decoration: none;
+}
+
+#PageNumbers a:hover {
+    text-decoration: underline;
+}
+</template>
+
+
+<template
+    name="New SilverStripe theme Page_results.ss template"
+    description="A new SilverStripe theme Page_results.ss template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.pageresults"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;div class=&quot;typography&quot;&gt;
+    &lt;% if Results %&gt;
+        &lt;ul id=&quot;SearchResults&quot;&gt;
+            &lt;% control Results %&gt;
+                &lt;li&gt;
+                    &lt;% if MenuTitle %&gt;
+                        &lt;h3&gt;&lt;a class=&quot;searchResultHeader&quot; href=&quot;$$Link&quot;&gt;$$MenuTitle&lt;/a&gt;&lt;/h3&gt;
+                    &lt;% else %&gt;
+                        &lt;h3&gt;&lt;a class=&quot;searchResultHeader&quot; href=&quot;$$Link&quot;&gt;$$Title&lt;/a&gt;&lt;/h3&gt;
+                    &lt;% end_if %&gt;
+                    &lt;a class=&quot;readMoreLink&quot; href=&quot;$$Link&quot; title=&quot;Read more about &amp;quot;{$$Title}&amp;quot;&quot;&gt;Read more about &amp;quot;{$$Title}&amp;quot;...&lt;/a&gt;
+                &lt;/li&gt;
+            &lt;% end_control %&gt;
+        &lt;/ul&gt;
+    &lt;% else %&gt;
+        &lt;p&gt;Sorry, your search query did not return any results.&lt;/p&gt;
+    &lt;% end_if %&gt;
+    
+    &lt;% if Results.MoreThanOnePage %&gt;
+        &lt;div id=&quot;PageNumbers&quot;&gt;
+            &lt;% if Results.NotLastPage %&gt;
+                &lt;a class=&quot;next&quot; href=&quot;$$Results.NextLink&quot; title=&quot;View the next page&quot;&gt;Next&lt;/a&gt;
+            &lt;% end_if %&gt;
+            
+            &lt;% if Results.NotFirstPage %&gt;
+                &lt;a class=&quot;prev&quot; href=&quot;$$Results.PrevLink&quot; title=&quot;View the previous page&quot;&gt;Prev&lt;/a&gt;
+            &lt;% end_if %&gt;
+            
+            &lt;span&gt;
+                &lt;% control Results.SummaryPagination(5) %&gt;
+                    &lt;% if CurrentBool %&gt;
+                        $$PageNum
+                    &lt;% else %&gt;
+                        &lt;a href=&quot;$$Link&quot; title=&quot;View page number $$PageNum&quot;&gt;$$PageNum&lt;/a&gt;
+                    &lt;% end_if %&gt;
+                &lt;% end_control %&gt;
+            &lt;/span&gt;
+        &lt;/div&gt;
+    &lt;% end_if %&gt;
+&lt;/div&gt;</template>
+
+
+<template
+    name="New SilverStripe theme Navigation.ss template"
+    description="A new SilverStripe theme Navigation.ss template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.navigation"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;ul class=&quot;menu-bar&quot;&gt;
+    &lt;% control Menu(1) %&gt;
+        &lt;li>
+            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&lt;% if Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$$MenuTitle.XML&lt;/span&gt;&lt;/a&gt;
+            &lt;% if Children %&gt;
+                &lt;ul&gt;
+                    &lt;% control Children %&gt;
+                        &lt;li>
+                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;&gt;$$MenuTitle.XML&lt;/a&gt;
+                            
+                            &lt;% if Children %&gt;
+                                &lt;ul&gt;
+                                    &lt;% control Children %&gt;
+                                        &lt;li&gt;
+                                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;>$$MenuTitle.XML&lt;/a&gt;
+                                        &lt;/li&gt;
+                                    &lt;% end_control %&gt;
+                                &lt;/ul&gt;
+                            &lt;% end_if %&gt;
+                        &lt;/li&gt;
+                    &lt;% end_control %&gt;
+                &lt;/ul&gt;
+            &lt;% end_if %&gt;
+        &lt;/li&gt;
+    &lt;% end_control %&gt;
+&lt;/ul&gt;</template>
+
+
+<template
+    name="New SilverStripe 3.0 theme Navigation.ss template"
+    description="A new SilverStripe 3.0 theme Navigation.ss template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.navigation"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;ul class=&quot;menu-bar&quot;&gt;
+    &lt;% loop $$Menu(1) %&gt;
+        &lt;li>
+            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&lt;% if $$Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$$MenuTitle.XML&lt;/span&gt;&lt;/a&gt;
+            &lt;% if $$Children %&gt;
+                &lt;ul&gt;
+                    &lt;% loop $$Children %&gt;
+                        &lt;li>
+                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;&gt;$$MenuTitle.XML&lt;/a&gt;
+                            
+                            &lt;% if $$Children %&gt;
+                                &lt;ul&gt;
+                                    &lt;% loop $$Children %&gt;
+                                        &lt;li&gt;
+                                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;>$$MenuTitle.XML&lt;/a&gt;
+                                        &lt;/li&gt;
+                                    &lt;% end_loop %&gt;
+                                &lt;/ul&gt;
+                            &lt;% end_if %&gt;
+                        &lt;/li&gt;
+                    &lt;% end_loop %&gt;
+                &lt;/ul&gt;
+            &lt;% end_if %&gt;
+        &lt;/li&gt;
+    &lt;% end_loop %&gt;
+&lt;/ul&gt;</template>
+</templates>

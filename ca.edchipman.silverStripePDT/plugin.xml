@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.ui.startup">
+        <startup class="ca.edchipman.silverstripepdt.RegisterResolvers"></startup>
+    </extension>
+    
+    <extension
+        point="org.eclipse.core.filebuffers.documentCreation"
+        id="org.eclipse.wst.html.core.documentfactories"
+        name="SilverStripe Template Creation Factory">
+        <!-- This is a base factory class included in WST -->
+        <factory
+            contentTypeId="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"
+            class="org.eclipse.wst.sse.core.internal.filebuffers.BasicStructuredDocumentFactory" />
+    </extension>
+    
+    <extension point="org.eclipse.core.contenttype.contentTypes">
+        <content-type
+                base-type="org.eclipse.wst.html.core.htmlsource"
+                file-extensions="ss"
+                id="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"
+                name="SilverStripe Template Content Type"
+                priority="high">
+                
+                <!-- <describer class="org.eclipse.wst.html.core.internal.contenttype.ContentDescriberForHTML"/> -->
+        </content-type>
+    </extension>
+    
+    <extension point="org.eclipse.wst.sse.core.modelHandler">
+        <modelHandler
+            class="ca.edchipman.silverstripepdt.modelhandler.ModelHandlerForSS"
+            associatedContentTypeId="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"
+            id="ca.edchipman.silverstripepdt.modelhandler">
+        </modelHandler>
+    </extension>
+    
+    <extension point="org.eclipse.ui.editors.templates">
+        <contextType name="ca.edchipman.silverstripepdt.SilverStripeTemplate"
+                                            class="ca.edchipman.silverstripepdt.templates.SilverStripeTemplateContextType"
+                                            id="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
+        
+        <include file="templates/silverstripe-templates.xml" />
+    </extension>
+    
+    <extension point="org.eclipse.ui.editors.templates">
+        <contextType name="ca.edchipman.silverstripepdt.SilverStripeProjectTemplate"
+                                            class="ca.edchipman.silverstripepdt.templates.SilverStripeTemplateContextType"
+                                            id="ca.edchipman.silverstripepdt.SilverStripeProjectTemplate" />
+        
+        <include file="templates/silverstripe-project-templates.xml" />
+    </extension>
+    
+    <extension point="org.eclipse.ui.editors.templates">
+        <contextType name="ca.edchipman.silverstripepdt.SilverStripeContentAssistTemplate"
+                                            class="ca.edchipman.silverstripepdt.templates.SilverStripeTemplateContextType"
+                                            id="ca.edchipman.silverstripepdt.SilverStripeContentAssistTemplate" />
+        
+        <include file="templates/silverstripe-contentassist-templates.xml" />
+    </extension>
+    
+    <extension point="org.eclipse.ui.perspectiveExtensions">
+        <perspectiveExtension targetID="org.eclipse.php.perspective">
+            <newWizardShortcut id="ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard" />
+            <newWizardShortcut id="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard" />
+        </perspectiveExtension>
+    </extension>
+    
+    <extension point="org.eclipse.ui.newWizards">
+        <category name="SilverStripe" id="ca.edchipman.silverstripepdt.category" />
+        
+        <wizard id="ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard"
+                category="ca.edchipman.silverstripepdt.category"
+                class="ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard"
+                name="New SilverStripe Project" icon="icons/full/obj16/add_ss_project.gif"
+                finalPerspective="org.eclipse.php.perspective" preferredPerspectives="org.eclipse.php.perspective"
+                project="true">
+            <description>Create a new SilverStripe mysite, theme, or module project</description>
+            <selection class="org.eclipse.core.resources.IResource" />
+        </wizard>
+        <wizard id="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard"
+                         category="ca.edchipman.silverstripepdt.category" class="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard"
+                         name="SilverStripe Template File" icon="icons/full/obj16/add_ss_file.gif">
+            <description>Create a new SilverStripe template file</description>
+            <selection class="org.eclipse.core.resources.IResource" />
+        </wizard>
+        <wizard id="ca.edchipman.silverstripepdt.wizards.SilverStripeClassCreationWizard"
+                         category="ca.edchipman.silverstripepdt.category" class="ca.edchipman.silverstripepdt.wizards.SilverStripeClassCreationWizard"
+                         name="SilverStripe Class" icon="icons/full/obj16/add_ss_file.gif">
+            <description>Create a new SilverStripe Class</description>
+            <selection class="org.eclipse.core.resources.IResource" />
+        </wizard>
+    </extension>
+    
+    <extension id="SilverStripeNature" name="SilverStripe Properties" point="org.eclipse.core.resources.natures">
+        <runtime>
+            <run class="ca.edchipman.silverstripepdt.SilverStripeNature"></run>
+        </runtime>
+    </extension>
+    
+    <extension point="org.eclipse.ui.ide.projectNatureImages">
+        <image icon="icons/full/ovr16/ss_ovr.gif" id="ca.edchipman.silverstripepdt.SilverStripeProjectNatureImage" natureId="ca.edchipman.silverstripepdt.SilverStripeNature" />
+    </extension>
+    
+    <extension point="org.eclipse.ui.workingSets">
+        <workingSet name="SilverStripe"
+            pageClass="org.eclipse.php.internal.ui.workingset.PhpWorkingSetPage"
+            updaterClass="org.eclipse.dltk.internal.ui.workingsets.ScriptWorkingSetUpdater"
+            icon="icons/full/obj16/ss_project_obj.gif" id="ca.edchipman.silverstripepdt.workingsets.SilverStripeWorkingSetPage" />
+    </extension>
+    
+    <extension point="org.eclipse.ui.editors">
+        <editor class="ca.edchipman.silverstripepdt.editor.SilverStripeTemplateStructuredEditor"
+                        contributorClass="org.eclipse.wst.html.ui.internal.edit.ui.ActionContributorHTML"
+                        default="true" icon="icons/full/obj16/ss_file.gif" id="ca.edchipman.silverstripepdt.SilverStripe.editor"
+                        name="SilverStripe Template Editor" symbolicFontName="org.eclipse.wst.sse.ui.textfont">
+            <contentTypeBinding contentTypeId="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        </editor>
+    </extension>
+    
+    <extension point="org.eclipse.wst.sse.ui.editorConfiguration">
+        <sourceViewerConfiguration
+            class="ca.edchipman.silverstripepdt.editor.StructuredTextViewerConfigurationSS"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        <contentOutlineConfiguration
+            class="org.eclipse.wst.html.ui.views.contentoutline.HTMLContentOutlineConfiguration"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        <quickOutlineConfiguration
+            class="org.eclipse.wst.xml.ui.internal.quickoutline.XMLQuickOutlineConfiguration"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"/>
+        <propertySheetConfiguration
+            class="org.eclipse.wst.xml.ui.views.properties.XMLPropertySheetConfiguration"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        <documentationTextHover
+            class="org.eclipse.wst.html.ui.internal.taginfo.HTMLTagInfoHoverProcessor"
+            target="org.eclipse.wst.html.HTML_DEFAULT">
+        </documentationTextHover>
+        <provisionalConfiguration
+            type="sourceeditingtexttools"
+            class="org.eclipse.wst.xml.ui.internal.provisional.XMLSourceEditingTextTools"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        <provisionalConfiguration
+            type="characterpairmatcher"
+            class="org.eclipse.wst.html.ui.internal.text.HTMLDocumentRegionEdgeMatcher"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        <provisionalConfiguration
+            type="foldingstrategy"
+            class="org.eclipse.wst.xml.ui.internal.projection.XMLFoldingStrategy"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        <provisionalConfiguration
+            type="org.eclipse.jface.text.quickassist.IQuickAssistProcessor"
+            class="org.eclipse.wst.xml.ui.internal.correction.XMLQuickAssistProcessor"
+            target="org.eclipse.wst.html.HTML_DEFAULT" />
+        <provisionalConfiguration
+            type="autoeditstrategy"
+            class="org.eclipse.wst.html.ui.internal.autoedit.StructuredAutoEditStrategyHTML"
+            target="org.eclipse.wst.html.HTML_DEFAULT, org.eclipse.wst.html.HTML_DECLARATION" />
+        <provisionalDefinition
+            type="preferencepages"
+            value="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage, org.eclipse.php.ui.preferences.PHPTemplatesPreferencePage, org.eclipse.wst.html.ui.preferences.html, org.eclipse.wst.html.ui.preferences.source, org.eclipse.wst.html.ui.preferences.templates, org.eclipse.wst.html.ui.preferences.styles,org.eclipse.wst.html.ui.preferences.validation, org.eclipse.wst.html.ui.preferences.contentassist"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        <provisionalDefinition
+            type="spellingregions"
+            value="XML_COMMENT_TEXT, XML_CONTENT"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        <provisionalDefinition
+            type="activecontexts"
+            value="org.eclipse.wst.html.core.htmlsource, org.eclipse.wst.html.occurrences, org.eclipse.core.runtime.xml, org.eclipse.wst.xml.navigation, org.eclipse.wst.xml.selection, org.eclipse.wst.sse.comments"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+    </extension>
+     
+    <extension point="org.eclipse.ui.popupMenus">
+        <objectContribution id="ca.edchipman.silverstripepdt.contextmenu.addnature" objectClass="org.eclipse.core.resources.IProject" adaptable="true">
+            <action class="ca.edchipman.silverstripepdt.actions.AddSilverStripeNatureAction" enablesFor="+" id="ca.edchipman.silverstripepdt.actions.SetupSilverStripeNature" label="Add SilverStripe Support..." menubarPath="org.eclipse.ui.projectConfigure/additions" />
+            
+            <visibility>
+                <not><objectState name="nature" value="ca.edchipman.silverstripepdt.SilverStripeNature" /></not>
+            </visibility> 
+        </objectContribution>
+        
+        <objectContribution id="ca.edchipman.silverstripepdt.contextmenu.removenature" objectClass="org.eclipse.core.resources.IProject" adaptable="true">
+            <action class="ca.edchipman.silverstripepdt.actions.RemoveSilverStripeNatureAction" enablesFor="+" id="ca.edchipman.silverstripepdt.actions.RemoveSilverStripeNature" label="Remove SilverStripe Support..." menubarPath="org.eclipse.ui.projectConfigure/additions" />
+            
+            <visibility>
+                <objectState name="nature" value="ca.edchipman.silverstripepdt.SilverStripeNature" />
+            </visibility>  
+        </objectContribution>
+    </extension>
+    
+    
+    <!-- initialize ss lexer preferences -->
+   <extension point="org.eclipse.core.runtime.preferences">
+         <initializer class="ca.edchipman.silverstripepdt.preferences.SilverStripePDTPreferenceInitializer" />
+   </extension>
+   
+   <extension point="org.eclipse.ui.preferencePages">
+        <page class="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
+            id="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage" name="SilverStripe">
+            <keywordReference id="ca.edchipman.silverstripepdt.general" />
+        </page>
+        <page
+            name="Content Assist"
+            category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
+            class="ca.edchipman.silverstripepdt.preferences.SSTemplatesContentAssistPreferencesPage"
+            id="ca.edchipman.silverstripepdt.preferences.styles">
+            <keywordReference id="ca.edchipman.silverstripepdt.SSTemplatesContentAssistPreferencesPage" />
+        </page>
+        <page category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
+            class="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage"
+            id="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage" name="Templates">
+            <keywordReference id="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
+        </page>
+        <page
+            name="Syntax Coloring"
+            category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
+            class="ca.edchipman.silverstripepdt.preferences.SilverStripeSyntaxColoringPage"
+            id="ca.edchipman.silverstripepdt.preferences.styles">
+            <keywordReference id="ca.edchipman.silverstripepdt.SilverStripeSyntaxColoringPage" />
+        </page>
+   </extension>
+   
+    <extension point="org.eclipse.dltk.core.buildpathContainerInitializer">
+        <buildpathContainerInitializer
+            class="ca.edchipman.silverstripepdt.language.LanguageModelInitializer"
+            id="ca.edchipman.silverstripepdt.LANGUAGE">
+        </buildpathContainerInitializer>
+    </extension>
+    
+    <extension point="org.eclipse.ui.propertyPages">
+        <page
+            class="ca.edchipman.silverstripepdt.preferences.SilverStripeProjectPreferencePage"
+            id="ca.edchipman.silverstripepdt.propertyPages.SilverStripeProjectPreferencePage"
+            name="SilverStripe">
+            
+            <enabledWhen>
+                <adapt type="org.eclipse.core.resources.IProject">
+                </adapt>
+            </enabledWhen>
+            
+            <filter name="nature" value="ca.edchipman.silverstripepdt.SilverStripeNature" />
+        </page>
+    </extension>
+    
+    <extension point="org.eclipse.wst.sse.ui.completionProposal">
+       <proposalCategory
+           icon="icons/full/obj16/silverstripe.gif"
+           id="ca.edchipman.silverstripepdt.ssTemplates"
+           name="SilverStripe Proposals">
+       </proposalCategory>
+       <proposalComputer
+            activate="true"
+            categoryId="ca.edchipman.silverstripepdt.ssTemplates"
+            class="ca.edchipman.silverstripepdt.contentassist.SSTemplateCompletionProposalComputer"
+            id="ca.edchipman.silverstripepdt.SSTemplateProposalComputer">
+                <contentType id="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"></contentType>
+       </proposalComputer>
+    </extension>
+    
+    <extension point="org.eclipse.wst.sse.ui.completionProposalCategoriesConfiguration">
+        <categoriesConfiguration
+              class="ca.edchipman.silverstripepdt.preferences.SSTemplatesCompletionProposalCategoriesConfiguration"
+              contentTypeID="ca.edchipman.silverstripepdt.SilverStripeTemplateSource">
+        </categoriesConfiguration>
+    </extension>
+    
+    <extension id="SSValidator" name="SilverStripe Template Validator" point="org.eclipse.wst.validation.validatorV2">
+        <validator
+                build="true"
+                class="ca.edchipman.silverstripepdt.validation.SSTemplateValidator"
+                manual="true"
+                sourceid="ca.edchipman.silverstripepdt.SSTemplateValidator"
+                version="1"
+                markerId="org.eclipse.wst.html.core.validationMarker">
+            <include>
+                <rules>
+                    <contentType id="ca.edchipman.silverstripepdt.SilverStripeTemplateSource"></contentType>
+                    <fileext caseSensitive="false" ext="ss"/>
+                </rules>
+            </include>
+            <group id="org.eclipse.wst.sse.core.structuredModelGroup"/>
+        </validator>
+    </extension>
+    <extension
+          point="org.eclipse.ui.actionSets">
+       <actionSet
+             description="Actions used for SilverStripe Projects"
+             id="ca.edchipman.silverStripePDT.actionSet"
+             label="SilverStripe">
+          <action
+                class="ca.edchipman.silverstripepdt.actions.SilverStripeDevBuildAction"
+                definitionId="ca.silverStripePDT.commands.DevBuild"
+                disabledIcon="icons/full/actions/compile-disabled.png"
+                enablesFor="1"
+                icon="icons/full/actions/compile.png"
+                id="ca.edchipman.silverStripePDT.devBuildAction"
+                label="Build SilverStripe"
+                menubarPath="project/build"
+                style="push"
+                toolbarPath="debug"
+                tooltip="Run dev/build on the SilverStripe Project">
+          </action>
+       </actionSet>
+    </extension>
+    <extension
+          point="org.eclipse.ui.commands">
+       <command
+             categoryId="org.eclipse.ui.category.project"
+             description="Runs dev/build on the current SilverStripe project"
+             id="ca.silverStripePDT.commands.DevBuild"
+             name="Run Build SilverStripe">
+       </command>
+    </extension>
+    <extension
+          point="org.eclipse.ui.views">
+       <view
+             allowMultiple="false"
+             category="ca.edchipman.silverStripePDT.category"
+             class="ca.edchipman.silverstripepdt.views.DevBuildViewer"
+             icon="icons/full/ss-logo.png"
+             id="ca.edchipman.silverstripepdt.views.DevBuildViewer"
+             name="Dev/Build Viewer"
+             restorable="true">
+       </view>
+       <category
+             id="ca.edchipman.silverStripePDT.category"
+             name="SilverStripe">
+       </category>
+    </extension>
+    <extension
+          point="org.eclipse.ui.bindings">
+       <key
+             commandId="ca.silverStripePDT.commands.DevBuild"
+             contextId="org.eclipse.ui.contexts.window"
+             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+             sequence="ALT+SHIFT+X B">
+       </key>
+    </extension>
+</plugin>

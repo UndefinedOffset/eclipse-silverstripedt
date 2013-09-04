@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+<!-- new PHP templates -->
+<template
+    name="New SilverStripe Page Type"
+    description="A new SilverStripe Page type extending Page and Page_Controller"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.pagetype"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} extends Page {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$defaults=array(
+                                );
+    
+    ${cursor}
+}
+
+class ${file_name}_Controller extends Page_Controller {
+    
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe Data Object"
+    description="A new SilverStripe Data Object"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.dataobject"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} extends DataObject {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$belongs_many_many=array(
+                                 );
+    
+    public static $$many_many=array(
+                                 );
+    
+    public static $$defaults=array(
+                                );
+    
+    ${cursor}
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe Controller"
+    description="A new SilverStripe Controller extending ContentController"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.controller"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} extends ContentController {
+    ${cursor}
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe 2.4 or earlier Extension"
+    description="A new SilverStripe 2.4 or earlier Extension"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.extension"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} extends Extension {
+    /**
+     * Adds the extra statics for this extension
+     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     */
+    public function extraStatics() {
+        ${cursor}
+    }
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     */
+    public function updateCMSFields(FieldSet &amp;$$fields) {
+        
+    }
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe 3.0 Extension"
+    description="A SilverStripe 3.0 Extension"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss30.extension"
+    context="php_new_file_context"
+    enabled="true"
+    autoinsert="true">&lt;?php
+class ${file_name} extends Extension {
+    ${cursor}
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe 3.0 Data Extension"
+    description="A SilverStripe 3.0 Data Extension"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss30.dataextension"
+    context="php_new_file_context"
+    enabled="true"
+    autoinsert="true">&lt;?php
+class ${file_name} extends DataExtension {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$belongs_many_many=array(
+                                 );
+    
+    public static $$many_many=array(
+                                 );
+    
+    public static $$defaults=array(
+                                );
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldList} $$fields Field List that new fields will be added to
+     */
+    public function updateCMSFields(FieldList $$fields) {
+        
+    }
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe 2.4 or earlier Data Object Decorator"
+    description="A new SilverStripe 2.4 or earlier Data Object Decorator"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.dod"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} extends DataObjectDecorator {
+    /**
+     * Adds the extra statics for this extension
+     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     */
+    public function extraStatics() {
+        ${cursor}
+    }
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     */
+    public function updateCMSFields(FieldSet &amp;$$fields) {
+        
+    }
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe Class"
+    description="A new SilverStripe Class"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.class"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+class ${file_name} {
+    ${cursor}
+}
+?&gt;</template>
+
+<template
+    name="New SilverStripe 2.4 or earlier language file"
+    description="A new SilverStripe language file"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.lang"
+    context="php_new_file_context"
+    enabled="true">&lt;?php
+global $$lang;
+
+//$$lang['${file_name}']['EXAMPLE_CLASS']['MY_EXAMPLE']='My Example';
+//$$lang['${file_name}']['Example.ss']['MY_EXAMPLE']='My Example';
+?&gt;</template>
+
+<!-- auto complete templates -->
+<template
+    name="class"
+    description="A SilverStripe Page type extending Page and Page_Controller"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.pagetype"
+    context="php"
+    enabled="true"
+    autoinsert="true">class ${file_name} extends Page {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$defaults=array(
+                                );
+    
+    ${cursor}
+}
+
+class ${file_name}_Controller extends Page_Controller {
+    
+}</template>
+
+<template
+    name="class"
+    description="A SilverStripe Data Object"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.dataobject"
+    context="php"
+    enabled="true"
+    autoinsert="true">class ${file_name} extends DataObject {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$belongs_many_many=array(
+                                 );
+    
+    public static $$many_many=array(
+                                 );
+    
+    public static $$defaults=array(
+                                );
+    
+    ${cursor}
+}</template>
+
+<template
+    name="class"
+    description="A SilverStripe Controller extending ContentController"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.controller"
+    context="php"
+    enabled="true"
+    autoinsert="true">class ${file_name} extends ContentController {
+    ${cursor}
+}</template>
+
+<template
+    name="class"
+    description="A SilverStripe Extension"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.extension"
+    context="php"
+    enabled="true"
+    autoinsert="true">class ${file_name} extends Extension {
+    /**
+     * Adds the extra statics for this extension
+     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     */
+    public function extraStatics() {
+        ${cursor}
+    }
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     */
+    public function updateCMSFields(FieldSet &amp;$$fields) {
+        
+    }
+}</template>
+
+<template
+    name="class"
+    description="A SilverStripe 3.0 Extension"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.ss30.extension"
+    context="php"
+    enabled="true"
+    autoinsert="true">class ${file_name} extends Extension {
+    ${cursor}
+}</template>
+
+<template
+    name="class"
+    description="A SilverStripe 3.0 Data Extension"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.ss30.dataextension"
+    context="php"
+    enabled="true"
+    autoinsert="true">class ${file_name} extends DataExtension {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$belongs_many_many=array(
+                                 );
+    
+    public static $$many_many=array(
+                                 );
+    
+    public static $$defaults=array(
+                                );
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     */
+    public function updateCMSFields(FieldList $$fields) {
+        
+    }
+}</template>
+
+<template
+    name="class"
+    description="A SilverStripe Data Object Decorator"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.dod"
+    context="php"
+    enabled="true"
+    autoinsert="true">class ${file_name} extends DataObjectDecorator {
+    /**
+     * Adds the extra statics for this extension
+     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     */
+    public function extraStatics() {
+        ${cursor}
+    }
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     */
+    public function updateCMSFields(FieldSet &amp;$$fields) {
+        
+    }
+}</template>
+
+<template
+    name="class"
+    description="A SilverStripe Class"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.class"
+    context="php"
+    enabled="true"
+    autoinsert="true">class ${file_name} {
+    ${cursor}
+}</template>
+
+<template
+    name="getCMSFields"
+    description="A SilverStripe getCMSFields() Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.getCMSFields"
+    context="php"
+    enabled="true"
+    autoinsert="true">/**
+ * Gets fields used in the cms
+ * @return {FieldSet} Fields to be used
+ */
+public function getCMSFields() {
+    $$fields=parent::getCMSFields();
+    
+    ${cursor}
+    
+    return $$fields;
+}</template>
+
+<template
+    name="lang"
+    description="A SilverStripe 2.4 or earlier language file template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.lang"
+    context="php"
+    enabled="true">global $$lang;
+
+$$lang['${file_name}']['${scope}']['${key_name}']='${text}';
+</template>
+
+<template
+    name="$lang"
+    description="A SilverStripe language file line template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.langline"
+    context="php"
+    enabled="true">$$lang['${file_name}']['${scope}']['${key_name}']='${text}';</template>
+
+<template
+    name="extension"
+    description="A SilverStripe Object::add_extension() template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.extensionadd"
+    context="php"
+    enabled="true">Object::add_extension('${base_class}','${extended_class}');</template>
+
+<template
+    name="extension"
+    description="A SilverStripe Object::remove_extension() template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.extensionrm"
+    context="php"
+    enabled="true">Object::remove_extension('${base_class}','${extended_class}');</template>
+
+<template
+    name="updateCMSFields"
+    description="A SilverStripe updateCMSFields() Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.updateCMSFields"
+    context="php"
+    enabled="true"
+    autoinsert="true">/**
+ * Updates the fields used in the cms
+ * @param {FieldSet} $$fields Fields to be extended
+ */
+public function updateCMSFields(FieldSet &amp;$$fields) {
+    ${cursor}
+}</template>
+
+<template
+    name="updateCMSActions"
+    description="A SilverStripe updateCMSActions Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.updateCMSActions"
+    context="php"
+    enabled="true"
+    autoinsert="true">/**
+ * Updates the actions used in the cms
+ * @param {FieldSet} $$actions Actions to be extended
+ */
+public function updateCMSActions(FieldSet &amp;$$actions) {
+    ${cursor}
+}</template>
+
+<template
+    name="updateCMSFields"
+    description="A SilverStripe 3.0 updateCMSFields() Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.ss30.updateCMSFields"
+    context="php"
+    enabled="true"
+    autoinsert="true">/**
+ * Updates the fields used in the cms
+ * @param {FieldList} $$fields Fields to be extended
+ */
+public function updateCMSFields(FieldList $$fields) {
+    ${cursor}
+}</template>
+
+<template
+    name="updateCMSActions"
+    description="A SilverStripe 3.0 updateCMSActions Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.ss30.updateCMSActions"
+    context="php"
+    enabled="true"
+    autoinsert="true">/**
+ * Updates the actions used in the cms
+ * @param {FieldList} $$actions Actions to be extended
+ */
+public function updateCMSActions(FieldList $$actions) {
+    ${cursor}
+}</template>
+
+<!-- SS File Templates -->
+<template
+    name="New Top Level SilverStripe Template"
+    description="A new Top Level SilverStripe Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.toplevel"
+    context="php_ss"
+    ss-versions="SS2.4,SS2.3"
+    enabled="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; &gt;
+    &lt;head&gt;
+        &lt;title&gt;$$Title.XML - $$SiteConfig.Title.XML&lt;% if SiteConfig.Tagline %&gt; - $$SiteConfig.Tagline.XML&lt;% end_if %&gt;&lt;/title&gt;
+        $$MetaTags(false)
+        &lt;% base_tag %&gt;
+        
+        &lt;% require themedCSS(layout) %&gt;
+        &lt;% require themedCSS(typography) %&gt;
+        &lt;% require themedCSS(form) %&gt;
+    &lt;/head&gt;
+    &lt;body class=&quot;typography&quot;&gt;
+        &lt;div id=&quot;Main&quot;&gt;
+            &lt;% include Navigation %&gt;
+            
+            &lt;div id=&quot;Content&quot;&gt;
+                $$Layout
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;% if IsAdmin %&gt;
+            $$SilverStripeNavigator
+        &lt;% end_if %&gt;
+        
+        &lt;script type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</template>
+
+<template
+    name="New SilverStripe Layout Template"
+    description="A new SilverStripe Layout Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.template"
+    context="php_ss"
+    ss-versions="SS2.4,SS2.3"
+    enabled="true">&lt;h2&gt;$$Title.XML&lt;/h2&gt;
+
+$$Content
+$$Form
+$$PageComments</template>
+
+<template
+    name="New Blank SilverStripe Template"
+    description="A new blank SilverStripe Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.blank"
+    context="php_ss"
+    ss-versions="SS2.4,SS2.3"
+    enabled="true">
+</template>
+
+<template
+    name="New Top Level SilverStripe Template"
+    description="A new Top Level SilverStripe Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.toplevel"
+    context="php_ss_30"
+    ss-versions="SS3.0"
+    enabled="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; &gt;
+    &lt;head&gt;
+        &lt;title&gt;$$Title.XML - $$SiteConfig.Title.XML&lt;% if $$SiteConfig.Tagline %&gt; - $$SiteConfig.Tagline.XML&lt;% end_if %&gt;&lt;/title&gt;
+        $$MetaTags(false)
+        &lt;% base_tag %&gt;
+        
+        &lt;% require themedCSS(layout) %&gt;
+        &lt;% require themedCSS(typography) %&gt;
+        &lt;% require themedCSS(form) %&gt;
+    &lt;/head&gt;
+    &lt;body class=&quot;typography&quot;&gt;
+        &lt;div id=&quot;Main&quot;&gt;
+            &lt;% include Navigation %&gt;
+            
+            &lt;div id=&quot;Content&quot;&gt;
+                $$Layout
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;% if $$IsAdmin %&gt;
+            $$SilverStripeNavigator
+        &lt;% end_if %&gt;
+        
+        &lt;script type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</template>
+
+<template
+    name="New SilverStripe Layout Template"
+    description="A new SilverStripe Layout Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.template"
+    context="php_ss_30"
+    ss-versions="SS3.0"
+    enabled="true">&lt;h2&gt;$$Title.XML&lt;/h2&gt;
+
+$$Content
+$$Form</template>
+
+<template
+    name="New Blank SilverStripe Template"
+    description="A new blank SilverStripe Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.blank"
+    context="php_ss_30"
+    ss-versions="SS3.0"
+    enabled="true">
+</template>
+</templates>
