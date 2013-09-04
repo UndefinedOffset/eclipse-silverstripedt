@@ -1,0 +1,21 @@
+# /ca.edchipman.silverStripePDT/
+/ca.edchipman.silverStripePDT/bin
+
+# /ca.edchipman.silverStripePDT/DevTimeSupport/SedModel/SSTokenizer/devel/
+/ca.edchipman.silverStripePDT/DevTimeSupport/SedModel/SSTokenizer/devel/*.java
+
+# /ca.edchipman.silverStripePDT/DevTimeSupport/cache/
+/ca.edchipman.silverStripePDT/DevTimeSupport/cache/*
+
+# /ca.edchipman.silverStripePDT/bin/
+/ca.edchipman.silverStripePDT/bin/*.*
+/ca.edchipman.silverStripePDT/bin/*
+
+# /ca.edchipman.silverStripePDT/resources/SS2.3/
+/ca.edchipman.silverStripePDT/resources/SS2.3/*
+
+# /ca.edchipman.silverStripePDT/resources/SS2.4/
+/ca.edchipman.silverStripePDT/resources/SS2.4/*
+
+# /ca.edchipman.silverStripePDT/resources/SS3.0/
+/ca.edchipman.silverStripePDT/resources/SS3.0/*
