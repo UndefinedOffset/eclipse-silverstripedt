@@ -68,7 +68,7 @@
                     <contains value=".tar.gz"/>
                 </linecontains>
                 <tokenfilter>
-                    <replaceregex pattern="(\s*)&lt;a class=&quot;tracklink&quot; href=&quot;http://www.silverstripe.org/(.*)&quot; onClick=&quot;_gaq.push\(\['_trackEvent', 'Downloads', 'Link', 'CMS'\]\);&quot;(\s*)&gt;" replace="\2"/>
+                    <replaceregex pattern="(\s*)&lt;a class=&quot;tracklink noicon&quot; href=&quot;/(.*)&quot; onClick=&quot;_gaq.push\(\['_trackEvent', 'Downloads', 'Link', 'CMS'\]\);&quot;(\s*)&gt;" replace="\2"/>
                 </tokenfilter>
             </filterchain>
         </loadfile>
@@ -84,7 +84,7 @@
                     <contains value="assets/downloads/SilverStripe-v2.4."/>
                 </linecontains>
                 <tokenfilter>
-                    <replaceregex pattern="&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;(.*)&quot; target(.*)&lt;/li&gt;" replace="\1"/>
+                    <replaceregex pattern="&lt;ul class=&quot;no-bullets&quot;&gt;&lt;li&gt;&lt;a href=&quot;(.*)&quot; target(.*)&lt;/li&gt;" replace="\1"/>
                 </tokenfilter>
             </filterchain>
         </loadfile>
