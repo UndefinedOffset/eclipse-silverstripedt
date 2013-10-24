@@ -103,6 +103,22 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
     }
     
     /**
+     * Gets the whether the project is a SilverStripe 3.1 project
+     * @return Returns boolean true if the project is a SilverStripe 3.1 project
+     */
+    public boolean IsSS31Project() {
+        return fSSVersionGroup.isSS31();
+    }
+    
+    /**
+     * Gets the whether the project is a SilverStripe 3.0 project
+     * @return Returns boolean true if the project is a SilverStripe 3.0 project
+     */
+    public boolean IsSS30Project() {
+        return fSSVersionGroup.isSS30();
+    }
+    
+    /**
      * Gets the whether the project is a SilverStripe 2.4 project
      * @return Returns boolean true if the project is a SilverStripe 2.4 project
      */
@@ -254,17 +270,21 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
      * Request a SilverStripe Version.
      */
     public class SilverStripeVersionGroup implements Observer, SelectionListener, IDialogFieldListener {
-        private final SelectionButtonDialogField fSS24Radio, fSS23Radio, fSS30Radio, fFrameworkModel;
+        private final SelectionButtonDialogField fSS24Radio, fSS23Radio, fSS30Radio, fSS31Radio, fFrameworkModel;
         private Group fGroup;
 
         public SilverStripeVersionGroup(Composite composite) {
             final int numColumns = 3;
             
             
+            fSS31Radio = new SelectionButtonDialogField(SWT.RADIO);
+            fSS31Radio.setLabelText("SilverStripe 3.1"); //$NON-NLS-1$
+            fSS31Radio.setDialogFieldListener(this);
+            fSS31Radio.setSelection(true);
+            
             fSS30Radio = new SelectionButtonDialogField(SWT.RADIO);
             fSS30Radio.setLabelText("SilverStripe 3.0"); //$NON-NLS-1$
             fSS30Radio.setDialogFieldListener(this);
-            fSS30Radio.setSelection(true);
             
             fSS24Radio = new SelectionButtonDialogField(SWT.RADIO);
             fSS24Radio.setLabelText("SilverStripe 2.4"); //$NON-NLS-1$
@@ -285,6 +305,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             fGroup.setLayout(initGridLayout(new GridLayout(numColumns, false), true));
             fGroup.setText("SilverStripe Version"); //$NON-NLS-1$
 
+            fSS31Radio.doFillIntoGrid(fGroup, 2);
             fSS30Radio.doFillIntoGrid(fGroup, 2);
             fSS24Radio.doFillIntoGrid(fGroup, 2);
             fSS23Radio.doFillIntoGrid(fGroup, 2);
@@ -315,11 +336,27 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
                 fGroup.setEnabled(!detect);
             }
             
-            if (fSS30Radio.isSelected()) {
+            if (fSS30Radio.isSelected() || fSS31Radio.isSelected()) {
                fFrameworkModel.setEnabled(true); 
             } else {
                 fFrameworkModel.setEnabled(false);
             }
+        }
+        
+        /**
+         * Gets the whether the SilverStripe 3.1 radio is selected
+         * @return Returns boolean true if the SilverStripe 3.1 radio is selected
+         */
+        public boolean isSS31() {
+            return fSS31Radio.isSelected();
+        }
+        
+        /**
+         * Gets the whether the SilverStripe 3.0 radio is selected
+         * @return Returns boolean true if the SilverStripe 3.0 radio is selected
+         */
+        public boolean isSS30() {
+            return fSS30Radio.isSelected();
         }
         
         /**

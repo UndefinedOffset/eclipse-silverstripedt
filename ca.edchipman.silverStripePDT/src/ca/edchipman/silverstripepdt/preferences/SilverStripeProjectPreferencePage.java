@@ -192,7 +192,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
         private Group fGroup;
         private IProject fProject;
         private Shell fShell;
-        private SelectionButtonDialogField fSS24Radio, fSS23Radio, fSS30Radio, fFrameworkModel;
+        private SelectionButtonDialogField fSS24Radio, fSS23Radio, fSS30Radio, fSS31Radio, fFrameworkModel;
         private IWorkbenchPreferenceContainer fContainer;
         
         public boolean hasChanges = false;
@@ -218,6 +218,10 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             composite.setLayout(layout);
             composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             
+            fSS31Radio=new SelectionButtonDialogField(SWT.RADIO);
+            fSS31Radio.setLabelText("SilverStripe 3.1"); //$NON-NLS-1$
+            fSS31Radio.setDialogFieldListener(this);
+            
             fSS30Radio = new SelectionButtonDialogField(SWT.RADIO);
             fSS30Radio.setLabelText("SilverStripe 3.0"); //$NON-NLS-1$
             fSS30Radio.setDialogFieldListener(this);
@@ -242,16 +246,24 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             fGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             fGroup.setLayout(layout);
             fGroup.setText("SilverStripe Version"); //$NON-NLS-1$
-            
+
+            fSS31Radio.doFillIntoGrid(fGroup, 2);
             fSS30Radio.doFillIntoGrid(fGroup, 2);
             fSS24Radio.doFillIntoGrid(fGroup, 2);
             fSS23Radio.doFillIntoGrid(fGroup, 2);
             fFrameworkModel.doFillIntoGrid(fGroup, 2);
             
-            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, fProject.getProject());
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, fProject.getProject());
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, fProject.getProject());
             
-            if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
+            if(ssVersion.equals(SilverStripeVersion.SS3_1)) {
+                fSS31Radio.setSelection(true);
+                fFrameworkModel.setEnabled(true);
+                
+                if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
+                    fFrameworkModel.setSelection(true);
+                }
+            }else if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
                 fSS30Radio.setSelection(true);
                 fFrameworkModel.setEnabled(true);
                 
@@ -263,10 +275,18 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             }else if(ssVersion.equals(SilverStripeVersion.SS2_3)) {
                 fSS23Radio.setSelection(true);
             }else {
-                fSS30Radio.setSelection(true);                
+                fSS31Radio.setSelection(true);                
             }
             
             return composite;
+        }
+        
+        /**
+         * Gets the whether the SilverStripe 3.1 radio is selected
+         * @return Returns boolean true if the SilverStripe 3.1 radio is selected
+         */
+        public boolean isSS31() {
+            return fSS31Radio.isSelected();
         }
         
         /**
@@ -310,7 +330,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
 
         @Override
         public void dialogFieldChanged(DialogField arg0) {
-            if (fSS30Radio.isSelected()) {
+            if (fSS30Radio.isSelected() || fSS31Radio.isSelected()) {
                 fFrameworkModel.setEnabled(true); 
             } else {
                 fFrameworkModel.setEnabled(false);
@@ -319,7 +339,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
 
         @Override
         public void update(Observable o, Object arg) {
-            if (fSS30Radio.isSelected()) {
+            if (fSS30Radio.isSelected() || fSS31Radio.isSelected()) {
                fFrameworkModel.setEnabled(true); 
             } else {
                fFrameworkModel.setEnabled(false);
@@ -335,10 +355,12 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
         }
 
         protected boolean processChanges(IWorkbenchPreferenceContainer container) {
-            String ssVersion=SilverStripeVersion.SS3_0;
+            String ssVersion=SilverStripeVersion.SS3_1;
             String ssFrameworkModel=SilverStripeVersion.FULL_CMS;
             
-            if(fSS30Radio.isSelected()) {
+            if(fSS31Radio.isSelected()) {
+                ssVersion=SilverStripeVersion.SS3_1;
+            }else if(fSS30Radio.isSelected()) {
                 ssVersion=SilverStripeVersion.SS3_0;
             }else if(fSS24Radio.isSelected()) {
                 ssVersion=SilverStripeVersion.SS2_4;
@@ -350,7 +372,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
                 ssFrameworkModel=SilverStripeVersion.FRAMEWORK_ONLY;
             }
             
-            if(ssVersion!=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, fProject.getProject())) {
+            if(ssVersion!=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, fProject.getProject())) {
                 hasChanges=true;
             }
             

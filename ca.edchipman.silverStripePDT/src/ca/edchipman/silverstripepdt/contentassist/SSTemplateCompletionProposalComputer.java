@@ -55,13 +55,13 @@ public class SSTemplateCompletionProposalComputer extends DefaultXMLCompletionPr
          */
         protected void addEmptyDocumentProposals(ContentAssistRequest contentAssistRequest, CompletionProposalInvocationContext context) {
             IProject project=getProject(context.getDocument());
-            String ssVersion=SilverStripeVersion.SS3_0;
+            String ssVersion=SilverStripeVersion.SS3_1;
             
             if(project!=null) {
-                ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, project);
+                ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, project);
             }
             
-            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false) {
+            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
                 addTemplates(contentAssistRequest, NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE, context);
             } else {
                 addTemplates(contentAssistRequest, NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE, context);

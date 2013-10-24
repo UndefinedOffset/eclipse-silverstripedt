@@ -87,6 +87,57 @@ if(Director::isLive()) {
     SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::ERR);
 }
 ?&gt;</template>
+
+
+<template
+    name="New SilverStripe project _config.yml template"
+    description="A new SilverStripe project _config.yml template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss31.ymlconfig"
+    context="php_new_ss_project_context"
+    enabled="true">---
+Name: mysite
+After: "framework/*","cms/*"
+---
+Director:
+    environment_type: "dev"
+
+Email:
+    admin_email: "me@example.com"
+
+SSViewer:
+    theme: "THEME NAME"
+
+MySQLDatabase:
+    connection_charset: "utf8"</template>
+
+
+<template
+    name="New SilverStripe project _config.php template"
+    description="A new SilverStripe project _config.php template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss31.config"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;?php
+global $$project;
+$$project = 'mysite';
+
+global $$databaseConfig;
+$$databaseConfig = array(
+    "type" => "MySQLDatabase",
+    "server" => "localhost",
+    "username" => "USERNAME",
+    "password" => "PASSWORD",
+    "database" => "DATABASE",
+);
+
+
+//Error Logging
+if(Director::isLive()) {
+    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::WARN);
+    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::ERR);
+}
+?&gt;</template>
+
+
 <template
     name="New SilverStripe project _config.php template"
     description="A new SilverStripe project _config.php template"

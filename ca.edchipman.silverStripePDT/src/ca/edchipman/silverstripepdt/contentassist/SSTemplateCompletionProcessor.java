@@ -74,7 +74,7 @@ public class SSTemplateCompletionProcessor extends TemplateCompletionProcessor {
         fTextViewer=viewer;
         IDocument document=viewer.getDocument();
         int documentPosition = offset;
-        String projectSSVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, this.getProject(document));
+        String projectSSVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, this.getProject(document));
         
         IndexedRegion treeNode = ContentAssistUtils.getNodeAt(viewer, documentPosition);
 

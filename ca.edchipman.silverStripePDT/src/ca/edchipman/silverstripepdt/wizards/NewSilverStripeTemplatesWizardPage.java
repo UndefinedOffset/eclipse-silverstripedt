@@ -106,7 +106,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
          * @see IStructuredContentProvider#getElements(Object)
          */
         public Object[] getElements(Object input) {
-            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false) {
+            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
                 return fStore.getTemplates(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
             } else {
                 return fStore.getTemplates(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
@@ -219,7 +219,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
 
     public void createControl(Composite ancestor) {
         SilverStripeTemplateFileCreationWizard wizard=(SilverStripeTemplateFileCreationWizard) getWizard();
-        ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, wizard.getCurrentProject());
+        ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, wizard.getCurrentProject());
         
         Composite parent = new Composite(ancestor, SWT.NONE);
         GridLayout layout = new GridLayout();
@@ -393,7 +393,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
         Template template = getSelectedTemplate();
         if (template != null) {
             TemplateContextType contextType;
-            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false) {
+            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
                 contextType = SilverStripePDTPlugin.getDefault().getTemplateContextRegistry().getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
             } else {
                 contextType = SilverStripePDTPlugin.getDefault().getTemplateContextRegistry().getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
@@ -474,7 +474,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
 
         if (templateName != null && templateName.length() > 0) {
             // pick the last used template
-            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false) {
+            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
                 template = fTemplateStore.findTemplate(templateName, NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
             } else {
                 template = fTemplateStore.findTemplate(templateName, NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
@@ -537,7 +537,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
     protected String getTemplatesLocationMessage() {
         ContextTypeRegistry templateContextRegistry = getTemplatesContextTypeRegistry();
         TemplateContextType templateContextType;
-        if(ssVersion.equals(SilverStripeVersion.SS3_0)==false) {
+        if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
             templateContextType = templateContextRegistry.getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
         } else {
             templateContextType = templateContextRegistry.getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);

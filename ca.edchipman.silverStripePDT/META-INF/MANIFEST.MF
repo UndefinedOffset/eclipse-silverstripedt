@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SilverStripe Developer Tools
 Bundle-SymbolicName: ca.edchipman.silverstripepdt;singleton:=true
-Bundle-Version: 1.6.4
+Bundle-Version: 1.7.0
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.php.core,
@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.sse.ui;bundle-version="1.3.1",
  org.eclipse.wst.html.ui,
  org.eclipse.jface.text,
- org.eclipse.wst.validation
+ org.eclipse.wst.validation,
+ org.dadacoalition.yedit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.ibm.icu.text;version="4.4.2.1",
  org.eclipse.core.filesystem,

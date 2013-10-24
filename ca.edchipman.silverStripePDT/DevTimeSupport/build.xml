@@ -58,33 +58,52 @@
 	</target>
     
     <target name="setupEnviroment" depends="cleanupCache">
-    	<!-- Fetch 3.0 -->
+    	<!-- Fetch 3.1 -->
         <get src="http://www.silverstripe.org/stable-download/" dest="cache/stable-download.html" verbose="true"/>
         
         <loadfile srcfile="cache/stable-download.html" property="resultStable">
             <filterchain>
                 <linecontains>
-                    <contains value="assets/releases/SilverStripe-cms-v3.0"/>
+                    <contains value="assets/releases/SilverStripe-cms-v3.1"/>
                     <contains value=".tar.gz"/>
                 </linecontains>
                 <tokenfilter>
-                    <replaceregex pattern="(\s*)&lt;a class=&quot;tracklink noicon&quot; href=&quot;/(.*)&quot; onClick=&quot;_gaq.push\(\['_trackEvent', 'Downloads', 'Link', 'CMS'\]\);&quot;(\s*)&gt;" replace="\2"/>
+                    <replaceregex pattern="(\s*)(.*)&lt;a class=&quot;tracklink noicon&quot; href=&quot;(.*)&quot; onClick=&quot;(.*)&quot;(\s*)&gt;" replace="\3"/>
                 </tokenfilter>
             </filterchain>
         </loadfile>
     	
-        <get src="http://www.silverstripe.org/${resultStable}" dest="cache/silverstripe-3.0.tar.gz" verbose="true"/>
-    	
-        <!-- Fetch 2.3 and 2.4 latest -->
-        <get src="http://www.silverstripe.org/security-releases/" dest="cache/security-releases.html" verbose="true"/>
-    	
-    	<loadfile srcfile="cache/security-releases.html" property="result24">
+        <get src="http://www.silverstripe.org/${resultStable}" dest="cache/silverstripe-3.1.tar.gz" verbose="true"/>
+        
+        
+        <!-- Fetch 3.0, 2.4 and 2.3 latest -->
+        <get src="http://www.silverstripe.org/release-archive/" dest="cache/release-archive.html" verbose="true"/>
+        
+        <loadfile srcfile="cache/release-archive.html" property="result30">
             <filterchain>
                 <linecontains>
-                    <contains value="assets/downloads/SilverStripe-v2.4."/>
+                    <contains value="assets/releases/SilverStripe-cms-v3.0."/>
                 </linecontains>
                 <tokenfilter>
-                    <replaceregex pattern="&lt;ul class=&quot;no-bullets&quot;&gt;&lt;li&gt;&lt;a href=&quot;(.*)&quot; target(.*)&lt;/li&gt;" replace="\1"/>
+                    <replaceregex pattern="(\s*)&lt;a href=&quot;/assets/releases/SilverStripe-cms-v3.0(.*)&quot; class=&quot;noicon&quot;&gt;cms\.tar\.gz&lt;/a&gt;" replace="\2"/>
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+        <script language="javascript">
+            var tmp=result30.split("\n");
+            project.setProperty("result30", tmp[0].replace(/\r/,""));
+        </script>
+        
+        <get src="http://www.silverstripe.org/assets/releases/SilverStripe-cms-v3.0${result30}" dest="cache/silverstripe-3.0.tar.gz" verbose="true"/>
+    	
+        
+    	<loadfile srcfile="cache/release-archive.html" property="result24">
+            <filterchain>
+                <linecontains>
+                    <contains value="assets/releases/SilverStripe-cms-v2.4."/>
+                </linecontains>
+                <tokenfilter>
+                    <replaceregex pattern="(\s*)&lt;a href=&quot;/assets/releases/SilverStripe-cms-v2.4(.*)&quot; class=&quot;noicon&quot;&gt;cms\.tar\.gz&lt;/a&gt;" replace="\2"/>
                 </tokenfilter>
             </filterchain>
         </loadfile>
@@ -93,10 +112,12 @@
     		project.setProperty("result24", tmp[0].replace(/\r/,""));
 		</script>
         
-    	<get src="http://www.silverstripe.org/${result24}" dest="cache/silverstripe-2.4.tar.gz" verbose="true"/>
+    	<get src="http://www.silverstripe.org/assets/releases/SilverStripe-cms-v2.4${result24}" dest="cache/silverstripe-2.4.tar.gz" verbose="true"/>
         
     	
-        <loadfile srcfile="cache/security-releases.html" property="result23">
+        <!-- 2.3 is not on the release archive page so fixed path its un-maintained anyways
+        
+        <loadfile srcfile="cache/release-archive.html" property="result23">
             <filterchain>
                 <linecontains>
                     <contains value="assets/downloads/SilverStripe-v2.3."/>
@@ -109,9 +130,23 @@
         <script language="javascript">
             var tmp=result23.split("\n");
             project.setProperty("result23", tmp[0].replace(/\r/,""));
-        </script>
+        </script> -->
         
-        <get src="http://www.silverstripe.org/${result23}" dest="cache/silverstripe-2.3.tar.gz" verbose="true"/>
+        <get src="http://www.silverstripe.org/assets/downloads/SilverStripe-v2.3.13.tar.gz" dest="cache/silverstripe-2.3.tar.gz" verbose="true"/>
+        
+        <untar src="cache/silverstripe-3.1.tar.gz" dest="cache/SS3.1" compression="gzip">
+            <patternset>
+                <include name="**/cms/code/*.php"/>
+                <include name="**/cms/code/**/*.php"/>
+                <include name="**/framework/**/*.php"/>
+                <exclude name="**/framework/*.php"/>
+                <exclude name="**/framework/admin/_config.php"/>
+                <exclude name="**/framework/tests/*"/>
+                <exclude name="**/framework/thirdparty/**"/>
+                <exclude name="**/framework/javascript/*"/>
+            </patternset>
+            <cutdirsmapper dirs="1"/>
+        </untar>
         
         <untar src="cache/silverstripe-3.0.tar.gz" dest="cache/SS3.0" compression="gzip">
             <patternset>
@@ -155,7 +190,8 @@
             </patternset>
             <cutdirsmapper dirs="1"/>
         </untar>
-    	
+        
+        <move file="cache/SS3.1" todir="../resources"/>
     	<move file="cache/SS3.0" todir="../resources"/>
     	<move file="cache/SS2.4" todir="../resources"/>
 		<move file="cache/SS2.3" todir="../resources"/>

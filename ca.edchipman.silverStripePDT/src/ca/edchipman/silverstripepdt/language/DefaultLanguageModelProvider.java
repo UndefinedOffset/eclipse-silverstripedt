@@ -17,7 +17,7 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
 
     public IPath getPath(IScriptProject project) {
         try {
-            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_0, project.getProject());
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, project.getProject());
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
             
             return new Path(getLanguageLibraryPath(project, ssVersion, ssFrameworkModel));
@@ -38,12 +38,23 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
             return LANGUAGE_LIBRARY_PATH + "2.3";
         }
         
-        //For framework only 3.0 focus into framework only
-        if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-            return LANGUAGE_LIBRARY_PATH + "3.0/framework";
+        
+        if (ssVersion.equals(SilverStripeVersion.SS3_0)) {
+            //For framework only 3.0 focus into framework only
+            if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
+                return LANGUAGE_LIBRARY_PATH + "3.0/framework";
+            }
+            
+            return LANGUAGE_LIBRARY_PATH + "3.0";
         }
         
-        return LANGUAGE_LIBRARY_PATH + "3.0";
+
+        //For framework only 3.1 focus into framework only
+        if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
+            return LANGUAGE_LIBRARY_PATH + "3.1/framework";
+        }
+        
+        return LANGUAGE_LIBRARY_PATH + "3.1";
     }
 
     public Plugin getPlugin() {
