@@ -1,6 +1,6 @@
 Eclipse SilverStripe Development Tools
 ======================
-Adds templates and other tools for working with SilverStripe in Eclipse
+Adds templates and other tools for working with SilverStripe in Eclipse. Although SilverStripe 3.1 is supported there are a few issues see [issue #3](https://github.com/UndefinedOffset/eclipse-silverstripedt/issues/3).
 
  
 ### Requirements:
