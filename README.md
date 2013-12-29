@@ -18,11 +18,11 @@ http://silverstripedt.edchipman.ca/
 #### Features
 * New SilverStripe Project Wizard
   * 3 Project Layouts including fully functional starter structure and files for mysite, module and theme projects
-  * 3 SilverStripe Versions (3.0, 2.3, and 2.4)
+  * 4 SilverStripe Versions (3.1, 3.0, 2.3, and 2.4)
 * New SilverStripe Template Wizard
   * By default with 3 code templates one for top level, layout and a blank file, with minor variations for the 2.x versions of SilverStripe
-* Built in auto complete for Framework (sapphire prior to SilverStripe 3.0) and CMS classes and functions
-* Optional project configuration for using framework only (SilverStripe 3.0 only)
+* Built in auto complete for Framework (sapphire prior to SilverStripe 3.x) and CMS classes and functions
+* Optional project configuration for using framework only (SilverStripe 3.x only)
 * Additional Code Template Variable ${file_name}
 * 16 code templates
   * New File Templates
@@ -30,9 +30,9 @@ http://silverstripedt.edchipman.ca/
     * Data Object
     * Content Controller
     * SilverStripe 2.x language files
-    * Extension (SilverStripe 3.0 and 2.x variants)
+    * Extension (SilverStripe 3.x and 2.x variants)
     * Data Object Decorator
-    * Data Extension (SilverStripe 3.0)
+    * Data Extension (SilverStripe 3.x)
     * General Class
     * Top Level SilverStripe Template
     * SilverStripe Layout Template
@@ -42,15 +42,15 @@ http://silverstripedt.edchipman.ca/
     * Data Object
     * Content Controller
     * SilverStripe 2.x language files
-    * Extension (SilverStripe 3.0 and 2.x variants)
+    * Extension (SilverStripe 3.x and 2.x variants)
     * Data Object Decorator
-    * Data Extension (SilverStripe 3.0)
+    * Data Extension (SilverStripe 3.x)
     * General Class
-    * getCMSFields() stub (SilverStripe 3.0 and 2.x variants)
+    * getCMSFields() stub (SilverStripe 3.x and 2.x variants)
     * Object::add_extension
     * Object::remove_extension
     * SilverStripe 2.x language file line
-    * updateCMSFields() stub (SilverStripe 3.0 and 2.x variants)
+    * updateCMSFields() stub (SilverStripe 3.x and 2.x variants)
     * updateCMSActions() stub
     * Top Level SilverStripe Template
     * SilverStripe Layout Template
