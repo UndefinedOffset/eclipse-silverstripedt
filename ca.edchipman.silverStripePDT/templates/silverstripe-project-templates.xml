@@ -1041,7 +1041,6 @@ a img {
         &lt;/li&gt;
     &lt;% end_loop %&gt;
 &lt;/ul&gt;</template>
-</templates>
 
 <template
     name="New Top Level SilverStripe 3.x (Framework Only) Template"
@@ -1073,3 +1072,4 @@ a img {
         &lt;script type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
     &lt;/body&gt;
 &lt;/html&gt;</template>
+</templates>
