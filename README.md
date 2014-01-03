@@ -4,9 +4,9 @@ Adds templates and other tools for working with SilverStripe in Eclipse. Althoug
 
  
 ### Requirements:
-* Eclipse Indigo (3.7.2)
-* Eclipse PDT 3.0.1
-* Eclipse WST 3.3.2
+* [Eclipse Indigo (3.7.2)](http://archive.eclipse.org/eclipse/downloads/drops/R-3.7.2-201202080800/)
+* [Eclipse PDT 3.0.1] (http://www.eclipse.org/downloads/download.php?file=/tools/pdt/downloads/drops/3.0.0/M201201110400/pdt-SDK-M201201110400.zip)
+* [Eclipse WST 3.3.2] (http://download.eclipse.org/webtools/downloads/drops/R3.3.2/R-3.3.2-20120210195245/)
 
 Plugin may work with newer versions of the above but that is my current testing environment so I know it works there.
 
