@@ -53,6 +53,7 @@
         <delete verbose="true">
             <fileset dir="cache" defaultexcludes="no">
                 <include name="*.*"/>
+                <exclude name=".gitignore"/>
             </fileset>
         </delete>
 	</target>
