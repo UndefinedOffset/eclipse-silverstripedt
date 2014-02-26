@@ -71,14 +71,25 @@ public class DevBuildViewer extends ViewPart {
         }
     }
     
+    /**
+     * Sets the target url for the browser
+     * @param url URL to navigate to
+     */
     public void setTargetURL(String url) {
         targetURL=url;
         
         if(swtBrowser!=null) {
             swtBrowser.setUrl(url);
+            if(progressListener!=null) {
+            	progressListener.showProgressBar();
+            }
         }
     }
     
+    /**
+     * Gets the current target url
+     * @return Target url for the browser
+     */
     public String getTargetURL() {
         return targetURL;
     }
@@ -108,7 +119,7 @@ public class DevBuildViewer extends ViewPart {
          * @param ProgressEvent Progress event data
          */
         public void changed(ProgressEvent event) {
-            if(event.total>0) {
+            if(progressBar.isDisposed()==false && event.total>0) {
                 if(event.total>progress.getMaximum()) {
                     progressBar.setMaximum(event.total);
                 }
@@ -134,6 +145,13 @@ public class DevBuildViewer extends ViewPart {
                             "for(var i=0;i<links.length;i++) { "+
                                 "links[i].href='#'; "+
                             "}");
+        }
+        
+        /**
+         * Gets the currently active progress bar instance
+         */
+        public void showProgressBar() {
+        	progress.setVisible(true);
         }
     }
 }
