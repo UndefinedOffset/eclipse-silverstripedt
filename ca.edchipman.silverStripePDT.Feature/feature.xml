@@ -2,7 +2,7 @@
 <feature
       id="ca.edchipman.silverstripepdt.Feature"
       label="SilverStripe Developer Tools"
-      version="1.7.0"
+      version="1.8.0"
       provider-name="Ed Chipman">
 
    <description url="http://programs.edchipman.ca/eclipse/silverstripe-dt">
@@ -14,7 +14,7 @@
    </copyright>
 
    <license url="">
-Copyright (c) 2013, Ed Chipman
+      Copyright (c) 2013, Ed Chipman
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
