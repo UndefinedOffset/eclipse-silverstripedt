@@ -196,16 +196,18 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 
                 
                 //Generate the Page.php file
-                Template pageTemplateToCompile;
-                if(ssVersion.equals(SilverStripeVersion.SS3_1)) {
-                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss31.defaultpage");
-                }else if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
-                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.defaultpage");
-                }else {
-                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.defaultpage");
+                if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsFrameworkOnlyProject()==false) {
+	                Template pageTemplateToCompile;
+	                if(ssVersion.equals(SilverStripeVersion.SS3_1)) {
+	                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss31.defaultpage");
+	                }else if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
+	                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.defaultpage");
+	                }else {
+	                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.defaultpage");
+	                }
+	                PHPTemplateStore.CompiledTemplate pageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageTemplateToCompile, getProject().getName()+"/code", "Page.php");
+	                new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/code", "Page.php", monitor, pageTemplate.string, pageTemplate.offset);
                 }
-                PHPTemplateStore.CompiledTemplate pageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageTemplateToCompile, getProject().getName()+"/code", "Page.php");
-                new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/code", "Page.php", monitor, pageTemplate.string, pageTemplate.offset);
                 
                 
                 //Create config.yml
