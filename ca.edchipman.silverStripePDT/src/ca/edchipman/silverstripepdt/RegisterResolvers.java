@@ -69,5 +69,15 @@ public class RegisterResolvers implements IStartup {
             final TemplateContextType contextType = (TemplateContextType) ctIter.next();
             contextType.addResolver(new FileNameTemplateResolver());
         }
+        
+        
+        //Add to new class template context
+        final ContextTypeRegistry classTemplateContextRegistry = SilverStripePDTPlugin.getDefault().getNewClassContextRegistry();
+        final Iterator<?> cltIter = classTemplateContextRegistry.contextTypes();
+        
+        while (cltIter.hasNext()) {
+            final TemplateContextType contextType = (TemplateContextType) cltIter.next();
+            contextType.addResolver(new FileNameTemplateResolver());
+        }
     }
 }

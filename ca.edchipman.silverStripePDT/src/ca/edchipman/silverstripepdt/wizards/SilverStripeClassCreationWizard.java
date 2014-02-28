@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.php.internal.ui.actions.WorkbenchRunnableAdapter;
 import org.eclipse.php.internal.ui.util.ExceptionHandler;
@@ -23,6 +24,8 @@ import org.eclipse.ui.IWorkbenchWizard;
 public class SilverStripeClassCreationWizard extends Wizard implements INewWizard {
     protected ISelection selection;
     protected NewSilverStripeClassWizardPage fPage;
+    protected NewSilverStripeClassWizardTemplatePage tPage;
+    protected NewSilverStripeClassWizardClassPage cPage;
     
     public SilverStripeClassCreationWizard() {
         setWindowTitle("New SilverStripe Class");
@@ -42,13 +45,30 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
     public void addPages() {
         fPage = new NewSilverStripeClassWizardPage(selection);
         addPage(fPage);
+        
+        cPage = new NewSilverStripeClassWizardClassPage(selection, fPage);
+        addPage(cPage);
+        
+        tPage = new NewSilverStripeClassWizardTemplatePage(selection, fPage);
+        addPage(tPage);
     }
     
     /* (non-Javadoc)
      * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#finishPage(org.eclipse.core.runtime.IProgressMonitor)
      */
     protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
-        fPage.createType(monitor); // use the full progress monitor
+    	if(fPage.isClassMode()) {
+    		cPage.createType(monitor);
+    	}else {
+    		tPage.createFile(monitor);
+    	}
+    }
+    
+    /*
+     * (non-Javadoc) Method declared on IWizard.
+     */
+    public boolean canFinish() {
+        return (cPage.getIsCurrentPage() || tPage.getIsCurrentPage());
     }
     
     @Override
@@ -80,6 +100,18 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
             return false;
         }
         return true;
+    }
+
+    /*
+     * (non-Javadoc) Method declared on IWizard. The default behavior is to
+     * return the page that was added to this wizard after the given page.
+     */
+    public IWizardPage getNextPage(IWizardPage page) {
+        if(fPage.isClassMode()) {
+        	return cPage;
+        }
+        
+        return tPage;
     }
     
     protected void handleFinishException(Shell shell, InvocationTargetException e) {

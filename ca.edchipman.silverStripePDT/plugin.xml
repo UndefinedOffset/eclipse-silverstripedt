@@ -62,6 +62,7 @@
     <extension point="org.eclipse.ui.perspectiveExtensions">
         <perspectiveExtension targetID="org.eclipse.php.perspective">
             <newWizardShortcut id="ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard" />
+            <newWizardShortcut id="ca.edchipman.silverstripepdt.wizards.SilverStripeClassCreationWizard" />
             <newWizardShortcut id="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard" />
         </perspectiveExtension>
     </extension>
