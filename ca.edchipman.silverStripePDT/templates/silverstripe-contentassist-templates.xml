@@ -179,4 +179,29 @@
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.themedCSS"
     context="ss_proposal"
     enabled="true">&lt;% require themedCSS(${stylesheet_name}) %&gt;</template>
+<template
+	name="Pagination Controls"
+	description="Basic pagination controls for paginated Lists"
+	id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.ss30.pagination"
+	context="ss_proposal"
+	enabled="true"
+    ss-versions="SS3.0,SS3.1">&lt;% if $${property}.MoreThanOnePage %&gt;
+    &lt;div id=&quot;PageNumbers&quot;&gt;
+        &lt;% if $${property}.NotFirstPage %&gt;
+            &lt;a class=&quot;prev&quot; href=&quot;$${property}.PrevLink&quot; title=&quot;View the previous page&quot;&gt;Previous&lt;/a&gt;
+        &lt;% end_if %&gt;
+
+        &lt;% loop $${property}.Pages %&gt;
+            &lt;% if $$CurrentBool %&gt;
+                &lt;span class=&quot;current&quot;&gt;$$PageNum&lt;/span&gt;
+            &lt;% else %&gt;
+                &lt;a href=&quot;$$Link&quot; title=&quot;View page number $$PageNum&quot;&gt;$$PageNum&lt;/a&gt;
+            &lt;% end_if %&gt;
+        &lt;% end_loop %&gt;
+
+        &lt;% if $${property}.NotLastPage %&gt;
+            &lt;a class=&quot;next&quot; href=&quot;${property}.NextLink&quot; title=&quot;View the next page&quot;&gt;Next&lt;/a&gt;
+        &lt;% end_if %&gt;
+    &lt;/div&gt;
+&lt;% end_if %&gt;</template>
 </templates>
