@@ -126,7 +126,7 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
      */
     public TemplateStore getTemplateStore() {
         if (templateStore == null) {
-            templateStore = new PHPTemplateStore(getTemplateContextRegistry(), getPreferenceStore(), "ca.edchipman.silverstripepdt.SilverStripe.templates");
+            templateStore = new SilverStripeTemplateStore(getTemplateContextRegistry(), getPreferenceStore(), "ca.edchipman.silverstripepdt.SilverStripe.templates");
             
             try {
                 templateStore.load();

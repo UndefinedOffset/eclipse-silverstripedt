@@ -203,8 +203,13 @@
             name="Content Assist"
             category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
             class="ca.edchipman.silverstripepdt.preferences.SSTemplatesContentAssistPreferencesPage"
-            id="ca.edchipman.silverstripepdt.preferences.styles">
+            id="ca.edchipman.silverstripepdt.preferences.contentassist">
             <keywordReference id="ca.edchipman.silverstripepdt.SSTemplatesContentAssistPreferencesPage" />
+        </page>
+        <page category="ca.edchipman.silverstripepdt.preferences.contentassist"
+            class="ca.edchipman.silverstripepdt.preferences.SilverStripeCATemplatesPreferencePage"
+            id="ca.edchipman.silverstripepdt.preferences.SilverStripeCATemplatesPreferencePage" name="Templates">
+            <keywordReference id="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         </page>
         <page category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
             class="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage"

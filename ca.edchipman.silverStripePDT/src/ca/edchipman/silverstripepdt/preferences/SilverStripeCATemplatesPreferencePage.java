@@ -49,17 +49,14 @@ import ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStore;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeClassWizardTemplatePage;
 
 @SuppressWarnings("restriction")
-public class SilverStripeTemplatesPreferencePage extends TemplatePreferencePage {
-	public SilverStripeTemplatesPreferencePage() {
+public class SilverStripeCATemplatesPreferencePage extends TemplatePreferencePage {
+	public SilverStripeCATemplatesPreferencePage() {
 		setPreferenceStore(SilverStripePDTPlugin.getDefault().getPreferenceStore());
+		setTemplateStore(SilverStripePDTPlugin.getDefault().getCATemplateStore());
 		
 		//Build registry
-		Iterator contexts=SilverStripePDTPlugin.getDefault().getTemplateContextRegistry().contextTypes();
 		ContributionContextTypeRegistry registry = new ContributionContextTypeRegistry();
-		registry.addContextType(new CodeTemplateContextType(NewSilverStripeClassWizardTemplatePage.NEW_CLASS_CONTEXTTYPE));
-		while(contexts.hasNext()) {
-			registry.addContextType((TemplateContextType) contexts.next());
-		}
+		registry.addContextType(new CodeTemplateContextType(SSTemplateCompletionProcessor.TEMPLATE_CONTEXT_ID));
 		
 		setTemplateStore(new SilverStripeTemplateStore(registry, this.getPreferenceStore(), "ca.edchipman.silverstripepdt.SilverStripe.templates"));
 		try {
@@ -84,7 +81,6 @@ public class SilverStripeTemplatesPreferencePage extends TemplatePreferencePage 
 		//Re-load the other template stores
 		try {
 			SilverStripePDTPlugin.getDefault().getCATemplateStore().load();
-			SilverStripePDTPlugin.getDefault().getTemplateStore().load();
 		} catch (IOException e) {
 			openReadErrorDialog(e);
 			return false;
@@ -100,7 +96,6 @@ public class SilverStripeTemplatesPreferencePage extends TemplatePreferencePage 
 		//Re-load the other template stores
 		try {
 			SilverStripePDTPlugin.getDefault().getCATemplateStore().load();
-			SilverStripePDTPlugin.getDefault().getTemplateStore().load();
 		} catch (IOException e) {
 			openReadErrorDialog(e);
 			return false;
@@ -207,12 +202,6 @@ public class SilverStripeTemplatesPreferencePage extends TemplatePreferencePage 
 	            fSS23Check.setText("SilverStripe 2.3"); //$NON-NLS-1$
 	            fSS23Check.setSelection((ssVersions.size()==0 ? true:ssVersions.contains("SS2.3")));
 	            
-	            if(this.fOriginalTemplate.getContextTypeId().equals("php_new_ss_project_context")) {
-		            fSS31Check.setEnabled(false);
-		            fSS30Check.setEnabled(false);
-		            fSS24Check.setEnabled(false);
-		            fSS23Check.setEnabled(false);
-	            }
             	
 	            return parent;
             }
