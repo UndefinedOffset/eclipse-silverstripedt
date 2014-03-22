@@ -112,7 +112,7 @@
     description="A SilverStripe loop block"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.loop"
     context="ss_proposal"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;% loop ${args} %&gt;
     ${content}
 &lt;% end_loop %&gt;</template>
@@ -121,21 +121,21 @@
     description="A SilverStripe loop"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.loopstart"
     context="ss_proposal"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;% loop ${args} %&gt;</template>
 <template
     name="End Loop"
     description="A SilverStripe end_loop"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.loopend"
     context="ss_proposal"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;% end_loop %&gt;</template>
 <template
     name="With Block"
     description="A SilverStripe with block"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.with"
     context="ss_proposal"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;% with ${args} %&gt;
     ${content}
 &lt;% end_with %&gt;</template>
@@ -144,21 +144,21 @@
     description="A SilverStripe with"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.withstart"
     context="ss_proposal"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;% with ${args} %&gt;</template>
 <template
     name="End With"
     description="A SilverStripe end_with"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.withend"
     context="ss_proposal"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;% end_with %&gt;</template>
 <template
     name="i18n"
     description="A SilverStripe 3.0 i18n tag"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.ss30.i18n"
     context="ss_proposal"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;%t ${args} %&gt;</template>
 <template
     name="i18n"

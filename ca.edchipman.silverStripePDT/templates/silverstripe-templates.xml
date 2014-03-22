@@ -625,7 +625,7 @@ $$PageComments</template>
     description="A new Top Level SilverStripe Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.toplevel"
     context="php_ss_30"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; &gt;
@@ -660,7 +660,7 @@ $$PageComments</template>
     description="A new SilverStripe Layout Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.template"
     context="php_ss_30"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;h2&gt;$$Title.XML&lt;/h2&gt;
 
 $$Content
@@ -671,7 +671,7 @@ $$Form</template>
     description="A new blank SilverStripe Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.blank"
     context="php_ss_30"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">
 </template>
 </templates>
