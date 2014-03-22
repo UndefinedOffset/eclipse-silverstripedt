@@ -58,7 +58,7 @@ public class SilverStripeCATemplatesPreferencePage extends TemplatePreferencePag
 		ContributionContextTypeRegistry registry = new ContributionContextTypeRegistry();
 		registry.addContextType(new CodeTemplateContextType(SSTemplateCompletionProcessor.TEMPLATE_CONTEXT_ID));
 		
-		setTemplateStore(new SilverStripeTemplateStore(registry, this.getPreferenceStore(), "ca.edchipman.silverstripepdt.SilverStripe.templates"));
+		setTemplateStore(new SilverStripeTemplateStore(registry, this.getPreferenceStore(),"ca.edchipman.silverstripepdt.contentassist.templates"));
 		try {
 			this.getTemplateStore().load();
 		} catch (IOException e) {
