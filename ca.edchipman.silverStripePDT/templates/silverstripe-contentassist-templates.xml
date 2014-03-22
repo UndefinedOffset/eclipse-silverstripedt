@@ -180,11 +180,11 @@
     context="ss_proposal"
     enabled="true">&lt;% require themedCSS(${stylesheet_name}) %&gt;</template>
 <template
-	name="Pagination Controls"
-	description="Basic pagination controls for paginated Lists"
-	id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.ss30.pagination"
-	context="ss_proposal"
-	enabled="true"
+    name="Pagination Controls"
+    description="Basic pagination controls for paginated Lists"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.proposal.ss30.pagination"
+    context="ss_proposal"
+    enabled="true"
     ss-versions="SS3.0,SS3.1">&lt;% if $${property}.MoreThanOnePage %&gt;
     &lt;div id=&quot;PageNumbers&quot;&gt;
         &lt;% if $${property}.NotFirstPage %&gt;
@@ -200,7 +200,7 @@
         &lt;% end_loop %&gt;
 
         &lt;% if $${property}.NotLastPage %&gt;
-            &lt;a class=&quot;next&quot; href=&quot;${property}.NextLink&quot; title=&quot;View the next page&quot;&gt;Next&lt;/a&gt;
+            &lt;a class=&quot;next&quot; href=&quot;$${property}.NextLink&quot; title=&quot;View the next page&quot;&gt;Next&lt;/a&gt;
         &lt;% end_if %&gt;
     &lt;/div&gt;
 &lt;% end_if %&gt;</template>
