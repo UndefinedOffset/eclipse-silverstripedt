@@ -67,10 +67,22 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         } else if (type == SilverStripeRegionContext.SS_INCLUDE_CONTENT) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_INCLUDE_CONTENT);
         } else if (type == SilverStripeRegionContext.SS_CONTROL_OPEN) {
+        	if(this.ssVersion.equals(SilverStripeVersion.SS3_1) || this.ssVersion.equals(SilverStripeVersion.SS3_0)) {
+        		return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_DEPRECATED);
+        	}
+        	
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_CONTROL_OPEN);
         } else if (type == SilverStripeRegionContext.SS_CONTROL_CONTENT) {
+        	if(this.ssVersion.equals(SilverStripeVersion.SS3_1) || this.ssVersion.equals(SilverStripeVersion.SS3_0)) {
+        		return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_DEPRECATED);
+        	}
+        	
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_CONTROL_CONTENT);
         } else if (type == SilverStripeRegionContext.SS_END_CONTROL) {
+        	if(this.ssVersion.equals(SilverStripeVersion.SS3_1) || this.ssVersion.equals(SilverStripeVersion.SS3_0)) {
+        		return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_DEPRECATED);
+        	}
+        	
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_END_CONTROL);
         } else if (type == SilverStripeRegionContext.SS_VARIABLE) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_VARIABLE);
@@ -147,16 +159,16 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         addTextAttribute(IStyleConstantsSS.SS_VARIABLE);
         addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
         addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
+        addTextAttribute(IStyleConstantsSS.SS_DEPRECATED);
+        addTextAttribute(IStyleConstantsSS.SS_CONTROL_OPEN);
+        addTextAttribute(IStyleConstantsSS.SS_CONTROL_CONTENT);
+        addTextAttribute(IStyleConstantsSS.SS_END_CONTROL);
         
         if(this.ssVersion==null) {
             this.ssVersion=SilverStripeVersion.SS3_1;
         }
         
-        if(this.ssVersion.equals(SilverStripeVersion.SS3_0)==false && this.ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
-            addTextAttribute(IStyleConstantsSS.SS_CONTROL_OPEN);
-            addTextAttribute(IStyleConstantsSS.SS_CONTROL_CONTENT);
-            addTextAttribute(IStyleConstantsSS.SS_END_CONTROL);
-        }else if(this.ssVersion.equals(SilverStripeVersion.SS3_0) || this.ssVersion.equals(SilverStripeVersion.SS3_1)) {
+        if(this.ssVersion.equals(SilverStripeVersion.SS3_0) || this.ssVersion.equals(SilverStripeVersion.SS3_1)) {
             addTextAttribute(IStyleConstantsSS.SS_LOOP_OPEN);
             addTextAttribute(IStyleConstantsSS.SS_LOOP_CONTENT);
             addTextAttribute(IStyleConstantsSS.SS_END_LOOP);

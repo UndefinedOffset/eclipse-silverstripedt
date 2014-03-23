@@ -27,6 +27,7 @@ public class SilverStripePDTPreferenceInitializer extends AbstractPreferenceInit
         String NOBACKGROUNDBOLD = " | null | true"; //$NON-NLS-1$
         String NOBACKGROUNDNOBOLD = " | null | false"; //$NON-NLS-1$
         String JUSTITALIC = " | null | false | true"; //$NON-NLS-1$
+        String STRIKETHROUGHITALIC = " | null | false | true | true"; //$NON-NLS-1$
         
         //Default class template
         store.setDefault(PreferenceConstants.NEW_PHP_FILE_TEMPLATE, "New SilverStripe Class");
@@ -159,6 +160,12 @@ public class SilverStripePDTPreferenceInitializer extends AbstractPreferenceInit
         //Set style for template functions
         styleValue = "null" + JUSTITALIC;
         store.setDefault(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT, styleValue);
+        
+        
+        //Set style for deprecated template code
+        styleValue = "null" + STRIKETHROUGHITALIC;
+        store.setDefault(IStyleConstantsSS.SS_DEPRECATED, styleValue);
+        
         
         // Defaults for Content Assist preference page
         store.setDefault(HTMLUIPreferenceNames.AUTO_PROPOSE, true);
