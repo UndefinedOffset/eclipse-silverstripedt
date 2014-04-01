@@ -3,6 +3,7 @@ package ca.edchipman.silverstripepdt.preferences;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ColorRegistry;
+import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.html.ui.internal.preferences.HTMLUIPreferenceNames;
 import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
@@ -26,6 +27,10 @@ public class SilverStripePDTPreferenceInitializer extends AbstractPreferenceInit
         String NOBACKGROUNDBOLD = " | null | true"; //$NON-NLS-1$
         String NOBACKGROUNDNOBOLD = " | null | false"; //$NON-NLS-1$
         String JUSTITALIC = " | null | false | true"; //$NON-NLS-1$
+        String STRIKETHROUGHITALIC = " | null | false | true | true"; //$NON-NLS-1$
+        
+        //Default class template
+        store.setDefault(PreferenceConstants.NEW_PHP_FILE_TEMPLATE, "New SilverStripe Class");
         
         
         //Set style for else
@@ -155,6 +160,12 @@ public class SilverStripePDTPreferenceInitializer extends AbstractPreferenceInit
         //Set style for template functions
         styleValue = "null" + JUSTITALIC;
         store.setDefault(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT, styleValue);
+        
+        
+        //Set style for deprecated template code
+        styleValue = "null" + STRIKETHROUGHITALIC;
+        store.setDefault(IStyleConstantsSS.SS_DEPRECATED, styleValue);
+        
         
         // Defaults for Content Assist preference page
         store.setDefault(HTMLUIPreferenceNames.AUTO_PROPOSE, true);

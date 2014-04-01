@@ -746,6 +746,7 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
             styles.add(IStyleConstantsSS.SS_END_WITH);
             styles.add(IStyleConstantsSS.SS_I18N_OPEN);
             styles.add(IStyleConstantsSS.SS_I18N_CONTENT);
+            styles.add(IStyleConstantsSS.SS_DEPRECATED);
             
             fStylePreferenceKeys = styles;
         }
@@ -863,6 +864,7 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
         fContextToStyleMap.put(SilverStripeRegionContext.SS_END_WITH, IStyleConstantsSS.SS_END_WITH);
         fContextToStyleMap.put(SilverStripeRegionContext.SS_I18N_OPEN, IStyleConstantsSS.SS_I18N_OPEN);
         fContextToStyleMap.put(SilverStripeRegionContext.SS_I18N_CONTENT, IStyleConstantsSS.SS_I18N_CONTENT);
+        fContextToStyleMap.put(SilverStripeRegionContext.SS_DEPRECATED, IStyleConstantsSS.SS_DEPRECATED);
     }
 
     @SuppressWarnings("unchecked")
@@ -893,6 +895,7 @@ public final class SilverStripeSyntaxColoringPage extends AbstractSyntaxColoring
         fStyleToDescriptionMap.put(IStyleConstantsSS.SS_END_WITH, "End With");
         fStyleToDescriptionMap.put(IStyleConstantsSS.SS_I18N_OPEN, "Translation");
         fStyleToDescriptionMap.put(IStyleConstantsSS.SS_I18N_CONTENT, "Translation Content");
+        fStyleToDescriptionMap.put(IStyleConstantsSS.SS_DEPRECATED, "Deprecated Code");
     }
 
     protected void performDefaults() {

@@ -111,6 +111,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
         }
         
         Path silverStripeContainer=new Path(SilverStripePDTPlugin.NATURE_ID);
+        Path phpContainer=new Path("org.eclipse.php.core.LANGUAGE");
         
         
         
@@ -154,6 +155,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 	final IPath projectPath = getProject().getFullPath();
                     List cpEntries = new ArrayList();
                     cpEntries.add(DLTKCore.newSourceEntry(projectPath));
+                    cpEntries.add(DLTKCore.newContainerEntry(phpContainer));
                     cpEntries.add(DLTKCore.newContainerEntry(silverStripeContainer));
                     
                     buildpathEntries = (IBuildpathEntry[]) cpEntries.toArray(new IBuildpathEntry[cpEntries.size()]);
@@ -243,6 +245,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 final IPath projectPath = getProject().getFullPath();
                 List cpEntries = new ArrayList();
                 cpEntries.add(DLTKCore.newSourceEntry(projectPath));
+                cpEntries.add(DLTKCore.newContainerEntry(phpContainer));
                 cpEntries.add(DLTKCore.newContainerEntry(silverStripeContainer));
                 
                 buildpathEntries = (IBuildpathEntry[]) cpEntries.toArray(new IBuildpathEntry[cpEntries.size()]);
@@ -311,6 +314,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 final IPath projectPath = getProject().getFullPath();
                 List cpEntries = new ArrayList();
                 cpEntries.add(DLTKCore.newSourceEntry(projectPath));
+                cpEntries.add(DLTKCore.newContainerEntry(phpContainer));
                 cpEntries.add(DLTKCore.newContainerEntry(silverStripeContainer));
 
                 buildpathEntries = (IBuildpathEntry[]) cpEntries.toArray(new IBuildpathEntry[cpEntries.size()]);

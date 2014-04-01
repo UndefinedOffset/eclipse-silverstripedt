@@ -2,8 +2,11 @@ package ca.edchipman.silverstripepdt.templates;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.MissingResourceException;
@@ -13,20 +16,30 @@ import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.jface.text.templates.persistence.TemplatePersistenceData;
 import org.eclipse.jface.text.templates.persistence.TemplateReaderWriter;
+import org.eclipse.php.internal.core.util.text.StringUtils;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class SilverStripeTemplateReaderWriter extends TemplateReaderWriter {
+	private static final String TEMPLATE_ROOT = "templates"; //$NON-NLS-1$
     private static final String TEMPLATE_ELEMENT = "template"; //$NON-NLS-1$
     private static final String NAME_ATTRIBUTE= "name"; //$NON-NLS-1$
     private static final String ID_ATTRIBUTE= "id"; //$NON-NLS-1$
@@ -245,4 +258,139 @@ public class SilverStripeTemplateReaderWriter extends TemplateReaderWriter {
         
         return key; // default messages
     }
+
+	/**
+	 * Saves the templates as XML, encoded as UTF-8 onto the given byte stream.
+	 *
+	 * @param templates the templates to save
+	 * @param stream the byte output to write the templates to in XML
+	 * @throws IOException if writing the templates fails
+	 */
+	public void save(TemplatePersistenceData[] templates, OutputStream stream) throws IOException {
+		save(templates, new StreamResult(stream));
+	}
+
+	/**
+	 * Saves the templates as XML.
+	 *
+	 * @param templates the templates to save
+	 * @param writer the writer to write the templates to in XML
+	 * @throws IOException if writing the templates fails
+	 */
+	public void save(TemplatePersistenceData[] templates, Writer writer) throws IOException {
+		save(templates, new StreamResult(writer));
+	}
+
+	/**
+	 * Saves the templates as XML.
+	 *
+	 * @param templates the templates to save
+	 * @param result the stream result to write to
+	 * @throws IOException if writing the templates fails
+	 */
+	private void save(TemplatePersistenceData[] templates, StreamResult result) throws IOException {
+		try {
+			DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder= factory.newDocumentBuilder();
+			Document document= builder.newDocument();
+
+			Node root= document.createElement(TEMPLATE_ROOT);
+			document.appendChild(root);
+
+			for (int i= 0; i < templates.length; i++) {
+				TemplatePersistenceData data= templates[i];
+				Template template= data.getTemplate();
+
+				Node node= document.createElement(TEMPLATE_ELEMENT);
+				root.appendChild(node);
+
+				NamedNodeMap attributes= node.getAttributes();
+
+				String id= data.getId();
+				if (id != null) {
+					Attr idAttr= document.createAttribute(ID_ATTRIBUTE);
+					idAttr.setValue(id);
+					attributes.setNamedItem(idAttr);
+				}
+
+				if (template != null) {
+					Attr name= document.createAttribute(NAME_ATTRIBUTE);
+					name.setValue(validateXML(template.getName()));
+					attributes.setNamedItem(name);
+				}
+
+				if (template != null) {
+					Attr description= document.createAttribute(DESCRIPTION_ATTRIBUTE);
+					description.setValue(validateXML(template.getDescription()));
+					attributes.setNamedItem(description);
+				}
+
+				if (template != null) {
+					Attr context= document.createAttribute(CONTEXT_ATTRIBUTE);
+					context.setValue(validateXML(template.getContextTypeId()));
+					attributes.setNamedItem(context);
+				}
+				
+				if (template != null && template instanceof SilverStripeTemplate) {
+					String[] ssVersions=((SilverStripeTemplate) template).ssVersions();
+					if(ssVersions.length>0) {
+						Attr ssVersionAttr=document.createAttribute(SS_VERSIONS_ATTRIBUTE);
+						ssVersionAttr.setValue(validateXML(StringUtils.implodeStrings(Arrays.asList(ssVersions), ",")));
+						attributes.setNamedItem(ssVersionAttr);
+					}
+				}
+
+				Attr enabled= document.createAttribute(ENABLED_ATTRIBUTE);
+				enabled.setValue(data.isEnabled() ? Boolean.toString(true) : Boolean.toString(false));
+				attributes.setNamedItem(enabled);
+
+				Attr deleted= document.createAttribute(DELETED_ATTRIBUTE);
+				deleted.setValue(data.isDeleted() ? Boolean.toString(true) : Boolean.toString(false));
+				attributes.setNamedItem(deleted);
+
+				if (template != null) {
+					Attr autoInsertable= document.createAttribute(AUTO_INSERTABLE_ATTRIBUTE);
+					autoInsertable.setValue(template.isAutoInsertable() ? Boolean.toString(true) : Boolean.toString(false));
+					attributes.setNamedItem(autoInsertable);
+				}
+
+				if (template != null) {
+					Text pattern= document.createTextNode(validateXML(template.getPattern()));
+					node.appendChild(pattern);
+				}
+			}
+
+
+			Transformer transformer=TransformerFactory.newInstance().newTransformer();
+			transformer.setOutputProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8"); //$NON-NLS-1$
+			DOMSource source = new DOMSource(document);
+
+			transformer.transform(source, result);
+
+		} catch (ParserConfigurationException e) {
+			Assert.isTrue(false);
+		} catch (TransformerException e) {
+			if (e.getException() instanceof IOException)
+				throw (IOException) e.getException();
+			Assert.isTrue(false);
+		}
+	}
+
+	/**
+	 * Validates whether the given string only contains valid XML characters.
+	 * 
+	 * @param string the string to validate
+	 * @return the input string
+	 * @throws IOException when the first invalid character is detected
+	 * @since 3.6
+	 */
+	private static String validateXML(String string) throws IOException {
+		for (int i= 0; i < string.length(); i++) {
+			char ch= string.charAt(i);
+			if (!(ch == 9 || ch == 10 || ch == 13 || ch >= 32))
+				throw new IOException("Character reference \"&#" + Integer.toString(ch) + "\" is an invalid XML character."); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return string;
+	}
 }

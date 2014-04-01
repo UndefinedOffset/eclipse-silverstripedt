@@ -35,4 +35,5 @@ public interface IStyleConstantsSS extends IStyleConstantsHTML {
     public static final String SS_END_WITH = "SS_END_WITH"; //$NON-NLS-1$
     public static final String SS_I18N_OPEN = "SS_I18N_OPEN"; //$NON-NLS-1$
     public static final String SS_I18N_CONTENT = "SS_I18N_CONTENT"; //$NON-NLS-1$
+    public static final String SS_DEPRECATED = "SS_DEPRECATED"; //$NON-NLS-1$
 }

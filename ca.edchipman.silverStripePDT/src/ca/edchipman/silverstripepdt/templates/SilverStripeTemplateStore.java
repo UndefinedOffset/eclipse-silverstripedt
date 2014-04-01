@@ -3,10 +3,15 @@ package ca.edchipman.silverstripepdt.templates;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
@@ -14,6 +19,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.Template;
@@ -44,10 +50,40 @@ public class SilverStripeTemplateStore extends PHPTemplateStore {
     private static final String FILE= "file"; //$NON-NLS-1$
     private static final String TRANSLATIONS= "translations"; //$NON-NLS-1$
 
+	private IPersistentPreferenceStore fPreferenceStore;
+
+	private String fKey;
+
     public SilverStripeTemplateStore(ContextTypeRegistry registry, IPreferenceStore store, String key) {
         super(registry, store, key);
-        // TODO Auto-generated constructor stub
+        
+        fPreferenceStore=(IPersistentPreferenceStore) store;
+        fKey=key;
     }
+    
+    /**
+	 * Loads the templates from contributions and preferences.
+	 *
+	 * @throws IOException if loading fails.
+	 */
+	public void load() throws IOException {
+		super.load();
+		
+		loadCustomTemplates();
+	}
+
+	private void loadCustomTemplates() throws IOException {
+		String pref= fPreferenceStore.getString(fKey);
+		if (pref != null && pref.trim().length() > 0) {
+			Reader input= new StringReader(pref);
+			TemplateReaderWriter reader= new SilverStripeTemplateReaderWriter();
+			TemplatePersistenceData[] datas= reader.read(input);
+			for (int i= 0; i < datas.length; i++) {
+				TemplatePersistenceData data= datas[i];
+				add(data);
+			}
+		}
+	}
 
     /**
      * Loads the templates contributed via the templates extension point.
@@ -216,4 +252,32 @@ public class SilverStripeTemplateStore extends PHPTemplateStore {
             }
         }
     }
+
+	/**
+	 * Saves the templates to the preferences.
+	 *
+	 * @throws IOException if the templates cannot be written
+	 */
+	public void save() throws IOException {
+		ArrayList custom= new ArrayList();
+		List<TemplatePersistenceData> fTemplates=Arrays.asList(this.getTemplateData(true));
+		for (Iterator it= fTemplates.iterator(); it.hasNext();) {
+			TemplatePersistenceData data= (TemplatePersistenceData) it.next();
+			if (data.isCustom() && !(data.isUserAdded() && data.isDeleted())) // don't save deleted user-added templates
+				custom.add(data);
+		}
+
+		StringWriter output= new StringWriter();
+		TemplateReaderWriter writer= new SilverStripeTemplateReaderWriter();
+		writer.save((TemplatePersistenceData[]) custom.toArray(new TemplatePersistenceData[custom.size()]), output);
+
+		this.stopListeningForPreferenceChanges();
+		try {
+			fPreferenceStore.setValue(fKey, output.toString());
+			if (fPreferenceStore instanceof IPersistentPreferenceStore)
+				((IPersistentPreferenceStore)fPreferenceStore).save();
+		} finally {
+			this.startListeningForPreferenceChanges();
+		}
+	}
 }

@@ -57,24 +57,21 @@ import ca.edchipman.silverstripepdt.SilverStripePluginImages;
 import ca.edchipman.silverstripepdt.dialogs.FilteredTypesSelectionDialog;
 import ca.edchipman.silverstripepdt.search.ISilverStripePDTSearchConstants;
 import ca.edchipman.silverstripepdt.wizards.SilverStripeProjectWizardSecondPage.SilverStripeFileCreator;
+import org.eclipse.swt.layout.RowLayout;
 
 @SuppressWarnings("restriction")
 public class NewSilverStripeClassWizardPage extends WizardPage {
     private Text sourceFolder;
     private Text className;
-    private Text superClass;
     private ISelection selection;
-    private List interfaces;
-    private Button btnSuperConstruct;
-    private Button btnAbstractMethods;
-    private IType superClassType;
-    private Button[] btnClassModifiers;
+    private Button[] btnWizardModeModifiers;
     
     /**
      * Create the wizard.
      */
     public NewSilverStripeClassWizardPage(final ISelection selection) {
         super("wizardPage");
+        setPageComplete(false);
         setTitle("SilverStripe Class");
         setDescription("Create a new SilverStripe class.");
         setImageDescriptor(SilverStripePluginImages.DESC_ADD_SS_FILE);
@@ -128,128 +125,45 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
         });
         new Label(container, SWT.NONE);
         
-        Label label = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
-        label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-        
         Label lblModifiers = new Label(container, SWT.NONE);
-        lblModifiers.setText("Modifiers:");
+        lblModifiers.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+        lblModifiers.setText("Mode:");
         
         Composite modifiersComp = new Composite(container, SWT.NONE);
+        modifiersComp.setLayout(new GridLayout(1, false));
         GridData gd_modifiersComp = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
         gd_modifiersComp.widthHint = 401;
         modifiersComp.setLayoutData(gd_modifiersComp);
         
-        btnClassModifiers = new Button[3];
-        modifiersComp.setLayout(new GridLayout(3, false));
-        btnClassModifiers[0] = new Button(modifiersComp, SWT.RADIO);
-        btnClassModifiers[0].setText("none");
-        btnClassModifiers[0].setSelection(true);
+        btnWizardModeModifiers = new Button[2];
+        Button firstButton = new Button(modifiersComp, SWT.RADIO);
+        firstButton.setText("Create from Template");
+        firstButton.setSelection(true);
         
-        btnClassModifiers[1] = new Button(modifiersComp, SWT.RADIO);
-        btnClassModifiers[1].setText("abstract");
+        btnWizardModeModifiers[0] = firstButton;
         
-        btnClassModifiers[2] = new Button(modifiersComp, SWT.RADIO);
-        btnClassModifiers[2].setText("final");
-        new Label(container, SWT.NONE);
-        
-        Label lblSuperclass = new Label(container, SWT.NONE);
-        lblSuperclass.setText("Superclass:");
-        
-        superClass = new Text(container, SWT.BORDER);
-        superClass.setEditable(false);
-        superClass.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-        
-        Button btnSuperBrowse = new Button(container, SWT.NONE);
-        btnSuperBrowse.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(final SelectionEvent e) {
-                superClassType=chooseSuperClass();
-                if(superClassType!=null) {
-                    superClass.setText(superClassType.getElementName());
-                }
-            }
-        });
-        btnSuperBrowse.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-        btnSuperBrowse.setText("Browse...");
-        
-        Label lblInterfaces = new Label(container, SWT.NONE);
-        lblInterfaces.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
-        lblInterfaces.setText("Interfaces:");
-        
-        interfaces = new List(container, SWT.BORDER);
-        interfaces.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-        
-        Composite composite = new Composite(container, SWT.NONE);
-        FillLayout fl_composite = new FillLayout(SWT.VERTICAL);
-        fl_composite.spacing = 40;
-        composite.setLayout(fl_composite);
-        composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-        
-        Button btnAdd = new Button(composite, SWT.NONE);
-        final Button btnRemove = new Button(composite, SWT.NONE);
-        
-        btnAdd.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(final SelectionEvent e) {
-                IType interfaceType=chooseInterface();
-                if(interfaceType!=null) {
-                    String interfaceName=interfaceType.getElementName();
-                    
-                    if(interfaces.indexOf(interfaceName)==-1) {
-                        interfaces.add(interfaceName);
-                        
-                        btnRemove.setEnabled(true);
-                    }
-                }
-            }
-        });
-        btnAdd.setText("Add...");
-        
-        
-        btnRemove.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(final SelectionEvent e) {
-                    int[] indexes = interfaces.getSelectionIndices();
-                    interfaces.remove(indexes);
-                    
-                    if(interfaces.getItemCount()==0) {
-                        btnRemove.setEnabled(false);
-                    }
-                }
-            });
-        btnRemove.setEnabled(false);
-        btnRemove.setText("Remove");
-        
-        Label lblWhichMethodStubs = new Label(container, SWT.NONE);
-        lblWhichMethodStubs.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-        lblWhichMethodStubs.setText("Which method stubs would you like to create?");
-        new Label(container, SWT.NONE);
-        new Label(container, SWT.NONE);
-        
-        btnSuperConstruct = new Button(container, SWT.CHECK);
-        btnSuperConstruct.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            }
-        });
-        btnSuperConstruct.setText("Constructor from superclass");
-        new Label(container, SWT.NONE);
-        new Label(container, SWT.NONE);
-        
-        btnAbstractMethods = new Button(container, SWT.CHECK);
-        btnAbstractMethods.setSelection(true);
-        btnAbstractMethods.setText("Inherited abstract methods");
+        Button parentButton = new Button(modifiersComp, SWT.RADIO);
+        parentButton.setText("Create from Super Class or Interfaces");
+        btnWizardModeModifiers[1] = parentButton;
         new Label(container, SWT.NONE);
         
         initialize();
         dialogChanged(true);
-        setPageComplete(false);
     }
     
-    private String getFileName() {
+    public String getFileName() {
         return getClassName()+".php";
     }
 
     protected void updateStatus(final String message) {
+    	if(getContainerName().isEmpty()==false && getClassName().isEmpty()==false && (message==null || message.isEmpty())) {
+    		this.setPageComplete(true);
+    	}else {
+    		this.setPageComplete(false);
+    	}
+    	
+    	
         setErrorMessage(message);
-        setPageComplete(message == null);
     }
 
     protected IContainer getContainer(final String text) {
@@ -304,8 +218,24 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
                 return;
             }
         }
-
+        
         updateStatus(null);
+    }
+    
+    /**
+     * Returns true if the wizard is in class mode
+     * @return True if in class mode false if not
+     */
+    public boolean isClassMode() {
+    	return btnWizardModeModifiers[1].getSelection();
+    }
+    
+    /**
+     * Returns true if the wizard is in template mode
+     * @return True if in template mode false if not
+     */
+    public boolean isTemplateMode() {
+    	return btnWizardModeModifiers[0].getSelection();
     }
 
     /**
@@ -376,71 +306,6 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
     }
     
     /**
-     * Opens a selection dialog that allows to select a super class.
-     *
-     * @return returns the selected type or <code>null</code> if the dialog has been canceled.
-     * The caller typically sets the result to the super class input field.
-     *  <p>
-     * Clients can override this method if they want to offer a different dialog.
-     * </p>
-     *
-     * @since 3.2
-     */
-    @SuppressWarnings("restriction")
-    protected IType chooseSuperClass() {
-        IScriptProject project = getScriptProject();
-        if (project == null) {
-            return null;
-        }
-        
-        //@TODO need to get the silverstripe classes here
-        IModelElement[] elements= new IModelElement[] { project };
-        IDLTKSearchScope scope= SearchEngine.createSearchScope(elements,IJavaSearchScope.SOURCES|IJavaSearchScope.APPLICATION_LIBRARIES|IJavaSearchScope.SYSTEM_LIBRARIES|IJavaSearchScope.REFERENCED_PROJECTS, project.getLanguageToolkit());
-
-        FilteredTypesSelectionDialog dialog = new FilteredTypesSelectionDialog(getShell(), false, getWizard().getContainer(), scope, ISilverStripePDTSearchConstants.CLASS, project.getLanguageToolkit());
-        dialog.setTitle("Superclass Selection");
-        dialog.setMessage("Choose a class");
-        dialog.setInitialPattern(getSuperClass());
-
-        if (dialog.open() == Window.OK) {
-            return (IType) dialog.getFirstResult();
-        }
-        return null;
-    }
-
-    /**
-     * Opens a selection dialog that allows to select an interface
-     *
-     * @return returns the selected type or <code>null</code> if the dialog has been canceled.
-     * The caller typically sets the result to the super class input field.
-     *  <p>
-     * Clients can override this method if they want to offer a different dialog.
-     * </p>
-     *
-     * @since 3.2
-     */
-    @SuppressWarnings("restriction")
-    protected IType chooseInterface() {
-        IScriptProject project = getScriptProject();
-        if (project == null) {
-            return null;
-        }
-        
-        //@TODO need to get the silverstripe classes here
-        IModelElement[] elements= new IModelElement[] { project };
-        IDLTKSearchScope scope= SearchEngine.createSearchScope(elements,IJavaSearchScope.SOURCES|IJavaSearchScope.APPLICATION_LIBRARIES|IJavaSearchScope.SYSTEM_LIBRARIES|IJavaSearchScope.REFERENCED_PROJECTS, project.getLanguageToolkit());
-
-        FilteredTypesSelectionDialog dialog = new FilteredTypesSelectionDialog(getShell(), false, getWizard().getContainer(), scope, ISilverStripePDTSearchConstants.INTERFACE, project.getLanguageToolkit());
-        dialog.setTitle("Interface Selection");
-        dialog.setMessage("Choose an interface");
-
-        if (dialog.open() == Window.OK) {
-            return (IType) dialog.getFirstResult();
-        }
-        return null;
-    }
-    
-    /**
      * Returns the content of the classname input field.
      * 
      * @return the classname name
@@ -449,262 +314,4 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
         return className.getText();
     }
     
-    /**
-     * Returns the content of the superclass input field.
-     * 
-     * @return the superclass name
-     */
-    public String getSuperClass() {
-        return superClass.getText();
-    }
-    
-    /**
-     * Returns the selected interfaces
-     * 
-     * @return selected interfaces
-     */
-    public String[] getInterfaces() {
-        return interfaces.getItems();
-    }
-    
-    /**
-     * Returns if the super construct checkbox is selected
-     * 
-     * @return returns true if the super construct is selected
-     */
-    public Boolean getSuperConstruct() {
-        return btnSuperConstruct.getSelection();
-    }
-    
-    /**
-     * Returns if the abstract checkbox is selected
-     * 
-     * @return returns true if the abstract method is selected
-     */
-    public Boolean getAbstractMethods() {
-        return btnAbstractMethods.getSelection();
-    }
-    
-    /**
-     * Creates the new type using the entered field values.
-     *
-     * @param monitor a progress monitor to report progress.
-     * @throws CoreException Thrown when the creation failed.
-     * @throws InterruptedException Thrown when the operation was canceled.
-     */
-    public void createType(IProgressMonitor monitor) throws CoreException, InterruptedException {
-        if (monitor == null) {
-            monitor= new NullProgressMonitor();
-        }
-
-        monitor.beginTask("Generating Class", 8);
-
-
-        boolean needsSave;
-        //ICompilationUnit connectedCU= null;
-
-        try {
-            String typeName= getClassName();
-
-
-            int indent= 0;
-
-            String lineDelimiter = StubUtility.getLineDelimiterUsed(getScriptProject());
-            String tabCharacter = getIndentPrefixes();
-            
-            String finalFile="<?php"+lineDelimiter;
-            
-            if(btnClassModifiers[2].getSelection()) {
-                finalFile+="final ";
-            }else if(btnClassModifiers[1].getSelection()) {
-                finalFile+="abstract ";
-            }
-            
-            finalFile+="class "+getClassName();
-            
-            if(superClassType!=null) {
-                finalFile+=" extends "+getSuperClass();
-            }
-            
-            String[] interfaceElements=getInterfaces();
-            if(interfaceElements!=null && interfaceElements.length>0) {
-                finalFile+=" implements";
-                for(int i=0;i<interfaceElements.length;i++) {
-                    if(i>0) {
-                        finalFile+=",";
-                    }
-                    
-                    finalFile+=" "+interfaceElements[i];
-                }
-            }
-            
-            finalFile+=" {"+lineDelimiter+tabCharacter;
-            
-            Boolean constructorCreated=false;
-            if(btnSuperConstruct.getSelection() && superClassType!=null) {
-                IMethod[] constructor = PHPModelUtils.getTypeMethod(superClassType, "__construct", false);
-                if(constructor.length>0) {
-                    PHPDocBlock docBlock = PHPModelUtils.getDocBlock(constructor[0]);
-                    
-                    finalFile+=renderDocBlock(docBlock,lineDelimiter,tabCharacter)+tabCharacter+"public function __construct(";
-                    
-                    
-                    IParameter[] params=constructor[0].getParameters();
-                    String paramStr="";
-                    for(int i=0;i<params.length;i++) {
-                        finalFile+=params[i].getName()+(params[i].getDefaultValue()!="" ? "="+params[i].getDefaultValue():"");
-                        paramStr+=params[i].getName();
-                        
-                        if(i<params.length-1) {
-                            finalFile+=", ";
-                            paramStr+=", ";
-                        }
-                    }
-                    
-                    finalFile+=") {"+lineDelimiter+tabCharacter+tabCharacter+"parent::__construct("+paramStr+");"+lineDelimiter+tabCharacter+tabCharacter+lineDelimiter+tabCharacter+"}";
-                    
-                    constructorCreated=true;
-                }
-            }
-            
-            if (monitor.isCanceled()) {
-                throw new InterruptedException();
-            }
-            
-            
-            if(getAbstractMethods()) {
-                IFile file = new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getContainerName(), typeName+".php", monitor, finalFile+lineDelimiter+"}"+lineDelimiter+"?>"+lineDelimiter, true);
-                
-                ISourceModule sourceModule = DLTKCore.createSourceModuleFrom(file);
-                IType createdType = sourceModule.getType(typeName);
-                
-                IMethod[] unimplemented=PHPModelUtils.getUnimplementedMethods(createdType, monitor);
-                
-                int i=0;
-                
-                if(constructorCreated) {
-                    i++;
-                }
-                
-                for(IMethod method : unimplemented) {
-                    try {
-                        PHPDocBlock docBlock = PHPModelUtils.getDocBlock(method);
-                        
-                        String source = method.getSource().trim();
-                        
-                        source = (i>0 ? lineDelimiter+tabCharacter+lineDelimiter+tabCharacter:"")+renderDocBlock(docBlock,lineDelimiter,tabCharacter)+tabCharacter+source.substring(0, source.length()-1);
-                        source += " {"+lineDelimiter+tabCharacter+tabCharacter+"//@TODO Automatically created abstract method stub"+lineDelimiter+tabCharacter+"}";
-                        finalFile+=source;
-                        
-                        i++;
-                    } catch (ModelException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-            
-            finalFile+=lineDelimiter+"}"+lineDelimiter+"?>"+lineDelimiter;
-            
-            new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getContainerName(), typeName+".php", monitor, finalFile, true);
-            
-            
-            monitor.worked(1);
-        } finally {
-            monitor.done();
-        }
-    }
-    
-    /**
-     * Hook method that is called when evaluating the name of the compilation unit to create. By default, a file extension
-     * <code>php</code> is added to the given type name, but implementors can override this behavior.
-     *
-     * @param typeName the name of the type to create the compilation unit for.
-     * @return the name of the compilation unit to be created for the given name
-     *
-     * @since 3.2
-     */
-    protected String getCompilationUnitName(String typeName) {
-        return typeName + ".php";
-    }
-    
-    public String getIndentPrefixes() {
-        StringBuffer result = new StringBuffer();
-
-        // prefix[0] is either '\t' or ' ' x tabWidth, depending on preference
-        char indentCharPref = getIndentationChar();
-        int indentationSize = getIndentationSize();
-
-        for (int i = 0; i < indentationSize; i++) {
-            result.append(indentCharPref);
-        }
-        
-        return result.toString();
-    }
-    
-    private int getIndentationSize() {
-        String indentSize = CorePreferencesSupport.getInstance().getWorkspacePreferencesValue(PHPCoreConstants.FORMATTER_INDENTATION_SIZE);
-        if (indentSize == null) {
-            return 1;
-        }
-        return Integer.valueOf(indentSize).intValue();
-    }
-
-    private char getIndentationChar() {
-        String useTab = CorePreferencesSupport.getInstance().getWorkspacePreferencesValue(PHPCoreConstants.FORMATTER_USE_TABS);
-        return (Boolean.valueOf(useTab).booleanValue() ? '\t':' ');
-    }
-    
-    private String renderDocBlock(PHPDocBlock docBlock, String lineDelemiter, String tabCharacter) {
-        String result="/**"+lineDelemiter;
-        
-        result+=docFormatLine(docBlock.getShortDescription(), lineDelemiter, tabCharacter)+lineDelemiter+tabCharacter+" * "+lineDelemiter;
-        
-        PHPDocTag[] tags = docBlock.getTags();
-        for(PHPDocTag tag : tags) {
-            result+=docFormatLine("@"+PHPDocTag.getTagKind(tag.getTagKind())+tag.getValue(), lineDelemiter, tabCharacter)+lineDelemiter;
-        }
-        
-        return result+tabCharacter+" */"+lineDelemiter;
-    }
-    
-    private String docFormatLine(String content, String lineDelemiter, String tabCharacter) {
-        content = content.trim();
-        
-        String[] lines = content.split("\r?\n|\r");
-        
-        for(int i=0;i<lines.length;i++) {
-            lines[i]=tabCharacter+" * "+lines[i].trim();
-        }
-        
-        return implodeArray(lines, lineDelemiter);
-    }
-    
-    /**
-     * Method to join array elements of type string
-     * 
-     * @author Hendrik Will, imwill.com
-     * @param inputArray Array which contains strings
-     * @param glueString String between each array element
-     * @return String containing all array elements seperated by glue string
-     */
-    public static String implodeArray(String[] inputArray, String glueString) {
-
-        /** Output variable */
-        String output = "";
-
-        if (inputArray.length > 0) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(inputArray[0]);
-
-            for (int i = 1; i < inputArray.length; i++) {
-                sb.append(glueString);
-                sb.append(inputArray[i]);
-            }
-
-            output = sb.toString();
-        }
-
-        return output;
-    }
 }

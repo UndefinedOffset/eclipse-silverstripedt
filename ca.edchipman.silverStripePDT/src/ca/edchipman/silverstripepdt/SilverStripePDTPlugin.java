@@ -20,6 +20,7 @@ import org.osgi.framework.BundleContext;
 
 import ca.edchipman.silverstripepdt.contentassist.SSTemplateCompletionProcessor;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStore;
+import ca.edchipman.silverstripepdt.wizards.NewSilverStripeClassWizardTemplatePage;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
 
@@ -36,6 +37,7 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
     
     protected TemplateStore caTemplateStore = null;
     protected ContextTypeRegistry caContextTypeRegistry = null;
+    protected ContextTypeRegistry fClassContextTypeRegistry;
 
 	// The shared instance
 	private static SilverStripePDTPlugin plugin;
@@ -84,9 +86,24 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
 	}
 
     /**
-     * Returns the template context type registry for the xml plugin.
-     * 
-     * @return the template context type registry for the xml plugin
+     * Returns the template context type registry for creating SilverStripe classes.
+     * @return the template context type registry for creating SilverStripe classes
+     */
+    public ContextTypeRegistry getNewClassContextRegistry() {
+        if (fClassContextTypeRegistry == null) {
+            ContributionContextTypeRegistry registry = new ContributionContextTypeRegistry();
+
+            registry.addContextType(new CodeTemplateContextType(NewSilverStripeClassWizardTemplatePage.NEW_CLASS_CONTEXTTYPE));
+
+            fClassContextTypeRegistry = registry;
+        }
+
+        return fClassContextTypeRegistry;
+    }
+
+    /**
+     * Returns the template context type registry for SilverStripe template files.
+     * @return the template context type registry for SilverStripe template files
      */
     public ContextTypeRegistry getTemplateContextRegistry() {
         if (fContextTypeRegistry == null) {
@@ -109,7 +126,7 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
      */
     public TemplateStore getTemplateStore() {
         if (templateStore == null) {
-            templateStore = new PHPTemplateStore(getTemplateContextRegistry(), getPreferenceStore(), "ca.edchipman.silverstripepdt.SilverStripe.templates");
+            templateStore = new SilverStripeTemplateStore(getTemplateContextRegistry(), getPreferenceStore(), "ca.edchipman.silverstripepdt.SilverStripe.templates");
             
             try {
                 templateStore.load();

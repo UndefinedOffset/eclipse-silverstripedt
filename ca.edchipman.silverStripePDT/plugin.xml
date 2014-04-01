@@ -62,6 +62,7 @@
     <extension point="org.eclipse.ui.perspectiveExtensions">
         <perspectiveExtension targetID="org.eclipse.php.perspective">
             <newWizardShortcut id="ca.edchipman.silverstripepdt.wizards.NewSilverStripeProjectWizard" />
+            <newWizardShortcut id="ca.edchipman.silverstripepdt.wizards.SilverStripeClassCreationWizard" />
             <newWizardShortcut id="ca.edchipman.silverstripepdt.wizards.SilverStripeTemplateFileCreationWizard" />
         </perspectiveExtension>
     </extension>
@@ -202,8 +203,13 @@
             name="Content Assist"
             category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
             class="ca.edchipman.silverstripepdt.preferences.SSTemplatesContentAssistPreferencesPage"
-            id="ca.edchipman.silverstripepdt.preferences.styles">
+            id="ca.edchipman.silverstripepdt.preferences.contentassist">
             <keywordReference id="ca.edchipman.silverstripepdt.SSTemplatesContentAssistPreferencesPage" />
+        </page>
+        <page category="ca.edchipman.silverstripepdt.preferences.contentassist"
+            class="ca.edchipman.silverstripepdt.preferences.SilverStripeCATemplatesPreferencePage"
+            id="ca.edchipman.silverstripepdt.preferences.SilverStripeCATemplatesPreferencePage" name="Templates">
+            <keywordReference id="ca.edchipman.silverstripepdt.SilverStripeTemplate" />
         </page>
         <page category="ca.edchipman.silverstripepdt.preferences.SilverStripeBasePreferencePage"
             class="ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage"

@@ -6,7 +6,8 @@
     name="New SilverStripe Page Type"
     description="A new SilverStripe Page type extending Page and Page_Controller"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.pagetype"
-    context="php_new_file_context"
+    context="ss_new_class_context"
+    ss-versions="SS2.3,SS2.4,SS3.0"
     enabled="true">&lt;?php
 class ${file_name} extends Page {
     public static $$db=array(
@@ -28,12 +29,40 @@ class ${file_name}_Controller extends Page_Controller {
     
 }
 ?&gt;</template>
+<template
+    name="New SilverStripe 3.1 or later Page Type"
+    description="A new SilverStripe 3.1 or later Page type extending Page and Page_Controller"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss31.pagetype"
+    context="ss_new_class_context"
+    ss-versions="SS3.1"
+    enabled="true">&lt;?php
+class ${file_name} extends Page {
+    private static $$db=array(
+                         );
+    
+    private static $$has_one=array(
+                             );
+    
+    private static $$has_many=array(
+                             );
+    
+    private static $$defaults=array(
+                                );
+    
+    ${cursor}
+}
+
+class ${file_name}_Controller extends Page_Controller {
+    
+}
+?&gt;</template>
 
 <template
     name="New SilverStripe Data Object"
     description="A new SilverStripe Data Object"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.dataobject"
-    context="php_new_file_context"
+    context="ss_new_class_context"
+    ss-versions="SS2.3,SS2.4,SS3.0"
     enabled="true">&lt;?php
 class ${file_name} extends DataObject {
     public static $$db=array(
@@ -59,10 +88,40 @@ class ${file_name} extends DataObject {
 ?&gt;</template>
 
 <template
+    name="New SilverStripe 3.1 or later Data Object"
+    description="A new SilverStripe 3.1 or later Data Object"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss31.dataobject"
+    context="ss_new_class_context"
+    ss-versions="SS3.1"
+    enabled="true">&lt;?php
+class ${file_name} extends DataObject {
+    private static $$db=array(
+                         );
+    
+    private static $$has_one=array(
+                             );
+    
+    private static $$has_many=array(
+                             );
+    
+    private static $$belongs_many_many=array(
+                                 );
+    
+    private static $$many_many=array(
+                                 );
+    
+    private static $$defaults=array(
+                                );
+    
+    ${cursor}
+}
+?&gt;</template>
+
+<template
     name="New SilverStripe Controller"
     description="A new SilverStripe Controller extending ContentController"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.controller"
-    context="php_new_file_context"
+    context="ss_new_class_context"
     enabled="true">&lt;?php
 class ${file_name} extends ContentController {
     ${cursor}
@@ -73,7 +132,8 @@ class ${file_name} extends ContentController {
     name="New SilverStripe 2.4 or earlier Extension"
     description="A new SilverStripe 2.4 or earlier Extension"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.extension"
-    context="php_new_file_context"
+    context="ss_new_class_context"
+    ss-versions="SS2.3,SS2.4"
     enabled="true">&lt;?php
 class ${file_name} extends Extension {
     /**
@@ -95,11 +155,12 @@ class ${file_name} extends Extension {
 ?&gt;</template>
 
 <template
-    name="New SilverStripe 3.0 Extension"
-    description="A SilverStripe 3.0 Extension"
+    name="New SilverStripe 3.0 or later Extension"
+    description="A SilverStripe 3.0 or later Extension"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss30.extension"
-    context="php_new_file_context"
+    context="ss_new_class_context"
     enabled="true"
+    ss-versions="SS3.0,SS3.1"
     autoinsert="true">&lt;?php
 class ${file_name} extends Extension {
     ${cursor}
@@ -110,8 +171,9 @@ class ${file_name} extends Extension {
     name="New SilverStripe 3.0 Data Extension"
     description="A SilverStripe 3.0 Data Extension"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss30.dataextension"
-    context="php_new_file_context"
+    context="ss_new_class_context"
     enabled="true"
+    ss-versions="SS3.0"
     autoinsert="true">&lt;?php
 class ${file_name} extends DataExtension {
     public static $$db=array(
@@ -143,10 +205,48 @@ class ${file_name} extends DataExtension {
 ?&gt;</template>
 
 <template
+    name="New SilverStripe 3.1 or later Data Extension"
+    description="A SilverStripe 3.1 or later Data Extension"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss31.dataextension"
+    context="ss_new_class_context"
+    enabled="true"
+    ss-versions="SS3.1"
+    autoinsert="true">&lt;?php
+class ${file_name} extends DataExtension {
+    private static $$db=array(
+                         );
+    
+    private static $$has_one=array(
+                             );
+    
+    private static $$has_many=array(
+                             );
+    
+    private static $$belongs_many_many=array(
+                                 );
+    
+    private static $$many_many=array(
+                                 );
+    
+    private static $$defaults=array(
+                                );
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param {FieldList} $$fields Field List that new fields will be added to
+     */
+    public function updateCMSFields(FieldList $$fields) {
+        
+    }
+}
+?&gt;</template>
+
+<template
     name="New SilverStripe 2.4 or earlier Data Object Decorator"
     description="A new SilverStripe 2.4 or earlier Data Object Decorator"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.dod"
-    context="php_new_file_context"
+    context="ss_new_class_context"
+    ss-versions="SS2.3,SS2.4"
     enabled="true">&lt;?php
 class ${file_name} extends DataObjectDecorator {
     /**
@@ -171,7 +271,7 @@ class ${file_name} extends DataObjectDecorator {
     name="New SilverStripe Class"
     description="A new SilverStripe Class"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.class"
-    context="php_new_file_context"
+    context="ss_new_class_context"
     enabled="true">&lt;?php
 class ${file_name} {
     ${cursor}
@@ -179,10 +279,11 @@ class ${file_name} {
 ?&gt;</template>
 
 <template
-    name="New SilverStripe 2.4 or earlier language file"
-    description="A new SilverStripe language file"
+    name="New SilverStripe language file"
+    description="A new SilverStripe 2.4 or earlier language file"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.lang"
-    context="php_new_file_context"
+    context="ss_new_class_context"
+    ss-versions="SS2.3,SS2.4"
     enabled="true">&lt;?php
 global $$lang;
 
@@ -524,7 +625,7 @@ $$PageComments</template>
     description="A new Top Level SilverStripe Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.toplevel"
     context="php_ss_30"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; &gt;
@@ -559,7 +660,7 @@ $$PageComments</template>
     description="A new SilverStripe Layout Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.template"
     context="php_ss_30"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">&lt;h2&gt;$$Title.XML&lt;/h2&gt;
 
 $$Content
@@ -570,7 +671,7 @@ $$Form</template>
     description="A new blank SilverStripe Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.blank"
     context="php_ss_30"
-    ss-versions="SS3.0"
+    ss-versions="SS3.0,SS3.1"
     enabled="true">
 </template>
 </templates>

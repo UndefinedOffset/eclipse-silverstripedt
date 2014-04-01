@@ -49,7 +49,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         data.setObserver(fPHPLocationGroup);
         fragment = (WizardFragment) Platform.getAdapterManager().loadAdapter(data, PHPProjectWizardFirstPage.class.getName());
 
-        fVersionGroup = new VersionGroup(composite);
+        fVersionGroup = new VersionGroup(composite, null);
         fLayoutGroup = new SilverStripeLayoutGroup(composite);
         fSSVersionGroup = new SilverStripeVersionGroup(composite);
         fJavaScriptSupportGroup = new SilverStripeJavaScriptSupportGroup(composite, this);
