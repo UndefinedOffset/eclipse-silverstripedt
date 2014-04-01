@@ -11,7 +11,7 @@ Adds templates and other tools for working with SilverStripe in Eclipse. Althoug
 Plugin may work with newer versions of the above but that is my current testing environment so I know it works there.
 
 ### Eclipse Update Site URL: 
-http://silverstripedt.edchipman.ca/
+http://silverstripedt.edchipman.ca/indigo/
 
 ---
 
