@@ -118,6 +118,7 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
         
         className = new Text(container, SWT.BORDER);
         className.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        className.setFocus();
         className.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged(false);
@@ -139,6 +140,11 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
         Button firstButton = new Button(modifiersComp, SWT.RADIO);
         firstButton.setText("Create from Template");
         firstButton.setSelection(true);
+        firstButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(final SelectionEvent e) {
+                dialogChanged(false);
+            }
+        });
         
         btnWizardModeModifiers[0] = firstButton;
         
@@ -160,6 +166,18 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
     		this.setPageComplete(true);
     	}else {
     		this.setPageComplete(false);
+    	}
+    	
+    	if(this.btnWizardModeModifiers[0].getSelection()==true) {
+    	    ((SilverStripeClassCreationWizard) this.getWizard()).setTemplateMode(true);
+            if(this.isCurrentPage()) {
+                this.getContainer().updateButtons();
+            }
+    	}else {
+    	    ((SilverStripeClassCreationWizard) this.getWizard()).setTemplateMode(false);
+    	    if(this.isCurrentPage()) {
+    	        this.getContainer().updateButtons();
+    	    }
     	}
     	
     	
@@ -303,6 +321,10 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
     
     public IScriptProject getScriptProject() {
         return new ScriptProject(getProject(), null);
+    }
+    
+    public boolean getIsCurrentPage() {
+        return this.isCurrentPage();
     }
     
     /**

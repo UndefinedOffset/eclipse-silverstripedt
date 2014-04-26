@@ -26,6 +26,7 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
     protected NewSilverStripeClassWizardPage fPage;
     protected NewSilverStripeClassWizardTemplatePage tPage;
     protected NewSilverStripeClassWizardClassPage cPage;
+    protected boolean inTemplateMode=false;
     
     public SilverStripeClassCreationWizard() {
         setWindowTitle("New SilverStripe Class");
@@ -68,7 +69,7 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
      * (non-Javadoc) Method declared on IWizard.
      */
     public boolean canFinish() {
-        return (cPage.getIsCurrentPage() || tPage.getIsCurrentPage());
+        return ((fPage.getIsCurrentPage() && fPage.isPageComplete() && this.inTemplateMode) || cPage.getIsCurrentPage() || tPage.getIsCurrentPage());
     }
     
     @Override
@@ -128,5 +129,9 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
      */
     protected ISchedulingRule getSchedulingRule() {
         return ResourcesPlugin.getWorkspace().getRoot(); // look all by default
+    }
+    
+    public void setTemplateMode(boolean mode) {
+        this.inTemplateMode=mode;
     }
 }
