@@ -538,6 +538,7 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
                         PHPDocBlock docBlock = PHPModelUtils.getDocBlock(method);
                         
                         String source = method.getSource().trim();
+                        source = source.replaceFirst("((^abstract(\\s))|(\\s)abstract(\\s))", "");
                         
                         source = (i>0 ? lineDelimiter+tabCharacter+lineDelimiter+tabCharacter:"")+renderDocBlock(docBlock,lineDelimiter,tabCharacter)+tabCharacter+source.substring(0, source.length()-1);
                         source += " {"+lineDelimiter+tabCharacter+tabCharacter+"//@TODO Automatically created abstract method stub"+lineDelimiter+tabCharacter+"}";
@@ -551,7 +552,7 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
                 }
             }
             
-            finalFile+=lineDelimiter+"}"+lineDelimiter+"?>"+lineDelimiter;
+            finalFile+=lineDelimiter+"}"+lineDelimiter+"?>";
             
             new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getContainerName(), typeName+".php", monitor, finalFile, true);
             
