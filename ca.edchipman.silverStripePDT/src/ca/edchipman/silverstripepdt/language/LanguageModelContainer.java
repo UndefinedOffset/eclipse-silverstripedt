@@ -10,6 +10,7 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.internal.filesystem.local.LocalFile;
 import org.eclipse.core.runtime.*;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IBuildpathContainer;
 import org.eclipse.dltk.core.IBuildpathEntry;
@@ -18,6 +19,7 @@ import org.eclipse.dltk.core.environment.EnvironmentManager;
 import org.eclipse.dltk.core.environment.EnvironmentPathUtils;
 import org.eclipse.dltk.core.environment.IEnvironment;
 import org.eclipse.dltk.internal.core.BuildpathEntry;
+import org.eclipse.dltk.internal.ui.util.CoreUtility;
 import org.eclipse.php.core.language.ILanguageModelProvider;
 import org.eclipse.php.internal.core.Logger;
 
@@ -27,6 +29,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
     private IPath containerPath;
     private IBuildpathEntry[] buildPathEntries;
     private IScriptProject fProject;
+    private Job buildJob;
 
     public LanguageModelContainer(IPath containerPath, IScriptProject project) {
         this.containerPath = containerPath;
@@ -102,8 +105,15 @@ public class LanguageModelContainer implements IBuildpathContainer {
             if (update) {
                 targetDir.delete(EFS.NONE, new NullProgressMonitor());
                 sourceDir.copy(targetDir, EFS.NONE, new NullProgressMonitor());
+                
+                
+                //Build Project
+                if(this.buildJob==null) {
+                    this.buildJob=CoreUtility.getBuildJob(project.getProject());
+                    this.buildJob.schedule();
+                }
             }
-
+            
             return targetPath;
 
         } catch (Exception e) {
