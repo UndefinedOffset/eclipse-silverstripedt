@@ -331,7 +331,7 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
     }
     
     public IScriptProject getScriptProject() {
-        return new ScriptProject(getProject(), null);
+        return DLTKCore.create(getProject());
     }
     
     public boolean getIsCurrentPage() {
