@@ -38,6 +38,7 @@ import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.typeinference.PHPModelUtils;
 import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.php.internal.ui.corext.codemanipulation.StubUtility;
+import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -53,10 +54,12 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
+import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripePluginImages;
 import ca.edchipman.silverstripepdt.dialogs.FilteredTypesSelectionDialog;
 import ca.edchipman.silverstripepdt.search.ISilverStripePDTSearchConstants;
 import ca.edchipman.silverstripepdt.wizards.SilverStripeProjectWizardSecondPage.SilverStripeFileCreator;
+
 import org.eclipse.swt.layout.RowLayout;
 
 @SuppressWarnings("restriction")
@@ -138,7 +141,8 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
         
         btnWizardModeModifiers = new Button[2];
         Button firstButton = new Button(modifiersComp, SWT.RADIO);
-        firstButton.setText("Create from Template");
+        String lastTemplate=this.getLastTemplateName();
+        firstButton.setText("Create from Template"+(lastTemplate!=null && lastTemplate.length()>0 ? " ("+lastTemplate+")":""));
         firstButton.setSelection(true);
         firstButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
@@ -155,6 +159,13 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
         
         initialize();
         dialogChanged(true);
+    }
+    
+    /**
+     * Load the last template name used in New HTML File wizard.
+     */
+    protected String getLastTemplateName() {
+        return SilverStripePDTPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.NEW_PHP_FILE_TEMPLATE);
     }
     
     public String getFileName() {
