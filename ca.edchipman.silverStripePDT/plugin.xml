@@ -175,7 +175,11 @@
             <action class="ca.edchipman.silverstripepdt.actions.AddSilverStripeNatureAction" enablesFor="+" id="ca.edchipman.silverstripepdt.actions.SetupSilverStripeNature" label="Add SilverStripe Support..." menubarPath="org.eclipse.ui.projectConfigure/additions" />
             
             <visibility>
-                <not><objectState name="nature" value="ca.edchipman.silverstripepdt.SilverStripeNature" /></not>
+                <and>
+                    <objectState name="nature" value="org.eclipse.php.core.PHPNature" />
+                    
+                    <not><objectState name="nature" value="ca.edchipman.silverstripepdt.SilverStripeNature" /></not>
+                </and>
             </visibility> 
         </objectContribution>
         
