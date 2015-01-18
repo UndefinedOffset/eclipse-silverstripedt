@@ -1,5 +1,10 @@
 package ca.edchipman.silverstripepdt.language;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 import org.eclipse.core.resources.IProject;
@@ -197,13 +202,32 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
         return LanguageModelInitializer.providers;
     }
 
-    static IPath getTargetLocation(ILanguageModelProvider provider,
-            IPath sourcePath, IScriptProject project) {
-
+    static IPath getTargetLocation(ILanguageModelProvider provider, IPath sourcePath, IScriptProject project) {
+        File versionFile=new File(sourcePath.append("version").toOSString());
+        String coreVersionString=Integer.toHexString(sourcePath.toOSString().hashCode());
+        try {
+            BufferedReader versionFileReader = new BufferedReader(new FileReader(versionFile));
+            try {
+                //Read the version
+                coreVersionString=versionFileReader.readLine();
+                
+                //Close the buffer
+                versionFileReader.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        coreVersionString=coreVersionString.trim();
+        
         return provider
                 .getPlugin()
                 .getStateLocation()
                 .append("__language__")
-                .append(Integer.toHexString(sourcePath.toOSString().hashCode()));
+                .append(new Path(coreVersionString));
     }
 }
