@@ -228,6 +228,6 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
                 .getPlugin()
                 .getStateLocation()
                 .append("__language__")
-                .append(new Path(coreVersionString));
+                .append(coreVersionString);
     }
 }
