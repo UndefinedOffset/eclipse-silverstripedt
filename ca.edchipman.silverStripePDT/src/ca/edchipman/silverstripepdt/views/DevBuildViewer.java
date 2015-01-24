@@ -5,16 +5,15 @@ import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.ui.part.ViewPart;
-
-import ca.edchipman.silverstripepdt.views.DevBuildViewer.BuildProgressListener;
 
 public class DevBuildViewer extends ViewPart {
     public static final String ID = "ca.edchipman.silverstripepdt.views.DevBuildViewer"; //$NON-NLS-1$
@@ -22,6 +21,7 @@ public class DevBuildViewer extends ViewPart {
     private Browser swtBrowser;
     private ProgressBar progressBar;
     private String targetURL;
+    private Control oldFocus;
 
     private BuildProgressListener progressListener;
     
@@ -57,7 +57,15 @@ public class DevBuildViewer extends ViewPart {
             swtBrowser = new Browser(container, SWT.NONE);
             swtBrowser.setLayoutData(gridData);
             if(targetURL!=null && targetURL.length()>0) {
+                oldFocus=Display.getCurrent().getFocusControl();
+                
                 swtBrowser.setUrl(targetURL);
+                
+                if(oldFocus.isDisposed()==false) {
+                    oldFocus.setFocus();
+                }
+                
+                oldFocus=null;
             }
             
             progressListener=new BuildProgressListener(swtBrowser, progressBar);
@@ -79,8 +87,18 @@ public class DevBuildViewer extends ViewPart {
         targetURL=url;
         
         if(swtBrowser!=null) {
+            oldFocus=Display.getCurrent().getFocusControl();
+            
             swtBrowser.setUrl(url);
+            
+            if(oldFocus.isDisposed()==false) {
+                oldFocus.setFocus();
+            }
+            
+            oldFocus=null;
+            
             if(progressListener!=null) {
+                progressListener.resetProgressBar();
             	progressListener.showProgressBar();
             }
         }
@@ -152,6 +170,13 @@ public class DevBuildViewer extends ViewPart {
          */
         public void showProgressBar() {
         	progress.setVisible(true);
+        }
+        
+        /**
+         * Resets the currently active progress bar instance
+         */
+        public void resetProgressBar() {
+            progress.setSelection(0);
         }
     }
 }
