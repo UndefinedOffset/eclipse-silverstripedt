@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.dltk.core.*;
 import org.eclipse.php.core.language.ILanguageModelProvider;
 import org.eclipse.php.internal.core.Logger;
+import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.preferences.IPreferencesPropagatorListener;
 import org.eclipse.php.internal.core.preferences.PreferencesPropagatorEvent;
 import org.eclipse.php.internal.core.project.PHPNature;
@@ -19,6 +20,7 @@ import org.eclipse.php.internal.core.util.project.observer.IProjectClosedObserve
 import org.eclipse.php.internal.core.util.project.observer.ProjectRemovedObserversAttacher;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 
 @SuppressWarnings("restriction")
 public class LanguageModelInitializer extends BuildpathContainerInitializer {
@@ -201,8 +203,13 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
         }
         return LanguageModelInitializer.providers;
     }
-
+    
     static IPath getTargetLocation(ILanguageModelProvider provider, IPath sourcePath, IScriptProject project) {
+        String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
+        if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
+            sourcePath=sourcePath.removeLastSegments(1);
+        }
+        
         File versionFile=new File(sourcePath.append("version").toOSString());
         String coreVersionString=Integer.toHexString(sourcePath.toOSString().hashCode());
         try {
@@ -224,10 +231,16 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
         
         coreVersionString=coreVersionString.trim();
         
-        return provider
-                .getPlugin()
-                .getStateLocation()
-                .append("__language__")
-                .append(coreVersionString);
+        IPath destination=provider
+                                .getPlugin()
+                                .getStateLocation()
+                                .append("__language__")
+                                .append(coreVersionString);
+        
+        if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
+            destination=destination.append("framework");
+        }
+        
+        return destination;
     }
 }

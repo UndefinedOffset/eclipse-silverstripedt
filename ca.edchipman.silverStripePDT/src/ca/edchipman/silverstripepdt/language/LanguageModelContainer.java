@@ -22,6 +22,9 @@ import org.eclipse.dltk.internal.core.BuildpathEntry;
 import org.eclipse.dltk.internal.ui.util.CoreUtility;
 import org.eclipse.php.core.language.ILanguageModelProvider;
 import org.eclipse.php.internal.core.Logger;
+import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
+
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 
 @SuppressWarnings("restriction")
 public class LanguageModelContainer implements IBuildpathContainer {
@@ -93,6 +96,12 @@ public class LanguageModelContainer implements IBuildpathContainer {
                     provider, Path.fromOSString(sourceFile.getAbsolutePath()),
                     project);
             LocalFile targetDir = new LocalFile(targetPath.toFile());
+            
+            String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
+            if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
+                sourceDir=new LocalFile(sourceFile.getParentFile());
+                targetDir=new LocalFile(targetPath.toFile().getParentFile());
+            }
 
             IFileInfo targetInfo = targetDir.fetchInfo();
             boolean update = !targetInfo.exists();
