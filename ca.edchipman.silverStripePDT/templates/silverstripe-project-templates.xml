@@ -134,7 +134,9 @@ if(Director::isLive()) {
     context="php_new_ss_project_context"
     enabled="true">---
 Name: mysite
-After: "framework/*","cms/*"
+After: 
+    - "framework/*"
+    - "cms/*"
 ---
 Director:
     environment_type: "dev"
