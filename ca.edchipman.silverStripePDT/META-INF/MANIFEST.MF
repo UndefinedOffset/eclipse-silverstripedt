@@ -85,5 +85,6 @@ Bundle-Activator: ca.edchipman.silverstripepdt.SilverStripePDTPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Ed Chipman
 Export-Package: ca.edchipman.silverstripepdt,
+ ca.edchipman.silverstripepdt.actions,
  ca.edchipman.silverstripepdt.language,
  ca.edchipman.silverstripepdt.wizards

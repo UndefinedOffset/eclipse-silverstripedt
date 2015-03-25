@@ -169,7 +169,6 @@
                 <exclude name="**/framework/thirdparty/**"/>
                 <exclude name="**/framework/javascript/*"/>
             </patternset>
-            <cutdirsmapper dirs="1"/>
         </untar>
     	
     	
