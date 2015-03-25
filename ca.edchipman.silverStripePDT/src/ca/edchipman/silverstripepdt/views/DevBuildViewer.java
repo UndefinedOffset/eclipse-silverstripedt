@@ -91,7 +91,7 @@ public class DevBuildViewer extends ViewPart {
             
             swtBrowser.setUrl(url);
             
-            if(oldFocus.isDisposed()==false) {
+            if(oldFocus!=null && oldFocus.isDisposed()==false) {
                 oldFocus.setFocus();
             }
             
