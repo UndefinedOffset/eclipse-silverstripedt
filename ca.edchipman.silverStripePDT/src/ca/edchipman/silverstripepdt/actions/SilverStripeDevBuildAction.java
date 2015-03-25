@@ -42,6 +42,19 @@ import ca.edchipman.silverstripepdt.views.DevBuildViewer;
 
 public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegate {
     IProject _project=null;
+    
+    /**
+     * Initializes the action
+     */
+    public SilverStripeDevBuildAction() {}
+    
+    /**
+     * Initializes the action
+     * @param project Project to bind to
+     */
+    public SilverStripeDevBuildAction(IProject project) {
+        this._project=project;
+    }
 
     @Override
     public void run(IAction action) {
