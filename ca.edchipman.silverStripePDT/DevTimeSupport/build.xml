@@ -74,7 +74,7 @@
             </filterchain>
         </loadfile>
         <script language="javascript">
-            var stableVersion='3.1.'+resultStable.replace(/assets\/releases\/SilverStripe-cms-v3\.1\.(\d+)\.tar\.gz/,"$1"));
+            var stableVersion='3.1.'+resultStable.replace(/assets\/releases\/SilverStripe-cms-v3\.1\.(\d+)\.tar\.gz/,"$1");
             project.setProperty("result31Version", stableVersion.replace(/\n|\r/g, ''));
         </script>
     	
