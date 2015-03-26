@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="ca.edchipman.silverStripePDT.ss_version" name="SilverStripe Core Version" schema="schema/ca.edchipman.silverStripePDT.ss_version.exsd"/>
 	<extension point="org.eclipse.ui.startup">
         <startup class="ca.edchipman.silverstripepdt.RegisterResolvers"></startup>
     </extension>

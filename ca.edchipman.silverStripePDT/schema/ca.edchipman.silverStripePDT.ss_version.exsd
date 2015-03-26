@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="ca.edchipman.silverstripepdt" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="ca.edchipman.silverstripepdt" id="ca.edchipman.silverStripePDT.ss_version" name="SilverStripe Core Version"/>
+      </appinfo>
+      <documentation>
+         Extension point that allows for hooking in of the SilverStripe version plugins
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <choice>
+            <element ref="ss_version"/>
+         </choice>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="ss_version">
+      <annotation>
+         <documentation>
+            Registers a single SilverStripe version plugin
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Unique id of the SilverStripe version
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="release_chain" type="string" use="required">
+            <annotation>
+               <documentation>
+                  This is the release chain for the plugin version, for example 3.1 would be the 3.1.x release chain.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="display_name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Name to display in the User Interface, for example SilverStripe 3.1
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="supports_framework_only" type="boolean" use="default" value="true">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="activator" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.ui.plugin.AbstractUIPlugin:"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         2.0.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         &lt;extension id=&quot;ca.edchipman.silverStripeDT.coreversion&quot; name=&quot;SilverStripe 3.1 Version&quot; point=&quot;ca.edchipman.silverStripePDT.ss_version&quot;&gt;
+    &lt;ss_version id=&quot;ca.edchipman.silverStripeDT.coreversion.ss_3_1&quot; display_name=&quot;SilverStripe 3.1&quot; release_chain=&quot;3.1&quot; supports_framework_only=&quot;true&quot; activator=&quot;ca.edchipman.silverstripedt.ss_3_1.SSVersionActivator&quot;/&gt;
+&lt;/extension&gt;
+      </documentation>
+   </annotation>
+
+
+
+   <annotation>
+      <appinfo>
+         <meta.section type="copyright"/>
+      </appinfo>
+      <documentation>
+         Copyright 2015 Ed Chipman
+      </documentation>
+   </annotation>
+
+</schema>
