@@ -75,6 +75,16 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="language_provider" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":ca.edchipman.silverstripepdt.language.ISilverStripeLanguageModelProvider"/>
+               </appinfo>
+            </annotation>
+         </attribute>
          <attribute name="activator" type="string" use="required">
             <annotation>
                <documentation>

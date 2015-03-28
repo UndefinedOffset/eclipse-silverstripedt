@@ -1,20 +1,23 @@
 package ca.edchipman.silverstripepdt.language;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.php.core.language.ILanguageModelProvider;
 import org.eclipse.php.internal.core.Logger;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 
 @SuppressWarnings("restriction")
 public class DefaultLanguageModelProvider implements ILanguageModelProvider {
-    private static final String LANGUAGE_LIBRARY_PATH = "$nl$/resources/SS"; //$NON-NLS-1$
-
     public IPath getPath(IScriptProject project) {
         try {
             String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, project.getProject());
@@ -28,36 +31,49 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
     }
 
     public String getName() {
-        return "Core API";
+        return "SilverStripe Core API";
     }
 
     private String getLanguageLibraryPath(IScriptProject project, String ssVersion, String ssFrameworkModel) {
-        if (ssVersion.equals(SilverStripeVersion.SS2_4)) {
-            return LANGUAGE_LIBRARY_PATH + "2.4";
-        }else if (ssVersion.equals(SilverStripeVersion.SS2_3)) {
-            return LANGUAGE_LIBRARY_PATH + "2.3";
-        }
+        IConfigurationElement languageProvider=SilverStripeVersion.getLanguageDefinition(ssVersion);
         
-        
-        if (ssVersion.equals(SilverStripeVersion.SS3_0)) {
-            //For framework only 3.0 focus into framework only
-            if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-                return LANGUAGE_LIBRARY_PATH + "3.0/framework";
+        if(languageProvider!=null) {
+            Object o;
+            try {
+                o = languageProvider.createExecutableExtension("language_provider");
+                if(o instanceof ISilverStripeLanguageModelProvider) {
+                    return ((ISilverStripeLanguageModelProvider) o).getLanguageLibraryPath(project, ssFrameworkModel);
+                }
+            } catch (CoreException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            
-            return LANGUAGE_LIBRARY_PATH + "3.0";
         }
         
-
-        //For framework only 3.1 focus into framework only
-        if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-            return LANGUAGE_LIBRARY_PATH + "3.1/framework";
-        }
-        
-        return LANGUAGE_LIBRARY_PATH + "3.1";
+        return null;
     }
 
     public Plugin getPlugin() {
+        return SilverStripePDTPlugin.getDefault();
+    }
+    
+    public Plugin getPlugin(IScriptProject project) {
+        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, project.getProject());
+        
+        IConfigurationElement languageProvider=SilverStripeVersion.getLanguageDefinition(ssVersion);
+        if(languageProvider!=null) {
+            Object o;
+            try {
+                o = languageProvider.createExecutableExtension("activator");
+                if(o instanceof AbstractUIPlugin) {
+                    return (AbstractUIPlugin) o;
+                }
+            } catch (CoreException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        
         return SilverStripePDTPlugin.getDefault();
     }
 }

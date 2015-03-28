@@ -15,8 +15,19 @@ public class SilverStripeVersion {
     
     private static IConfigurationElement[] lang_registry;
     
-    @Execute
-    public void execute(IExtensionRegistry registry) {
+    public static void initLanguageRegistry(IExtensionRegistry registry) {
         SilverStripeVersion.lang_registry=registry.getConfigurationElementsFor(VERSION_EXTENSION_ID);
+    }
+    
+    public static IConfigurationElement getLanguageDefinition(String ssVersion) {
+        //TODO Improve the performance of this, we should try not to use a loop here maybe we can pre-process the extensions into some sort of Dictionary like object?
+        for(IConfigurationElement language : SilverStripeVersion.lang_registry) {
+            String versionKey="SS"+language.getAttribute("release_chain");
+            if(versionKey.equals(ssVersion)) {
+                return language;
+            }
+        }
+        
+        return null;
     }
 }

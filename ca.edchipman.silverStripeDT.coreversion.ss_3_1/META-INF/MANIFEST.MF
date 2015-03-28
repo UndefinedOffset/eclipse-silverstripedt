@@ -3,10 +3,12 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SilverStripe DT SS3.1 Support
 Bundle-SymbolicName: ca.edchipman.silverStripeDT.coreversion.ss_3_1;singleton:=true
 Bundle-Version: 2.0.0
-Bundle-Activator: ca.edchipman.silverstripedt.ss_3_1.SSVersionActivator
 Bundle-Vendor: Ed Chipman
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- ca.edchipman.silverstripepdt;bundle-version="2.0.0"
+ ca.edchipman.silverstripepdt;bundle-version="2.0.0",
+ org.eclipse.php.core,
+ org.eclipse.dltk.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.core.resources
+Bundle-Activator: ca.edchipman.silverstripedt.ss_3_1.SSVersionActivator
