@@ -1,6 +1,5 @@
 package ca.edchipman.silverstripepdt.templates;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.text.templates.Template;
 
 public class SilverStripeTemplate extends Template {

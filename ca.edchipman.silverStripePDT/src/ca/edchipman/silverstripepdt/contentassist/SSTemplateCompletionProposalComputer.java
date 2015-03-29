@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
-import org.eclipse.wst.html.ui.internal.templates.TemplateContextTypeIdsHTML;
 import org.eclipse.wst.sse.ui.contentassist.CompletionProposalInvocationContext;
 import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
 import org.eclipse.wst.xml.ui.internal.contentassist.DefaultXMLCompletionProposalComputer;
@@ -23,6 +22,7 @@ import org.eclipse.wst.xml.ui.internal.contentassist.DefaultXMLCompletionProposa
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
 
+@SuppressWarnings("restriction")
 public class SSTemplateCompletionProposalComputer extends DefaultXMLCompletionProposalComputer {
         /** template processor used to create template proposals */
         private SSTemplateCompletionProcessor fTemplateProcessor = null;

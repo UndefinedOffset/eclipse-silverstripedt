@@ -23,6 +23,7 @@ import org.eclipse.wst.sse.ui.internal.contentassist.IRelevanceCompletionProposa
  * Purpose of this class is to make the additional proposal info into content
  * fit for an HTML viewer (by escaping characters)
  */
+@SuppressWarnings("restriction")
 class CustomTemplateProposal extends TemplateProposal implements IRelevanceCompletionProposal {
     // copies of this class exist in:
     // org.eclipse.jst.jsp.ui.internal.contentassist

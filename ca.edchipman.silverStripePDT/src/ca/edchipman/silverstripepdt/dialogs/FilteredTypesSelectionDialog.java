@@ -104,6 +104,7 @@ import ca.edchipman.silverstripepdt.search.ISilverStripePDTSearchConstants;
  * 
  * @since 3.3
  */
+@SuppressWarnings("restriction")
 public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog implements ITypeSelectionComponent {
     private static final String DIALOG_SETTINGS = "org.eclipse.jdt.internal.ui.dialogs.FilteredTypesSelectionDialog"; //$NON-NLS-1$
 

@@ -11,16 +11,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.text.templates.ContextTypeRegistry;
-import org.eclipse.jface.text.templates.Template;
-import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.ui.PHPUIMessages;
-import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
-import org.eclipse.php.internal.ui.preferences.PHPTemplateStore.CompiledTemplate;
-import org.eclipse.php.internal.ui.wizards.NewPhpTemplatesWizardPage;
 import org.eclipse.php.internal.ui.wizards.PHPFileCreationWizard;
-import org.eclipse.php.internal.ui.wizards.PHPFileCreationWizard.FileCreator;
 
 
 @SuppressWarnings("restriction")

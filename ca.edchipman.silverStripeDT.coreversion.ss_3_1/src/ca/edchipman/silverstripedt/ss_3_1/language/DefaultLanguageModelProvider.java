@@ -1,17 +1,9 @@
 package ca.edchipman.silverstripedt.ss_3_1.language;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Plugin;
 import org.eclipse.dltk.core.IScriptProject;
-import org.eclipse.php.internal.core.Logger;
-import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
-
-import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.language.ISilverStripeLanguageModelProvider;
 
-@SuppressWarnings("restriction")
 public class DefaultLanguageModelProvider implements ISilverStripeLanguageModelProvider {
     private static final String LANGUAGE_LIBRARY_PATH = "$nl$/resources/SS"; //$NON-NLS-1$
     

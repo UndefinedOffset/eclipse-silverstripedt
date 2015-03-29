@@ -18,8 +18,7 @@ import org.eclipse.php.internal.core.preferences.PreferencesPropagator;
 import org.eclipse.php.internal.core.preferences.PreferencesPropagatorEvent;
 import org.eclipse.php.internal.core.preferences.PreferencesSupport;
 
-import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
-
+@SuppressWarnings("restriction")
 public class SilverStripeVersionChangedHandler implements IResourceChangeListener {
 
     private static final String SILVERSTRIPE_VERSION = "silverstripe_version";

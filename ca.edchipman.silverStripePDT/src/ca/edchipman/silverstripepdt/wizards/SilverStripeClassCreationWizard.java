@@ -21,6 +21,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 
+@SuppressWarnings("restriction")
 public class SilverStripeClassCreationWizard extends Wizard implements INewWizard {
     protected ISelection selection;
     protected NewSilverStripeClassWizardPage fPage;

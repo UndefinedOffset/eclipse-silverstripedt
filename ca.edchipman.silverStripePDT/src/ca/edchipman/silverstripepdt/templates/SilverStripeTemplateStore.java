@@ -31,6 +31,7 @@ import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.internal.editors.text.NLSUtility;
 import org.osgi.framework.Bundle;
 
+@SuppressWarnings("restriction")
 public class SilverStripeTemplateStore extends PHPTemplateStore {
     /* extension point string literals */
     private static final String TEMPLATES_EXTENSION_POINT= "org.eclipse.ui.editors.templates"; //$NON-NLS-1$

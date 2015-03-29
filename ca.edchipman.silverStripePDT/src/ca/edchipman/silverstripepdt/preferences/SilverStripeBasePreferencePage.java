@@ -1,6 +1,5 @@
 package ca.edchipman.silverstripepdt.preferences;
 
-import org.eclipse.dltk.ui.DLTKUIPlugin;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;

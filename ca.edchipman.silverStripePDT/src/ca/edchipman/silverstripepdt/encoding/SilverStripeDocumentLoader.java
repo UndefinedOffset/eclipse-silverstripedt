@@ -5,6 +5,7 @@ import org.eclipse.wst.sse.core.internal.ltk.parser.RegionParser;
 
 import ca.edchipman.silverstripepdt.parser.SSSourceParser;
 
+@SuppressWarnings("restriction")
 public class SilverStripeDocumentLoader extends HTMLDocumentLoader {
     /*
      * @see IModelLoader#getParser()

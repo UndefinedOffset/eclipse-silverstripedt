@@ -13,6 +13,7 @@ import org.eclipse.wst.xml.core.text.IXMLPartitions;
 import ca.edchipman.silverstripepdt.contentassist.SSTemplateCompletionProcessor;
 import ca.edchipman.silverstripepdt.style.LineStyleProviderForSS;
 
+@SuppressWarnings("restriction")
 public class StructuredTextViewerConfigurationSS extends StructuredTextViewerConfigurationHTML {
     /*
      * One instance per configuration

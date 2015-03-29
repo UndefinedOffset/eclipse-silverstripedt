@@ -5,6 +5,7 @@ import org.eclipse.wst.sse.core.internal.document.IDocumentLoader;
 
 import ca.edchipman.silverstripepdt.encoding.SilverStripeDocumentLoader;
 
+@SuppressWarnings("restriction")
 public class ModelHandlerForSS extends ModelHandlerForHTML {
     /** 
      * Needs to match what's in plugin registry. 

@@ -5,6 +5,7 @@ import org.eclipse.wst.html.ui.internal.preferences.HTMLCompletionProposalCatego
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 
+@SuppressWarnings("restriction")
 public class SSTemplatesCompletionProposalCategoriesConfiguration extends HTMLCompletionProposalCategoriesConfiguration {
     /**
      * @see org.eclipse.wst.sse.ui.preferences.AbstractCompletionProposalCategoriesConfiguration#getPreferenceStore()

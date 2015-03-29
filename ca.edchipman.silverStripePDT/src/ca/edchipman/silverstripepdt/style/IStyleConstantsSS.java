@@ -2,6 +2,7 @@ package ca.edchipman.silverstripepdt.style;
 
 import org.eclipse.wst.html.ui.internal.style.IStyleConstantsHTML;
 
+@SuppressWarnings("restriction")
 public interface IStyleConstantsSS extends IStyleConstantsHTML {
     public static final String SS_DELIM = "SS_DELIM"; //$NON-NLS-1$
     public static final String SS_END_IF = "SS_END_IF"; //$NON-NLS-1$

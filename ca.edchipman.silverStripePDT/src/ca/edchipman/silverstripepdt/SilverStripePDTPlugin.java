@@ -1,21 +1,14 @@
 package ca.edchipman.silverstripepdt;
 
 import java.io.IOException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.php.internal.ui.Logger;
 import org.eclipse.php.internal.ui.corext.template.php.CodeTemplateContextType;
-import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
 import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
-import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 import ca.edchipman.silverstripepdt.contentassist.SSTemplateCompletionProcessor;

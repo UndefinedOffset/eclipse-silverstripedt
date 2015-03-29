@@ -38,6 +38,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+@SuppressWarnings("restriction")
 public class SilverStripeTemplateReaderWriter extends TemplateReaderWriter {
 	private static final String TEMPLATE_ROOT = "templates"; //$NON-NLS-1$
     private static final String TEMPLATE_ELEMENT = "template"; //$NON-NLS-1$

@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.wst.html.ui.internal.HTMLUIMessages;
-import org.eclipse.wst.html.ui.internal.HTMLUIPlugin;
 import org.eclipse.wst.html.ui.internal.preferences.HTMLUIPreferenceNames;
 import org.eclipse.wst.sse.ui.internal.Logger;
 import org.eclipse.wst.sse.ui.internal.contentassist.CompletionProposoalCatigoriesConfigurationRegistry;
@@ -28,6 +27,7 @@ import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
  * <p>Defines the preference page for allowing the user to change the content
  * assist preferences</p>
  */
+@SuppressWarnings("restriction")
 public class SSTemplatesContentAssistPreferencesPage extends AbstractPreferencePage implements
         IWorkbenchPreferencePage {
 
