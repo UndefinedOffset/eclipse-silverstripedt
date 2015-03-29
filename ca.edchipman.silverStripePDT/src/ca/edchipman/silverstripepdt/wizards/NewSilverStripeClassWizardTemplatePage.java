@@ -588,7 +588,7 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
 		 * @see IStructuredContentProvider#getElements(Object)
 		 */
 		public Object[] getElements(Object input) {
-			String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, NewSilverStripeClassWizardTemplatePage.this.getProject());
+			String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, NewSilverStripeClassWizardTemplatePage.this.getProject());
 			Object[] templates=fStore.getTemplates(NewSilverStripeClassWizardTemplatePage.this.getTemplateContextTypeId());
 			List<Template> results=new ArrayList();
 			

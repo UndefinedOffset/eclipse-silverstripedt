@@ -253,7 +253,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             fSS23Radio.doFillIntoGrid(fGroup, 2);
             fFrameworkModel.doFillIntoGrid(fGroup, 2);
             
-            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, fProject.getProject());
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, fProject.getProject());
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, fProject.getProject());
             
             if(ssVersion.equals(SilverStripeVersion.SS3_1)) {
@@ -355,7 +355,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
         }
 
         protected boolean processChanges(IWorkbenchPreferenceContainer container) {
-            String ssVersion=SilverStripeVersion.SS3_1;
+            String ssVersion=SilverStripeVersion.DEFAULT_VERSION;
             String ssFrameworkModel=SilverStripeVersion.FULL_CMS;
             
             if(fSS31Radio.isSelected()) {
@@ -372,11 +372,11 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
                 ssFrameworkModel=SilverStripeVersion.FRAMEWORK_ONLY;
             }
             
-            if(ssVersion!=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, fProject.getProject())) {
+            if(ssVersion.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, fProject.getProject()))==false) {
                 hasChanges=true;
             }
             
-            if(ssFrameworkModel!=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, fProject.getProject())) {
+            if(ssFrameworkModel.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, fProject.getProject()))==false) {
                 hasChanges=true;
             }
             

@@ -20,7 +20,7 @@ import ca.edchipman.silverstripepdt.SilverStripeVersion;
 public class DefaultLanguageModelProvider implements ILanguageModelProvider {
     public IPath getPath(IScriptProject project) {
         try {
-            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, project.getProject());
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, project.getProject());
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
             
             return new Path(getLanguageLibraryPath(project, ssVersion, ssFrameworkModel));
@@ -58,7 +58,7 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
     }
     
     public Plugin getPlugin(IScriptProject project) {
-        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, project.getProject());
+        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, project.getProject());
         
         IConfigurationElement languageProvider=SilverStripeVersion.getLanguageDefinition(ssVersion);
         if(languageProvider!=null) {

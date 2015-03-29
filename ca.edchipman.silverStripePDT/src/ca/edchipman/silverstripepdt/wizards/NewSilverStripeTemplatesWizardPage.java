@@ -219,7 +219,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
 
     public void createControl(Composite ancestor) {
         SilverStripeTemplateFileCreationWizard wizard=(SilverStripeTemplateFileCreationWizard) getWizard();
-        ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.SS3_1, wizard.getCurrentProject());
+        ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, wizard.getCurrentProject());
         
         Composite parent = new Composite(ancestor, SWT.NONE);
         GridLayout layout = new GridLayout();

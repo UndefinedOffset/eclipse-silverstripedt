@@ -9,10 +9,20 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
 public class SilverStripeVersion {
+    public static final String DEFAULT_VERSION="SS3.1";
+    
+    @Deprecated
     public static final String SS3_1="SS3.1";
+    
+    @Deprecated
     public static final String SS3_0="SS3.0";
+    
+    @Deprecated
     public static final String SS2_4="SS2.4";
+    
+    @Deprecated
     public static final String SS2_3="SS2.3";
+    
     public static final String FRAMEWORK_ONLY="framework";
     public static final String FULL_CMS="cms";
     public static final String VERSION_EXTENSION_ID="ca.edchipman.silverStripePDT.ss_version";

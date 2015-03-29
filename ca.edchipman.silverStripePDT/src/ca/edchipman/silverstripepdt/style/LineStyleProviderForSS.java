@@ -20,7 +20,7 @@ import ca.edchipman.silverstripepdt.regions.SilverStripeRegionContext;
 public class LineStyleProviderForSS extends LineStyleProviderForHTML {
     private IPreferenceStore preferenceStore;
     
-    protected String ssVersion=SilverStripeVersion.SS3_1;
+    protected String ssVersion=SilverStripeVersion.DEFAULT_VERSION;
     
     public LineStyleProviderForSS() {
         super();
@@ -167,7 +167,7 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         addTextAttribute(IStyleConstantsSS.SS_END_CONTROL);
         
         if(this.ssVersion==null) {
-            this.ssVersion=SilverStripeVersion.SS3_1;
+            this.ssVersion=SilverStripeVersion.DEFAULT_VERSION;
         }
         
         if(this.ssVersion.equals(SilverStripeVersion.SS3_0) || this.ssVersion.equals(SilverStripeVersion.SS3_1)) {
