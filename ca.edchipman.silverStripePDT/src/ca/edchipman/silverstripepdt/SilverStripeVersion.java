@@ -1,8 +1,12 @@
 package ca.edchipman.silverstripepdt;
 
+import java.util.HashMap;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 
 public class SilverStripeVersion {
     public static final String SS3_1="SS3.1";
@@ -13,19 +17,44 @@ public class SilverStripeVersion {
     public static final String FULL_CMS="cms";
     public static final String VERSION_EXTENSION_ID="ca.edchipman.silverStripePDT.ss_version";
     
-    private static IConfigurationElement[] lang_registry;
+    private static HashMap<String, IConfigurationElement> lang_registry;
     
+    /**
+     * Initializes the language registry when the plugin is activated by mapping the configuration elements to the language key
+     * @param registry Extension Registry to look for plugins in
+     */
     public static void initLanguageRegistry(IExtensionRegistry registry) {
-        SilverStripeVersion.lang_registry=registry.getConfigurationElementsFor(VERSION_EXTENSION_ID);
+        IConfigurationElement[] extensions=registry.getConfigurationElementsFor(VERSION_EXTENSION_ID);
+        
+        SilverStripeVersion.lang_registry=new HashMap<String, IConfigurationElement>();
+        if(extensions.length>0) {
+            for(IConfigurationElement language : extensions) {
+                String versionKey="SS"+language.getAttribute("release_chain");
+                SilverStripeVersion.lang_registry.put(versionKey, language);
+            }
+        }
+        
+        
+        //Ensure plugins have been registered
+        if(SilverStripeVersion.lang_registry.size()==0) {
+            MessageBox dialog=new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+            dialog.setText("No Language Plugin");
+            dialog.setMessage(
+                            "You have not installed any SilverStripe language plugins, you need to install atleast one."+
+                            "You can install new language plugins by going to Help > Install New Software then select the SilverStripe DT Update site and install a language plugin."
+                        );
+            dialog.open();
+        }
     }
     
+    /**
+     * Gets the language configuration element from the language registry
+     * @param ssVersion SilverStripe version key to use i.e SS3.1
+     * @return Returns the IConfigurationElement representing the SilverStripe version plugin or null if its not found
+     */
     public static IConfigurationElement getLanguageDefinition(String ssVersion) {
-        //TODO Improve the performance of this, we should try not to use a loop here maybe we can pre-process the extensions into some sort of Dictionary like object?
-        for(IConfigurationElement language : SilverStripeVersion.lang_registry) {
-            String versionKey="SS"+language.getAttribute("release_chain");
-            if(versionKey.equals(ssVersion)) {
-                return language;
-            }
+        if(SilverStripeVersion.lang_registry.containsKey(ssVersion)) {
+            return SilverStripeVersion.lang_registry.get(ssVersion);
         }
         
         return null;
