@@ -9,6 +9,7 @@
             display_name="SilverStripe 3.1"
             id="ca.edchipman.silverStripeDT.coreversion.ss_3_1"
             language_provider="ca.edchipman.silverstripedt.ss_3_1.language.DefaultLanguageModelProvider"
+            project_creator="ca.edchipman.silverstripedt.ss_3_1.project.NewSilverStripeProjectCreator"
             release_chain="3.1"
             supports_framework_only="true">
       </ss_version>
