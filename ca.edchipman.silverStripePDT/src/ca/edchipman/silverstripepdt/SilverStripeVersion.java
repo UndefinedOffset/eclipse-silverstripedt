@@ -69,4 +69,12 @@ public class SilverStripeVersion {
         
         return null;
     }
+    
+    /**
+     * Gets the current language registry
+     * @return Returns a hash map of the language configuration elements
+     */
+    public static HashMap<String, IConfigurationElement> getLangRegistry() {
+        return SilverStripeVersion.lang_registry;
+    }
 }

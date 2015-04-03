@@ -87,16 +87,8 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
         fCurrProjectLocation = getProjectLocationURI();
         SilverStripeProjectWizardFirstPage fFirstPage=(SilverStripeProjectWizardFirstPage) this.fFirstPage;
         
-        String ssVersion=SilverStripeVersion.DEFAULT_VERSION;
+        String ssVersion=((SilverStripeProjectWizardFirstPage)fFirstPage).getSelectedVersion();
         String ssFrameworkModel=SilverStripeVersion.FULL_CMS;
-        
-        if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsSS30Project()) {
-            ssVersion=SilverStripeVersion.SS3_0;
-        }else if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsSS24Project()) {
-            ssVersion=SilverStripeVersion.SS2_4;
-        }else if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsSS23Project()) {
-            ssVersion=SilverStripeVersion.SS2_3;
-        }
         
         if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsFrameworkOnlyProject()) {
             ssFrameworkModel=SilverStripeVersion.FRAMEWORK_ONLY;
