@@ -48,6 +48,9 @@ public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegat
         if(_project!=null) {
             String siteBase=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_site_base", null, _project);
             if(siteBase!=null && siteBase.isEmpty()==false) {
+                //Ask the user to save the unsaved editors before calling dev/build
+                PlatformUI.getWorkbench().saveAllEditors(true);
+                
                 try {
                     String finalURL=siteBase;
                     
