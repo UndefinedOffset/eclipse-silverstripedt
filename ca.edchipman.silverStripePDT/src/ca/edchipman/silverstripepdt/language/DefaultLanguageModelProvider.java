@@ -10,8 +10,10 @@ import org.eclipse.php.core.language.ILanguageModelProvider;
 import org.eclipse.php.internal.core.Logger;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
 
 @SuppressWarnings("restriction")
 public class DefaultLanguageModelProvider implements ILanguageModelProvider {

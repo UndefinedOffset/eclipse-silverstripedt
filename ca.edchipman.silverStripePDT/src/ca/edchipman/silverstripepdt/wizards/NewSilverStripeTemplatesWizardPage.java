@@ -11,6 +11,8 @@
  *******************************************************************************/
 package ca.edchipman.silverstripepdt.wizards;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceDialog;
@@ -77,6 +79,7 @@ import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
 
 @SuppressWarnings("restriction")
 public class NewSilverStripeTemplatesWizardPage extends WizardPage {
@@ -91,7 +94,12 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
     private class TemplateContentProvider implements IStructuredContentProvider {
         /** The template store. */
         private TemplateStore fStore;
-
+        private ISilverStripeLanguageModelProvider _languageProvider;
+        
+        public TemplateContentProvider(ISilverStripeLanguageModelProvider languageProvider) {
+            this._languageProvider=languageProvider;
+        }
+        
         /*
          * @see IContentProvider#dispose()
          */
@@ -103,11 +111,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
          * @see IStructuredContentProvider#getElements(Object)
          */
         public Object[] getElements(Object input) {
-            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
-                return fStore.getTemplates(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
-            } else {
-                return fStore.getTemplates(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
-            }
+            return fStore.getTemplates(this._languageProvider.getTemplateContext());
         }
 
         /*
@@ -157,6 +161,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
     private TableViewer fTableViewer;
     /** Template store used by this wizard page */
     private TemplateStore fTemplateStore;
+    private ISilverStripeLanguageModelProvider _languageProvider;
 
     public NewSilverStripeTemplatesWizardPage() {
         super("NewSilverStripeTemplatesWizardPage", "Select SilverStripe Template Type", null); //$NON-NLS-1$
@@ -218,6 +223,10 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
         SilverStripeTemplateFileCreationWizard wizard=(SilverStripeTemplateFileCreationWizard) getWizard();
         ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, wizard.getCurrentProject());
         
+        
+        findLanguageProvider(ssVersion);
+        
+        
         Composite parent = new Composite(ancestor, SWT.NONE);
         GridLayout layout = new GridLayout();
         layout.numColumns = 2;
@@ -262,7 +271,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
 
         fTableViewer = new TableViewer(table);
         fTableViewer.setLabelProvider(new TemplateLabelProvider());
-        fTableViewer.setContentProvider(new TemplateContentProvider());
+        fTableViewer.setContentProvider(new TemplateContentProvider(this._languageProvider));
 
         fTableViewer.setSorter(new ViewerSorter() {
             public int compare(Viewer viewer, Object object1, Object object2) {
@@ -311,6 +320,27 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IHelpContextIds.HTML_NEWWIZARD_TEMPLATE_HELPID);
         Dialog.applyDialogFont(parent);
         setControl(parent);
+    }
+    
+    /**
+     * Finds the language provider for the current SilverStripe version
+     * @param ssVersion SS Version code to use
+     */
+    private void findLanguageProvider(String ssVersion) {
+        IConfigurationElement languageProvider=SilverStripeVersion.getLanguageDefinition(ssVersion);
+        
+        if(languageProvider!=null) {
+            Object o;
+            try {
+                o = languageProvider.createExecutableExtension("language_provider");
+                if(o instanceof ISilverStripeLanguageModelProvider) {
+                    this._languageProvider=((ISilverStripeLanguageModelProvider) o);
+                }
+            } catch (CoreException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -384,17 +414,12 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
      * 
      * @return String to insert or null if none is to be inserted
      */
-    String getTemplateString() {
+    public String getTemplateString() {
         String templateString = null;
 
         Template template = getSelectedTemplate();
         if (template != null) {
-            TemplateContextType contextType;
-            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
-                contextType = SilverStripePDTPlugin.getDefault().getTemplateContextRegistry().getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
-            } else {
-                contextType = SilverStripePDTPlugin.getDefault().getTemplateContextRegistry().getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
-            }
+            TemplateContextType contextType=SilverStripePDTPlugin.getDefault().getTemplateContextRegistry().getContextType(this._languageProvider.getTemplateContext());
             IDocument document = new Document();
             TemplateContext context = new DocumentTemplateContext(contextType, document, 0, 0);
             try {
@@ -471,11 +496,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
 
         if (templateName != null && templateName.length() > 0) {
             // pick the last used template
-            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
-                template = fTemplateStore.findTemplate(templateName, NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
-            } else {
-                template = fTemplateStore.findTemplate(templateName, NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
-            }
+            template = fTemplateStore.findTemplate(templateName, this._languageProvider.getTemplateContext());
         }
 
         // no record of last used template so just pick first element
@@ -533,12 +554,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
     
     protected String getTemplatesLocationMessage() {
         ContextTypeRegistry templateContextRegistry = getTemplatesContextTypeRegistry();
-        TemplateContextType templateContextType;
-        if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
-            templateContextType = templateContextRegistry.getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE);
-        } else {
-            templateContextType = templateContextRegistry.getContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE);
-        }
+        TemplateContextType templateContextType = templateContextRegistry.getContextType(this._languageProvider.getTemplateContext());
         
         String name = templateContextType.getName();
         return NLS.bind("Templates are \"{0}\" found in the <a>SilverStripe Templates</a> preference page.", name);

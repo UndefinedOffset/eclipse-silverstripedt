@@ -9,7 +9,7 @@ import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
 
-import ca.edchipman.silverstripepdt.language.ISilverStripeNewProjectCreator;
+import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeNewProjectCreator;
 import ca.edchipman.silverstripepdt.wizards.SilverStripeProjectWizardSecondPage.SilverStripeFileCreator;
 
 @SuppressWarnings("restriction")

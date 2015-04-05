@@ -1,4 +1,4 @@
-package ca.edchipman.silverstripepdt.language;
+package ca.edchipman.silverstripepdt.versioninterfaces;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
