@@ -9,7 +9,6 @@ import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
 
-import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeNewProjectCreator;
 import ca.edchipman.silverstripepdt.wizards.SilverStripeProjectWizardSecondPage.SilverStripeFileCreator;
 

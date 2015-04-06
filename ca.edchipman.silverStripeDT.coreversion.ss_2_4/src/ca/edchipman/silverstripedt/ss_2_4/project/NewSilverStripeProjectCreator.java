@@ -22,7 +22,6 @@ import org.eclipse.php.internal.ui.preferences.PHPTemplateStore;
 import org.osgi.framework.Bundle;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
-import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeNewProjectCreator;
 import ca.edchipman.silverstripepdt.wizards.SilverStripeProjectWizardSecondPage.SilverStripeFileCreator;
 

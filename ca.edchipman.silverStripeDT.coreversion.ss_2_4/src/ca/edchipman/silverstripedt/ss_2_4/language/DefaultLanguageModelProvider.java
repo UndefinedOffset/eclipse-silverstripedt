@@ -2,7 +2,6 @@ package ca.edchipman.silverstripedt.ss_2_4.language;
 
 import org.eclipse.dltk.core.IScriptProject;
 
-import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
 
