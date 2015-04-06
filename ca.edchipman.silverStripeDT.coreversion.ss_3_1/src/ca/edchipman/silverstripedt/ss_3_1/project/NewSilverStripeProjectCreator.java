@@ -99,6 +99,8 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
         
         if(isFrameworkLayout) {
             new SilverStripeFileCreator().createFile(wizard, project.getName()+"/templates/Layout", "Controller.ss", monitor, pageTemplate.string, pageTemplate.offset);
+        }else {
+            new SilverStripeFileCreator().createFile(wizard, project.getName()+"/templates/Layout", "Page.ss", monitor, pageTemplate.string, pageTemplate.offset);
         }
         
         
