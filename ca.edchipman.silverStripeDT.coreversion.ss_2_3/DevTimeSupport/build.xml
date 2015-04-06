@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tokenizer" default="setupEnviroment">
+	<target name="cleanupCache">
+        <delete verbose="true">
+            <fileset dir="cache" defaultexcludes="no">
+                <include name="*.*"/>
+                <exclude name=".gitignore"/>
+            </fileset>
+        </delete>
+	</target>
+    
+    <target name="setupEnviroment" depends="cleanupCache">
+        <!-- Fetch 2.3 latest -->
+        <!-- <get src="http://www.silverstripe.org/software/download/release-archive/" dest="cache/release-archive.html" verbose="true"/> -->
+        
+        <!-- 2.3 is not on the release archive page so fixed path its un-maintained anyways
+        <loadfile srcfile="cache/release-archive.html" property="result23">
+            <filterchain>
+                <linecontains>
+                    <contains value="assets/downloads/SilverStripe-v2.3."/>
+                </linecontains>
+                <tokenfilter>
+                    <replaceregex pattern="&lt;li&gt;&lt;a href=&quot;(.*)&quot; target(.*)&lt;/li&gt;" replace="\1"/>
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+        <script language="javascript">
+            var tmp=result23.split("\n");
+            project.setProperty("result23", tmp[0].replace(/\r/,""));
+        </script>
+        <script language="javascript">
+            project.setProperty("result23Version", '2.3.'+result24.replace(/\.tar\.gz/,""));
+        </script> -->
+        
+        <!-- <get src="http://www.silverstripe.org/assets/downloads/SilverStripe-v2.3.13.tar.gz" dest="cache/silverstripe-2.3.tar.gz" verbose="true"/> -->
+        
+        <!-- <untar src="cache/silverstripe-2.3.tar.gz" dest="cache/SS2.3" compression="gzip">
+            <patternset>
+                <include name="**/cms/code/*.php"/>
+                <include name="**/cms/code/**/*.php"/>
+                <include name="**/sapphire/**/*.php"/>
+                <exclude name="**/sapphire/*.php"/>
+                <exclude name="**/sapphire/tests/*"/>
+                <exclude name="**/sapphire/lang/*"/>
+                <exclude name="**/sapphire/thirdparty/**"/>
+                <exclude name="**/sapphire/javascript/*"/>
+            </patternset>
+            <cutdirsmapper dirs="1"/>
+        </untar> -->
+        
+        <!-- <move file="cache/SS2.3" todir="../resources"/> -->
+        
+        <!-- <echo message="${result23Version}" file="../resources/SS2.3/version"/> -->
+    </target>
+</project>

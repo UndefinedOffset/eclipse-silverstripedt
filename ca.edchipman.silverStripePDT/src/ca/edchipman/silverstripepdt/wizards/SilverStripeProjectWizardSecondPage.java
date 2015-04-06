@@ -19,6 +19,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -64,6 +65,8 @@ import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.language.LanguageModelInitializer;
+import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
+import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeNewProjectCreator;
 
 @SuppressWarnings("restriction")
 public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondPage {
@@ -131,6 +134,24 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
             IBuildpathEntry[] buildpathEntries = null;
             IncludePath[] includepathEntries = null;
             ContextTypeRegistry templateRegistry=SilverStripePDTPlugin.getDefault().getTemplateContextRegistry();
+            IConfigurationElement languageProvider=SilverStripeVersion.getLanguageDefinition(ssVersion);
+            ISilverStripeNewProjectCreator projectCreator=null;
+            Object o;
+            try {
+                o = languageProvider.createExecutableExtension("project_creator");
+                if(o instanceof ISilverStripeNewProjectCreator) {
+                    projectCreator=((ISilverStripeNewProjectCreator) o);
+                }
+            } catch (CoreException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
+            if(projectCreator==null) {
+                //TODO Error
+                return;
+            }
+            
 
             if (fFirstPage.getDetect()) {
                 includepathEntries = setProjectBaseIncludepath();
@@ -168,60 +189,8 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 }
                 
                 
-                //For 3.1 create the _config folder
-                if(ssVersion.equals(SilverStripeVersion.SS3_1)) {
-                    IPath ymlConfigPath = new Path("_config");
-
-                    if (ymlConfigPath.segmentCount() > 0) {
-                        IFolder folder = getProject().getFolder(ymlConfigPath);
-                        CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
-                    } else {
-                        monitor.worked(10);
-                    }
-                }
-                
-                
-                //Generate the Page.php file
-                if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsFrameworkOnlyProject()==false) {
-	                Template pageTemplateToCompile;
-	                if(ssVersion.equals(SilverStripeVersion.SS3_1)) {
-	                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss31.defaultpage");
-	                }else if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
-	                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.defaultpage");
-	                }else {
-	                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.defaultpage");
-	                }
-	                PHPTemplateStore.CompiledTemplate pageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageTemplateToCompile, getProject().getName()+"/code", "Page.php");
-	                new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/code", "Page.php", monitor, pageTemplate.string, pageTemplate.offset);
-                }
-                
-                
-                //Create config.yml
-                if(ssVersion.equals(SilverStripeVersion.SS3_1)) {
-                    Template ymlConfigTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss31.ymlconfig");
-                    
-                    PHPTemplateStore.CompiledTemplate ymlConfigTemplate=PHPTemplateStore.compileTemplate(templateRegistry, ymlConfigTemplateToCompile, getProject().getName()+"/_config", "config.yml");
-                    new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/_config", "config.yml", monitor, ymlConfigTemplate.string, ymlConfigTemplate.offset, true);
-                }
-                
-                
-                //Generate the _config.php file
-                Template configTemplateToCompile;
-                if(ssVersion.equals(SilverStripeVersion.SS3_1)) {
-                    configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss31.config");
-                }else if(ssVersion.equals(SilverStripeVersion.SS3_0)) {
-                    if(ssFrameworkModel.equals(SilverStripeVersion.FULL_CMS)) {
-                        configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.config");
-                    }else {
-                        configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss30.framework.config");
-                    }
-                }else if(ssVersion.equals(SilverStripeVersion.SS2_3)) {
-                    configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss23.config");
-                }else {
-                    configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.config");
-                }
-                PHPTemplateStore.CompiledTemplate configTemplate=PHPTemplateStore.compileTemplate(templateRegistry, configTemplateToCompile, getProject().getName(), "_config.php");
-                new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName(), "_config.php", monitor, configTemplate.string, configTemplate.offset, true);
+                //Let the project creator create the project files
+                projectCreator.createProjectLayout(((Wizard)this.getWizard()), getProject(), monitor, templateRegistry, templateStore, ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY));
                 
                 
                 // configure the buildpath entries, including the default
@@ -293,6 +262,10 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName(), "_config.php", monitor, configTemplate.string, configTemplate.offset, true);
                 
                 
+                //Let the project creator perform custom module actions
+                projectCreator.createModuleLayout(((Wizard)this.getWizard()), getProject(), monitor, templateRegistry, templateStore, ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY));
+                
+                
                 // configure the buildpath entries, including the default
                 // InterpreterEnvironment library.
                 final IPath projectPath = getProject().getFullPath();
@@ -304,14 +277,8 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 buildpathEntries = (IBuildpathEntry[]) cpEntries.toArray(new IBuildpathEntry[cpEntries.size()]);
                 includepathEntries = setProjectBaseIncludepath();
             } else if (fFirstPage.IsThemeLayout()) {
-                // need to create sub-folders and set special build/include
-                // paths
+                //Create the css folder
                 IPath cssPath = new Path("css");
-                IPath treeIconsPath = new Path("images/treeicons");
-                IPath javascriptPath = new Path("javascript");
-                IPath layoutPath = new Path("templates/Layout");
-                IPath includePath = new Path("templates/Includes");
-                
                 if (cssPath.segmentCount() > 0) {
                     IFolder folder = getProject().getFolder(cssPath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
@@ -319,17 +286,8 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                     monitor.worked(10);
                 }
                 
-                
-                if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
-                    if (treeIconsPath.segmentCount() > 0) {
-                        IFolder folder = getProject().getFolder(treeIconsPath);
-                        CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
-                    } else {
-                        monitor.worked(10);
-                    }
-                }
-            
-                
+                //Create the javascript folder
+                IPath javascriptPath = new Path("javascript");
                 if (javascriptPath.segmentCount() > 0) {
                     IFolder folder = getProject().getFolder(javascriptPath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
@@ -337,6 +295,8 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                     monitor.worked(10);
                 }
                 
+                //Create the Layout folder
+                IPath layoutPath = new Path("templates/Layout");
                 if (layoutPath.segmentCount() > 0) {
                     IFolder folder = getProject().getFolder(layoutPath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
@@ -344,6 +304,9 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                     monitor.worked(10);
                 }
                 
+                
+                //Create the Includes folder
+                IPath includePath = new Path("templates/Includes");
                 if (includePath.segmentCount() > 0) {
                     IFolder folder = getProject().getFolder(includePath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
@@ -352,121 +315,8 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 }
                 
                 
-                //Generate the editor.css file
-                Template editorTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.editor");
-                PHPTemplateStore.CompiledTemplate editorTemplate=PHPTemplateStore.compileTemplate(templateRegistry, editorTemplateToCompile, getProject().getName()+"/css", "editor.css");
-                new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/css", "editor.css", monitor, editorTemplate.string, editorTemplate.offset);
-
-                //Generate the form.css file
-                Template formTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.form");
-                PHPTemplateStore.CompiledTemplate formTemplate=PHPTemplateStore.compileTemplate(templateRegistry, formTemplateToCompile, getProject().getName()+"/css", "form.css");
-                new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/css", "form.css", monitor, formTemplate.string, formTemplate.offset);
-                
-                //Generate the layout.css file
-                Template layoutTemplateToCompile;
-                if(ssVersion.equals(SilverStripeVersion.SS3_0) || ssVersion.equals(SilverStripeVersion.SS3_1)) {
-                    layoutTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.layout");
-                }else {
-                    layoutTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.layout");
-                }
-                PHPTemplateStore.CompiledTemplate layoutTemplate=PHPTemplateStore.compileTemplate(templateRegistry, layoutTemplateToCompile, getProject().getName()+"/css", "layout.css");
-                new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/css", "layout.css", monitor, layoutTemplate.string, layoutTemplate.offset);
-                
-                //Generate the typography.css file
-                Template typographyTemplateToCompile;
-                if(ssVersion.equals(SilverStripeVersion.SS3_0) || ssVersion.equals(SilverStripeVersion.SS3_1)) {
-                    typographyTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.typography");
-                }else {
-                    typographyTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.typography");
-                }
-                PHPTemplateStore.CompiledTemplate typographyTemplate=PHPTemplateStore.compileTemplate(templateRegistry, typographyTemplateToCompile, getProject().getName()+"/css", "typography.css");
-                new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/css", "typography.css", monitor, typographyTemplate.string, typographyTemplate.offset);
-                
-                //Generate the top level Page.ss file
-                Template tlPageTemplateToCompile;
-                if(ssVersion.equals(SilverStripeVersion.SS3_0) || ssVersion.equals(SilverStripeVersion.SS3_1)) {
-                    if(ssFrameworkModel.equals(SilverStripeVersion.FULL_CMS)) {
-                        tlPageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.toplevel");
-                    } else {
-                        tlPageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.framework.toplevel");
-                    }
-                } else {
-                    tlPageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newss.toplevel");
-                }
-                
-                PHPTemplateStore.CompiledTemplate tlPageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, tlPageTemplateToCompile, getProject().getName()+"/templates", "Page.ss");
-                if((ssVersion.equals(SilverStripeVersion.SS3_0) || ssVersion.equals(SilverStripeVersion.SS3_1)) && ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-                    new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates", "Controller.ss", monitor, tlPageTemplate.string, tlPageTemplate.offset);
-                }else {
-                    new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates", "Page.ss", monitor, tlPageTemplate.string, tlPageTemplate.offset);
-                }
-                
-                
-                //Generate the Page.ss file
-                Template pageTemplateToCompile;
-                if(ssVersion.equals(SilverStripeVersion.SS3_0) || ssVersion.equals(SilverStripeVersion.SS3_1)) {
-                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.template");
-                } else {
-                    pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newss.template");
-                }
-                
-                PHPTemplateStore.CompiledTemplate pageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageTemplateToCompile, getProject().getName()+"/templates/Layout", "Page.ss");
-                if((ssVersion.equals(SilverStripeVersion.SS3_0) || ssVersion.equals(SilverStripeVersion.SS3_1)) && ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-                    new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates/Layout", "Controller.ss", monitor, pageTemplate.string, pageTemplate.offset);
-                }else {
-                    new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates/Layout", "Page.ss", monitor, pageTemplate.string, pageTemplate.offset);
-                }
-                
-                
-                //Generate the Page_results.ss file
-                if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
-                    Template pageResultsTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.pageresults");
-                    PHPTemplateStore.CompiledTemplate pageResultsTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageResultsTemplateToCompile, getProject().getName()+"/templates/Layout", "Page_results.ss");
-                    new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates/Layout", "Page_results.ss", monitor, pageResultsTemplate.string, pageResultsTemplate.offset);
-                }
-                
-                //Generate the Navigation.ss file
-                Template navigationTemplateToCompile;
-                if(ssVersion.equals(SilverStripeVersion.SS3_0) || ssVersion.equals(SilverStripeVersion.SS3_1)) {
-                    navigationTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.navigation");
-                } else {
-                    navigationTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.navigation");
-                }
-                
-                PHPTemplateStore.CompiledTemplate navigationTemplate=PHPTemplateStore.compileTemplate(templateRegistry, navigationTemplateToCompile, getProject().getName()+"/templates/Includes", "Navigation.ss");
-                new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName()+"/templates/Includes", "Navigation.ss", monitor, navigationTemplate.string, navigationTemplate.offset);
-                
-                
-                if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
-                    //Copy the Home Icon
-                    try {
-                        Bundle bundle = Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID);
-                        InputStream stream;
-                        
-                        stream = FileLocator.openStream(bundle, new Path("resources/theme/images/treeicons/home-file.gif"), false);
-                        
-                        IFile file = getProject().getFile("images/treeicons/home-file.gif");
-                        file.create(stream, true, null);
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-    
-                    
-                    //Copy the News Icon
-                    try {
-                        Bundle bundle = Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID);
-                        InputStream stream;
-                        
-                        stream = FileLocator.openStream(bundle, new Path("resources/theme/images/treeicons/news-file.gif"), false);
-                        
-                        IFile file = getProject().getFile("images/treeicons/news-file.gif");
-                        file.create(stream, true, null);
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
+                //Let the project creator create the theme files
+                projectCreator.createThemeLayout(((Wizard)this.getWizard()), getProject(), monitor, templateRegistry, templateStore, ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY));
                 
                 
                 // configure the buildpath entries, including the default

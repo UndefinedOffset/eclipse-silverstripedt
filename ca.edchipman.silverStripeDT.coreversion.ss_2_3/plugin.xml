@@ -1,0 +1,18 @@
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="ca.edchipman.silverStripeDT.coreversion"
+         name="SilverStripe Version"
+         point="ca.edchipman.silverStripePDT.ss_version">
+      <ss_version
+            activator="ca.edchipman.silverstripedt.ss_2_3.SSVersionActivator"
+            display_name="SilverStripe 2.3"
+            id="ca.edchipman.silverStripeDT.coreversion.ss_2_3"
+            language_provider="ca.edchipman.silverstripedt.ss_2_3.language.DefaultLanguageModelProvider"
+            project_creator="ca.edchipman.silverstripedt.ss_2_3.project.NewSilverStripeProjectCreator"
+            release_chain="2.3"
+            supports_framework_only="false">
+      </ss_version>
+   </extension>
+
+</plugin>

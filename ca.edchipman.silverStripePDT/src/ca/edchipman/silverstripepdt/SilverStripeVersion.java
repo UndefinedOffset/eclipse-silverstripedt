@@ -1,6 +1,8 @@
 package ca.edchipman.silverstripepdt;
 
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -27,7 +29,7 @@ public class SilverStripeVersion {
     public static final String FULL_CMS="cms";
     public static final String VERSION_EXTENSION_ID="ca.edchipman.silverStripePDT.ss_version";
     
-    private static HashMap<String, IConfigurationElement> lang_registry;
+    private static LinkedHashMap<String, IConfigurationElement> lang_registry;
     
     /**
      * Initializes the language registry when the plugin is activated by mapping the configuration elements to the language key
@@ -35,8 +37,16 @@ public class SilverStripeVersion {
      */
     public static void initLanguageRegistry(IExtensionRegistry registry) {
         IConfigurationElement[] extensions=registry.getConfigurationElementsFor(VERSION_EXTENSION_ID);
+        Arrays.sort(extensions, new Comparator<IConfigurationElement>() {
+            public int compare(IConfigurationElement left, IConfigurationElement right) {
+                Double leftVersion=Double.parseDouble(left.getAttribute("release_chain"));
+                Double rightVersion=Double.parseDouble(right.getAttribute("release_chain"));
+                
+                return Double.compare(rightVersion, leftVersion);
+            }
+        });
         
-        SilverStripeVersion.lang_registry=new HashMap<String, IConfigurationElement>();
+        SilverStripeVersion.lang_registry=new LinkedHashMap<String, IConfigurationElement>();
         if(extensions.length>0) {
             for(IConfigurationElement language : extensions) {
                 String versionKey="SS"+language.getAttribute("release_chain");
@@ -74,7 +84,7 @@ public class SilverStripeVersion {
      * Gets the current language registry
      * @return Returns a hash map of the language configuration elements
      */
-    public static HashMap<String, IConfigurationElement> getLangRegistry() {
+    public static LinkedHashMap<String, IConfigurationElement> getLangRegistry() {
         return SilverStripeVersion.lang_registry;
     }
 }

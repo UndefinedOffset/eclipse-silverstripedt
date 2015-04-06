@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tokenizer" default="setupEnviroment">
+	<target name="cleanupCache">
+        <delete verbose="true">
+            <fileset dir="cache" defaultexcludes="no">
+                <include name="*.*"/>
+                <exclude name=".gitignore"/>
+            </fileset>
+        </delete>
+	</target>
+    
+    <target name="setupEnviroment" depends="cleanupCache">
+        <!-- Fetch 2.4 latest -->
+        <get src="http://www.silverstripe.org/software/download/release-archive/" dest="cache/release-archive.html" verbose="true"/>
+        
+        <loadfile srcfile="cache/release-archive.html" property="result24">
+            <filterchain>
+                <linecontains>
+                    <contains value="assets/releases/SilverStripe-cms-v2.4."/>
+                </linecontains>
+                <tokenfilter>
+                    <replaceregex pattern="(\s*)&lt;a href=&quot;/assets/releases/SilverStripe-cms-v2.4.(.*)&quot; title=&quot;SilverStripe-cms-v(.*)&quot;&gt;tar.gz&lt;/span&gt;&lt;/a&gt;(\s*)|" replace="\2"/>
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+        <script language="javascript">
+            var tmp=result24.split("\n");
+            project.setProperty("result24", tmp[0].replace(/\r|\|/,""));
+        </script>
+        <script language="javascript">
+            project.setProperty("result24Version", '2.4.'+result24.replace(/\.tar\.gz/,""));
+        </script>
+        
+        <get src="http://www.silverstripe.org/assets/releases/SilverStripe-cms-v2.4.${result24}" dest="cache/silverstripe-2.4.tar.gz" verbose="true"/>
+        
+        <untar src="cache/silverstripe-2.4.tar.gz" dest="cache/SS2.4" compression="gzip">
+            <patternset>
+                <include name="**/cms/code/*.php"/>
+                <include name="**/cms/code/**/*.php"/>
+                <include name="**/sapphire/**/*.php"/>
+                <exclude name="**/sapphire/*.php"/>
+                <exclude name="**/sapphire/tests/*"/>
+                <exclude name="**/sapphire/lang/*"/>
+                <exclude name="**/sapphire/thirdparty/**"/>
+                <exclude name="**/sapphire/javascript/*"/>
+            </patternset>
+            <cutdirsmapper dirs="1"/>
+        </untar>
+        
+        <move file="cache/SS2.4" todir="../resources"/>
+        
+        <echo message="${result24Version}" file="../resources/SS2.4/version"/>
+    </target>
+</project>
