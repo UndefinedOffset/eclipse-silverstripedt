@@ -503,9 +503,9 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                     NLS.bind(PHPUIMessages.newPhpFile_create, fileName), 2);
             IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
             IResource resource = root.findMember(new Path(containerName));
-            if (!resource.exists() || !(resource instanceof IContainer)) {
+            if (resource==null || !resource.exists() || !(resource instanceof IContainer)) {
                 throwCoreException(PHPUIMessages.PHPFileCreationWizard_1
-                        + containerName + PHPUIMessages.PHPFileCreationWizard_2); //$NON-NLS-1$ //$NON-NLS-2$
+                        + containerName + " " + PHPUIMessages.PHPFileCreationWizard_2); //$NON-NLS-1$ //$NON-NLS-2$
             }
             IContainer container = (IContainer) resource;
             final IFile file = container.getFile(new Path(fileName));

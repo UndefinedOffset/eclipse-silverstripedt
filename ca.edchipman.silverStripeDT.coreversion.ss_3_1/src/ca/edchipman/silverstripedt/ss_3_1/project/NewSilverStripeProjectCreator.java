@@ -1,8 +1,13 @@
 package ca.edchipman.silverstripedt.ss_3_1.project;
 
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.dltk.internal.ui.util.CoreUtility;
 import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
@@ -28,6 +33,16 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
             Template pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssproject.ss31.defaultpage");
             PHPTemplateStore.CompiledTemplate pageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageTemplateToCompile, project.getName()+"/code", "Page.php");
             new SilverStripeFileCreator().createFile(wizard, project.getName()+"/code", "Page.php", monitor, pageTemplate.string, pageTemplate.offset);
+        }
+        
+        
+        //Create the config folder
+        IPath ymlConfigPath = new Path("_config");
+        if (ymlConfigPath.segmentCount() > 0) {
+            IFolder folder=project.getFolder(ymlConfigPath);
+            CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
+        } else {
+            monitor.worked(10);
         }
         
         

@@ -287,6 +287,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
                 
                 if(versionCode.equals(SilverStripeVersion.DEFAULT_VERSION)) {
                     radio.setSelection(true);
+                    this._selectedVersion=radio.getSSVersion();
                 }
                 
                 //Add to the radio list
