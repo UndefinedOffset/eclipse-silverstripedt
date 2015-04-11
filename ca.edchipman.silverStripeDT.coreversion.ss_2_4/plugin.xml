@@ -11,6 +11,7 @@
             language_provider="ca.edchipman.silverstripedt.ss_2_4.language.DefaultLanguageModelProvider"
             project_creator="ca.edchipman.silverstripedt.ss_2_4.project.NewSilverStripeProjectCreator"
             release_chain="2.4"
+            style_provider="ca.edchipman.silverstripedt.ss_2_4.style.LineStyleProvider"
             supports_framework_only="false">
       </ss_version>
    </extension>

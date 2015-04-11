@@ -95,6 +95,16 @@
                </appinfo>
             </annotation>
          </attribute>
+         <attribute name="style_provider" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn="ca.edchipman.silverstripepdt.versioninterfaces.SilverStripeVersionStyleProvider:"/>
+               </appinfo>
+            </annotation>
+         </attribute>
          <attribute name="activator" type="string" use="required">
             <annotation>
                <documentation>
@@ -123,7 +133,16 @@
       </appinfo>
       <documentation>
          &lt;extension id=&quot;ca.edchipman.silverStripeDT.coreversion&quot; name=&quot;SilverStripe 3.1 Version&quot; point=&quot;ca.edchipman.silverStripePDT.ss_version&quot;&gt;
-    &lt;ss_version id=&quot;ca.edchipman.silverStripeDT.coreversion.ss_3_1&quot; display_name=&quot;SilverStripe 3.1&quot; release_chain=&quot;3.1&quot; supports_framework_only=&quot;true&quot; activator=&quot;ca.edchipman.silverstripedt.ss_3_1.SSVersionActivator&quot;/&gt;
+    &lt;ss_version
+            display_name=&quot;SilverStripe 3.1&quot;
+            release_chain=&quot;3.1&quot;
+            supports_framework_only=&quot;true&quot;
+            id=&quot;ca.edchipman.silverStripeDT.coreversion.ss_3_1&quot;
+            language_provider=&quot;ca.edchipman.silverstripedt.ss_3_1.language.DefaultLanguageModelProvider&quot;
+            project_creator=&quot;ca.edchipman.silverstripedt.ss_3_1.project.NewSilverStripeProjectCreator&quot;
+            style_provider=&quot;optional.attribute.with.class.path.to.a.style.provider&quot;
+            activator=&quot;ca.edchipman.silverstripedt.ss_3_1.SSVersionActivator&quot;&gt;
+	&lt;/ss_version&gt;
 &lt;/extension&gt;
       </documentation>
    </annotation>

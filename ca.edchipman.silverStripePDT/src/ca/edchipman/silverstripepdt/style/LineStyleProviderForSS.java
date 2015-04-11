@@ -1,6 +1,10 @@
 package ca.edchipman.silverstripepdt.style;
 
 
+import java.util.HashMap;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.TextAttribute;
@@ -15,12 +19,14 @@ import org.eclipse.wst.xml.ui.internal.style.IStyleConstantsXML;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.regions.SilverStripeRegionContext;
+import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeNewProjectCreator;
+import ca.edchipman.silverstripepdt.versioninterfaces.SilverStripeVersionStyleProvider;
 
 @SuppressWarnings("restriction")
 public class LineStyleProviderForSS extends LineStyleProviderForHTML {
     private IPreferenceStore preferenceStore;
     
-    protected String ssVersion=SilverStripeVersion.DEFAULT_VERSION;
+    protected SilverStripeVersionStyleProvider versionStyleProvider;
     
     public LineStyleProviderForSS() {
         super();
@@ -38,6 +44,14 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         }
         
         String type = region.getType();
+        
+        if(this.versionStyleProvider!=null) {
+            TextAttribute versionResult=this.versionStyleProvider.getAttributeFor(type);
+            if(versionResult!=null) {
+                return versionResult;
+            }
+        }
+        
         if (type == SilverStripeRegionContext.SS_OPEN) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_DELIM);
         } else if (type == SilverStripeRegionContext.SS_CLOSE) {
@@ -66,24 +80,6 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_INCLUDE_OPEN);
         } else if (type == SilverStripeRegionContext.SS_INCLUDE_CONTENT) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_INCLUDE_CONTENT);
-        } else if (type == SilverStripeRegionContext.SS_CONTROL_OPEN) {
-        	if(this.ssVersion.equals(SilverStripeVersion.SS3_1) || this.ssVersion.equals(SilverStripeVersion.SS3_0)) {
-        		return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_DEPRECATED);
-        	}
-        	
-            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_CONTROL_OPEN);
-        } else if (type == SilverStripeRegionContext.SS_CONTROL_CONTENT) {
-        	if(this.ssVersion.equals(SilverStripeVersion.SS3_1) || this.ssVersion.equals(SilverStripeVersion.SS3_0)) {
-        		return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_DEPRECATED);
-        	}
-        	
-            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_CONTROL_CONTENT);
-        } else if (type == SilverStripeRegionContext.SS_END_CONTROL) {
-        	if(this.ssVersion.equals(SilverStripeVersion.SS3_1) || this.ssVersion.equals(SilverStripeVersion.SS3_0)) {
-        		return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_DEPRECATED);
-        	}
-        	
-            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_END_CONTROL);
         } else if (type == SilverStripeRegionContext.SS_VARIABLE) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_VARIABLE);
         } else if (type == SilverStripeRegionContext.SS_CACHEBLOCK_OPEN) {
@@ -118,6 +114,8 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_I18N_OPEN);
         } else if (type == SilverStripeRegionContext.SS_I18N_CONTENT) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_I18N_CONTENT);
+        } else if (type == SilverStripeRegionContext.SS_CONTROL_OPEN || type == SilverStripeRegionContext.SS_CONTROL_CONTENT || type == SilverStripeRegionContext.SS_END_CONTROL) {
+            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_DEPRECATED);
         }
         
         
@@ -125,14 +123,30 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         return super.getAttributeFor(region);
     }
     
-    public void setSSVersion(String version) {
-        this.ssVersion=version;
+    public void setSSVersion(String ssVersion) {
+        IConfigurationElement languageProvider=SilverStripeVersion.getLanguageDefinition(ssVersion);
+        SilverStripeVersionStyleProvider provider=null;
+        Object o;
+        try {
+            if(languageProvider.getAttribute("style_provider")!=null) {
+                o = languageProvider.createExecutableExtension("style_provider");
+                if(o instanceof SilverStripeVersionStyleProvider) {
+                    provider=((SilverStripeVersionStyleProvider) o);
+                    provider.setLineStyleProvider(this);
+                }
+            }
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+        
+        this.versionStyleProvider=provider;
+        
         
         //Reset
         this.loadColors();
         
         //Refresh
-        if(getHighlighter() != null) {
+        if(getHighlighter()!=null) {
     		getHighlighter().refreshDisplay();
     	} else if(fRecHighlighter != null) {
     		fRecHighlighter.refreshDisplay();
@@ -162,32 +176,29 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_OPEN);
         addTextAttribute(IStyleConstantsSS.SS_TEMPLATE_FUNCTION_CONTENT);
         addTextAttribute(IStyleConstantsSS.SS_DEPRECATED);
-        addTextAttribute(IStyleConstantsSS.SS_CONTROL_OPEN);
-        addTextAttribute(IStyleConstantsSS.SS_CONTROL_CONTENT);
-        addTextAttribute(IStyleConstantsSS.SS_END_CONTROL);
         
-        if(this.ssVersion==null) {
-            this.ssVersion=SilverStripeVersion.DEFAULT_VERSION;
-        }
+        //Add loop, with and i18n tags
+        addTextAttribute(IStyleConstantsSS.SS_LOOP_OPEN);
+        addTextAttribute(IStyleConstantsSS.SS_LOOP_CONTENT);
+        addTextAttribute(IStyleConstantsSS.SS_END_LOOP);
+        addTextAttribute(IStyleConstantsSS.SS_WITH_OPEN);
+        addTextAttribute(IStyleConstantsSS.SS_WITH_CONTENT);
+        addTextAttribute(IStyleConstantsSS.SS_END_WITH);
+        addTextAttribute(IStyleConstantsSS.SS_I18N_OPEN);
+        addTextAttribute(IStyleConstantsSS.SS_I18N_CONTENT);
         
-        if(this.ssVersion.equals(SilverStripeVersion.SS3_0) || this.ssVersion.equals(SilverStripeVersion.SS3_1)) {
-            addTextAttribute(IStyleConstantsSS.SS_LOOP_OPEN);
-            addTextAttribute(IStyleConstantsSS.SS_LOOP_CONTENT);
-            addTextAttribute(IStyleConstantsSS.SS_END_LOOP);
-            addTextAttribute(IStyleConstantsSS.SS_WITH_OPEN);
-            addTextAttribute(IStyleConstantsSS.SS_WITH_CONTENT);
-            addTextAttribute(IStyleConstantsSS.SS_END_WITH);
-            addTextAttribute(IStyleConstantsSS.SS_I18N_OPEN);
-            addTextAttribute(IStyleConstantsSS.SS_I18N_CONTENT);
-        }
         
-        if(this.ssVersion.equals(SilverStripeVersion.SS2_3)==false) {
-            addTextAttribute(IStyleConstantsSS.SS_CACHEBLOCK_OPEN);
-            addTextAttribute(IStyleConstantsSS.SS_CACHEBLOCK_CONTENT);
-            addTextAttribute(IStyleConstantsSS.SS_END_CACHEBLOCK);
-            addTextAttribute(IStyleConstantsSS.SS_UNCACHED_OPEN);
-            addTextAttribute(IStyleConstantsSS.SS_UNCACHED_CONTENT);
-            addTextAttribute(IStyleConstantsSS.SS_END_UNCACHED);
+        //Add Cache blocks
+        addTextAttribute(IStyleConstantsSS.SS_CACHEBLOCK_OPEN);
+        addTextAttribute(IStyleConstantsSS.SS_CACHEBLOCK_CONTENT);
+        addTextAttribute(IStyleConstantsSS.SS_END_CACHEBLOCK);
+        addTextAttribute(IStyleConstantsSS.SS_UNCACHED_OPEN);
+        addTextAttribute(IStyleConstantsSS.SS_UNCACHED_CONTENT);
+        addTextAttribute(IStyleConstantsSS.SS_END_UNCACHED);
+        
+        
+        if(this.versionStyleProvider!=null) {
+            this.versionStyleProvider.loadVersionColors();
         }
     }
     
@@ -294,5 +305,28 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         }
         
         return preferenceStore;
+    }
+    
+    /**
+     * Removes a text attribute from the available attributes based on the key
+     * @param colorKey Color key to remove
+     */
+    public void removeTextAttribute(String colorKey) {
+        if(getTextAttributes().containsKey(colorKey)) {
+            getTextAttributes().remove(colorKey);
+        }
+    }
+    
+    /**
+     * Adds a text attribute
+     * @param colorKey Color key to add support for
+     */
+    public void addTextAttribute(String colorKey) {
+        super.addTextAttribute(colorKey);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public HashMap getTextAttributes() {
+        return super.getTextAttributes();
     }
 }

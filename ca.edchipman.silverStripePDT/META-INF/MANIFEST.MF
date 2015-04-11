@@ -86,5 +86,7 @@ Bundle-Vendor: Ed Chipman
 Export-Package: ca.edchipman.silverstripepdt,
  ca.edchipman.silverstripepdt.actions,
  ca.edchipman.silverstripepdt.language,
- ca.edchipman.silverstripepdt.wizards,
- ca.edchipman.silverstripepdt.versioninterfaces
+ ca.edchipman.silverstripepdt.regions,
+ ca.edchipman.silverstripepdt.style,
+ ca.edchipman.silverstripepdt.versioninterfaces,
+ ca.edchipman.silverstripepdt.wizards
