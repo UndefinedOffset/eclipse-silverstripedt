@@ -11,6 +11,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -20,6 +22,7 @@ import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
 import org.eclipse.wst.xml.ui.internal.contentassist.DefaultXMLCompletionProposalComputer;
 
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
 
 @SuppressWarnings("restriction")
@@ -61,11 +64,22 @@ public class SSTemplateCompletionProposalComputer extends DefaultXMLCompletionPr
                 ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, project);
             }
             
-            if(ssVersion.equals(SilverStripeVersion.SS3_0)==false && ssVersion.equals(SilverStripeVersion.SS3_1)==false) {
-                addTemplates(contentAssistRequest, NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE, context);
-            } else {
-                addTemplates(contentAssistRequest, NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE, context);
+            
+            String templateContext=NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE;
+            IConfigurationElement languageProvider=SilverStripeVersion.getLanguageDefinition(ssVersion);
+            if(languageProvider!=null) {
+                Object o;
+                try {
+                    o = languageProvider.createExecutableExtension("language_provider");
+                    if(o instanceof ISilverStripeLanguageModelProvider) {
+                        templateContext=((ISilverStripeLanguageModelProvider) o).getTemplateContext();
+                    }
+                } catch (CoreException e) {
+                    e.printStackTrace();
+                }
             }
+            
+            addTemplates(contentAssistRequest, templateContext, context);
         }
         
         /**
