@@ -71,7 +71,10 @@ public class DevBuildViewer extends ViewPart {
             progressListener=new BuildProgressListener(swtBrowser, progressBar);
             swtBrowser.addProgressListener(progressListener);
         } catch (SWTError error) {
-            swtBrowser.removeProgressListener(progressListener);
+            if(progressListener!=null) {
+                swtBrowser.removeProgressListener(progressListener);
+            }
+            
             swtBrowser = null;
             Label label = new Label(container, SWT.WRAP);
             label.setText("SWT Browser control is not available. Please refer to: http://www.eclipse.org/swt/faq.php#whatisbrowser for more information.");
@@ -120,7 +123,7 @@ public class DevBuildViewer extends ViewPart {
     
     
     
-    class BuildProgressListener implements ProgressListener {
+    private class BuildProgressListener implements ProgressListener {
         private ProgressBar progress;
         private Browser browser;
 
