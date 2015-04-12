@@ -7,8 +7,9 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 public class SilverStripePluginImages {
-    public static final ImageDescriptor DESC_ADD_SS_FILE = create("newssfile_wiz.gif","wizban");//$NON-NLS-1$
-    public static final ImageDescriptor DESC_NEW_SS_PROJECT = create("newssprj_wiz.png","wizban");//$NON-NLS-1$
+    public static final ImageDescriptor DESC_ADD_SS_FILE = create("newssfile_wiz.gif", "wizban");//$NON-NLS-1$
+    public static final ImageDescriptor DESC_NEW_SS_PROJECT = create("newssprj_wiz.png", "wizban");//$NON-NLS-1$
+    public static final ImageDescriptor IMG_REFRESH = create("refresh.gif", "actions");//$NON-NLS-1$
     
     private static ImageDescriptor create(String name, String type) {
         try {

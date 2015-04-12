@@ -329,13 +329,27 @@
              class="ca.edchipman.silverstripepdt.views.DevBuildViewer"
              icon="icons/full/ss-logo.png"
              id="ca.edchipman.silverstripepdt.views.DevBuildViewer"
-             name="Dev/Build Viewer"
+             name="SilverStripe Dev/Build"
+             restorable="true">
+       </view>
+       <view
+             allowMultiple="false"
+             category="ca.edchipman.silverStripePDT.category"
+             class="ca.edchipman.silverstripepdt.views.TasksViewer"
+             icon="icons/full/ss-logo.png"
+             id="ca.edchipman.silverstripepdt.views.TasksViewer"
+             name="SilverStripe Tasks"
              restorable="true">
        </view>
        <category
              id="ca.edchipman.silverStripePDT.category"
              name="SilverStripe">
        </category>
+       <view
+             class="ca.edchipman.silverstripepdt.views.Test"
+             id="ca.edchipman.silverstripepdt.views.Test"
+             name="New ViewPart">
+       </view>
     </extension>
     <extension
           point="org.eclipse.ui.bindings">
