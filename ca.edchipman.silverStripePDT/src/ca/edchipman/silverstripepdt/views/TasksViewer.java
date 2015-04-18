@@ -1,8 +1,15 @@
 package ca.edchipman.silverstripepdt.views;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -26,11 +33,15 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IPerspectiveListener2;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
@@ -43,6 +54,7 @@ import org.eclipse.swt.layout.GridData;
 
 import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePluginImages;
+import ca.edchipman.silverstripepdt.views.internal.SSTaskDefinition;
 
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Color;
@@ -75,7 +87,6 @@ public class TasksViewer extends ViewPart {
     private IProject fLastProject;
 
     private boolean projectTasksLoading;
-
 
     public TasksViewer() {
     }
@@ -210,8 +221,6 @@ public class TasksViewer extends ViewPart {
     }
 
     public void dispose() {
-        super.dispose();
-        
         getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(listener);
         
         if(projectTasks!=null && projectTasks.isEmpty()==false) {
@@ -222,6 +231,8 @@ public class TasksViewer extends ViewPart {
             projectTasks.removeAll(projectTasks);
             projectTasks=null;
         }
+        
+        super.dispose();
     }
     
     /**
@@ -247,11 +258,21 @@ public class TasksViewer extends ViewPart {
     }
     
     public void refreshTasks() {
+        refreshTasks(false);
+    }
+    
+    public void refreshTasks(boolean clearCache) {
         if(projectTasksLoading) {
             return;
         }
         
         projectTasksLoading=true;
+        
+        IFile cacheFile=fLastProject.getFile(".settings/silverstripe.taskcache");
+        //If the cache file is missing force a re-cache
+        if(cacheFile.exists()==false) {
+            clearCache=true;
+        }
         
         if(projectTasks!=null && projectTasks.isEmpty()==false) {
             for(SilverStripeTask task : projectTasks) {
@@ -276,37 +297,82 @@ public class TasksViewer extends ViewPart {
             finalURL=finalURL.concat("dev/tasks");
             
             try {
-                //TODO Cache unless refresh button is selected
-                Document tasksDocument=Jsoup.connect(finalURL).get();
-                if(tasksDocument.location().equals(finalURL)) {
-                    Elements tasks=tasksDocument.select(".options ul li");
-                    for(Element task : tasks) {
-                        Element taskTitleTag=task.getElementsByTag("a").first();
-                        Element taskDescTag=task.getElementsByClass("description").first();
-                        if(taskTitleTag!=null) {
-                            String taskTitle=taskTitleTag.ownText();
-                            String taskURL=taskTitleTag.attr("href");
-                            String taskDesc="";
-                            
-                            if(taskDescTag!=null) {
-                                taskDesc=taskDescTag.ownText();
+                if(clearCache==true) {
+                    Document tasksDocument=Jsoup.connect(finalURL).get();
+                    if(tasksDocument.location().equals(finalURL)) {
+                        ArrayList<SSTaskDefinition> taskList=new ArrayList<SSTaskDefinition>();
+                        Elements tasks=tasksDocument.select(".options ul li");
+                        for(Element task : tasks) {
+                            Element taskTitleTag=task.getElementsByTag("a").first();
+                            Element taskDescTag=task.getElementsByClass("description").first();
+                            if(taskTitleTag!=null) {
+                                String taskTitle=taskTitleTag.ownText();
+                                String taskURL=taskTitleTag.attr("href");
+                                String taskDesc="";
+                                
+                                if(taskDescTag!=null) {
+                                    taskDesc=taskDescTag.ownText();
+                                }
+                                
+                                SSTaskDefinition taskDef=new SSTaskDefinition();
+                                taskDef.setTitle(taskTitle);
+                                taskDef.setURL(taskURL);
+                                taskDef.setDesc(taskDesc);
+                                
+                                taskList.add(taskDef);
+                                
+                                projectTasks.add(new SilverStripeTask(fTasksList, taskTitle, taskURL, taskDesc));
                             }
-                            
-                            projectTasks.add(new SilverStripeTask(fTasksList, taskTitle, taskURL, taskDesc));
+                        }
+                        
+                        
+                        fTasksList.setSize(fTasksList.computeSize(fTasksList.getParent().getClientArea().width, SWT.DEFAULT));
+                        fTasksList.layout(true, true);
+                        
+                        
+                        //Write cache
+                        try {
+                            XMLEncoder encoder=new XMLEncoder(new BufferedOutputStream(new FileOutputStream(cacheFile.getLocation().toOSString())));
+                            encoder.writeObject(taskList);
+                            encoder.close();
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        refreshAction.setEnabled(false);
+                        
+                        fErrorLabel.setText("It appears that the site redirected, please check the SilverStripe site base as well as that the site is in dev mode");
+                        if(fViewStackLayout.topControl!=fErrorView) {
+                            fViewStackLayout.topControl=fErrorView;
+                            fViewStack.layout();
                         }
                     }
-                    
-                    
-                    fTasksList.setSize(fTasksList.computeSize(fTasksList.getParent().getClientArea().width, SWT.DEFAULT));
-                    fTasksList.layout(true, true);
                 }else {
-                    refreshAction.setEnabled(false);
-                    
-                    fErrorLabel.setText("It appears that the site redirected, please check the SilverStripe site base as well as that the site is in dev mode");
-                    if(fViewStackLayout.topControl!=fErrorView) {
-                        fViewStackLayout.topControl=fErrorView;
-                        fViewStack.layout();
-                    }
+                    ClassLoader previousClassLoader = Thread.currentThread().getContextClassLoader();
+                    try {
+                        Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+                      
+                        XMLDecoder decoder=new XMLDecoder(new BufferedInputStream(new FileInputStream(cacheFile.getLocation().toOSString())));
+                        Object rawObject=decoder.readObject();
+                        decoder.close();
+                        if(rawObject instanceof ArrayList) {
+                            @SuppressWarnings("unchecked")
+                            ArrayList<SSTaskDefinition> tasks=(ArrayList<SSTaskDefinition>) rawObject;
+                            for(SSTaskDefinition task : tasks) {
+                                projectTasks.add(new SilverStripeTask(fTasksList, task.getTitle(), task.getURL(), task.getDesc()));
+                            }
+                        }
+                    }catch (Exception e) {
+                        fErrorLabel.setText("Error parsing the Tasks List cache, click refresh to re-cache");
+                        if(fViewStackLayout.topControl!=fErrorView) {
+                            fViewStackLayout.topControl=fErrorView;
+                            fViewStack.layout();
+                        }
+                        
+                        Thread.currentThread().setContextClassLoader(previousClassLoader);
+                    }finally {
+                        Thread.currentThread().setContextClassLoader(previousClassLoader);
+                    } 
                 }
             } catch (IOException e) {
                 fErrorLabel.setText("Error loading the Tasks List");
@@ -319,8 +385,8 @@ public class TasksViewer extends ViewPart {
         
         projectTasksLoading=false;
     }
-
-    protected void runRask(String taskURL) {
+    
+    protected void runTask(String taskURL) {
         fTasksBrowser.setUrl(taskURL);
     }
 
@@ -485,7 +551,7 @@ public class TasksViewer extends ViewPart {
 
         @Override 
         public void run() {
-            tasksViewer.refreshTasks();
+            tasksViewer.refreshTasks(true);
         }
     }
     
@@ -576,7 +642,7 @@ public class TasksViewer extends ViewPart {
                 @Override
                 public void handleEvent(Event e) {
                     if(isChildOrSelf(e.widget, SilverStripeTask.this)) {
-                        TasksViewer.this.runRask(taskURL);
+                        TasksViewer.this.runTask(taskURL);
                     }
                 }
             };
@@ -610,6 +676,7 @@ public class TasksViewer extends ViewPart {
         }
         
         public void dispose() {
+            //TODO Display is already disposed at this point, we need away to remove these correctly currently throws an exception
             if(mouseClickListener!=null) {
                 this.getDisplay().removeFilter(SWT.MouseUp, mouseClickListener);
                 mouseClickListener=null;
