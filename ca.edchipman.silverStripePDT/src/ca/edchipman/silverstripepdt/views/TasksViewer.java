@@ -19,6 +19,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -41,6 +45,7 @@ import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePluginImages;
 
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.widgets.ProgressBar;
@@ -64,7 +69,6 @@ public class TasksViewer extends ViewPart {
     private Composite fTasksList;
     private ProgressBar progressBar;
     private ArrayList<SilverStripeTask> projectTasks;
-    private Control oldFocus;
     
     private TaskProgressListener progressListener;
 
@@ -305,11 +309,19 @@ public class TasksViewer extends ViewPart {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                fErrorLabel.setText("Error loading the Tasks List");
+                if(fViewStackLayout.topControl!=fErrorView) {
+                    fViewStackLayout.topControl=fErrorView;
+                    fViewStack.layout();
+                }
             }
         }
         
         projectTasksLoading=false;
+    }
+
+    protected void runRask(String taskURL) {
+        fTasksBrowser.setUrl(taskURL);
     }
 
     protected void handleSelectionChange(IProject _project) {
@@ -521,33 +533,28 @@ public class TasksViewer extends ViewPart {
                                 "links[i].href='#'; "+
                             "}");
         }
-        
-        /**
-         * Gets the currently active progress bar instance
-         */
-        public void showProgressBar() {
-            progress.setVisible(true);
-        }
-        
-        /**
-         * Resets the currently active progress bar instance
-         */
-        public void resetProgressBar() {
-            progress.setSelection(0);
-        }
     }
     
     private class SilverStripeTask extends Composite {
         private Label fTaskTitleLbl;
         private Label fTaskDescLbl;
         private String taskURL;
+        private Color defaultBackground;
+        private Color hoverBackgroundColor;
+        private Listener mouseClickListener;
+        private Listener mouseExitListener;
+        private Listener mouseEnterListener;
 
         public SilverStripeTask(Composite parent, String title, String url, String description) {
             super(parent, SWT.NONE);
             
+            defaultBackground=parent.getBackground();
+            hoverBackgroundColor=Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION);
+            
+            
             this.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
             this.setLayout(new GridLayout(1, false));
-            this.setBackground(parent.getBackground());
+            this.setBackground(defaultBackground);
             
             taskURL=url;
             
@@ -557,13 +564,92 @@ public class TasksViewer extends ViewPart {
             FontDescriptor boldDescriptor=FontDescriptor.createFrom(fTaskTitleLbl.getFont()).setStyle(SWT.BOLD);
             Font boldFont = boldDescriptor.createFont(fTaskTitleLbl.getDisplay());
             fTaskTitleLbl.setFont(boldFont);
-            fTaskTitleLbl.setBackground(parent.getBackground());
+            fTaskTitleLbl.setBackground(defaultBackground);
             
             fTaskDescLbl=new Label(this, SWT.WRAP);
             fTaskDescLbl.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
             fTaskDescLbl.setText(description);
-            fTaskDescLbl.setBackground(parent.getBackground());
+            fTaskDescLbl.setBackground(defaultBackground);
+            
+            //Bind listeners
+            mouseClickListener=new Listener() {
+                @Override
+                public void handleEvent(Event e) {
+                    if(isChildOrSelf(e.widget, SilverStripeTask.this)) {
+                        TasksViewer.this.runRask(taskURL);
+                    }
+                }
+            };
+            
+            mouseEnterListener=new Listener() {
+                @Override
+                public void handleEvent(Event e) {
+                    if(isChildOrSelf(e.widget, SilverStripeTask.this)) {
+                        SilverStripeTask.this.setBackground(hoverBackgroundColor);
+                        fTaskTitleLbl.setBackground(hoverBackgroundColor);
+                        fTaskDescLbl.setBackground(hoverBackgroundColor);
+                    }
+                }
+            };
+            
+            mouseExitListener=new Listener() {
+                @Override
+                public void handleEvent(Event e) {
+                    if(isChildOrSelf(e.widget, SilverStripeTask.this)) {
+                        SilverStripeTask.this.setBackground(defaultBackground);
+                        fTaskTitleLbl.setBackground(defaultBackground);
+                        fTaskDescLbl.setBackground(defaultBackground);
+                    }
+                }
+            };
+            
+            
+            this.getDisplay().addFilter(SWT.MouseUp, mouseClickListener);
+            this.getDisplay().addFilter(SWT.MouseEnter, mouseEnterListener);
+            this.getDisplay().addFilter(SWT.MouseExit, mouseExitListener);
         }
         
+        public void dispose() {
+            if(mouseClickListener!=null) {
+                this.getDisplay().removeFilter(SWT.MouseUp, mouseClickListener);
+                mouseClickListener=null;
+            }
+            
+            if(mouseEnterListener!=null) {
+                this.getDisplay().removeFilter(SWT.MouseEnter, mouseEnterListener);
+                mouseClickListener=null;
+            }
+            
+            if(mouseExitListener!=null) {
+                this.getDisplay().removeFilter(SWT.MouseExit, mouseExitListener);
+                mouseClickListener=null;
+            }
+            
+            
+            //Cleanup colors
+            defaultBackground.dispose();
+            hoverBackgroundColor.dispose();
+            
+            
+            super.dispose();
+        }
+        
+        private boolean isChildOrSelf(Widget child, Composite parent) {
+            if(child == parent) {
+                return true;
+            }
+
+            for(Control c : parent.getChildren()) {
+                if(c instanceof Composite) {
+                    boolean result = isChildOrSelf(child, (Composite)c);
+                    if (result)
+                        return true;
+                }else if (c == child) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
