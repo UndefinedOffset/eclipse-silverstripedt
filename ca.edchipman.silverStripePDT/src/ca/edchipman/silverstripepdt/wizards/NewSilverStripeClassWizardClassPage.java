@@ -20,7 +20,6 @@ import org.eclipse.dltk.core.IType;
 import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.core.search.IDLTKSearchScope;
 import org.eclipse.dltk.core.search.SearchEngine;
-import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -333,7 +332,7 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
         
         //@TODO need to get the silverstripe classes here
         IModelElement[] elements= new IModelElement[] { project };
-        IDLTKSearchScope scope= SearchEngine.createSearchScope(elements,IJavaSearchScope.SOURCES|IJavaSearchScope.APPLICATION_LIBRARIES|IJavaSearchScope.SYSTEM_LIBRARIES|IJavaSearchScope.REFERENCED_PROJECTS, project.getLanguageToolkit());
+        IDLTKSearchScope scope= SearchEngine.createSearchScope(elements,IDLTKSearchScope.SOURCES|IDLTKSearchScope.APPLICATION_LIBRARIES|IDLTKSearchScope.SYSTEM_LIBRARIES|IDLTKSearchScope.REFERENCED_PROJECTS, project.getLanguageToolkit());
 
         FilteredTypesSelectionDialog dialog = new FilteredTypesSelectionDialog(getShell(), false, getWizard().getContainer(), scope, ISilverStripePDTSearchConstants.CLASS, project.getLanguageToolkit());
         dialog.setTitle("Superclass Selection");
@@ -366,7 +365,7 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
         
         //@TODO need to get the silverstripe classes here
         IModelElement[] elements= new IModelElement[] { project };
-        IDLTKSearchScope scope= SearchEngine.createSearchScope(elements,IJavaSearchScope.SOURCES|IJavaSearchScope.APPLICATION_LIBRARIES|IJavaSearchScope.SYSTEM_LIBRARIES|IJavaSearchScope.REFERENCED_PROJECTS, project.getLanguageToolkit());
+        IDLTKSearchScope scope= SearchEngine.createSearchScope(elements,IDLTKSearchScope.SOURCES|IDLTKSearchScope.APPLICATION_LIBRARIES|IDLTKSearchScope.SYSTEM_LIBRARIES|IDLTKSearchScope.REFERENCED_PROJECTS, project.getLanguageToolkit());
 
         FilteredTypesSelectionDialog dialog = new FilteredTypesSelectionDialog(getShell(), false, getWizard().getContainer(), scope, ISilverStripePDTSearchConstants.INTERFACE, project.getLanguageToolkit());
         dialog.setTitle("Interface Selection");
