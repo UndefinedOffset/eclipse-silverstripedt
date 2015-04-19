@@ -25,17 +25,13 @@ import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener2;
-import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.IPerspectiveListener2;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbench;
@@ -69,7 +65,7 @@ import org.eclipse.swt.custom.ScrolledComposite;
 
 @SuppressWarnings("restriction")
 public class TasksViewer extends ViewPart {
-    public static final String ID = "ca.edchipman.silverstripepdt.views.TasksView"; //$NON-NLS-1$
+    public static final String ID = "ca.edchipman.silverstripepdt.views.TasksViewer"; //$NON-NLS-1$
     
     private RefreshAction refreshAction;
     private Composite fViewStack;
@@ -178,15 +174,9 @@ public class TasksViewer extends ViewPart {
                     String siteBase=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_site_base", null, project);
                     if(siteBase!=null && siteBase.isEmpty()==false) {
                         refreshAction.setEnabled(true);
-                        
                         fLastProject=project;
                         
-                        if(fViewStackLayout.topControl!=fTasksView) {
-                            fViewStackLayout.topControl=fTasksView;
-                            fViewStack.layout();
-                        }
-                        
-                        this.refreshTasks(); //TODO The list is not visible though it's populated, seems to be an issue with the laying out of them
+                        this.getSite().getPage().addPartListener(viewPartListener);
                     }else {
                         refreshAction.setEnabled(false);
                         
@@ -324,7 +314,12 @@ public class TasksViewer extends ViewPart {
                                 projectTasks.add(new SilverStripeTask(fTasksList, taskTitle, taskURL, taskDesc));
                             }
                         }
+
                         
+                        if(fViewStackLayout.topControl!=fTasksView) {
+                            fViewStackLayout.topControl=fTasksView;
+                            fViewStack.layout();
+                        }
                         
                         fTasksList.setSize(fTasksList.computeSize(fTasksList.getParent().getClientArea().width, SWT.DEFAULT));
                         fTasksList.layout(true, true);
@@ -362,6 +357,15 @@ public class TasksViewer extends ViewPart {
                                 projectTasks.add(new SilverStripeTask(fTasksList, task.getTitle(), task.getURL(), task.getDesc()));
                             }
                         }
+                        
+                        
+                        if(fViewStackLayout.topControl!=fTasksView) {
+                            fViewStackLayout.topControl=fTasksView;
+                            fViewStack.layout();
+                        }
+                        
+                        fTasksList.setSize(fTasksList.computeSize(fTasksList.getParent().getClientArea().width, SWT.DEFAULT));
+                        fTasksList.layout(true, true);
                     }catch (Exception e) {
                         fErrorLabel.setText("Error parsing the Tasks List cache, click refresh to re-cache");
                         if(fViewStackLayout.topControl!=fErrorView) {
@@ -387,6 +391,10 @@ public class TasksViewer extends ViewPart {
     }
     
     protected void runTask(String taskURL) {
+        progressBar.setVisible(true);
+        progressBar.setMaximum(1);
+        progressBar.setSelection(0);
+        
         fTasksBrowser.setUrl(taskURL);
     }
 
@@ -537,6 +545,44 @@ public class TasksViewer extends ViewPart {
         }
     };
     
+    private IPartListener2 viewPartListener=new IPartListener2() {
+        @Override
+        public void partVisible(IWorkbenchPartReference partRef) {
+            if(partRef.getId().equals(TasksViewer.ID)) {
+                Display.getCurrent().asyncExec(new Runnable() {
+                    @Override
+                    public void run() {
+                        TasksViewer.this.refreshTasks();
+                    }
+                });
+                
+                TasksViewer.this.getSite().getPage().removePartListener(viewPartListener);
+                viewPartListener=null;
+            }
+        }
+        
+        @Override
+        public void partOpened(IWorkbenchPartReference partRef) {}
+        
+        @Override
+        public void partInputChanged(IWorkbenchPartReference partRef) {}
+        
+        @Override
+        public void partHidden(IWorkbenchPartReference partRef) {}
+        
+        @Override
+        public void partDeactivated(IWorkbenchPartReference partRef) {}
+        
+        @Override
+        public void partClosed(IWorkbenchPartReference partRef) {}
+        
+        @Override
+        public void partBroughtToTop(IWorkbenchPartReference partRef) {}
+        
+        @Override
+        public void partActivated(IWorkbenchPartReference partRef) {}
+    };
+    
     private class RefreshAction extends Action {
         private TasksViewer tasksViewer;
 
@@ -641,56 +687,47 @@ public class TasksViewer extends ViewPart {
             mouseClickListener=new Listener() {
                 @Override
                 public void handleEvent(Event e) {
-                    if(isChildOrSelf(e.widget, SilverStripeTask.this)) {
-                        TasksViewer.this.runTask(taskURL);
-                    }
+                    TasksViewer.this.runTask(taskURL);
                 }
             };
             
             mouseEnterListener=new Listener() {
                 @Override
                 public void handleEvent(Event e) {
-                    if(isChildOrSelf(e.widget, SilverStripeTask.this)) {
-                        SilverStripeTask.this.setBackground(hoverBackgroundColor);
-                        fTaskTitleLbl.setBackground(hoverBackgroundColor);
-                        fTaskDescLbl.setBackground(hoverBackgroundColor);
-                    }
+                    SilverStripeTask.this.setBackground(hoverBackgroundColor);
+                    fTaskTitleLbl.setBackground(hoverBackgroundColor);
+                    fTaskDescLbl.setBackground(hoverBackgroundColor);
                 }
             };
             
             mouseExitListener=new Listener() {
                 @Override
                 public void handleEvent(Event e) {
-                    if(isChildOrSelf(e.widget, SilverStripeTask.this)) {
-                        SilverStripeTask.this.setBackground(defaultBackground);
-                        fTaskTitleLbl.setBackground(defaultBackground);
-                        fTaskDescLbl.setBackground(defaultBackground);
-                    }
+                    SilverStripeTask.this.setBackground(defaultBackground);
+                    fTaskTitleLbl.setBackground(defaultBackground);
+                    fTaskDescLbl.setBackground(defaultBackground);
                 }
             };
             
             
-            this.getDisplay().addFilter(SWT.MouseUp, mouseClickListener);
-            this.getDisplay().addFilter(SWT.MouseEnter, mouseEnterListener);
-            this.getDisplay().addFilter(SWT.MouseExit, mouseExitListener);
+            //Bind Listeners
+            this.addListener(SWT.MouseUp, mouseClickListener);
+            this.addListener(SWT.MouseEnter, mouseEnterListener);
+            this.addListener(SWT.MouseExit, mouseExitListener);
+            
+            fTaskTitleLbl.addListener(SWT.MouseUp, mouseClickListener);
+            fTaskTitleLbl.addListener(SWT.MouseEnter, mouseEnterListener);
+            fTaskTitleLbl.addListener(SWT.MouseExit, mouseExitListener);
+            
+            fTaskDescLbl.addListener(SWT.MouseUp, mouseClickListener);
+            fTaskDescLbl.addListener(SWT.MouseEnter, mouseEnterListener);
+            fTaskDescLbl.addListener(SWT.MouseExit, mouseExitListener);
         }
         
         public void dispose() {
-            //TODO Display is already disposed at this point, we need away to remove these correctly currently throws an exception
-            if(mouseClickListener!=null) {
-                this.getDisplay().removeFilter(SWT.MouseUp, mouseClickListener);
-                mouseClickListener=null;
-            }
-            
-            if(mouseEnterListener!=null) {
-                this.getDisplay().removeFilter(SWT.MouseEnter, mouseEnterListener);
-                mouseClickListener=null;
-            }
-            
-            if(mouseExitListener!=null) {
-                this.getDisplay().removeFilter(SWT.MouseExit, mouseExitListener);
-                mouseClickListener=null;
-            }
+            mouseClickListener=null;
+            mouseEnterListener=null;
+            mouseExitListener=null;
             
             
             //Cleanup colors
@@ -699,24 +736,6 @@ public class TasksViewer extends ViewPart {
             
             
             super.dispose();
-        }
-        
-        private boolean isChildOrSelf(Widget child, Composite parent) {
-            if(child == parent) {
-                return true;
-            }
-
-            for(Control c : parent.getChildren()) {
-                if(c instanceof Composite) {
-                    boolean result = isChildOrSelf(child, (Composite)c);
-                    if (result)
-                        return true;
-                }else if (c == child) {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }
