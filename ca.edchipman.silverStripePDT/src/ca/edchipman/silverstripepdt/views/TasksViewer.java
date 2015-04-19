@@ -1,19 +1,23 @@
 package ca.edchipman.silverstripepdt.views;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.dltk.core.DLTKCore;
+import org.eclipse.dltk.core.IField;
+import org.eclipse.dltk.core.IModelElement;
+import org.eclipse.dltk.core.IScriptProject;
+import org.eclipse.dltk.core.IType;
+import org.eclipse.dltk.core.ModelException;
+import org.eclipse.dltk.core.index2.search.ISearchEngine.MatchRule;
+import org.eclipse.dltk.core.search.IDLTKSearchScope;
+import org.eclipse.dltk.core.search.SearchEngine;
+import org.eclipse.dltk.internal.ui.typehierarchy.SubTypeHierarchyViewer.SubTypeHierarchyContentProvider;
+import org.eclipse.dltk.internal.ui.typehierarchy.TypeHierarchyLifeCycle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.resource.FontDescriptor;
@@ -21,7 +25,9 @@ import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.php.internal.core.documentModel.dom.ElementImplForPhp;
+import org.eclipse.php.internal.core.model.PhpModelAccess;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
+import org.eclipse.php.internal.core.typeinference.PHPModelUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.widgets.Composite;
@@ -47,21 +53,16 @@ import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.GridData;
-
-import ca.edchipman.silverstripepdt.SilverStripeNature;
-import ca.edchipman.silverstripepdt.SilverStripePluginImages;
-import ca.edchipman.silverstripepdt.views.internal.SSTaskDefinition;
-
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.widgets.ProgressBar;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.eclipse.swt.custom.ScrolledComposite;
+
+import ca.edchipman.silverstripepdt.SilverStripeNature;
+import ca.edchipman.silverstripepdt.SilverStripePluginImages;
+import ca.edchipman.silverstripepdt.views.internal.SSTaskDefinition;
 
 @SuppressWarnings("restriction")
 public class TasksViewer extends ViewPart {
@@ -247,22 +248,15 @@ public class TasksViewer extends ViewPart {
         // Set the focus
     }
     
+    /**
+     * Refreshes the list of tasks based on the current project
+     */
     public void refreshTasks() {
-        refreshTasks(false);
-    }
-    
-    public void refreshTasks(boolean clearCache) {
         if(projectTasksLoading) {
             return;
         }
         
         projectTasksLoading=true;
-        
-        IFile cacheFile=fLastProject.getFile(".settings/silverstripe.taskcache");
-        //If the cache file is missing force a re-cache
-        if(cacheFile.exists()==false) {
-            clearCache=true;
-        }
         
         if(projectTasks!=null && projectTasks.isEmpty()==false) {
             for(SilverStripeTask task : projectTasks) {
@@ -286,22 +280,38 @@ public class TasksViewer extends ViewPart {
             
             finalURL=finalURL.concat("dev/tasks");
             
-            try {
-                if(clearCache==true) {
-                    Document tasksDocument=Jsoup.connect(finalURL).get();
-                    if(tasksDocument.location().equals(finalURL)) {
+            IScriptProject project=DLTKCore.create(fLastProject);
+            IModelElement[] elements=new IModelElement[] { project };
+            IDLTKSearchScope scope=SearchEngine.createSearchScope(elements, IDLTKSearchScope.SOURCES|IDLTKSearchScope.SYSTEM_LIBRARIES|IDLTKSearchScope.APPLICATION_LIBRARIES|IDLTKSearchScope.REFERENCED_PROJECTS, project.getLanguageToolkit());
+            IType[] buildTypes=PhpModelAccess.getDefault().findTypes("BuildTask", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor());
+            if(buildTypes.length>0) {
+                IType element=buildTypes[0];
+                
+                try {
+                    TypeHierarchyLifeCycle lifecycle=new TypeHierarchyLifeCycle();
+                    lifecycle.doHierarchyRefresh(element, null);
+                    
+                    SubTypeHierarchyContentProvider provider=new SubTypeHierarchyContentProvider(lifecycle);
+                    Object[] decendents=provider.getChildren(element);
+                    
+                    if(decendents.length>0) {
                         ArrayList<SSTaskDefinition> taskList=new ArrayList<SSTaskDefinition>();
-                        Elements tasks=tasksDocument.select(".options ul li");
-                        for(Element task : tasks) {
-                            Element taskTitleTag=task.getElementsByTag("a").first();
-                            Element taskDescTag=task.getElementsByClass("description").first();
-                            if(taskTitleTag!=null) {
-                                String taskTitle=taskTitleTag.ownText();
-                                String taskURL=taskTitleTag.attr("href");
-                                String taskDesc="";
+                        
+                        for(Object taskObj : decendents) {
+                            if(taskObj instanceof IType) {
+                                IType task=(IType) taskObj;
+                                String taskTitle=PHPModelUtils.extractElementName(task.getFullyQualifiedName());
+                                String taskURL=finalURL.concat("/"+taskTitle);
+                                String taskDesc="No description";
                                 
-                                if(taskDescTag!=null) {
-                                    taskDesc=taskDescTag.ownText();
+                                IField taskTitleField=task.getField("$title");
+                                if(taskTitleField!=null && taskTitleField.exists()) {
+                                    taskTitle=taskTitleField.getSource().replaceFirst("(?s)^(.*) = (\"|')(.*)(\"|')$", "$3").trim().replaceAll("(\n|\r)", " ").replaceAll("(\\s+|\t+)", " ");
+                                }
+                                
+                                IField taskDescField=task.getField("$description");
+                                if(taskDescField!=null && taskDescField.exists()) {
+                                    taskDesc=taskDescField.getSource().replaceFirst("(?s)^(.*) = (\"|')(.*)(\"|')$", "$3").trim().replaceAll("(\n|\r)", " ").replaceAll("(\\s+|\t+)", " ");
                                 }
                                 
                                 SSTaskDefinition taskDef=new SSTaskDefinition();
@@ -314,7 +324,6 @@ public class TasksViewer extends ViewPart {
                                 projectTasks.add(new SilverStripeTask(fTasksList, taskTitle, taskURL, taskDesc));
                             }
                         }
-
                         
                         if(fViewStackLayout.topControl!=fTasksView) {
                             fViewStackLayout.topControl=fTasksView;
@@ -323,66 +332,21 @@ public class TasksViewer extends ViewPart {
                         
                         fTasksList.setSize(fTasksList.computeSize(fTasksList.getParent().getClientArea().width, SWT.DEFAULT));
                         fTasksList.layout(true, true);
-                        
-                        
-                        //Write cache
-                        try {
-                            XMLEncoder encoder=new XMLEncoder(new BufferedOutputStream(new FileOutputStream(cacheFile.getLocation().toOSString())));
-                            encoder.writeObject(taskList);
-                            encoder.close();
-                        }catch (Exception e) {
-                            e.printStackTrace();
-                        }
                     }else {
-                        refreshAction.setEnabled(false);
-                        
-                        fErrorLabel.setText("It appears that the site redirected, please check the SilverStripe site base as well as that the site is in dev mode");
+                        fErrorLabel.setText("Could not find any build tasks");
                         if(fViewStackLayout.topControl!=fErrorView) {
                             fViewStackLayout.topControl=fErrorView;
                             fViewStack.layout();
                         }
                     }
-                }else {
-                    ClassLoader previousClassLoader = Thread.currentThread().getContextClassLoader();
-                    try {
-                        Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
-                      
-                        XMLDecoder decoder=new XMLDecoder(new BufferedInputStream(new FileInputStream(cacheFile.getLocation().toOSString())));
-                        Object rawObject=decoder.readObject();
-                        decoder.close();
-                        if(rawObject instanceof ArrayList) {
-                            @SuppressWarnings("unchecked")
-                            ArrayList<SSTaskDefinition> tasks=(ArrayList<SSTaskDefinition>) rawObject;
-                            for(SSTaskDefinition task : tasks) {
-                                projectTasks.add(new SilverStripeTask(fTasksList, task.getTitle(), task.getURL(), task.getDesc()));
-                            }
-                        }
-                        
-                        
-                        if(fViewStackLayout.topControl!=fTasksView) {
-                            fViewStackLayout.topControl=fTasksView;
-                            fViewStack.layout();
-                        }
-                        
-                        fTasksList.setSize(fTasksList.computeSize(fTasksList.getParent().getClientArea().width, SWT.DEFAULT));
-                        fTasksList.layout(true, true);
-                    }catch (Exception e) {
-                        fErrorLabel.setText("Error parsing the Tasks List cache, click refresh to re-cache");
-                        if(fViewStackLayout.topControl!=fErrorView) {
-                            fViewStackLayout.topControl=fErrorView;
-                            fViewStack.layout();
-                        }
-                        
-                        Thread.currentThread().setContextClassLoader(previousClassLoader);
-                    }finally {
-                        Thread.currentThread().setContextClassLoader(previousClassLoader);
-                    } 
-                }
-            } catch (IOException e) {
-                fErrorLabel.setText("Error loading the Tasks List");
-                if(fViewStackLayout.topControl!=fErrorView) {
-                    fViewStackLayout.topControl=fErrorView;
-                    fViewStack.layout();
+                } catch (ModelException e) {
+                    fErrorLabel.setText("Error loading build tasks");
+                    if(fViewStackLayout.topControl!=fErrorView) {
+                        fViewStackLayout.topControl=fErrorView;
+                        fViewStack.layout();
+                    }
+                    
+                    e.printStackTrace();
                 }
             }
         }
@@ -390,6 +354,10 @@ public class TasksViewer extends ViewPart {
         projectTasksLoading=false;
     }
     
+    /**
+     * Runs the task on the webserver
+     * @param taskURL
+     */
     protected void runTask(String taskURL) {
         progressBar.setVisible(true);
         progressBar.setMaximum(1);
@@ -397,7 +365,11 @@ public class TasksViewer extends ViewPart {
         
         fTasksBrowser.setUrl(taskURL);
     }
-
+    
+    /**
+     * Handles when the selection changes in the platform
+     * @param _project Project the selection belongs to
+     */
     protected void handleSelectionChange(IProject _project) {
         try {
             if(_project.hasNature(SilverStripeNature.ID)) {
@@ -522,6 +494,9 @@ public class TasksViewer extends ViewPart {
         return ((IFileEditorInput) input).getFile();
     }
     
+    /**
+     * Selection listener
+     */
     private ISelectionListener listener=new ISelectionListener() {
         public void selectionChanged(IWorkbenchPart sourcepart, ISelection selection) {
             if(sourcepart.getSite().getId().equals(TasksViewer.ID)) {
@@ -545,6 +520,9 @@ public class TasksViewer extends ViewPart {
         }
     };
     
+    /**
+     * View part listener
+     */
     private IPartListener2 viewPartListener=new IPartListener2() {
         @Override
         public void partVisible(IWorkbenchPartReference partRef) {
@@ -597,7 +575,7 @@ public class TasksViewer extends ViewPart {
 
         @Override 
         public void run() {
-            tasksViewer.refreshTasks(true);
+            tasksViewer.refreshTasks();
         }
     }
     
