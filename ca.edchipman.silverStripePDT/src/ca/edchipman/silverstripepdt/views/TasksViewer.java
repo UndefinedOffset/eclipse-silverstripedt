@@ -282,7 +282,7 @@ public class TasksViewer extends ViewPart {
             
             IScriptProject project=DLTKCore.create(fLastProject);
             IModelElement[] elements=new IModelElement[] { project };
-            IDLTKSearchScope scope=SearchEngine.createSearchScope(elements, IDLTKSearchScope.SOURCES|IDLTKSearchScope.SYSTEM_LIBRARIES|IDLTKSearchScope.APPLICATION_LIBRARIES|IDLTKSearchScope.REFERENCED_PROJECTS, project.getLanguageToolkit());
+            IDLTKSearchScope scope=SearchEngine.createSearchScope(elements, IDLTKSearchScope.SYSTEM_LIBRARIES, project.getLanguageToolkit());
             IType[] buildTypes=PhpModelAccess.getDefault().findTypes("BuildTask", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor());
             if(buildTypes.length>0) {
                 IType element=buildTypes[0];
@@ -324,6 +324,12 @@ public class TasksViewer extends ViewPart {
                                 projectTasks.add(new SilverStripeTask(fTasksList, taskTitle, taskURL, taskDesc));
                             }
                         }
+                        
+                        
+                        //Clean up
+                        lifecycle.freeHierarchy();
+                        provider.dispose();
+                        
                         
                         if(fViewStackLayout.topControl!=fTasksView) {
                             fViewStackLayout.topControl=fTasksView;
