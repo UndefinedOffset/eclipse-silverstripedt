@@ -294,8 +294,6 @@ public class TasksViewer extends ViewPart {
                     Object[] decendents=provider.getChildren(element);
                     
                     if(decendents.length>0) {
-                        ArrayList<SSTaskDefinition> taskList=new ArrayList<SSTaskDefinition>();
-                        
                         for(Object taskObj : decendents) {
                             if(taskObj instanceof IType) {
                                 IType task=(IType) taskObj;
@@ -312,13 +310,6 @@ public class TasksViewer extends ViewPart {
                                 if(taskDescField!=null && taskDescField.exists()) {
                                     taskDesc=taskDescField.getSource().replaceFirst("(?s)^(.*) = (\"|')(.*)(\"|')$", "$3").trim().replaceAll("(\n|\r)", " ").replaceAll("(\\s+|\t+)", " ");
                                 }
-                                
-                                SSTaskDefinition taskDef=new SSTaskDefinition();
-                                taskDef.setTitle(taskTitle);
-                                taskDef.setURL(taskURL);
-                                taskDef.setDesc(taskDesc);
-                                
-                                taskList.add(taskDef);
                                 
                                 projectTasks.add(new SilverStripeTask(fTasksList, taskTitle, taskURL, taskDesc));
                             }
@@ -719,38 +710,6 @@ public class TasksViewer extends ViewPart {
             
             
             super.dispose();
-        }
-    }
-    
-    private class SSTaskDefinition {
-        private String _title;
-        private String _desc;
-        private String _url;
-        
-        public SSTaskDefinition() {}
-        
-        public void setTitle(final String value) {
-            this._title=value;
-        }
-        
-        public void setDesc(final String value) {
-            this._desc=value;
-        }
-        
-        public void setURL(final String value) {
-            this._url=value;
-        }
-        
-        public String getTitle() {
-            return this._title;
-        }
-        
-        public String getDesc() {
-            return this._desc;
-        }
-        
-        public String getURL() {
-            return this._url;
         }
     }
 }
