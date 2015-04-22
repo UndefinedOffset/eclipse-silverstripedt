@@ -62,7 +62,6 @@ import org.eclipse.swt.custom.ScrolledComposite;
 
 import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePluginImages;
-import ca.edchipman.silverstripepdt.views.internal.SSTaskDefinition;
 
 @SuppressWarnings("restriction")
 public class TasksViewer extends ViewPart {
@@ -720,6 +719,38 @@ public class TasksViewer extends ViewPart {
             
             
             super.dispose();
+        }
+    }
+    
+    private class SSTaskDefinition {
+        private String _title;
+        private String _desc;
+        private String _url;
+        
+        public SSTaskDefinition() {}
+        
+        public void setTitle(final String value) {
+            this._title=value;
+        }
+        
+        public void setDesc(final String value) {
+            this._desc=value;
+        }
+        
+        public void setURL(final String value) {
+            this._url=value;
+        }
+        
+        public String getTitle() {
+            return this._title;
+        }
+        
+        public String getDesc() {
+            return this._desc;
+        }
+        
+        public String getURL() {
+            return this._url;
         }
     }
 }
