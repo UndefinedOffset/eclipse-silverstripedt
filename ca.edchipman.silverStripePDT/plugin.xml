@@ -341,6 +341,15 @@
              name="SilverStripe Tasks"
              restorable="true">
        </view>
+       <view
+             allowMultiple="false"
+             category="ca.edchipman.silverStripePDT.category"
+             class="ca.edchipman.silverstripepdt.views.TestsViewer"
+             icon="icons/full/ss-logo.png"
+             id="ca.edchipman.silverstripepdt.views.TestsViewer"
+             name="SilverStripe Tests"
+             restorable="true">
+       </view>
        <category
              id="ca.edchipman.silverStripePDT.category"
              name="SilverStripe">
