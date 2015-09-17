@@ -7,6 +7,7 @@ import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
 
 public class DefaultLanguageModelProvider implements ISilverStripeLanguageModelProvider {
     private static final String LANGUAGE_LIBRARY_PATH = "$nl$/resources/SS"; //$NON-NLS-1$
+    private static boolean _packedLangUpToDate = false;
     
     /**
      * Gets the path to the language provider
@@ -24,5 +25,20 @@ public class DefaultLanguageModelProvider implements ISilverStripeLanguageModelP
      */
     public String getTemplateContext() {
         return NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE;
+    }
+    
+    /**
+     * Sets that the packed language is up-to-date in the filesystem
+     */
+    public void setPackedLangUpToDate() {
+        DefaultLanguageModelProvider._packedLangUpToDate=true;
+    }
+    
+    /**
+     * Gets whether the packed language is up-to-date in the filesystem or not
+     * @return value
+     */
+    public boolean getPackedLangUpToDate() {
+        return DefaultLanguageModelProvider._packedLangUpToDate;
     }
 }

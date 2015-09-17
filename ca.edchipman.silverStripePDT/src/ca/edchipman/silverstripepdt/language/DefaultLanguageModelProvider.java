@@ -44,13 +44,22 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
     }
     
     /**
-     * Gets the language library path for the project
-     * @param project Project to look for the language for
-     * @param ssVersion SilverStripe Version to look for
-     * @param ssFrameworkModel Framework model (framework only or full cms)
-     * @return Plugin path to the language library
+     * Gets the language model provider based on the project
+     * @param project Project to look for the language
+     * @return Language provider for the current project
      */
-    private String getLanguageLibraryPath(IScriptProject project, String ssVersion, String ssFrameworkModel) {
+    public ISilverStripeLanguageModelProvider getLanguageModelProvider(IScriptProject project) {
+        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, project.getProject());
+        
+        return this.getLanguageModelProvider(ssVersion);
+    }
+    
+    /**
+     * Gets the language model provider based on the SilverStripe version
+     * @param ssVersion SilverStripe Version to look for the language provider for
+     * @return Language provider for the SilverStripe Version
+     */
+    public ISilverStripeLanguageModelProvider getLanguageModelProvider(String ssVersion) {
         IConfigurationElement languageProvider=SilverStripeVersion.getLanguageDefinition(ssVersion);
         
         if(languageProvider!=null) {
@@ -58,12 +67,29 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
             try {
                 o = languageProvider.createExecutableExtension("language_provider");
                 if(o instanceof ISilverStripeLanguageModelProvider) {
-                    return ((ISilverStripeLanguageModelProvider) o).getLanguageLibraryPath(project, ssFrameworkModel);
+                    return (ISilverStripeLanguageModelProvider) o;
                 }
             } catch (CoreException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Gets the language library path for the project
+     * @param project Project to look for the language for
+     * @param ssVersion SilverStripe Version to look for
+     * @param ssFrameworkModel Framework model (framework only or full cms)
+     * @return Plugin path to the language library
+     */
+    private String getLanguageLibraryPath(IScriptProject project, String ssVersion, String ssFrameworkModel) {
+        ISilverStripeLanguageModelProvider languageProvider=this.getLanguageModelProvider(ssVersion);
+        
+        if(languageProvider!=null) {
+            return languageProvider.getLanguageLibraryPath(project, ssFrameworkModel);
         }
         
         return null;

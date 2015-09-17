@@ -20,4 +20,15 @@ public interface ISilverStripeLanguageModelProvider {
      * @return Gets the constant used for the templates
      */
     public String getTemplateContext();
+    
+    /**
+     * Sets that the packed language is up-to-date in the filesystem
+     */
+    public void setPackedLangUpToDate();
+    
+    /**
+     * Gets whether the packed language is up-to-date in the filesystem or not
+     * @return value
+     */
+    public boolean getPackedLangUpToDate();
 }

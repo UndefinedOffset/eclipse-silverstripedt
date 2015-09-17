@@ -1,6 +1,10 @@
 package ca.edchipman.silverstripepdt.language;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -25,6 +29,7 @@ import org.eclipse.php.internal.core.Logger;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
 
 @SuppressWarnings("restriction")
 public class LanguageModelContainer implements IBuildpathContainer {
@@ -85,16 +90,20 @@ public class LanguageModelContainer implements IBuildpathContainer {
 
     protected IPath copyToInstanceLocation(ILanguageModelProvider provider, IPath path, IScriptProject project) {
         try {
+            ISilverStripeLanguageModelProvider ssLangProvider=((DefaultLanguageModelProvider) provider).getLanguageModelProvider(project);
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("$nl$", Platform.getNL()); //$NON-NLS-1$
-            URL url = FileLocator.find(((DefaultLanguageModelProvider) provider).getPlugin(project).getBundle(),
-                    provider.getPath(project), map);
+            URL url = FileLocator.find(((DefaultLanguageModelProvider) provider).getPlugin(project).getBundle(), provider.getPath(project), map);
             File sourceFile = new File(FileLocator.toFileURL(url).getPath());
             LocalFile sourceDir = new LocalFile(sourceFile);
 
-            IPath targetPath = LanguageModelInitializer.getTargetLocation(
-                    provider, Path.fromOSString(sourceFile.getAbsolutePath()),
-                    project);
+            IPath targetPath = LanguageModelInitializer.getTargetLocation(provider, Path.fromOSString(sourceFile.getAbsolutePath()), project);
+            
+            //If we already know this language is up to date return the target path here
+            if(ssLangProvider.getPackedLangUpToDate()) {
+                return targetPath;
+            }
+            
             LocalFile targetDir = new LocalFile(targetPath.toFile());
             
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
@@ -102,25 +111,76 @@ public class LanguageModelContainer implements IBuildpathContainer {
                 sourceDir=new LocalFile(sourceFile.getParentFile());
                 targetDir=new LocalFile(targetPath.toFile().getParentFile());
             }
-
+            
             IFileInfo targetInfo = targetDir.fetchInfo();
-            boolean update = !targetInfo.exists();
-            if (!update) {
-                IFileInfo sourceInfo = sourceDir.fetchInfo();
-                update = targetInfo.getLastModified() < sourceInfo
-                        .getLastModified();
+            boolean update = targetInfo.exists();
+            if (update) {
+                File sourceVersionFile=new File(Path.fromOSString(sourceFile.getAbsolutePath()).append("version").toOSString());
+                String sourceVersionString=null;
+                try {
+                    BufferedReader versionFileReader=new BufferedReader(new FileReader(sourceVersionFile));
+                    try {
+                        //Read the version
+                        sourceVersionString=versionFileReader.readLine();
+                        
+                        //Close the buffer
+                        versionFileReader.close();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                
+                File targetVersionFile=new File(targetPath.append("version").toOSString());
+                if(targetVersionFile.exists()) {
+                    String targetVersionString=null;
+                    try {
+                        BufferedReader versionFileReader=new BufferedReader(new FileReader(targetVersionFile));
+                        try {
+                            //Read the version
+                            targetVersionString=versionFileReader.readLine();
+                            
+                            //Close the buffer
+                            versionFileReader.close();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    
+                    
+                    update=(sourceVersionString==null || targetVersionString==null);
+                    if(!update) {
+                        update = !sourceVersionString.equals(targetVersionString);
+                    }else {
+                        //TODO Update the language provider to say it is up to date
+                    }
+                } else {
+                    update=true;
+                }
             }
 
             if (update) {
                 targetDir.delete(EFS.NONE, new NullProgressMonitor());
                 sourceDir.copy(targetDir, EFS.NONE, new NullProgressMonitor());
-                
-                
-                //Build Project
-                if(this.buildJob==null) {
-                    this.buildJob=CoreUtility.getBuildJob(project.getProject());
-                    this.buildJob.schedule();
-                }
+            }else if(!targetInfo.exists()) {
+                sourceDir.copy(targetDir, EFS.NONE, new NullProgressMonitor());
+            }
+            
+            //Update the language provider to say it is up-to-date
+            ssLangProvider.setPackedLangUpToDate();
+            
+            
+            //Build Project
+            if(this.buildJob==null) {
+                this.buildJob=CoreUtility.getBuildJob(project.getProject());
+                this.buildJob.schedule();
             }
             
             return targetPath;

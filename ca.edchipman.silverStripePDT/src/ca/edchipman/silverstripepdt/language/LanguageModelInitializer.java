@@ -187,18 +187,6 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
             List<ILanguageModelProvider> providers = new LinkedList<ILanguageModelProvider>();
             providers.add(new DefaultLanguageModelProvider()); // add default
 
-            /*IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor("ca.edchipman.silverstripepdt.languageModelProviders");
-            for (IConfigurationElement element : elements) {
-                if (element.getName().equals("provider")) {
-                    try {
-                        providers.add((ILanguageModelProvider) element
-                                .createExecutableExtension("class"));
-                    } catch (CoreException e) {
-                        PHPCorePlugin.log(e);
-                    }
-                }
-            }*/
-            
             LanguageModelInitializer.providers = (ILanguageModelProvider[]) providers.toArray(new ILanguageModelProvider[providers.size()]);
         }
         return LanguageModelInitializer.providers;
@@ -210,32 +198,11 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
             sourcePath=sourcePath.removeLastSegments(1);
         }
         
-        File versionFile=new File(sourcePath.append("version").toOSString());
-        String coreVersionString=Integer.toHexString(sourcePath.toOSString().hashCode());
-        try {
-            BufferedReader versionFileReader = new BufferedReader(new FileReader(versionFile));
-            try {
-                //Read the version
-                coreVersionString=versionFileReader.readLine();
-                
-                //Close the buffer
-                versionFileReader.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        coreVersionString=coreVersionString.trim();
-        
         IPath destination=provider
                                 .getPlugin()
                                 .getStateLocation()
                                 .append("__language__")
-                                .append(coreVersionString);
+                                .append(sourcePath.lastSegment());
         
         if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
             destination=destination.append("framework");
