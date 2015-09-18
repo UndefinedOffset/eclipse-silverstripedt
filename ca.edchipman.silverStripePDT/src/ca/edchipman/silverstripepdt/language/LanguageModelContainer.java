@@ -166,8 +166,6 @@ public class LanguageModelContainer implements IBuildpathContainer {
                     update=(sourceVersionString==null || targetVersionString==null);
                     if(!update) {
                         update = !sourceVersionString.equals(targetVersionString);
-                    }else {
-                        //TODO Update the language provider to say it is up to date
                     }
                 } else {
                     update=true;
