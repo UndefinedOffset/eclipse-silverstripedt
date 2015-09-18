@@ -19,7 +19,6 @@ import org.eclipse.wst.xml.ui.internal.style.IStyleConstantsXML;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.regions.SilverStripeRegionContext;
-import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeNewProjectCreator;
 import ca.edchipman.silverstripepdt.versioninterfaces.SilverStripeVersionStyleProvider;
 
 @SuppressWarnings("restriction")

@@ -100,7 +100,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
             IPath targetPath = LanguageModelInitializer.getTargetLocation(provider, Path.fromOSString(sourceFile.getAbsolutePath()), project);
             
             //If we already know this language is up to date return the target path here
-            if(ssLangProvider.getPackedLangUpToDate()) {
+            if(ssLangProvider.getPackedLangUpToDate()==true) {
                 return targetPath;
             }
             
@@ -108,15 +108,18 @@ public class LanguageModelContainer implements IBuildpathContainer {
             
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
             if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-                sourceDir=new LocalFile(sourceFile.getParentFile());
+                sourceFile=sourceFile.getParentFile();
+                sourceDir=new LocalFile(sourceFile);
                 targetDir=new LocalFile(targetPath.toFile().getParentFile());
             }
             
             IFileInfo targetInfo = targetDir.fetchInfo();
             boolean update = targetInfo.exists();
             if (update) {
-                File sourceVersionFile=new File(Path.fromOSString(sourceFile.getAbsolutePath()).append("version").toOSString());
                 String sourceVersionString=null;
+                String targetVersionString=null;
+                
+                File sourceVersionFile=new File(Path.fromOSString(sourceFile.getAbsolutePath()).append("version").toOSString());
                 try {
                     BufferedReader versionFileReader=new BufferedReader(new FileReader(sourceVersionFile));
                     try {
@@ -134,9 +137,14 @@ public class LanguageModelContainer implements IBuildpathContainer {
                     e.printStackTrace();
                 }
                 
-                File targetVersionFile=new File(targetPath.append("version").toOSString());
+                File targetVersionFile;
+                if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
+                    targetVersionFile=new File(Path.fromOSString(targetPath.toFile().getParentFile().getAbsolutePath()).append("version").toOSString());
+                }else {
+                    targetVersionFile=new File(targetPath.append("version").toOSString());
+                }
+                
                 if(targetVersionFile.exists()) {
-                    String targetVersionString=null;
                     try {
                         BufferedReader versionFileReader=new BufferedReader(new FileReader(targetVersionFile));
                         try {
