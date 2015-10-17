@@ -244,6 +244,11 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             
             ssVersionRadios=new ArrayList<SSVersionRadio>();
             HashMap<String, IConfigurationElement> registeredVersions=SilverStripeVersion.getLangRegistry();
+            if(registeredVersions==null) {
+                composite.setEnabled(false);
+                return composite;
+            }
+            
             for(String versionCode : registeredVersions.keySet()) {
                 IConfigurationElement version=registeredVersions.get(versionCode);
                 

@@ -7,10 +7,11 @@ Adds templates and other tools for working with SilverStripe in Eclipse.
 * [Eclipse Kepler (4.3.2)](http://eclipse.org/kepler/)
 * [Eclipse PDT 3.2.0] (http://www.eclipse.org/pdt/downloads/)
 * [Eclipse WST 3.5.2] (http://eclipse.org/webtools/releases/3.5.2/)
+* [YEdit] (https://marketplace.eclipse.org/content/yedit)
 
 Plugin may work with newer versions of the above but that is my current testing environment so I know it works there.
 
-### Eclipse Update Site URL: 
+### Eclipse Update Site URL:
 http://silverstripedt.edchipman.ca/
 
 ---
@@ -18,7 +19,7 @@ http://silverstripedt.edchipman.ca/
 #### Features
 * New SilverStripe Project Wizard
   * 3 Project Layouts including fully functional starter structure and files for mysite, module and theme projects
-  * 4 SilverStripe Versions (3.1, 3.0, 2.4, and 2.3)
+  * 5 SilverStripe Versions (3.2, 3.1, 3.0, 2.4, and 2.3)
 * New SilverStripe Template Wizard
   * By default with 3 code templates one for top level, layout and a blank file, with minor variations for the 2.x versions of SilverStripe
 * New SilverStripe class wizard

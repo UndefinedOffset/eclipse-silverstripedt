@@ -45,6 +45,13 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         composite.setFont(parent.getFont());
         composite.setLayout(initGridLayout(new GridLayout(1, false), false));
         composite.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+        
+        //Detect no versions and disable all fields
+        if(SilverStripeVersion.getLangRegistry()==null) {
+            this.setErrorMessage("No SilverStripe Versions are available cannot continue");
+            composite.setEnabled(false);
+        }
+        
         // create UI elements
         fNameGroup = new NameGroup(composite, fInitialName, getShell());
         fPHPLocationGroup = new LocationGroup(composite, fNameGroup, getShell());
@@ -274,7 +281,12 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             
             
             ssVersionRadios=new ArrayList<SSVersionRadio>();
-            HashMap<String, IConfigurationElement> registeredVersions=SilverStripeVersion.getLangRegistry();
+            HashMap<String, IConfigurationElement> registeredVersions=SilverStripeVersion.getLangRegistry(true);
+            if(registeredVersions==null) {
+                //No Versions available abort
+                return;
+            }
+            
             for(String versionCode : registeredVersions.keySet()) {
                 IConfigurationElement version=registeredVersions.get(versionCode);
                 

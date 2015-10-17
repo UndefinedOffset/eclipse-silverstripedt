@@ -3,8 +3,12 @@ package ca.edchipman.silverstripepdt.wizards;
 import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.php.internal.ui.wizards.PHPProjectCreationWizard;
 import org.eclipse.php.internal.ui.wizards.PHPProjectWizardThirdPage;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.jface.wizard.WizardDialog;
 
 import ca.edchipman.silverstripepdt.SilverStripePluginImages;
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 
 @SuppressWarnings("restriction")
 public class NewSilverStripeProjectWizard extends PHPProjectCreationWizard {

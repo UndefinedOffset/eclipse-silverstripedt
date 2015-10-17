@@ -28,7 +28,12 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
             
             //TODO Should capture if the language library path is null and report the error asking the user to install the language
-            return new Path(getLanguageLibraryPath(project, ssVersion, ssFrameworkModel));
+            String path=getLanguageLibraryPath(project, ssVersion, ssFrameworkModel);
+            if(path==null) {
+                return null;
+            }
+            
+            return new Path(path);
         } catch (Exception e) {
             Logger.logException(e);
             return null;

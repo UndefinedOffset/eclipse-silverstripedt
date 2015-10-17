@@ -11,6 +11,7 @@ import org.eclipse.php.internal.ui.wizards.PHPFileCreationWizardPage;
 import org.eclipse.swt.widgets.Composite;
 
 import ca.edchipman.silverstripepdt.SilverStripePluginImages;
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 
 @SuppressWarnings("restriction")
 public class SilverStripeFileCreationWizardPage extends PHPFileCreationWizardPage {
@@ -29,6 +30,12 @@ public class SilverStripeFileCreationWizardPage extends PHPFileCreationWizardPag
 		super.createControl(parent);
 		
 		setInitialFileName("newfile.ss");
+		
+		if(SilverStripeVersion.getLangRegistry()==null) {
+            this.setErrorMessage("No SilverStripe Versions are available cannot continue");
+            parent.setEnabled(false);
+            this.setPageComplete(false);
+        }
 	}
 	
 	/**

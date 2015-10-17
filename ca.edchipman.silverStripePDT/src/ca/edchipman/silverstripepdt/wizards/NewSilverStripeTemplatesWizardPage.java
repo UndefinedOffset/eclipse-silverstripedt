@@ -111,7 +111,11 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
          * @see IStructuredContentProvider#getElements(Object)
          */
         public Object[] getElements(Object input) {
-            return fStore.getTemplates(this._languageProvider.getTemplateContext());
+            if(this._languageProvider!=null) {
+                return fStore.getTemplates(this._languageProvider.getTemplateContext());
+            }
+            
+            return null;
         }
 
         /*
@@ -301,7 +305,14 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
         fPatternViewer = doCreateViewer(parent);
 
         fTemplateStore = SilverStripePDTPlugin.getDefault().getTemplateStore();
-        fTableViewer.setInput(fTemplateStore);
+        
+        if(SilverStripeVersion.getLangRegistry(true)==null) {
+            this.setErrorMessage("No SilverStripe Versions are available cannot continue");
+            parent.setEnabled(false);
+            this.setPageComplete(false);
+        }else {
+            fTableViewer.setInput(fTemplateStore);
+        }
 
         // Create linked text to just to templates preference page
         Link link = new Link(parent, SWT.NONE);
@@ -554,6 +565,10 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
     
     protected String getTemplatesLocationMessage() {
         ContextTypeRegistry templateContextRegistry = getTemplatesContextTypeRegistry();
+        if(this._languageProvider==null) {
+            return "";
+        }
+        
         TemplateContextType templateContextType = templateContextRegistry.getContextType(this._languageProvider.getTemplateContext());
         
         String name = templateContextType.getName();

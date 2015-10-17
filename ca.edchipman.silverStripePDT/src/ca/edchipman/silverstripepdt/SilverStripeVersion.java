@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
 public class SilverStripeVersion {
-    public static final String DEFAULT_VERSION="SS3.1";
+    public static final String DEFAULT_VERSION="SS3.2";
     
     @Deprecated
     public static final String SS3_1="SS3.1";
@@ -56,12 +56,12 @@ public class SilverStripeVersion {
         
         
         //Ensure plugins have been registered
-        if(SilverStripeVersion.lang_registry.size()==0) {
+        if(SilverStripeVersion.lang_registry.size()==0 && PlatformUI.getWorkbench().getActiveWorkbenchWindow()!=null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()!=null) {
             MessageBox dialog=new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
             dialog.setText("No Language Plugin");
             dialog.setMessage(
-                            "You have not installed any SilverStripe language plugins, you need to install atleast one."+
-                            "You can install new language plugins by going to Help > Install New Software then select the SilverStripe DT Update site and install a language plugin."
+                            "You have not installed any SilverStripe Version plugins, you need to install atleast one."+
+                            "You can install new SilverStripe Version plugins by going to Help > Install New Software then select the SilverStripe DT Update site and installing a SilverStripe version plugin."
                         );
             dialog.open();
         }
@@ -85,6 +85,30 @@ public class SilverStripeVersion {
      * @return Returns a hash map of the language configuration elements
      */
     public static LinkedHashMap<String, IConfigurationElement> getLangRegistry() {
+        return SilverStripeVersion.getLangRegistry(false);
+    }
+    
+    /**
+     * Gets the current language registry
+     * @param suppressError Suppress the error message or not
+     * @return Returns a hash map of the language configuration elements
+     */
+    public static LinkedHashMap<String, IConfigurationElement> getLangRegistry(boolean suppressError) {
+        //Ensure plugins have been registered
+        if(SilverStripeVersion.lang_registry.size()==0 && PlatformUI.getWorkbench().getActiveWorkbenchWindow()!=null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()!=null) {
+            if(suppressError==false) {
+                MessageBox dialog=new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+                dialog.setText("No Language Plugin");
+                dialog.setMessage(
+                                "You have not installed any SilverStripe Version plugins, you need to install atleast one."+
+                                "You can install new SilverStripe Version plugins by going to Help > Install New Software then select the SilverStripe DT Update site and installing a SilverStripe version plugin."
+                            );
+                dialog.open();
+            }
+            
+            return null;
+        }
+        
         return SilverStripeVersion.lang_registry;
     }
 }
