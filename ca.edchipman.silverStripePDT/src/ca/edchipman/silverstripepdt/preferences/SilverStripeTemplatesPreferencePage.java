@@ -3,9 +3,11 @@ package ca.edchipman.silverstripepdt.preferences;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -33,6 +35,9 @@ import org.eclipse.ui.internal.texteditor.TextEditorPlugin;
 import org.eclipse.ui.texteditor.templates.TemplatePreferencePage;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.controls.SSVersionCheck;
+import ca.edchipman.silverstripepdt.controls.SSVersionRadio;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplate;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStore;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeClassWizardTemplatePage;
@@ -138,13 +143,10 @@ public class SilverStripeTemplatesPreferencePage extends TemplatePreferencePage 
 	}
     
     protected static class SSEditTemplateDialog extends EditTemplateDialog {
-    	private Button fSS23Check;
-    	private Button fSS24Check;
-    	private Button fSS30Check;
-    	private Button fSS31Check;
     	private SilverStripeTemplate fOriginalTemplate;
 		private Template fNewTemplate;
 		private ArrayList<String> fSSVersions;
+        private ArrayList<SSVersionCheck> ssVersionChecks;
     	
     	
 		public SSEditTemplateDialog(Shell parent, Template template, boolean edit, boolean isNameModifiable, ContextTypeRegistry registry) {
@@ -179,30 +181,25 @@ public class SilverStripeTemplatesPreferencePage extends TemplatePreferencePage 
 				
 	            
 	            List<String> ssVersions=Arrays.asList(this.fOriginalTemplate.ssVersions());
-	            
-				fSS31Check = new Button(fGroup, SWT.CHECK);
-	            fSS31Check.setText("SilverStripe 3.1"); //$NON-NLS-1$
-	            fSS31Check.setSelection((ssVersions.size()==0 ? true:ssVersions.contains("SS3.1")));
-	            
-	            fSS30Check = new Button(fGroup, SWT.CHECK);
-	            fSS30Check.setText("SilverStripe 3.0"); //$NON-NLS-1$
-	            fSS30Check.setSelection((ssVersions.size()==0 ? true:ssVersions.contains("SS3.0")));
-	            
-	            fSS24Check = new Button(fGroup, SWT.CHECK);
-	            fSS24Check.setText("SilverStripe 2.4"); //$NON-NLS-1$
-	            fSS24Check.setSelection((ssVersions.size()==0 ? true:ssVersions.contains("SS2.4")));
-	            
-	            fSS23Check = new Button(fGroup, SWT.CHECK);
-	            fSS23Check.setText("SilverStripe 2.3"); //$NON-NLS-1$
-	            fSS23Check.setSelection((ssVersions.size()==0 ? true:ssVersions.contains("SS2.3")));
-	            
-	            if(this.fOriginalTemplate.getContextTypeId().equals("php_new_ss_project_context")) {
-		            fSS31Check.setEnabled(false);
-		            fSS30Check.setEnabled(false);
-		            fSS24Check.setEnabled(false);
-		            fSS23Check.setEnabled(false);
+	            ssVersionChecks=new ArrayList<SSVersionCheck>();
+	            HashMap<String, IConfigurationElement> registeredVersions=SilverStripeVersion.getLangRegistry();
+	            if(registeredVersions==null) {
+	                return parent;
 	            }
-            	
+	            
+	            for(String versionCode : registeredVersions.keySet()) {
+	                IConfigurationElement version=registeredVersions.get(versionCode);
+	                
+	                SSVersionCheck checkButton = new SSVersionCheck(fGroup, versionCode);
+    				checkButton.setText(version.getAttribute("display_name")); //$NON-NLS-1$
+    	            checkButton.setSelection((ssVersions.size()==0 ? true:ssVersions.contains(versionCode)));
+    	            if(this.fOriginalTemplate.getContextTypeId().equals("php_new_ss_project_context")) {
+    	                checkButton.setEnabled(false);
+    	            }
+    	            
+    	            ssVersionChecks.add(checkButton);
+	            }
+	            
 	            return parent;
             }
 			
@@ -213,25 +210,21 @@ public class SilverStripeTemplatesPreferencePage extends TemplatePreferencePage 
 		 * @since 3.1
 		 */
 		protected void okPressed() {
+		    if(SilverStripeVersion.getLangRegistry(true)==null) {
+		        this.cancelPressed();
+		        return;
+		    }
+		    
 			if(this.fOriginalTemplate!=null) {
 				this.fSSVersions=new ArrayList<String>();
 				
-				if(!(fSS31Check.getSelection() && fSS30Check.getSelection() && fSS24Check.getSelection() && fSS23Check.getSelection())) {
-					if(fSS31Check.getSelection()) {
-						this.fSSVersions.add("SS3.1");
-					}
-					
-					if(fSS30Check.getSelection()) {
-						this.fSSVersions.add("SS3.0");
-					}
-					
-					if(fSS24Check.getSelection()) {
-						this.fSSVersions.add("SS2.4");
-					}
-					
-					if(fSS23Check.getSelection()) {
-						this.fSSVersions.add("SS2.3");
-					}
+				if(ssVersionChecks.size()>0) {
+    				for(int i=0;i<ssVersionChecks.size();i++) {
+    				    SSVersionCheck checkButton=ssVersionChecks.get(i);
+    					if(checkButton.getSelection()) {
+    						this.fSSVersions.add(checkButton.getSSVersion());
+    					}
+    				}
 				}
 			}
 			
