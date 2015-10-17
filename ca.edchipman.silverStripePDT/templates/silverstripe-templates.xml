@@ -34,7 +34,7 @@ class ${file_name}_Controller extends Page_Controller {
     description="A new SilverStripe 3.1 or later Page type extending Page and Page_Controller"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss31.pagetype"
     context="ss_new_class_context"
-    ss-versions="SS3.1"
+    ss-versions="SS3.1,SS3.2"
     enabled="true">&lt;?php
 class ${file_name} extends Page {
     private static $$db=array(
@@ -92,7 +92,7 @@ class ${file_name} extends DataObject {
     description="A new SilverStripe 3.1 or later Data Object"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss31.dataobject"
     context="ss_new_class_context"
-    ss-versions="SS3.1"
+    ss-versions="SS3.1,SS3.2"
     enabled="true">&lt;?php
 class ${file_name} extends DataObject {
     private static $$db=array(
@@ -160,7 +160,7 @@ class ${file_name} extends Extension {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss30.extension"
     context="ss_new_class_context"
     enabled="true"
-    ss-versions="SS3.0,SS3.1"
+    ss-versions="SS3.0,SS3.1,SS3.2"
     autoinsert="true">&lt;?php
 class ${file_name} extends Extension {
     ${cursor}
@@ -210,7 +210,7 @@ class ${file_name} extends DataExtension {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.ss31.dataextension"
     context="ss_new_class_context"
     enabled="true"
-    ss-versions="SS3.1"
+    ss-versions="SS3.1,SS3.2"
     autoinsert="true">&lt;?php
 class ${file_name} extends DataExtension {
     private static $$db=array(
@@ -625,7 +625,7 @@ $$PageComments</template>
     description="A new Top Level SilverStripe Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.toplevel"
     context="php_ss_30"
-    ss-versions="SS3.0,SS3.1"
+    ss-versions="SS3.0,SS3.1,SS3.2"
     enabled="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; &gt;
@@ -660,7 +660,7 @@ $$PageComments</template>
     description="A new SilverStripe Layout Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.template"
     context="php_ss_30"
-    ss-versions="SS3.0,SS3.1"
+    ss-versions="SS3.0,SS3.1,SS3.2"
     enabled="true">&lt;h2&gt;$$Title.XML&lt;/h2&gt;
 
 $$Content
@@ -671,7 +671,7 @@ $$Form</template>
     description="A new blank SilverStripe Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.blank"
     context="php_ss_30"
-    ss-versions="SS3.0,SS3.1"
+    ss-versions="SS3.0,SS3.1,SS3.2"
     enabled="true">
 </template>
 </templates>
