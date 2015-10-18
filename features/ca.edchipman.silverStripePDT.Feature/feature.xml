@@ -47,6 +47,35 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <update label="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://silverstripedt.edchipman.ca"/>
    </url>
 
+   <includes
+         id="ca.edchipman.silverstripedt.coreversion.ss_2_3.Feature"
+         version="0.0.0"
+         name="SilverStripe 2.3 Support"
+         optional="true"/>
+
+   <includes
+         id="ca.edchipman.silverstripedt.coreversion.ss_2_4.Feature"
+         version="0.0.0"
+         name="SilverStripe 2.4 Support"
+         optional="true"/>
+
+   <includes
+         id="ca.edchipman.silverstripedt.coreversion.ss_3_0.Feature"
+         version="0.0.0"
+         name="SilverStripe 3.0 Support"
+         optional="true"/>
+
+   <includes
+         id="ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature"
+         version="0.0.0"
+         name="SilverStripe 3.1 Support"
+         optional="true"/>
+
+   <includes
+         id="ca.edchipman.silverstripedt.coreversion.ss_3_2.Feature"
+         version="0.0.0"
+         name="SilverStripe 3.2 Support"/>
+
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://silverstripedt.edchipman.ca">
+      Update site for Ed Chipman&apos;s SilverStripe Developer Tools
+   </description>
+   <feature url="features/ca.edchipman.silverstripepdt.Feature_2.0.0.jar" id="ca.edchipman.silverstripepdt.Feature" version="2.0.0">
+      <category name="SilverStripeDT"/>
+   </feature>
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_2.Feature_1.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_2.Feature" version="1.0.0">
+      <category name="SilverStripeDT.versions"/>
+   </feature>
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature_2.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature" version="2.0.0">
+      <category name="SilverStripeDT.versions"/>
+   </feature>
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_0.Feature_2.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_0.Feature" version="2.0.0">
+      <category name="SilverStripeDT.versions"/>
+   </feature>
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_2_4.Feature_2.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_2_4.Feature" version="2.0.0">
+      <category name="SilverStripeDT.versions"/>
+   </feature>
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_2_3.Feature_2.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_2_3.Feature" version="2.0.0">
+      <category name="SilverStripeDT.versions"/>
+   </feature>
+   <category-def name="SilverStripeDT" label="SilverStripe Developer Tools">
+      <description>
+         Addons to PDT for SilverStripe development
+      </description>
+   </category-def>
+   <category-def name="SilverStripeDT.versions" label="SilverStripe Developer Tools Version Packages">
+      <description>
+         Addons for SilverStripe Developer Tools that add support for different core versions of SilverStripe DT. You must install at least one of these.
+      </description>
+   </category-def>
+</site>
