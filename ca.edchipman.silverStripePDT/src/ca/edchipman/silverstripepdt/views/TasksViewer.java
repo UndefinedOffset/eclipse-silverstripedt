@@ -303,12 +303,12 @@ public class TasksViewer extends ViewPart {
                                 
                                 IField taskTitleField=task.getField("$title");
                                 if(taskTitleField!=null && taskTitleField.exists()) {
-                                    taskTitle=taskTitleField.getSource().replaceFirst("(?s)^(.*) = (\"|')(.*)(\"|')$", "$3").trim().replaceAll("(\n|\r)", " ").replaceAll("(\\s+|\t+)", " ");
+                                    taskTitle=taskTitleField.getSource().replaceFirst("(?s)^(.*)(\\s*)=(\\s*)(\"|')(.*)(\"|')$", "$5").trim().replaceAll("(\n|\r)", " ").replaceAll("(\\s+|\t+)", " ");
                                 }
                                 
                                 IField taskDescField=task.getField("$description");
                                 if(taskDescField!=null && taskDescField.exists()) {
-                                    taskDesc=taskDescField.getSource().replaceFirst("(?s)^(.*) = (\"|')(.*)(\"|')$", "$3").trim().replaceAll("(\n|\r)", " ").replaceAll("(\\s+|\t+)", " ");
+                                    taskDesc=taskDescField.getSource().replaceFirst("(?s)^(.*)(\\s*)=(\\s*)(\"|')(.*)(\"|')$", "$5").trim().replaceAll("(\n|\r)", " ").replaceAll("(\\s+|\t+)", " ");
                                 }
                                 
                                 projectTasks.add(new SilverStripeTask(fTasksList, taskTitle, taskURL, taskDesc));
