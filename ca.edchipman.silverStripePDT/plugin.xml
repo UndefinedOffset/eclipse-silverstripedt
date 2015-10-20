@@ -307,7 +307,7 @@
                 label="Build SilverStripe"
                 menubarPath="project/build"
                 style="push"
-                toolbarPath="debug"
+                toolbarPath="ss-devbuild"
                 tooltip="Run dev/build on the SilverStripe Project">
           </action>
        </actionSet>
