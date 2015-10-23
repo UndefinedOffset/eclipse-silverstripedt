@@ -410,7 +410,7 @@ public class TestsViewer extends ViewPart {
         progressBar.setMaximum(1);
         progressBar.setSelection(0);
         
-        fTestsBrowser.setUrl(testURL);
+        fTestsBrowser.setUrl(testURL+"?flush=1");
     }
     
     /**
