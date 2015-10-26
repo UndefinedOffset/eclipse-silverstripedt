@@ -3,6 +3,7 @@ package ca.edchipman.silverstripepdt.language;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -113,6 +114,22 @@ public class LanguageModelContainer implements IBuildpathContainer {
                 targetDir=new LocalFile(targetPath.toFile().getParentFile());
             }
             
+            
+            //Lock file detection/creation
+            File lockFile=Path.fromOSString(targetPath.toFile().getParentFile().getAbsolutePath()).append(targetPath.toFile().getName()+".lock").toFile();
+            if(lockFile.exists()) {
+                //Folder is locked
+                return targetPath;
+            }else {
+                try {
+                    new FileOutputStream(lockFile).close();
+                    lockFile.setLastModified(System.currentTimeMillis());
+                }catch(IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            
+            
             IFileInfo targetInfo = targetDir.fetchInfo();
             boolean update = targetInfo.exists();
             if (update) {
@@ -171,7 +188,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
                     update=true;
                 }
             }
-
+            
             if (update) {
                 targetDir.delete(EFS.NONE, new NullProgressMonitor());
                 sourceDir.copy(targetDir, EFS.NONE, new NullProgressMonitor());
@@ -189,8 +206,14 @@ public class LanguageModelContainer implements IBuildpathContainer {
                 this.buildJob.schedule();
             }
             
+            
+            //Delete the lock file
+            if(lockFile.exists()) {
+                lockFile.delete();
+            }
+            
+            
             return targetPath;
-
         } catch (Exception e) {
             Logger.logException(e);
         }
