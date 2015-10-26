@@ -282,6 +282,15 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                     monitor.worked(10);
                 }
                 
+                //Create the images folder
+                IPath imagesPath = new Path("images");
+                if (imagesPath.segmentCount() > 0) {
+                    IFolder folder = getProject().getFolder(imagesPath);
+                    CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
+                } else {
+                    monitor.worked(10);
+                }
+                
                 //Create the javascript folder
                 IPath javascriptPath = new Path("javascript");
                 if (javascriptPath.segmentCount() > 0) {

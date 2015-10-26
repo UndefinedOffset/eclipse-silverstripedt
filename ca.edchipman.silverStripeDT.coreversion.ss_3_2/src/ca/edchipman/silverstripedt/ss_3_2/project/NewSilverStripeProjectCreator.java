@@ -79,6 +79,17 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
      * @throws CoreException 
      */
     public void createThemeLayout(Wizard wizard, IProject project, IProgressMonitor monitor, ContextTypeRegistry templateRegistry, TemplateStore templateStore, boolean isFrameworkLayout) throws CoreException {
+        //Generate the editor.css file
+        Template editorTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.editor");
+        PHPTemplateStore.CompiledTemplate editorTemplate=PHPTemplateStore.compileTemplate(templateRegistry, editorTemplateToCompile, project.getName()+"/css", "editor.css");
+        new SilverStripeFileCreator().createFile(wizard, project.getName()+"/css", "editor.css", monitor, editorTemplate.string, editorTemplate.offset);
+        
+        
+        //Generate the form.css file
+        Template formTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.form");
+        PHPTemplateStore.CompiledTemplate formTemplate=PHPTemplateStore.compileTemplate(templateRegistry, formTemplateToCompile, project.getName()+"/css", "form.css");
+        new SilverStripeFileCreator().createFile(wizard, project.getName()+"/css", "form.css", monitor, formTemplate.string, formTemplate.offset);
+        
         //Generate the layout.css file
         Template layoutTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newsstheme.ss30.layout");
         PHPTemplateStore.CompiledTemplate layoutTemplate=PHPTemplateStore.compileTemplate(templateRegistry, layoutTemplateToCompile, project.getName()+"/css", "layout.css");
