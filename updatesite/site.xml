@@ -9,10 +9,10 @@
    <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_2.Feature_1.0.1.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_2.Feature" version="1.0.1">
       <category name="SilverStripeDT.versions"/>
    </feature>
-   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature_2.0.1.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature" version="2.0.0">
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature_2.0.1.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature" version="2.0.1">
       <category name="SilverStripeDT.versions"/>
    </feature>
-   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_0.Feature_2.0.1.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_0.Feature" version="2.0.0">
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_0.Feature_2.0.1.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_0.Feature" version="2.0.1">
       <category name="SilverStripeDT.versions"/>
    </feature>
    <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_2_4.Feature_2.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_2_4.Feature" version="2.0.0">
