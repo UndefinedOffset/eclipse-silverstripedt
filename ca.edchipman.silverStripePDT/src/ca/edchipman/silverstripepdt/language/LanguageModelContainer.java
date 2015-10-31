@@ -99,6 +99,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
             LocalFile sourceDir = new LocalFile(sourceFile);
 
             IPath targetPath = LanguageModelInitializer.getTargetLocation(provider, Path.fromOSString(sourceFile.getAbsolutePath()), project);
+            IPath rootPath = (IPath) targetPath.clone();
             
             //If we already know this language is up to date return the target path here
             if(ssLangProvider.getPackedLangUpToDate()==true) {
@@ -112,11 +113,12 @@ public class LanguageModelContainer implements IBuildpathContainer {
                 sourceFile=sourceFile.getParentFile();
                 sourceDir=new LocalFile(sourceFile);
                 targetDir=new LocalFile(targetPath.toFile().getParentFile());
+                rootPath=(IPath) targetPath.removeLastSegments(1);
             }
             
             
             //Lock file detection/creation
-            File lockFile=Path.fromOSString(targetPath.toFile().getParentFile().getAbsolutePath()).append(targetPath.toFile().getName()+".lock").toFile();
+            File lockFile=Path.fromOSString(rootPath.toFile().getParentFile().getAbsolutePath()).append(rootPath.toFile().getName()+".lock").toFile();
             if(lockFile.exists()) {
                 //Folder is locked
                 return targetPath;
