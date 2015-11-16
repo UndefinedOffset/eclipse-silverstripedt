@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SilverStripe DT SS3.2 Support
 Bundle-SymbolicName: ca.edchipman.silverStripeDT.coreversion.ss_3_2;singleton:=true
-Bundle-Version: 1.0.1
+Bundle-Version: 1.0.2
 Bundle-Vendor: Ed Chipman
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
