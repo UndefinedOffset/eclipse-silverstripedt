@@ -593,10 +593,28 @@ a img {
     padding: 0 5px;
 }
 
-.typography img.center {
+.typography img.center, .typography .captionImage.center, .typography .media.center {
     display: block;
 
-    margin: 0 auto;
+    margin: 20px auto;
+}
+
+.typography img.left, .typography .captionImage.left, .typography .media.left {
+    float: left;
+
+    margin: 0 20px 20px 0;
+}
+
+.typography img.right, .typography .captionImage.right, .typography .media.right {
+    float: right;
+
+    margin: 0 0 20px 20px;
+}
+
+.typography .captionImage img {
+    float: none !important;
+
+    margin: 0 !important;
 }
 </template>
 
