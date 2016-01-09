@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -299,6 +300,11 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             
             
             fFrameworkModel.doFillIntoGrid(fGroup, 2);
+            
+            
+            Label versionNoticeLabel=new Label(fGroup, SWT.SMOOTH);
+            versionNoticeLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            versionNoticeLabel.setText("Not seeing the SilverStripe Version you are expecting? You can install new versions from the SilverStripe DT update site.");
             
             
             return composite;

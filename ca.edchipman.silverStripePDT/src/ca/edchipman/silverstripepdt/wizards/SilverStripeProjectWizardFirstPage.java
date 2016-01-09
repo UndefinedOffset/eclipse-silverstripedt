@@ -33,6 +33,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.controls.SSVersionOption;
@@ -330,6 +331,11 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             
             
             fFrameworkModel.doFillIntoGrid(fGroup, 2);
+            
+            
+            Label versionNoticeLabel=new Label(fGroup, SWT.SMOOTH);
+            versionNoticeLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            versionNoticeLabel.setText("Not seeing the SilverStripe Version you are expecting? You can install new versions from the SilverStripe DT update site.");
         }
         
         /**
