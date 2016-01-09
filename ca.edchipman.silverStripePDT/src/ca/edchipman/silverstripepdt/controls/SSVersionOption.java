@@ -1,10 +1,7 @@
 package ca.edchipman.silverstripepdt.controls;
 
-import org.eclipse.dltk.internal.ui.wizards.dialogfields.SelectionButtonDialogField;
-import org.eclipse.swt.SWT;
-
-@SuppressWarnings("restriction")
-public class SSVersionRadio extends SelectionButtonDialogField {
+public class SSVersionOption {
+    private String _label;
     private String _ssVersion;
     private Boolean _supportsFrameworkOnly;
     
@@ -13,18 +10,9 @@ public class SSVersionRadio extends SelectionButtonDialogField {
      * @param version Version code to use i.e SS3.1
      * @constructor
      */
-    public SSVersionRadio(String version) {
-        super(SWT.RADIO);
-        
+    public SSVersionOption(String version, String label) {
         this._ssVersion=version;
-    }
-    
-    /**
-     * Initializes the radio without setting the SilverStripe version code
-     * @constructor
-     */
-    public SSVersionRadio() {
-        super(SWT.RADIO);
+        this._label=label;
     }
     
     /**
@@ -41,6 +29,10 @@ public class SSVersionRadio extends SelectionButtonDialogField {
      */
     public String getSSVersion() {
         return this._ssVersion;
+    }
+    
+    public String toString() {
+        return this._label;
     }
     
     /**

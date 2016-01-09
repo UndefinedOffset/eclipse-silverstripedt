@@ -20,12 +20,19 @@ import org.eclipse.dltk.internal.ui.wizards.dialogfields.LayoutUtil;
 import org.eclipse.dltk.internal.ui.wizards.dialogfields.SelectionButtonDialogField;
 import org.eclipse.dltk.internal.ui.wizards.dialogfields.StringDialogField;
 import org.eclipse.dltk.ui.dialogs.StatusInfo;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -39,7 +46,7 @@ import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
-import ca.edchipman.silverstripepdt.controls.SSVersionRadio;
+import ca.edchipman.silverstripepdt.controls.SSVersionOption;
 import ca.edchipman.silverstripepdt.editor.SilverStripeTemplateStructuredEditor;
 
 @SuppressWarnings("restriction")
@@ -190,14 +197,16 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
     /**
      * Request a SilverStripe Version.
      */
-    public class SilverStripeVersionGroup implements Observer, SelectionListener, IDialogFieldListener {
+    public class SilverStripeVersionGroup implements SelectionListener, IDialogFieldListener, ISelectionChangedListener {
         private Group fGroup;
         private IProject fProject;
         private Shell fShell;
         private SelectionButtonDialogField fFrameworkModel;
-        private ArrayList<SSVersionRadio> ssVersionRadios;
+        private ArrayList<SSVersionOption> ssVersionRadios;
         private IWorkbenchPreferenceContainer fContainer;
         private String _selectedVersion;
+        private Combo fCombo;
+        private ComboViewer viewer;
         
         public boolean hasChanges = false;
         
@@ -242,27 +251,35 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, fProject.getProject());
             
             
-            ssVersionRadios=new ArrayList<SSVersionRadio>();
+            fCombo=new Combo(fGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
+            fCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            
+            
+            viewer=new ComboViewer(fCombo);
+            viewer.setContentProvider(new ArrayContentProvider());
+            viewer.setLabelProvider(new LabelProvider());
+            
+            
+            ssVersionRadios=new ArrayList<SSVersionOption>();
             HashMap<String, IConfigurationElement> registeredVersions=SilverStripeVersion.getLangRegistry();
             if(registeredVersions==null) {
                 composite.setEnabled(false);
                 return composite;
             }
             
+            SSVersionOption selectedOption=null;
             for(String versionCode : registeredVersions.keySet()) {
                 IConfigurationElement version=registeredVersions.get(versionCode);
                 
                 //Create the radio based on the version code
-                SSVersionRadio radio=new SSVersionRadio(versionCode);
-                radio.setLabelText(version.getAttribute("display_name"));
-                radio.setSupportsFrameworkOnly(version.getAttribute("supports_framework_only").toLowerCase().equals("true"));
-                radio.setDialogFieldListener(this);
-                radio.doFillIntoGrid(fGroup, 2);
+                SSVersionOption option=new SSVersionOption(versionCode, version.getAttribute("display_name"));
+                option.setSupportsFrameworkOnly(version.getAttribute("supports_framework_only").toLowerCase().equals("true"));
                 
-                if(ssVersion.equals(radio.getSSVersion())) {
-                    radio.setSelection(true);
+                if(versionCode.equals(ssVersion)) {
+                    this._selectedVersion=option.getSSVersion();
+                    selectedOption=option;
                     
-                    if(radio.getSupportsFrameworkOnly()==true) {
+                    if(option.getSupportsFrameworkOnly()==true) {
                         fFrameworkModel.setEnabled(true);
                         
                         if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
@@ -272,8 +289,13 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
                 }
                 
                 //Add to the radio list
-                ssVersionRadios.add(radio);
+                ssVersionRadios.add(option);
             }
+            
+            viewer.setInput(ssVersionRadios);
+            viewer.addSelectionChangedListener(this);
+            
+            viewer.setSelection(new StructuredSelection(selectedOption));
             
             
             fFrameworkModel.doFillIntoGrid(fGroup, 2);
@@ -303,9 +325,9 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
 
         public void widgetDefaultSelected(SelectionEvent e) {
             //Find the default version radio and set the selection
-            for(SSVersionRadio radio : this.ssVersionRadios) {
+            for(SSVersionOption radio : this.ssVersionRadios) {
                 if(radio.getSSVersion().equals(SilverStripeVersion.DEFAULT_VERSION)) {
-                    radio.setSelection(true);
+                    viewer.setSelection(new StructuredSelection(radio));
                     this.fFrameworkModel.setEnabled(radio.getSupportsFrameworkOnly());
                     break;
                 }
@@ -314,26 +336,24 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
 
         @Override
         public void dialogFieldChanged(DialogField arg0) {
-            //Find the selected version radio and update the framework model checkbox
-            for(SSVersionRadio radio : this.ssVersionRadios) {
-                if(radio.isSelected()) {
-                    this._selectedVersion=radio.getSSVersion();
-                    this.fFrameworkModel.setEnabled(radio.getSupportsFrameworkOnly());
-                    
-                    break;
+            StructuredSelection selection=((StructuredSelection) this.viewer.getSelection());
+            if(selection!=null) {
+                SSVersionOption selectedOption=(SSVersionOption) selection.getFirstElement();
+                if(selectedOption!=null) {
+                    this._selectedVersion=selectedOption.getSSVersion();
+                    this.fFrameworkModel.setEnabled(selectedOption.getSupportsFrameworkOnly());
                 }
             }
         }
-
+        
         @Override
-        public void update(Observable o, Object arg) {
-            //Find the selected version radio and update the framework model checkbox
-            for(SSVersionRadio radio : this.ssVersionRadios) {
-                if(radio.isSelected()) {
-                    this._selectedVersion=radio.getSSVersion();
-                    this.fFrameworkModel.setEnabled(radio.getSupportsFrameworkOnly());
-                    
-                    break;
+        public void selectionChanged(SelectionChangedEvent event) {
+            StructuredSelection selection=((StructuredSelection) event.getSelection());
+            if(selection!=null) {
+                SSVersionOption selectedOption=(SSVersionOption) selection.getFirstElement();
+                if(selectedOption!=null) {
+                    this._selectedVersion=selectedOption.getSSVersion();
+                    this.fFrameworkModel.setEnabled(selectedOption.getSupportsFrameworkOnly());
                 }
             }
         }
@@ -351,13 +371,11 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             String ssFrameworkModel=SilverStripeVersion.FULL_CMS;
             
             
-            //Find the selected version radio
-            for(SSVersionRadio radio : this.ssVersionRadios) {
-                if(radio.isSelected()) {
-                    ssVersion=radio.getSSVersion();
-                    break;
-                }
-            }
+            //Find the selected version option
+            StructuredSelection selection=((StructuredSelection) this.viewer.getSelection());
+            SSVersionOption selectedOption=(SSVersionOption) selection.getFirstElement();
+            
+            ssVersion=selectedOption.getSSVersion();
             
             
             if(fFrameworkModel.isSelected()) {
