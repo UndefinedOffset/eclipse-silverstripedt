@@ -2,7 +2,7 @@
 <feature
       id="ca.edchipman.silverstripepdt.Feature"
       label="SilverStripe Developer Tools"
-      version="2.0.2"
+      version="2.1.0"
       provider-name="Ed Chipman">
 
    <description url="http://programs.edchipman.ca/eclipse/silverstripe-dt">
@@ -10,11 +10,11 @@
    </description>
 
    <copyright url="http://www.edchipman.ca">
-      Copyright 2015 Ed Chipman
+      Copyright 2016 Ed Chipman
    </copyright>
 
    <license url="">
-      Copyright (c) 2015, Ed Chipman
+      Copyright (c) 2016, Ed Chipman
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -46,30 +46,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    <url>
       <update label="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://silverstripedt.edchipman.ca"/>
    </url>
-
-   <includes
-         id="ca.edchipman.silverstripedt.coreversion.ss_2_3.Feature"
-         version="0.0.0"
-         name="SilverStripe 2.3 Support"
-         optional="true"/>
-
-   <includes
-         id="ca.edchipman.silverstripedt.coreversion.ss_2_4.Feature"
-         version="0.0.0"
-         name="SilverStripe 2.4 Support"
-         optional="true"/>
-
-   <includes
-         id="ca.edchipman.silverstripedt.coreversion.ss_3_0.Feature"
-         version="0.0.0"
-         name="SilverStripe 3.0 Support"
-         optional="true"/>
-
-   <includes
-         id="ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature"
-         version="0.0.0"
-         name="SilverStripe 3.1 Support"
-         optional="true"/>
 
    <includes
          id="ca.edchipman.silverstripedt.coreversion.ss_3_2.Feature"
