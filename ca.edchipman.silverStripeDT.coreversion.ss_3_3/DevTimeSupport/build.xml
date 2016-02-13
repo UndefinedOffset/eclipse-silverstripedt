@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tokenizer" default="setupEnviroment">
+	<target name="cleanupCache">
+        <delete verbose="true">
+            <fileset dir="cache" defaultexcludes="no">
+                <include name="*.*"/>
+                <exclude name=".gitignore"/>
+            </fileset>
+        </delete>
+	</target>
+    
+    <target name="setupEnviroment" depends="cleanupCache">
+    	<!-- Fetch 3.3 -->
+        <get src="http://www.silverstripe.org/software/download/" dest="cache/stable-download.html" verbose="true"/>
+        
+        <loadfile srcfile="cache/stable-download.html" property="resultStable">
+            <filterchain>
+                <linecontains>
+                    <contains value="&lt;a href=&quot;http://www.silverstripe.org/assets/releases/SilverStripe-cms-"/>
+                    <contains value=".tar.gz"/>
+                </linecontains>
+                <tokenfilter>
+                    <replaceregex pattern="(\s+)&lt;a href=&quot;http://www.silverstripe.org/(.*)&quot; class=&quot;btn btn-lg btn-primary tracklink&quot; type=&quot;button&quot; onClick=&quot;(.*)&quot;(\s*)&gt;Download TAR.GZ&lt;/a&gt;" replace="\2"/>
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+        <script language="javascript">
+            var stableVersion='3.3.'+resultStable.replace(/assets\/releases\/SilverStripe-cms-v3\.3\.(\d+)\.tar\.gz/,"$1");
+            project.setProperty("result31Version", stableVersion.replace(/\n|\r/g, ''));
+        </script>
+    	
+        <get src="http://www.silverstripe.org/${resultStable}" dest="cache/silverstripe-3.3.tar.gz" verbose="true"/>
+        
+        <untar src="cache/silverstripe-3.3.tar.gz" dest="cache/SS3.3" compression="gzip">
+            <patternset>
+                <include name="**/cms/code/*.php"/>
+                <include name="**/cms/code/**/*.php"/>
+                <include name="**/framework/**/*.php"/>
+                <include name="**/siteconfig/code/**/*.php"/>
+                <include name="**/reports/code/**/*.php"/>
+                <exclude name="**/framework/*.php"/>
+                <exclude name="**/framework/admin/_config.php"/>
+                <exclude name="**/framework/tests/*"/>
+                <exclude name="**/framework/thirdparty/**"/>
+                <exclude name="**/framework/javascript/*"/>
+            </patternset>
+        </untar>
+        
+        <move file="cache/SS3.3" todir="../resources"/>
+        
+        <echo message="${result33Version}" file="../resources/SS3.3/version"/>
+    </target>
+</project>

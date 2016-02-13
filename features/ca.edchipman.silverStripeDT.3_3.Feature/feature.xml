@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="ca.edchipman.silverstripepdt.Feature"
-      label="SilverStripe Developer Tools"
-      version="2.1.0"
+      id="ca.edchipman.silverstripedt.coreversion.ss_3_3.Feature"
+      label="SilverStripe Developer Tools 3.3 Support"
+      version="1.0.0"
       provider-name="Ed Chipman">
 
    <description url="http://programs.edchipman.ca/eclipse/silverstripe-dt">
-      Extends Eclipse with useful addons for SilverStripe Development
+      Adds support to SilverStripe DT for SilverStripe release 3.3.x
    </description>
 
    <copyright url="http://www.edchipman.ca">
@@ -47,11 +47,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <update label="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://silverstripedt.edchipman.ca"/>
    </url>
 
-   <includes
-         id="ca.edchipman.silverstripedt.coreversion.ss_3_3.Feature"
-         version="0.0.0"
-         name="SilverStripe 3.3 Support"/>
-
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
@@ -65,10 +60,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.wst.sse.core"/>
       <import plugin="org.eclipse.wst.sse.ui"/>
+      <import plugin="ca.edchipman.silverstripepdt" version="2.1.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
-         id="ca.edchipman.silverstripepdt"
+         id="ca.edchipman.silverStripeDT.coreversion.ss_3_3"
          download-size="0"
          install-size="0"
          version="0.0.0"
