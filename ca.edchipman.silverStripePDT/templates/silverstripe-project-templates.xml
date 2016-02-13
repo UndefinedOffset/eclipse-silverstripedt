@@ -148,7 +148,16 @@ SSViewer:
     theme: "THEME NAME"
 
 MySQLDatabase:
-    connection_charset: "utf8"</template>
+    connection_charset: "utf8"
+
+#---
+#Name: mysite_dev
+#After: '#mysite'
+#Only:
+#    environment: "dev"
+#---
+# Uncomment the above to enable a section specific for when the site is in dev mode
+</template>
 
 
 <template
