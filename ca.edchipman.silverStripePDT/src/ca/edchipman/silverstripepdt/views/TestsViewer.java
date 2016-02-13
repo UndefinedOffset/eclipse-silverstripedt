@@ -368,9 +368,9 @@ public class TestsViewer extends ViewPart {
     }
     
     /**
-     * Contactinates two IType arrays into one
-     * @param leftArray First array to concatinate
-     * @param rightArray Second array to concatinate
+     * Concatenates two IType arrays into one
+     * @param leftArray First array to concatenate
+     * @param rightArray Second array to concatenate
      * @return Resulting array
      */
     private IType[] concatTypeArray(IType[] leftArray, IType[] rightArray) {
@@ -385,9 +385,9 @@ public class TestsViewer extends ViewPart {
     }
     
     /**
-     * Contactinates two Object arrays into one
-     * @param leftArray First array to concatinate
-     * @param rightArray Second array to concatinate
+     * Concatenates two Object arrays into one
+     * @param leftArray First array to concatenate
+     * @param rightArray Second array to concatenate
      * @return Resulting array
      */
     private Object[] concatObjectArray(Object[] leftArray, Object[] rightArray) {

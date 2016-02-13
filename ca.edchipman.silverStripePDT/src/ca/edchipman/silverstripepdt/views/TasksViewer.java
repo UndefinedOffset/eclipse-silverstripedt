@@ -1,5 +1,6 @@
 package ca.edchipman.silverstripepdt.views;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IProject;
@@ -283,20 +284,30 @@ public class TasksViewer extends ViewPart {
             IModelElement[] elements=new IModelElement[] { project };
             IDLTKSearchScope scope=SearchEngine.createSearchScope(elements, IDLTKSearchScope.SYSTEM_LIBRARIES, project.getLanguageToolkit());
             IType[] buildTypes=PhpModelAccess.getDefault().findTypes("BuildTask", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor());
-            if(buildTypes.length>0) {
-                IType element=buildTypes[0];
+            buildTypes=this.concatTypeArray(buildTypes, PhpModelAccess.getDefault().findTypes("MigrationTask", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor()));
+            if(buildTypes.length>1) {
+                IType buildTaskType=buildTypes[0];
+                IType migrationTaskType=buildTypes[1];
                 
                 try {
                     TypeHierarchyLifeCycle lifecycle=new TypeHierarchyLifeCycle();
-                    lifecycle.doHierarchyRefresh(element, null);
+                    lifecycle.doHierarchyRefresh(buildTaskType, null);
                     
                     SubTypeHierarchyContentProvider provider=new SubTypeHierarchyContentProvider(lifecycle);
-                    Object[] decendents=provider.getChildren(element);
+                    Object[] decendents=provider.getChildren(buildTaskType);
+                    decendents=this.concatObjectArray(decendents, provider.getChildren(migrationTaskType));
                     
                     if(decendents.length>0) {
                         for(Object taskObj : decendents) {
                             if(taskObj instanceof IType) {
                                 IType task=(IType) taskObj;
+                                
+                                //Skip the MigrationTask class
+                                if(task.getFullyQualifiedName().equals("MigrationTask")) {
+                                    continue;
+                                }
+                                
+                                
                                 String taskTitle=PHPModelUtils.extractElementName(task.getFullyQualifiedName());
                                 String taskURL=finalURL.concat("/"+taskTitle);
                                 String taskDesc="No description";
@@ -311,7 +322,13 @@ public class TasksViewer extends ViewPart {
                                     taskDesc=taskDescField.getSource().replaceFirst("(?s)^(.*)(\\s*)=(\\s*)(\"|')(.*)(\"|')$", "$5").trim().replaceAll("(\n|\r)", " ").replaceAll("(\\s+|\t+)", " ");
                                 }
                                 
-                                projectTasks.add(new SilverStripeTask(fTasksList, taskTitle, taskURL, taskDesc));
+                                if(task.getSuperClasses()[0].equals("MigrationTask")) {
+                                    projectTasks.add(new SilverStripeTask(fTasksList, taskTitle.concat(" (up)"), taskURL, taskDesc));
+                                    
+                                    projectTasks.add(new SilverStripeTask(fTasksList, taskTitle.concat(" (down)"), taskURL.concat("?Direction=down"), taskDesc));
+                                }else {
+                                    projectTasks.add(new SilverStripeTask(fTasksList, taskTitle, taskURL, taskDesc));
+                                }
                             }
                         }
                         
@@ -348,6 +365,40 @@ public class TasksViewer extends ViewPart {
         }
         
         projectTasksLoading=false;
+    }
+    
+    /**
+     * Concatenates two IType arrays into one
+     * @param leftArray First array to concatenate
+     * @param rightArray Second array to concatenate
+     * @return Resulting array
+     */
+    private IType[] concatTypeArray(IType[] leftArray, IType[] rightArray) {
+        int leftLen = leftArray.length;
+        int rightLen = rightArray.length;
+
+        IType[] result = (IType[]) Array.newInstance(leftArray.getClass().getComponentType(), leftLen+rightLen);
+        System.arraycopy(leftArray, 0, result, 0, leftLen);
+        System.arraycopy(rightArray, 0, result, leftLen, rightLen);
+        
+        return result;
+    }
+    
+    /**
+     * Concatenates two Object arrays into one
+     * @param leftArray First array to concatenate
+     * @param rightArray Second array to concatenate
+     * @return Resulting array
+     */
+    private Object[] concatObjectArray(Object[] leftArray, Object[] rightArray) {
+        int leftLen = leftArray.length;
+        int rightLen = rightArray.length;
+
+        Object[] result = (Object[]) Array.newInstance(leftArray.getClass().getComponentType(), leftLen+rightLen);
+        System.arraycopy(leftArray, 0, result, 0, leftLen);
+        System.arraycopy(rightArray, 0, result, leftLen, rightLen);
+        
+        return result;
     }
     
     /**
