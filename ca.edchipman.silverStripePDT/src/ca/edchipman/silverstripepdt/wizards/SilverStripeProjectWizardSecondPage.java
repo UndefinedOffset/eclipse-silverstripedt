@@ -1,8 +1,10 @@
 package ca.edchipman.silverstripepdt.wizards;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -58,6 +61,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
+import org.osgi.framework.Bundle;
+
 import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
@@ -200,55 +205,190 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 buildpathEntries = (IBuildpathEntry[]) cpEntries.toArray(new IBuildpathEntry[cpEntries.size()]);
                 includepathEntries = setProjectBaseIncludepath();
             } else if (fFirstPage.IsModuleLayout()) {
-                // need to create sub-folders and set special build/include
-                // paths
-                IPath codePath = new Path("code");
-                IPath cssPath = new Path("css");
-                IPath imagesPath = new Path("images");
-                IPath javascriptPath = new Path("javascript");
-                IPath layoutPath = new Path("templates/Layout");
-                IPath includePath = new Path("templates/Includes");
+                IPath folderPath;
+                IFolder folder;
                 
-                if (codePath.segmentCount() > 0) {
-                    IFolder folder = getProject().getFolder(codePath);
+                
+                //For non-2.x projects create the _config folder and the empty config.yml file
+                if(ssVersion.equals("SS2.3")==false && ssVersion.equals("SS2.4")==false) {
+                    folderPath = new Path("_config");
+                    if (folderPath.segmentCount() > 0) {
+                        folder = getProject().getFolder(folderPath);
+                        CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
+                        
+                        //Create the empty config.yml
+                        new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName().concat("/_config"), "config.yml", monitor, "", 0, true);
+                    }else {
+                        monitor.worked(10);
+                    }
+                }
+                
+                
+                //Create the code folder
+                folderPath = new Path("code");
+                if (folderPath.segmentCount() > 0) {
+                    folder = getProject().getFolder(folderPath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
                 }else {
                     monitor.worked(10);
                 }
                 
-                if (cssPath.segmentCount() > 0) {
-                    IFolder folder = getProject().getFolder(cssPath);
+                
+                //Create the css folder
+                folderPath = new Path("css");
+                if (folderPath.segmentCount() > 0) {
+                    folder = getProject().getFolder(folderPath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
                 } else {
                     monitor.worked(10);
                 }
                 
-                if (imagesPath.segmentCount() > 0) {
-                    IFolder folder = getProject().getFolder(imagesPath);
+                
+                //Create the docs/en folder
+                folderPath = new Path("docs/en");
+                if (folderPath.segmentCount() > 0) {
+                    folder = getProject().getFolder(folderPath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
                 } else {
                     monitor.worked(10);
                 }
                 
-                if (javascriptPath.segmentCount() > 0) {
-                    IFolder folder = getProject().getFolder(javascriptPath);
+                
+                //Create the images folder
+                folderPath = new Path("images");
+                if (folderPath.segmentCount() > 0) {
+                    folder = getProject().getFolder(folderPath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
                 } else {
                     monitor.worked(10);
                 }
                 
-                if (layoutPath.segmentCount() > 0) {
-                    IFolder folder = getProject().getFolder(layoutPath);
+                
+                //Create the javascript folder
+                folderPath = new Path("javascript");
+                if (folderPath.segmentCount() > 0) {
+                    folder = getProject().getFolder(folderPath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
                 } else {
                     monitor.worked(10);
                 }
                 
-                if (includePath.segmentCount() > 0) {
-                    IFolder folder = getProject().getFolder(includePath);
+                
+                //Create the template layouts folder
+                folderPath = new Path("templates/Layout");
+                if (folderPath.segmentCount() > 0) {
+                    folder = getProject().getFolder(folderPath);
                     CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
                 } else {
                     monitor.worked(10);
+                }
+                
+                
+                //Create the template includes folder
+                folderPath = new Path("templates/Includes");
+                if (folderPath.segmentCount() > 0) {
+                    folder = getProject().getFolder(folderPath);
+                    CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
+                } else {
+                    monitor.worked(10);
+                }
+                
+                
+                //Create the tests folder
+                folderPath = new Path("tests");
+                if (folderPath.segmentCount() > 0) {
+                    folder = getProject().getFolder(folderPath);
+                    CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
+                } else {
+                    monitor.worked(10);
+                }
+                
+                
+                //If we're using the module standard layout add the standard files to the project
+                if (fFirstPage.IsModuleStdLayout()) {
+                    Bundle bundle=Platform.getBundle(SilverStripePDTPlugin.PLUGIN_ID);
+                    InputStream stream;
+                    IFile file;
+                    
+                    try {
+                        //Create the .editorconfig
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/editorconfig.tpl"), false);
+                        file=getProject().getFile(".editorconfig");
+                        file.create(stream, true, null);
+                        stream.close();
+                        
+                        
+                        //Create the .gitattributes
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/gitattributes.tpl"), false);
+                        file=getProject().getFile(".gitattributes");
+                        file.create(stream, true, null);
+                        stream.close();
+                        
+                        
+                        //Create the .gitignore
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/gitignore.tpl"), false);
+                        file=getProject().getFile(".gitignore");
+                        file.create(stream, true, null);
+                        stream.close();
+                        
+                        
+                        //Create the .scrutinizer.yml
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/scrutinizer.tpl"), false);
+                        file=getProject().getFile(".scrutinizer.yml");
+                        file.create(stream, true, null);
+                        stream.close();
+                        
+                        
+                        //Create the .travis.yml
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/travis.tpl"), false);
+                        file=getProject().getFile(".travis.yml");
+                        file.create(stream, true, null);
+                        stream.close();
+                        
+                        
+                        //Create the CHANGELOG.md
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/changelog.tpl"), false);
+                        file=getProject().getFile("CHANGELOG.md");
+                        file.create(stream, true, null);
+                        stream.close();
+                        
+                        
+                        //Create the CODE-OF-CONDUCT.md
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/code-of-conduct.tpl"), false);
+                        file=getProject().getFile("CODE-OF-CONDUCT.md");
+                        file.create(stream, true, null);
+                        stream.close();
+                        
+                        
+                        //Create the composer.json
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/composer.tpl"), false);
+                        String composerTpl=this.getStreamContents(stream);
+                        stream.close();
+                        composerTpl=composerTpl.replaceAll("\\$SSVersionNumber", ssVersion.replaceFirst("SS", ""));
+                        new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName(), "composer.json", monitor, composerTpl, 0);
+                        
+                        
+                        //Create the CONTRIBUTING.md
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/contributing.tpl"), false);
+                        file=getProject().getFile("CONTRIBUTING.md");
+                        file.create(stream, true, null);
+                        
+                        
+                        //Create the LICENSE.md
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/license.tpl"), false);
+                        file=getProject().getFile("LICENSE.md");
+                        file.create(stream, true, null);
+                        stream.close();
+                        
+                        
+                        //Create the README.md
+                        stream = FileLocator.openStream(bundle, new Path("resources/module-std/readme.tpl"), false);
+                        file=getProject().getFile("README.md");
+                        file.create(stream, true, null);
+                        stream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 
                 
@@ -396,6 +536,23 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
         String scriptNature = getScriptNature();
         String phpScriptNature = getPHPScriptNature();
         setScriptNature(monitor, scriptNature, phpScriptNature);
+    }
+    
+    protected String getStreamContents(InputStream is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+              sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        
+        return sb.toString();
     }
     
     /**

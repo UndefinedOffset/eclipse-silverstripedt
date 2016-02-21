@@ -13,6 +13,7 @@ import org.eclipse.dltk.internal.ui.wizards.dialogfields.SelectionButtonDialogFi
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -26,14 +27,21 @@ import org.eclipse.php.internal.ui.wizards.NameGroup;
 import org.eclipse.php.internal.ui.wizards.PHPProjectWizardFirstPage;
 import org.eclipse.php.internal.ui.wizards.WizardFragment;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.controls.SSVersionOption;
@@ -117,10 +125,18 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
     
     /**
      * Gets the whether the new project is a module layout
-     * @return Returns boolean true if the new module is a project layout
+     * @return Returns boolean true if the new project is a module layout
      */
     public boolean IsModuleLayout() {
         return fLayoutGroup.isModuleLayout();
+    }
+    
+    /**
+     * Gets the whether the new project is the module standard layout
+     * @return Returns boolean true if the new project is a module and is the module standard layout
+     */
+    public boolean IsModuleStdLayout() {
+        return this.IsModuleLayout() && fLayoutGroup.isModuleStdLayout();
     }
     
     /**
@@ -143,8 +159,9 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
      * Request a project layout.
      */
     public class SilverStripeLayoutGroup implements Observer, SelectionListener, IDialogFieldListener {
-        private final SelectionButtonDialogField fProjectRadio, fThemeRadio, fModuleRadio;
-        private Group fGroup;
+        private final SelectionButtonDialogField fProjectRadio, fThemeRadio, fModuleRadio, fModuleStdCheck;
+        private Group fGroup, fModuleGroup;
+        private Link fModuleStdLink;
 
         public SilverStripeLayoutGroup(Composite composite) {
             final int numColumns = 3;
@@ -161,7 +178,12 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             fModuleRadio = new SelectionButtonDialogField(SWT.RADIO);
             fModuleRadio.setLabelText("SilverStripe module"); //$NON-NLS-1$
             fModuleRadio.setDialogFieldListener(this);
-
+            
+            fModuleStdCheck = new SelectionButtonDialogField(SWT.CHECK);
+            fModuleStdCheck.setLabelText("Create using the SilverStripe Module Standard?");
+            fModuleStdCheck.setSelection(true);
+            fModuleStdCheck.setEnabled(false);
+            
             // createContent
             fGroup = new Group(composite, SWT.NONE);
             fGroup.setFont(composite.getFont());
@@ -169,9 +191,25 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             fGroup.setLayout(initGridLayout(new GridLayout(numColumns, false), true));
             fGroup.setText(PHPUIMessages.LayoutGroup_OptionBlock_Title); //$NON-NLS-1$
 
-            fProjectRadio.doFillIntoGrid(fGroup, 2);
-            fThemeRadio.doFillIntoGrid(fGroup, 2);
-            fModuleRadio.doFillIntoGrid(fGroup, 2);
+            fProjectRadio.doFillIntoGrid(fGroup, 3);
+            fThemeRadio.doFillIntoGrid(fGroup, 3);
+            fModuleRadio.doFillIntoGrid(fGroup, 3);
+            
+            
+            fModuleStdCheck.doFillIntoGrid(fGroup, 2);
+            
+            fModuleStdLink = new Link(fGroup, SWT.WRAP);
+            fModuleStdLink.setText("(<a>What's This?</a>)");
+            fModuleStdLink.setFont(composite.getFont());
+            fModuleStdLink.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+            fModuleStdLink.setEnabled(false);
+            fModuleStdLink.addSelectionListener(new SelectionAdapter() {
+                public void widgetSelected(SelectionEvent e) {
+                    Program.launch("https://www.silverstripe.org/software/addons/supported-modules-definition/");
+                }
+            });
+            
+            
             
             updateEnableState();
         }
@@ -194,6 +232,9 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             fProjectRadio.setEnabled(!detect);
             fThemeRadio.setEnabled(!detect);
             fModuleRadio.setEnabled(!detect);
+            
+            fModuleStdCheck.setEnabled(!detect && fModuleRadio.isSelected());
+            fModuleStdLink.setEnabled(fModuleStdCheck.isEnabled());
 
             if (fGroup != null) {
                 fGroup.setEnabled(!detect);
@@ -233,6 +274,14 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
          */
         public boolean isModuleLayout() {
             return fModuleRadio.isSelected();
+        }
+        
+        /**
+         * Gets the whether the module standard is checked
+         * @return Returns boolean true if the module standard is checked
+         */
+        public boolean isModuleStdLayout() {
+            return fModuleStdCheck.isSelected();
         }
 
         /*
