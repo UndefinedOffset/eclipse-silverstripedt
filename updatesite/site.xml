@@ -3,13 +3,13 @@
    <description name="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://silverstripedt.edchipman.ca">
       Update site for Ed Chipman&apos;s SilverStripe Developer Tools
    </description>
-   <feature url="features/ca.edchipman.silverstripepdt.Feature_2.0.2.jar" id="ca.edchipman.silverstripepdt.Feature" version="2.0.2">
+   <feature url="features/ca.edchipman.silverstripepdt.Feature_2.0.3.jar" id="ca.edchipman.silverstripepdt.Feature" version="2.0.3">
       <category name="SilverStripeDT"/>
    </feature>
-   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_2.Feature_1.0.2.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_2.Feature" version="1.0.2">
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_2.Feature_1.0.3.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_2.Feature" version="1.0.3">
       <category name="SilverStripeDT.versions"/>
    </feature>
-   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature_2.0.2.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature" version="2.0.2">
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature_2.0.3.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_1.Feature" version="2.0.3">
       <category name="SilverStripeDT.versions"/>
    </feature>
    <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_0.Feature_2.0.1.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_0.Feature" version="2.0.1">
