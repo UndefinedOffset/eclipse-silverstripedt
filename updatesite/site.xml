@@ -24,12 +24,12 @@
    <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_2_3.Feature_2.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_2_3.Feature" version="2.0.0">
       <category name="SilverStripeDT.versions"/>
    </feature>
-   <category-def name="SilverStripeDT" label="SilverStripe Developer Tools">
+   <category-def name="SilverStripeDT" label="SilverStripe Developer Tools Core">
       <description>
-         Addons to PDT for SilverStripe development
+         Addons to PDT for SilverStripe development, you must install at least one of the version supports.
       </description>
    </category-def>
-   <category-def name="SilverStripeDT.versions" label="SilverStripe Developer Tools Version Packages">
+   <category-def name="SilverStripeDT.versions" label="Version Packages (install at least one)">
       <description>
          Addons for SilverStripe Developer Tools that add support for different core versions of SilverStripe DT. You must install at least one of these.
       </description>
