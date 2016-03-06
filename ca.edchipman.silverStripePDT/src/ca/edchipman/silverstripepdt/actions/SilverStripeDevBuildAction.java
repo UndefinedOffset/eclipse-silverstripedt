@@ -12,6 +12,7 @@ import org.eclipse.php.internal.core.documentModel.dom.ElementImplForPhp;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -65,10 +66,7 @@ public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegat
                         try {
                             PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(DevBuildViewer.ID);
                         } catch (PartInitException e) {
-                            MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-                            messageBox.setMessage("Browser cannot be initialized.");
-                            messageBox.setText("Exit");
-                            messageBox.open();
+                            Display.getDefault().asyncExec(new BrowserInitErrorDialog());
                         }
                         browser=((DevBuildViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(DevBuildViewer.ID));
                     }
@@ -78,16 +76,10 @@ public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegat
                     //Force view to show
                     PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(browser);
                 }catch (SWTError e) {
-                    MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-                    messageBox.setMessage("Browser cannot be initialized.");
-                    messageBox.setText("Exit");
-                    messageBox.open();
+                    Display.getDefault().asyncExec(new BrowserInitErrorDialog());
                 }
             }else {
-                MessageBox dialog=new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-                dialog.setText("Site base not set");
-                dialog.setMessage("You have not set the site base for this project, you can set this on the project's preferences for SilverStripe");
-                dialog.open();
+                Display.getDefault().asyncExec(new NoSiteBaseErrorDialog());
             }
         }
     }
@@ -212,5 +204,26 @@ public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegat
         }
         
         return ((IFileEditorInput) input).getFile();
+    }
+    
+    
+    private class BrowserInitErrorDialog implements Runnable {
+        @Override
+        public void run() {
+            MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
+            messageBox.setMessage("Browser cannot be initialized.");
+            messageBox.setText("Exit");
+            messageBox.open();
+        }
+    }
+    
+    private class NoSiteBaseErrorDialog implements Runnable {
+        @Override
+        public void run() {
+            MessageBox dialog=new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
+            dialog.setText("Site base not set");
+            dialog.setMessage("You have not set the site base for this project, you can set this on the project's preferences for SilverStripe");
+            dialog.open();
+        }
     }
 }

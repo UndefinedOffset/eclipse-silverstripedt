@@ -3,7 +3,7 @@ package ca.edchipman.silverstripepdt.versioninterfaces;
 import org.eclipse.dltk.core.IScriptProject;
 
 /**
- * Interface used in SilverStripe version plugins to provide the language library path 
+ * Interface used in SilverStripe version packages to provide the language library path 
  * @author Ed Chipman
  */
 public interface ISilverStripeLanguageModelProvider {

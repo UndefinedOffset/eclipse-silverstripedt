@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
@@ -44,14 +45,8 @@ public class SilverStripeVersion {
         
         
         //Ensure plugins have been registered
-        if(SilverStripeVersion.lang_registry.size()==0 && PlatformUI.getWorkbench().getActiveWorkbenchWindow()!=null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()!=null) {
-            MessageBox dialog=new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-            dialog.setText("No Language Plugin");
-            dialog.setMessage(
-                            "You have not installed any SilverStripe Version plugins, you need to install atleast one."+
-                            "You can install new SilverStripe Version plugins by going to Help > Install New Software then select the SilverStripe DT Update site and installing a SilverStripe version plugin."
-                        );
-            dialog.open();
+        if(SilverStripeVersion.lang_registry.size()==0) {
+            Display.getDefault().asyncExec(new NoVersionsInstalledDialog());
         }
     }
     
@@ -83,20 +78,27 @@ public class SilverStripeVersion {
      */
     public static LinkedHashMap<String, IConfigurationElement> getLangRegistry(boolean suppressError) {
         //Ensure plugins have been registered
-        if(SilverStripeVersion.lang_registry.size()==0 && PlatformUI.getWorkbench().getActiveWorkbenchWindow()!=null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()!=null) {
+        if(SilverStripeVersion.lang_registry.size()==0) {
             if(suppressError==false) {
-                MessageBox dialog=new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-                dialog.setText("No Language Plugin");
-                dialog.setMessage(
-                                "You have not installed any SilverStripe Version plugins, you need to install atleast one."+
-                                "You can install new SilverStripe Version plugins by going to Help > Install New Software then select the SilverStripe DT Update site and installing a SilverStripe version plugin."
-                            );
-                dialog.open();
+                Display.getDefault().asyncExec(new NoVersionsInstalledDialog());
             }
             
             return null;
         }
         
         return SilverStripeVersion.lang_registry;
+    }
+    
+    public static class NoVersionsInstalledDialog implements Runnable {
+        @Override
+        public void run() {
+            MessageBox dialog=new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
+            dialog.setText("No SilverStripe Version Package");
+            dialog.setMessage(
+                            "You have not installed any SilverStripe Version Package, you need to install atleast one."+
+                            "You can install new SilverStripe Version Package by going to Help > Install New Software then select the SilverStripe DT Update site and installing a SilverStripe Version Package."
+                        );
+            dialog.open();
+        }
     }
 }

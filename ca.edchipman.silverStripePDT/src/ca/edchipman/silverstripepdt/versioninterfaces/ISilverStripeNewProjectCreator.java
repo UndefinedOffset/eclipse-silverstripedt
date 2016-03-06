@@ -8,7 +8,7 @@ import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.jface.wizard.Wizard;
 
 /**
- * Interface used in SilverStripe version plugins to define the project creation handlers 
+ * Interface used in SilverStripe version packages to define the project creation handlers 
  * @author Ed Chipman
  */
 public interface ISilverStripeNewProjectCreator {

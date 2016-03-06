@@ -9,6 +9,10 @@ import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.php.core.language.ILanguageModelProvider;
 import org.eclipse.php.internal.core.Logger;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
@@ -27,9 +31,12 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
             String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, project.getProject());
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
             
-            //TODO Should capture if the language library path is null and report the error asking the user to install the language
+            
             String path=getLanguageLibraryPath(project, ssVersion, ssFrameworkModel);
-            if(path==null) {
+            if(path==null || path.isEmpty()) {
+                String versionNumber=ssVersion.replaceFirst("SS", "");
+                Display.getDefault().asyncExec(new MissionVersionDialog(versionNumber));
+                
                 return null;
             }
             
@@ -131,5 +138,24 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
         }
         
         return SilverStripePDTPlugin.getDefault();
+    }
+    
+    private class MissionVersionDialog implements Runnable {
+        private String versionNumber;
+        
+        public MissionVersionDialog(String versionNumber) {
+            this.versionNumber=versionNumber;
+        }
+        
+        @Override
+        public void run() {
+            MessageBox dialog=new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
+            dialog.setText("Missing SilverStripe Version Package");
+            dialog.setMessage(
+                            "The current project uses the SilverStripe Version Package for SilverStripe "+versionNumber+", auto completing for the SilverStripe core will not be available."+
+                            "You can install the SilverStripe Version Package by going to Help > Install New Software then select the SilverStripe DT Update site and installing the SilverStripe "+versionNumber+" Version Package."
+                        );
+            dialog.open();
+        }
     }
 }
