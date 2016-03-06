@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -120,9 +121,17 @@ public class LanguageModelContainer implements IBuildpathContainer {
             //Lock file detection/creation
             File lockFile=Path.fromOSString(rootPath.toFile().getParentFile().getAbsolutePath()).append(rootPath.toFile().getName()+".lock").toFile();
             if(lockFile.exists()) {
-                //Folder is locked
-                return targetPath;
+                long timeDiff=new Date().getTime()-lockFile.lastModified();
+                //If the lock file is less than 15 minutes old
+                if(timeDiff<15*60*1000) {
+                    //Folder is locked
+                    return targetPath;
+                }else {
+                    //Reset the last modified and proceed
+                    lockFile.setLastModified(System.currentTimeMillis());
+                }
             }else {
+                //Create the lock file
                 try {
                     new FileOutputStream(lockFile).close();
                     lockFile.setLastModified(System.currentTimeMillis());
