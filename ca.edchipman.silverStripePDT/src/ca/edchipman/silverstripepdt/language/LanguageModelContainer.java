@@ -29,6 +29,10 @@ import org.eclipse.dltk.internal.ui.util.CoreUtility;
 import org.eclipse.php.core.language.ILanguageModelProvider;
 import org.eclipse.php.internal.core.Logger;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
@@ -157,11 +161,9 @@ public class LanguageModelContainer implements IBuildpathContainer {
                         //Close the buffer
                         versionFileReader.close();
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 
@@ -182,11 +184,9 @@ public class LanguageModelContainer implements IBuildpathContainer {
                             //Close the buffer
                             versionFileReader.close();
                         } catch (IOException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     
@@ -200,11 +200,31 @@ public class LanguageModelContainer implements IBuildpathContainer {
                 }
             }
             
-            if (update) {
-                targetDir.delete(EFS.NONE, new NullProgressMonitor());
-                sourceDir.copy(targetDir, EFS.NONE, new NullProgressMonitor());
-            }else if(!targetInfo.exists()) {
-                sourceDir.copy(targetDir, EFS.NONE, new NullProgressMonitor());
+            try {
+                if (update) {
+                    targetDir.delete(EFS.NONE, new NullProgressMonitor());
+                    sourceDir.copy(targetDir, EFS.NONE, new NullProgressMonitor());
+                }else if(!targetInfo.exists()) {
+                    sourceDir.copy(targetDir, EFS.NONE, new NullProgressMonitor());
+                }
+            }catch (CoreException e) {
+                //Delete the lock file
+                if(lockFile.exists()) {
+                    lockFile.delete();
+                }
+                
+                Display.getDefault().asyncExec(new Runnable() {
+                    @Override
+                    public void run() {
+                        MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
+                        messageBox.setMessage("Could not unpack the SilverStripe Version Package, code hints will not be available for the SilverStripe Version Package. You can try closing and re-opening the project to attempt  again.");
+                        messageBox.setText("SilverStripe Version Package Unpack Error");
+                        messageBox.open();
+                    }
+                });
+                
+                Logger.logException(e);
+                return null;
             }
             
             //Update the language provider to say it is up-to-date
