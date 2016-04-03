@@ -19,7 +19,7 @@ http://silverstripedt.edchipman.ca/
 #### Features
 * New SilverStripe Project Wizard
   * 3 Project Layouts including fully functional starter structure and files for mysite, module and theme projects
-  * 5 SilverStripe Versions (3.2, 3.1, 3.0, 2.4, and 2.3)
+  * 6 SilverStripe Versions available for install (3.3, 3.2, 3.1, 3.0, 2.4, and 2.3)
 * New SilverStripe Template Wizard
   * By default with 3 code templates one for top level, layout and a blank file, with minor variations for the 2.x versions of SilverStripe
 * New SilverStripe class wizard
@@ -27,6 +27,7 @@ http://silverstripedt.edchipman.ca/
 * Built in auto complete for Framework (sapphire prior to SilverStripe 3.x) and CMS classes and functions
 * Optional project configuration for using framework only (SilverStripe 3.x only)
 * Additional Code Template Variable ${file_name}
+* New module project based on the [SilverStripe module standard](https://github.com/silverstripe/silverstripe-module)
 * 16 code templates
   * New File Templates
     * Page Type
@@ -59,6 +60,8 @@ http://silverstripedt.edchipman.ca/
     * SilverStripe Layout Template
     * Blank SilverStripe Template
     * Pagination Template (SilverStripe 3.x only)
- * All code templates can be edited per the users preference
- * SilverStripe Template Syntax Highlighting
- * Dev/Build Viewer, accessible via a Toolbar Button, or keyboard shortcut (ALT+SHIFT+X, B)
+* All code templates can be edited per the users preference
+* SilverStripe Template Syntax Highlighting
+* Dev/Build Viewer, accessible via a Toolbar Button, or keyboard shortcut (ALT+SHIFT+X, B)
+* Tasks and Unit Test views
+__And More__
