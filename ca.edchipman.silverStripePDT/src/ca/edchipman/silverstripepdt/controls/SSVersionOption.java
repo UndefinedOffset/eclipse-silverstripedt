@@ -3,7 +3,7 @@ package ca.edchipman.silverstripepdt.controls;
 public class SSVersionOption {
     private String _label;
     private String _ssVersion;
-    private Boolean _supportsFrameworkOnly;
+    private Boolean _supportsFrameworkOnly=false;
     
     /**
      * Initializes the radio pre-setting the SilverStripe version code
