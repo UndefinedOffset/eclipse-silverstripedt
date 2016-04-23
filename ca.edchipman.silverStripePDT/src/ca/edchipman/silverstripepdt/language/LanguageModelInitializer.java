@@ -41,8 +41,7 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
     /**
      * Holds nice names for the language model paths
      */
-    private static Map<IPath, String> pathToName = Collections
-            .synchronizedMap(new HashMap<IPath, String>());
+    private static Map<IPath, String> pathToName = Collections.synchronizedMap(new HashMap<IPath, String>());
 
     static void addPathName(IPath path, String name) {
         pathToName.put(path, name);
@@ -115,25 +114,23 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
     }
 
     private static String getNatureFromProject(IScriptProject project) {
-        IDLTKLanguageToolkit languageToolkit = DLTKLanguageManager
-                .getLanguageToolkit(project);
+        IDLTKLanguageToolkit languageToolkit = DLTKLanguageManager.getLanguageToolkit(project);
         if (languageToolkit != null) {
             return languageToolkit.getNatureId();
         }
+        
         return null;
     }
 
     public static boolean isLanguageModelElement(IModelElement element) {
         if (element != null) {
-            IProjectFragment fragment = (IProjectFragment) element
-                    .getAncestor(IModelElement.PROJECT_FRAGMENT);
+            IProjectFragment fragment = (IProjectFragment) element.getAncestor(IModelElement.PROJECT_FRAGMENT);
             if (fragment != null && fragment.isExternal()) {
                 IPath path = fragment.getPath();
 
                 // see getTargetLocation() below for description:
                 if (path.segmentCount() > 2) {
-                    return "__language__".equals(path.segment(path
-                            .segmentCount() - 2));
+                    return "__language__".equals(path.segment(path .segmentCount() - 2));
                 }
             }
         }
@@ -148,8 +145,7 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
      *            Project handle
      * @throws ModelException
      */
-    public static void enableLanguageModelFor(IScriptProject project)
-            throws ModelException {
+    public static void enableLanguageModelFor(IScriptProject project) throws ModelException {
         if (!isPHPProject(project)) {
             return;
         }
@@ -157,23 +153,19 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
         boolean found = false;
         IBuildpathEntry[] rawBuildpath = project.getRawBuildpath();
         for (IBuildpathEntry entry : rawBuildpath) {
-            if (entry.getEntryKind()==IBuildpathEntry.BPE_CONTAINER
-                    && entry.getPath().equals(LANGUAGE_CONTAINER_PATH)) {
+            if (entry.getEntryKind()==IBuildpathEntry.BPE_CONTAINER && entry.getPath().equals(LANGUAGE_CONTAINER_PATH)) {
                 found = true;
                 break;
             }
         }
 
         if (!found) {
-            IBuildpathEntry containerEntry = DLTKCore
-                    .newContainerEntry(LANGUAGE_CONTAINER_PATH);
+            IBuildpathEntry containerEntry = DLTKCore.newContainerEntry(LANGUAGE_CONTAINER_PATH);
             int newSize = rawBuildpath.length + 1;
-            List<IBuildpathEntry> newRawBuildpath = new ArrayList<IBuildpathEntry>(
-                    newSize);
+            List<IBuildpathEntry> newRawBuildpath = new ArrayList<IBuildpathEntry>(newSize);
             newRawBuildpath.addAll(Arrays.asList(rawBuildpath));
             newRawBuildpath.add(containerEntry);
-            project.setRawBuildpath(newRawBuildpath
-                    .toArray(new IBuildpathEntry[newSize]), null);
+            project.setRawBuildpath(newRawBuildpath.toArray(new IBuildpathEntry[newSize]), null);
         }
     }
 

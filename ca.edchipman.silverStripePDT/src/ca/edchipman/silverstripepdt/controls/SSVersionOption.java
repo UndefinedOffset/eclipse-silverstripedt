@@ -4,6 +4,8 @@ public class SSVersionOption {
     private String _label;
     private String _ssVersion;
     private Boolean _supportsFrameworkOnly=false;
+    private Boolean _supportsSiteConfigSO=false;
+    private Boolean _supportsReportsSO=false;
     
     /**
      * Initializes the radio pre-setting the SilverStripe version code
@@ -49,5 +51,37 @@ public class SSVersionOption {
      */
     public Boolean getSupportsFrameworkOnly() {
         return this._supportsFrameworkOnly;
+    }
+    
+    /**
+     * Sets the SilverStripe siteconfig is a module or not
+     * @param value SilverStripe siteconfig is a module or not
+     */
+    public void setSupportsSiteConfigSO(Boolean value) {
+        this._supportsSiteConfigSO=value;
+    }
+    
+    /**
+     * Gets whether the SilverStripe siteconfig is a module or not
+     * @return value SilverStripe siteconfig is a module or not
+     */
+    public Boolean getSupportsSiteConfigSO() {
+        return this._supportsSiteConfigSO;
+    }
+    
+    /**
+     * Sets the SilverStripe reports is a module or not
+     * @param value SilverStripe reports is a module or not
+     */
+    public void setSupportsReportsSO(Boolean value) {
+        this._supportsReportsSO=value;
+    }
+    
+    /**
+     * Gets whether the SilverStripe reports is a module or not
+     * @return value SilverStripe reports is a module or not
+     */
+    public Boolean getSupportsReportsSO() {
+        return this._supportsReportsSO;
     }
 }

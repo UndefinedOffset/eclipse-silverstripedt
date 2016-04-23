@@ -54,6 +54,13 @@ public class LanguageModelContainer implements IBuildpathContainer {
         if (buildPathEntries == null) {
             try {
                 List<IBuildpathEntry> entries = new LinkedList<IBuildpathEntry>();
+                String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, fProject.getProject());
+                String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
+                String ssSiteConfigModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_siteconfig_module", SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, project.getProject());
+                String ssReportsModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_reports_module", SilverStripeVersion.DEFAULT_REPORTS_MODULE, project.getProject());
+                IConfigurationElement versionDef=SilverStripeVersion.getLanguageDefinition(ssVersion);
+                IEnvironment environment = EnvironmentManager.getEnvironment(project);
+                
 
                 for (ILanguageModelProvider provider:LanguageModelInitializer.getContributedProviders()) {
 
@@ -61,32 +68,73 @@ public class LanguageModelContainer implements IBuildpathContainer {
                     // in provider's plug-in:
                     IPath path = provider.getPath(project);
                     if (path != null) {
-
+                        
                         // Copy files (if target directory is older) to the
                         // plug-in state
                         // location:
                         path = copyToInstanceLocation(provider, path, project);
                         if (path != null) {
-
-                            LanguageModelInitializer.addPathName(path, provider
-                                    .getName());
-
-                            IEnvironment environment = EnvironmentManager
-                                    .getEnvironment(project);
-                            if (environment != null) {
-                                path = EnvironmentPathUtils.getFullPath(
-                                        environment, path);
+                            if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY) && versionDef!=null) {
+                                if(versionDef.getAttribute("supports_framework_only")!=null && versionDef.getAttribute("supports_framework_only").toLowerCase().equals("true")) {
+                                    //Add framework entry
+                                    IPath pathToAdd=path.append("framework");
+                                    
+                                    LanguageModelInitializer.addPathName(pathToAdd, provider.getName());
+                                    
+                                    if(environment != null) {
+                                        pathToAdd = EnvironmentPathUtils.getFullPath(environment, pathToAdd);
+                                    }
+                                    
+                                    entries.add(DLTKCore.newLibraryEntry(pathToAdd, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, BuildpathEntry.EXCLUDE_NONE, false, true));
+                                    
+                                    
+                                    //Add siteconfig entry
+                                    if(ssSiteConfigModule.equals(SilverStripeVersion.SITECONFIG_MODULE_ENABLED) && versionDef.getAttribute("supports_siteconfig_module")!=null && versionDef.getAttribute("supports_siteconfig_module").toLowerCase().equals("true")) {
+                                        pathToAdd=path.append("siteconfig");
+                                        
+                                        LanguageModelInitializer.addPathName(pathToAdd, provider.getName());
+                                        
+                                        if(environment != null) {
+                                            pathToAdd = EnvironmentPathUtils.getFullPath(environment, pathToAdd);
+                                        }
+                                        
+                                        entries.add(DLTKCore.newLibraryEntry(pathToAdd, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, BuildpathEntry.EXCLUDE_NONE, false, true));
+                                    }
+                                    
+                                    //Add reports entry
+                                    if(ssReportsModule.equals(SilverStripeVersion.REPORTS_MODULE_ENABLED) && versionDef.getAttribute("supports_reports_module")!=null && versionDef.getAttribute("supports_reports_module").toLowerCase().equals("true")) {
+                                        pathToAdd=path.append("reports");
+                                        
+                                        LanguageModelInitializer.addPathName(pathToAdd, provider.getName());
+                                        
+                                        if(environment != null) {
+                                            pathToAdd = EnvironmentPathUtils.getFullPath(environment, pathToAdd);
+                                        }
+                                        
+                                        entries.add(DLTKCore.newLibraryEntry(pathToAdd, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, BuildpathEntry.EXCLUDE_NONE, false, true));
+                                    }
+                                }else {
+                                    LanguageModelInitializer.addPathName(path, provider.getName());
+                                    
+                                    if(environment != null) {
+                                        path = EnvironmentPathUtils.getFullPath(environment, path);
+                                    }
+                                    
+                                    entries.add(DLTKCore.newLibraryEntry(path, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, BuildpathEntry.EXCLUDE_NONE, false, true));
+                                }
+                            }else {
+                                LanguageModelInitializer.addPathName(path, provider.getName());
+    
+                                if(environment != null) {
+                                    path = EnvironmentPathUtils.getFullPath(environment, path);
+                                }
+                                
+                                entries.add(DLTKCore.newLibraryEntry(path, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, BuildpathEntry.EXCLUDE_NONE, false, true));
                             }
-                            entries.add(DLTKCore.newLibraryEntry(path,
-                                    BuildpathEntry.NO_ACCESS_RULES,
-                                    BuildpathEntry.NO_EXTRA_ATTRIBUTES,
-                                    BuildpathEntry.INCLUDE_ALL,
-                                    BuildpathEntry.EXCLUDE_NONE, false, true));
                         }
                     }
                 }
-                buildPathEntries = (IBuildpathEntry[]) entries
-                        .toArray(new IBuildpathEntry[entries.size()]);
+                buildPathEntries = (IBuildpathEntry[]) entries.toArray(new IBuildpathEntry[entries.size()]);
             } catch (Exception e) {
                 Logger.logException(e);
             }
@@ -96,6 +144,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
 
     protected IPath copyToInstanceLocation(ILanguageModelProvider provider, IPath path, IScriptProject project) {
         try {
+            String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
             ISilverStripeLanguageModelProvider ssLangProvider=((DefaultLanguageModelProvider) provider).getLanguageModelProvider(project);
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("$nl$", Platform.getNL()); //$NON-NLS-1$
@@ -108,12 +157,15 @@ public class LanguageModelContainer implements IBuildpathContainer {
             
             //If we already know this language is up to date return the target path here
             if(ssLangProvider.getPackedLangUpToDate()==true) {
+                if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
+                    targetPath=targetPath.removeLastSegments(1);
+                }
+                
                 return targetPath;
             }
             
             LocalFile targetDir = new LocalFile(targetPath.toFile());
             
-            String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
             if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
                 sourceFile=sourceFile.getParentFile();
                 sourceDir=new LocalFile(sourceFile);

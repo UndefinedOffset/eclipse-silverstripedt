@@ -93,9 +93,19 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
         
         String ssVersion=((SilverStripeProjectWizardFirstPage)fFirstPage).getSelectedVersion();
         String ssFrameworkModel=SilverStripeVersion.FULL_CMS;
+        String ssReportsModule=SilverStripeVersion.DEFAULT_REPORTS_MODULE;
+        String ssSiteConfigModule=SilverStripeVersion.DEFAULT_SITECONFIG_MODULE;
         
         if(((SilverStripeProjectWizardFirstPage)fFirstPage).IsFrameworkOnlyProject()) {
             ssFrameworkModel=SilverStripeVersion.FRAMEWORK_ONLY;
+            
+            if(((SilverStripeProjectWizardFirstPage)fFirstPage).IncludeSiteConfig()) {
+                ssSiteConfigModule=SilverStripeVersion.SITECONFIG_MODULE_ENABLED;
+            }
+            
+            if(((SilverStripeProjectWizardFirstPage)fFirstPage).IncludeReports()) {
+                ssReportsModule=SilverStripeVersion.REPORTS_MODULE_ENABLED;
+            }
         }
         
         Path silverStripeContainer=new Path(SilverStripePDTPlugin.NATURE_ID);
@@ -507,6 +517,8 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
             //Store Preferences
             CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_version", ssVersion, getProject());
             CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_framework_model", ssFrameworkModel, getProject());
+            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_siteconfig_module", ssSiteConfigModule, getProject());
+            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_reports_module", ssReportsModule, getProject());
             
             
             

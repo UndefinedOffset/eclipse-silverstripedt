@@ -202,12 +202,14 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
         private Group fGroup;
         private IProject fProject;
         private Shell fShell;
-        private SelectionButtonDialogField fFrameworkModel;
+        private SelectionButtonDialogField fFrameworkModel, fIncludeSiteConfigModule, fIncludeReportsModule;
         private ArrayList<SSVersionOption> ssVersionRadios;
         private IWorkbenchPreferenceContainer fContainer;
         private String _selectedVersion;
         private Combo fCombo;
         private ComboViewer viewer;
+        private Composite _parent;
+        private ExcludableComposite frameworkGroup, moduleGroup;
         
         public boolean hasChanges = false;
         
@@ -224,6 +226,8 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
         }
         
         public Control createContents(Composite parent) {
+            this._parent=parent;
+            
             setShell(parent.getShell());
             Composite composite = new Composite(parent, SWT.NONE);
             GridLayout layout = new GridLayout();
@@ -231,12 +235,39 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             
             composite.setLayout(layout);
             composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
             
+            frameworkGroup=new ExcludableComposite(composite, SWT.NONE);
+            GridLayout frameworkLayout=new GridLayout(1, true);
+            frameworkLayout.marginWidth=0;
+            frameworkLayout.marginHeight=0;
+            frameworkGroup.setLayout(frameworkLayout);
+            frameworkGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             
             fFrameworkModel = new SelectionButtonDialogField(SWT.CHECK);
             fFrameworkModel.setLabelText("Use SilverStripe Framework Only"); //$NON-NLS-1$
             fFrameworkModel.setDialogFieldListener(this);
             fFrameworkModel.setEnabled(false);
+            fFrameworkModel.doFillIntoGrid(frameworkGroup, 1);
+            
+            
+            moduleGroup=new ExcludableComposite(frameworkGroup, SWT.NONE);
+            GridLayout moduleLayout=new GridLayout(1, true);
+            moduleLayout.marginWidth=0;
+            moduleLayout.marginHeight=0;
+            moduleGroup.setLayout(moduleLayout);
+            moduleGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            
+            
+            fIncludeSiteConfigModule = new SelectionButtonDialogField(SWT.CHECK);
+            fIncludeSiteConfigModule.setLabelText("Include SiteConfig Module"); //$NON-NLS-1$
+            fIncludeSiteConfigModule.setDialogFieldListener(this);
+            fIncludeSiteConfigModule.doFillIntoGrid(moduleGroup, 1);
+            
+            fIncludeReportsModule = new SelectionButtonDialogField(SWT.CHECK);
+            fIncludeReportsModule.setLabelText("Include Reports Module"); //$NON-NLS-1$
+            fIncludeReportsModule.setDialogFieldListener(this);
+            fIncludeReportsModule.doFillIntoGrid(moduleGroup, 1);
             
             
             // createContent
@@ -250,6 +281,8 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             
             String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, fProject.getProject());
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, fProject.getProject());
+            String ssSiteConfigModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_siteconfig_module", SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, fProject.getProject());
+            String ssReportsModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_reports_module", SilverStripeVersion.DEFAULT_REPORTS_MODULE, fProject.getProject());
             
             
             fCombo=new Combo(fGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
@@ -274,17 +307,32 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
                 
                 //Create the radio based on the version code
                 SSVersionOption option=new SSVersionOption(versionCode, version.getAttribute("display_name"));
-                option.setSupportsFrameworkOnly(version.getAttribute("supports_framework_only").toLowerCase().equals("true"));
+                option.setSupportsFrameworkOnly(version.getAttribute("supports_framework_only")!=null && version.getAttribute("supports_framework_only").toLowerCase().equals("true"));
+                option.setSupportsSiteConfigSO(version.getAttribute("supports_siteconfig_module")!=null && version.getAttribute("supports_siteconfig_module").toLowerCase().equals("true"));
+                option.setSupportsReportsSO(version.getAttribute("supports_reports_module")!=null && version.getAttribute("supports_reports_module").toLowerCase().equals("true"));
                 
                 if(versionCode.equals(ssVersion)) {
                     this._selectedVersion=option.getSSVersion();
                     selectedOption=option;
                     
                     if(option.getSupportsFrameworkOnly()==true) {
-                        fFrameworkModel.setEnabled(true);
-                        
                         if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
                             fFrameworkModel.setSelection(true);
+                            
+                            
+                            if(option.getSupportsSiteConfigSO() || option.getSupportsSiteConfigSO()) {
+                                if(option.getSupportsSiteConfigSO()==true) {
+                                    if(ssSiteConfigModule.equals(SilverStripeVersion.SITECONFIG_MODULE_ENABLED)) {
+                                        fIncludeSiteConfigModule.setSelection(true);
+                                    }
+                                }
+                                
+                                if(option.getSupportsReportsSO()==true) {
+                                    if(ssReportsModule.equals(SilverStripeVersion.REPORTS_MODULE_ENABLED)) {
+                                        fIncludeReportsModule.setSelection(true);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -297,9 +345,10 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             viewer.addSelectionChangedListener(this);
             
             viewer.setSelection(new StructuredSelection(selectedOption));
+            this.setSelection(selectedOption);
             
             
-            fFrameworkModel.doFillIntoGrid(fGroup, 2);
+            frameworkGroup.setParent(fGroup);
             
             
             Label versionNoticeLabel=new Label(fGroup, SWT.SMOOTH);
@@ -331,10 +380,10 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
 
         public void widgetDefaultSelected(SelectionEvent e) {
             //Find the default version radio and set the selection
-            for(SSVersionOption radio : this.ssVersionRadios) {
-                if(radio.getSSVersion().equals(SilverStripeVersion.DEFAULT_VERSION)) {
-                    viewer.setSelection(new StructuredSelection(radio));
-                    this.fFrameworkModel.setEnabled(radio.getSupportsFrameworkOnly());
+            for(SSVersionOption versionOption : this.ssVersionRadios) {
+                if(versionOption.getSSVersion().equals(SilverStripeVersion.DEFAULT_VERSION)) {
+                    viewer.setSelection(new StructuredSelection(versionOption));
+                    this.setSelection(versionOption);
                     break;
                 }
             }
@@ -346,8 +395,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             if(selection!=null) {
                 SSVersionOption selectedOption=(SSVersionOption) selection.getFirstElement();
                 if(selectedOption!=null) {
-                    this._selectedVersion=selectedOption.getSSVersion();
-                    this.fFrameworkModel.setEnabled(selectedOption.getSupportsFrameworkOnly());
+                    this.setSelection(selectedOption);
                 }
             }
         }
@@ -358,10 +406,21 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             if(selection!=null) {
                 SSVersionOption selectedOption=(SSVersionOption) selection.getFirstElement();
                 if(selectedOption!=null) {
-                    this._selectedVersion=selectedOption.getSSVersion();
-                    this.fFrameworkModel.setEnabled(selectedOption.getSupportsFrameworkOnly());
+                    this.setSelection(selectedOption);
                 }
             }
+        }
+        
+        protected void setSelection(SSVersionOption selectedOption) {
+            this._selectedVersion=selectedOption.getSSVersion();
+            this.frameworkGroup.setVisible(selectedOption.getSupportsFrameworkOnly());
+            this.fFrameworkModel.setEnabled(selectedOption.getSupportsFrameworkOnly());
+            
+            Boolean showModules=(selectedOption.getSupportsSiteConfigSO() || selectedOption.getSupportsReportsSO());
+            this.moduleGroup.setVisible(showModules);
+            this.fIncludeSiteConfigModule.setEnabled(selectedOption.getSupportsSiteConfigSO());
+            this.fIncludeReportsModule.setEnabled(selectedOption.getSupportsReportsSO());
+            this._parent.layout();
         }
         
         public boolean performOk() {
@@ -375,6 +434,8 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
         protected boolean processChanges(IWorkbenchPreferenceContainer container) {
             String ssVersion=SilverStripeVersion.DEFAULT_VERSION;
             String ssFrameworkModel=SilverStripeVersion.FULL_CMS;
+            String ssReportsModule=SilverStripeVersion.DEFAULT_REPORTS_MODULE;
+            String ssSiteConfigModule=SilverStripeVersion.DEFAULT_SITECONFIG_MODULE;
             
             
             //Find the selected version option
@@ -384,15 +445,39 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             ssVersion=selectedOption.getSSVersion();
             
             
-            if(fFrameworkModel.isSelected()) {
+            //If framework only is supported and is selected
+            if(fFrameworkModel.isSelected() && selectedOption.getSupportsFrameworkOnly()) {
                 ssFrameworkModel=SilverStripeVersion.FRAMEWORK_ONLY;
+                
+                //If siteconfig is supported as a standalone module and is selected
+                if(fIncludeSiteConfigModule.isSelected() && selectedOption.getSupportsSiteConfigSO()) {
+                    ssSiteConfigModule=SilverStripeVersion.SITECONFIG_MODULE_ENABLED;
+                }
+                
+                //If reports is supported as a standalone module and is selected
+                if(fIncludeReportsModule.isSelected() && selectedOption.getSupportsReportsSO()) {
+                    ssReportsModule=SilverStripeVersion.REPORTS_MODULE_ENABLED;
+                }
             }
             
+            
+            //If the SilverStripe version value does not equal the preference we have changes
             if(ssVersion.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, fProject.getProject()))==false) {
                 hasChanges=true;
             }
             
+            //If the framework only value does not equal the preference we have changes
             if(ssFrameworkModel.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, fProject.getProject()))==false) {
+                hasChanges=true;
+            }
+            
+            //If the siteconfig module value does not equal the preference we have changes
+            if(ssSiteConfigModule.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_siteconfig_module", SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, fProject.getProject()))==false) {
+                hasChanges=true;
+            }
+            
+            //If the reports module value does not equal the preference we have changes
+            if(ssReportsModule.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_reports_module", SilverStripeVersion.DEFAULT_REPORTS_MODULE, fProject.getProject()))==false) {
                 hasChanges=true;
             }
             
@@ -410,6 +495,8 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
                 // apply changes right away
                 CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_version", ssVersion, fProject);
                 CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_framework_model", ssFrameworkModel, fProject);
+                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_siteconfig_module", ssSiteConfigModule, fProject);
+                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_reports_module", ssReportsModule, fProject);
                 
                 if (doBuild) {
                     CoreUtility.getBuildJob(fProject).schedule();
@@ -440,8 +527,6 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             // running build
         }
     }
-    
-
     
     /**
      * Request a SiteBase Field
@@ -604,5 +689,24 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
     @Override
     protected String getPropertyPageId() {
         return SilverStripeProjectPreferencePage.PROP_ID;
+    }
+    
+    private class ExcludableComposite extends Composite {
+        public ExcludableComposite(Composite parent, int style) {
+            super(parent, style);
+        }
+        
+        /**
+         * Sets the visiblity of the composite, it also sets the value of the GridData's exclude property to the opposite of the visibility
+         * @param visible
+         */
+        public void setVisible(Boolean visible) {
+            super.setVisible(visible);
+            
+            GridData layout=((GridData) this.getLayoutData());
+            if(layout!=null) {
+                layout.exclude=!visible;
+            }
+        }
     }
 }

@@ -11,7 +11,9 @@
             language_provider="ca.edchipman.silverstripedt.ss_3_3.language.DefaultLanguageModelProvider"
             project_creator="ca.edchipman.silverstripedt.ss_3_3.project.NewSilverStripeProjectCreator"
             release_chain="3.3"
-            supports_framework_only="true">
+            supports_framework_only="true"
+            supports_reports_module="true"
+            supports_siteconfig_module="true">
       </ss_version>
    </extension>
 

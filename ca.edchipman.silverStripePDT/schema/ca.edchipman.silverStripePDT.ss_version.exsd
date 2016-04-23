@@ -68,7 +68,21 @@
                </appinfo>
             </annotation>
          </attribute>
-         <attribute name="supports_framework_only" type="boolean" use="default" value="true">
+         <attribute name="supports_framework_only" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="supports_reports_module" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="supports_siteconfig_module" type="boolean" use="default" value="false">
             <annotation>
                <documentation>
                   
@@ -142,7 +156,7 @@
             project_creator=&quot;ca.edchipman.silverstripedt.ss_3_1.project.NewSilverStripeProjectCreator&quot;
             style_provider=&quot;optional.attribute.with.class.path.to.a.style.provider&quot;
             activator=&quot;ca.edchipman.silverstripedt.ss_3_1.SSVersionActivator&quot;&gt;
-	&lt;/ss_version&gt;
+ &lt;/ss_version&gt;
 &lt;/extension&gt;
       </documentation>
    </annotation>

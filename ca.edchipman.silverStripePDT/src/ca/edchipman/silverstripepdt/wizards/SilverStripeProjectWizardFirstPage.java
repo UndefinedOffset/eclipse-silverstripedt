@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
+
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.controls.SSVersionOption;
 
@@ -150,11 +151,27 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
     }
     
     /**
+     * Gets the whether the project should include the siteconfig module
+     * @return Returns boolean true if the project should include the siteconfig module
+     */
+    public boolean IncludeSiteConfig() {
+        return fSSVersionGroup.includeSiteConfig();
+    }
+    
+    /**
+     * Gets the whether the project should include the reports module
+     * @return Returns boolean true if the project should include the reports module
+     */
+    public boolean IncludeReports() {
+        return fSSVersionGroup.includeReports();
+    }
+    
+    /**
      * Request a project layout.
      */
     public class SilverStripeLayoutGroup implements Observer, SelectionListener, IDialogFieldListener {
         private final SelectionButtonDialogField fProjectRadio, fThemeRadio, fModuleRadio, fModuleStdCheck;
-        private Group fGroup, fModuleGroup;
+        private Group fGroup;
         private Link fModuleStdLink;
 
         public SilverStripeLayoutGroup(Composite composite) {
@@ -310,23 +327,54 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
      * Request a SilverStripe Version.
      */
     public class SilverStripeVersionGroup implements ISelectionChangedListener, IDialogFieldListener {
-        private final SelectionButtonDialogField fFrameworkModel;
-        private Group fGroup;
+        private final SelectionButtonDialogField fFrameworkModel, fIncludeSiteConfigModule, fIncludeReportsModule;
         private ArrayList<SSVersionOption> ssVersionRadios;
-        private String _selectedVersion;
+        private SSVersionOption _selectedVersion;
         private Combo fCombo;
         private ComboViewer viewer;
+        private Composite _parent;
+        private ExcludableComposite frameworkGroup, moduleGroup;
 
         public SilverStripeVersionGroup(Composite composite) {
             final int numColumns = 1;
+            this._parent=composite;
+            
+            
+            frameworkGroup=new ExcludableComposite(composite, SWT.NONE);
+            GridLayout frameworkLayout=new GridLayout(1, true);
+            frameworkLayout.marginWidth=0;
+            frameworkLayout.marginHeight=0;
+            frameworkGroup.setLayout(frameworkLayout);
+            frameworkGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             
             
             fFrameworkModel = new SelectionButtonDialogField(SWT.CHECK);
             fFrameworkModel.setLabelText("Use SilverStripe Framework Only"); //$NON-NLS-1$
             fFrameworkModel.setDialogFieldListener(this);
+            fFrameworkModel.doFillIntoGrid(frameworkGroup, 1);
+            
+            
+            moduleGroup=new ExcludableComposite(frameworkGroup, SWT.NONE);
+            GridLayout moduleLayout=new GridLayout(1, true);
+            moduleLayout.marginWidth=0;
+            moduleLayout.marginHeight=0;
+            moduleGroup.setLayout(moduleLayout);
+            moduleGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            
+            
+            fIncludeSiteConfigModule = new SelectionButtonDialogField(SWT.CHECK);
+            fIncludeSiteConfigModule.setLabelText("Include SiteConfig Module"); //$NON-NLS-1$
+            fIncludeSiteConfigModule.setDialogFieldListener(this);
+            fIncludeSiteConfigModule.doFillIntoGrid(moduleGroup, 1);
+            
+            fIncludeReportsModule = new SelectionButtonDialogField(SWT.CHECK);
+            fIncludeReportsModule.setLabelText("Include Reports Module"); //$NON-NLS-1$
+            fIncludeReportsModule.setDialogFieldListener(this);
+            fIncludeReportsModule.doFillIntoGrid(moduleGroup, 1);
+            
             
             // createContent
-            fGroup = new Group(composite, SWT.NONE);
+            Group fGroup = new Group(composite, SWT.NONE);
             fGroup.setFont(composite.getFont());
             fGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             fGroup.setLayout(initGridLayout(new GridLayout(numColumns, false), true));
@@ -356,10 +404,12 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
                 
                 //Create the radio based on the version code
                 SSVersionOption option=new SSVersionOption(versionCode, version.getAttribute("display_name"));
-                option.setSupportsFrameworkOnly(version.getAttribute("supports_framework_only").toLowerCase().equals("true"));
+                option.setSupportsFrameworkOnly(version.getAttribute("supports_framework_only")!=null && version.getAttribute("supports_framework_only").toLowerCase().equals("true"));
+                option.setSupportsSiteConfigSO(version.getAttribute("supports_siteconfig_module")!=null && version.getAttribute("supports_siteconfig_module").toLowerCase().equals("true"));
+                option.setSupportsReportsSO(version.getAttribute("supports_reports_module")!=null && version.getAttribute("supports_reports_module").toLowerCase().equals("true"));
                 
                 if(versionCode.equals(SilverStripeVersion.DEFAULT_VERSION)) {
-                    this._selectedVersion=option.getSSVersion();
+                    this._selectedVersion=option;
                     selectedOption=option;
                 }
                 
@@ -373,7 +423,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             viewer.setSelection(new StructuredSelection(selectedOption));
             
             
-            fFrameworkModel.doFillIntoGrid(fGroup, 2);
+            frameworkGroup.setParent(fGroup);
             
             
             Label versionNoticeLabel=new Label(fGroup, SWT.SMOOTH);
@@ -386,7 +436,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
          * @return Returns boolean true if the SilverStripe 3.1 radio is selected
          */
         public String getSelectedVersion() {
-            return this._selectedVersion;
+            return this._selectedVersion.getSSVersion();
         }
         
         /**
@@ -394,7 +444,23 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
          * @return Returns boolean true if the SilverStripe Framework only checkbox is selected
          */
         public boolean isFrameworkOnly() {
-            return fFrameworkModel.isEnabled() && fFrameworkModel.isSelected();
+            return this._selectedVersion.getSupportsFrameworkOnly() && fFrameworkModel.isSelected();
+        }
+        
+        /**
+         * @TODO
+         * @return
+         */
+        public boolean includeSiteConfig() {
+            return this.isFrameworkOnly() && this._selectedVersion.getSupportsSiteConfigSO() && fIncludeSiteConfigModule.isSelected();
+        }
+        
+        /**
+         * @TODO
+         * @return
+         */
+        public boolean includeReports() {
+            return this.isFrameworkOnly() && this._selectedVersion.getSupportsReportsSO() && fIncludeReportsModule.isSelected();
         }
         
         /*
@@ -410,10 +476,10 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
 
         public void widgetDefaultSelected(SelectionEvent e) {
             //Find the default version radio and set the selection
-            for(SSVersionOption radio : this.ssVersionRadios) {
-                if(radio.getSSVersion().equals(SilverStripeVersion.DEFAULT_VERSION)) {
-                    viewer.setSelection(new StructuredSelection(radio));
-                    this.fFrameworkModel.setEnabled(radio.getSupportsFrameworkOnly());
+            for(SSVersionOption versionOption : this.ssVersionRadios) {
+                if(versionOption.getSSVersion().equals(SilverStripeVersion.DEFAULT_VERSION)) {
+                    viewer.setSelection(new StructuredSelection(versionOption));
+                    this.setSelection(versionOption);
                     break;
                 }
             }
@@ -425,8 +491,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             if(selection!=null) {
                 SSVersionOption selectedOption=(SSVersionOption) selection.getFirstElement();
                 if(selectedOption!=null) {
-                    this._selectedVersion=selectedOption.getSSVersion();
-                    this.fFrameworkModel.setEnabled(selectedOption.getSupportsFrameworkOnly());
+                    this.setSelection(selectedOption);
                 }
             }
         }
@@ -437,10 +502,21 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             if(selection!=null) {
                 SSVersionOption selectedOption=(SSVersionOption) selection.getFirstElement();
                 if(selectedOption!=null) {
-                    this._selectedVersion=selectedOption.getSSVersion();
-                    this.fFrameworkModel.setEnabled(selectedOption.getSupportsFrameworkOnly());
+                    this.setSelection(selectedOption);
                 }
             }
+        }
+        
+        protected void setSelection(SSVersionOption selectedOption) {
+            this._selectedVersion=selectedOption;
+            this.frameworkGroup.setVisible(selectedOption.getSupportsFrameworkOnly());
+            this.fFrameworkModel.setEnabled(selectedOption.getSupportsFrameworkOnly());
+            
+            Boolean showModules=(selectedOption.getSupportsSiteConfigSO() || selectedOption.getSupportsReportsSO());
+            this.moduleGroup.setVisible(showModules);
+            this.fIncludeSiteConfigModule.setEnabled(selectedOption.getSupportsSiteConfigSO());
+            this.fIncludeReportsModule.setEnabled(selectedOption.getSupportsReportsSO());
+            this._parent.layout();
         }
     }
     
@@ -449,6 +525,25 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             super(composite, projectWizardFirstPage);
             
             fEnableJavaScriptSupport.setSelection(true);
+        }
+    }
+    
+    private class ExcludableComposite extends Composite {
+        public ExcludableComposite(Composite parent, int style) {
+            super(parent, style);
+        }
+        
+        /**
+         * Sets the visiblity of the composite, it also sets the value of the GridData's exclude property to the opposite of the visibility
+         * @param visible
+         */
+        public void setVisible(Boolean visible) {
+            super.setVisible(visible);
+            
+            GridData layout=((GridData) this.getLayoutData());
+            if(layout!=null) {
+                layout.exclude=!visible;
+            }
         }
     }
 }

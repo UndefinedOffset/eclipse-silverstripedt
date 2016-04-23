@@ -17,6 +17,10 @@ public class SilverStripeVersion {
     public static final String FRAMEWORK_ONLY="framework";
     public static final String FULL_CMS="cms";
     public static final String VERSION_EXTENSION_ID="ca.edchipman.silverStripePDT.ss_version";
+    public static final String DEFAULT_SITECONFIG_MODULE="N";
+    public static final String DEFAULT_REPORTS_MODULE="N";
+    public static final String SITECONFIG_MODULE_ENABLED="Y";
+    public static final String REPORTS_MODULE_ENABLED="Y";
     
     private static LinkedHashMap<String, IConfigurationElement> lang_registry;
     
