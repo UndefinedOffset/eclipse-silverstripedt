@@ -67,6 +67,7 @@ import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.language.LanguageModelInitializer;
+import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeNewProjectCreator;
 
 @SuppressWarnings("restriction")
@@ -515,10 +516,10 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
             }
             
             //Store Preferences
-            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_version", ssVersion, getProject());
-            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_framework_model", ssFrameworkModel, getProject());
-            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_siteconfig_module", ssSiteConfigModule, getProject());
-            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_reports_module", ssReportsModule, getProject());
+            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, ssVersion, getProject());
+            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, ssFrameworkModel, getProject());
+            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_SITECONFIG_MODULE, ssSiteConfigModule, getProject());
+            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_REPORTS_MODULE, ssReportsModule, getProject());
             
             
             

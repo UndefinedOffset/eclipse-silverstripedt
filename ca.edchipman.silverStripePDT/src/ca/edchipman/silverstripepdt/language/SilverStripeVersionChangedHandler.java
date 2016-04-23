@@ -18,14 +18,10 @@ import org.eclipse.php.internal.core.preferences.PreferencesPropagator;
 import org.eclipse.php.internal.core.preferences.PreferencesPropagatorEvent;
 import org.eclipse.php.internal.core.preferences.PreferencesSupport;
 
+import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
+
 @SuppressWarnings("restriction")
 public class SilverStripeVersionChangedHandler implements IResourceChangeListener {
-
-    private static final String SILVERSTRIPE_VERSION = "silverstripe_version";
-    private static final String SILVERSTRIPE_FRAMEWORK_MODEL = "silverstripe_framework_model";
-    private static final String SILVERSTRIPE_SITECONFIG_MODULE = "silverstripe_siteconfig_module";
-    private static final String SILVERSTRIPE_REPORTS_MODULE = "silverstripe_reports_module";
-
     private HashMap<IProject, HashSet> projectListeners = new HashMap<IProject, HashSet>();
     private HashMap<IProject, PreferencesPropagatorListener> preferencesPropagatorListeners = new HashMap<IProject, PreferencesPropagatorListener>();
 
@@ -124,15 +120,16 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
         if (project == null || projectListeners.get(project) != null) {
             return;
         }
+        
         projectListeners.put(project, new HashSet());
 
         // register as a listener to the PP on this project
         PreferencesPropagatorListener listener = new PreferencesPropagatorListener(project);
         preferencesPropagatorListeners.put(project, listener);
-        preferencesPropagator.addPropagatorListener(listener, SILVERSTRIPE_VERSION);
-        preferencesPropagator.addPropagatorListener(listener, SILVERSTRIPE_FRAMEWORK_MODEL);
-        preferencesPropagator.addPropagatorListener(listener, SILVERSTRIPE_SITECONFIG_MODULE);
-        preferencesPropagator.addPropagatorListener(listener, SILVERSTRIPE_REPORTS_MODULE);
+        preferencesPropagator.addPropagatorListener(listener, SilverStripePreferences.SILVERSTRIPE_VERSION);
+        preferencesPropagator.addPropagatorListener(listener, SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL);
+        preferencesPropagator.addPropagatorListener(listener, SilverStripePreferences.SILVERSTRIPE_SITECONFIG_MODULE);
+        preferencesPropagator.addPropagatorListener(listener, SilverStripePreferences.SILVERSTRIPE_REPORTS_MODULE);
     }
 
     public void projectRemoved(IProject project) {
@@ -140,10 +137,11 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
         if (listener == null) {
             return;
         }
-        preferencesPropagator.removePropagatorListener(listener, SILVERSTRIPE_VERSION);
-        preferencesPropagator.removePropagatorListener(listener, SILVERSTRIPE_FRAMEWORK_MODEL);
-        preferencesPropagator.removePropagatorListener(listener, SILVERSTRIPE_SITECONFIG_MODULE);
-        preferencesPropagator.removePropagatorListener(listener, SILVERSTRIPE_REPORTS_MODULE);
+        
+        preferencesPropagator.removePropagatorListener(listener, SilverStripePreferences.SILVERSTRIPE_VERSION);
+        preferencesPropagator.removePropagatorListener(listener, SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL);
+        preferencesPropagator.removePropagatorListener(listener, SilverStripePreferences.SILVERSTRIPE_SITECONFIG_MODULE);
+        preferencesPropagator.removePropagatorListener(listener, SilverStripePreferences.SILVERSTRIPE_REPORTS_MODULE);
         preferencesPropagatorListeners.remove(project);
 
         projectListeners.remove(project);

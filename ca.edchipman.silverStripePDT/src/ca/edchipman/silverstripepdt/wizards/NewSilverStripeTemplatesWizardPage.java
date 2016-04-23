@@ -79,6 +79,7 @@ import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
 
 @SuppressWarnings("restriction")
@@ -225,7 +226,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
 
     public void createControl(Composite ancestor) {
         SilverStripeTemplateFileCreationWizard wizard=(SilverStripeTemplateFileCreationWizard) getWizard();
-        ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, wizard.getCurrentProject());
+        ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, wizard.getCurrentProject());
         
         
         findLanguageProvider(ssVersion);

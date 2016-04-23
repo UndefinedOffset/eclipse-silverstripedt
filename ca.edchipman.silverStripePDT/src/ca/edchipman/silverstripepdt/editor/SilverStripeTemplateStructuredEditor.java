@@ -11,6 +11,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 
 @SuppressWarnings("restriction")
 public class SilverStripeTemplateStructuredEditor extends StructuredTextEditor {
@@ -29,7 +30,7 @@ public class SilverStripeTemplateStructuredEditor extends StructuredTextEditor {
             IFile file = ((IFileEditorInput)input).getFile();
             IProject project = file.getProject();
 
-            this.ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, project);
+            this.ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, project);
         }
     }
     

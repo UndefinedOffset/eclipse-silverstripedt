@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
 
 @SuppressWarnings("restriction")
@@ -54,10 +55,10 @@ public class LanguageModelContainer implements IBuildpathContainer {
         if (buildPathEntries == null) {
             try {
                 List<IBuildpathEntry> entries = new LinkedList<IBuildpathEntry>();
-                String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, fProject.getProject());
-                String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
-                String ssSiteConfigModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_siteconfig_module", SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, project.getProject());
-                String ssReportsModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_reports_module", SilverStripeVersion.DEFAULT_REPORTS_MODULE, project.getProject());
+                String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, fProject.getProject());
+                String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, project.getProject());
+                String ssSiteConfigModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_SITECONFIG_MODULE, SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, project.getProject());
+                String ssReportsModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_REPORTS_MODULE, SilverStripeVersion.DEFAULT_REPORTS_MODULE, project.getProject());
                 IConfigurationElement versionDef=SilverStripeVersion.getLanguageDefinition(ssVersion);
                 IEnvironment environment = EnvironmentManager.getEnvironment(project);
                 
@@ -144,7 +145,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
 
     protected IPath copyToInstanceLocation(ILanguageModelProvider provider, IPath path, IScriptProject project) {
         try {
-            String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
+            String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, project.getProject());
             ISilverStripeLanguageModelProvider ssLangProvider=((DefaultLanguageModelProvider) provider).getLanguageModelProvider(project);
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("$nl$", Platform.getNL()); //$NON-NLS-1$

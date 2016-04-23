@@ -80,6 +80,7 @@ import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripePluginImages;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplate;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStore;
 
@@ -587,7 +588,7 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
 		 * @see IStructuredContentProvider#getElements(Object)
 		 */
 		public Object[] getElements(Object input) {
-			String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, NewSilverStripeClassWizardTemplatePage.this.getProject());
+			String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, NewSilverStripeClassWizardTemplatePage.this.getProject());
 			Object[] templates=fStore.getTemplates(NewSilverStripeClassWizardTemplatePage.this.getTemplateContextTypeId());
 			List<Template> results=new ArrayList();
 			

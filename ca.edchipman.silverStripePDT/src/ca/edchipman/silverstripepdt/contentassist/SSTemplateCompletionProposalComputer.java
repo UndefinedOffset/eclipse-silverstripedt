@@ -22,6 +22,7 @@ import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
 import org.eclipse.wst.xml.ui.internal.contentassist.DefaultXMLCompletionProposalComputer;
 
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
 import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
 
@@ -61,7 +62,7 @@ public class SSTemplateCompletionProposalComputer extends DefaultXMLCompletionPr
             String ssVersion=SilverStripeVersion.DEFAULT_VERSION;
             
             if(project!=null) {
-                ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, project);
+                ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, project);
             }
             
             

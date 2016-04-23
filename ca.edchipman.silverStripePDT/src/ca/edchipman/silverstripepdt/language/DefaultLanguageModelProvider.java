@@ -17,6 +17,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModelProvider;
 
 @SuppressWarnings("restriction")
@@ -28,8 +29,8 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
      */
     public IPath getPath(IScriptProject project) {
         try {
-            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, project.getProject());
-            String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, project.getProject());
+            String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, project.getProject());
             
             
             String path=getLanguageLibraryPath(project, ssVersion, ssFrameworkModel);
@@ -61,7 +62,7 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
      * @return Language provider for the current project
      */
     public ISilverStripeLanguageModelProvider getLanguageModelProvider(IScriptProject project) {
-        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, project.getProject());
+        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, project.getProject());
         
         return this.getLanguageModelProvider(ssVersion);
     }
@@ -121,7 +122,7 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
      * @return Language plugin for the current project
      */
     public Plugin getPlugin(IScriptProject project) {
-        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, project.getProject());
+        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, project.getProject());
         
         IConfigurationElement languageProvider=SilverStripeVersion.getLanguageDefinition(ssVersion);
         if(languageProvider!=null) {

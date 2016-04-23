@@ -41,6 +41,7 @@ import org.eclipse.jface.text.templates.TemplateCompletionProcessor;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.regions.SilverStripeRegionContext;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplate;
 
@@ -68,7 +69,7 @@ public class SSTemplateCompletionProcessor extends TemplateCompletionProcessor {
         fTextViewer=viewer;
         IDocument document=viewer.getDocument();
         int documentPosition = offset;
-        String projectSSVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, this.getProject(document));
+        String projectSSVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, this.getProject(document));
         
         IndexedRegion treeNode = ContentAssistUtils.getNodeAt(viewer, documentPosition);
 

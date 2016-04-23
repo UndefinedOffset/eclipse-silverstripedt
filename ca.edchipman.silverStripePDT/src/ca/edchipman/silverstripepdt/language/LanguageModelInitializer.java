@@ -16,6 +16,7 @@ import org.eclipse.php.internal.core.util.project.observer.ProjectRemovedObserve
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
+import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 
 @SuppressWarnings("restriction")
 public class LanguageModelInitializer extends BuildpathContainerInitializer {
@@ -180,7 +181,7 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
     }
     
     static IPath getTargetLocation(ILanguageModelProvider provider, IPath sourcePath, IScriptProject project) {
-        String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, project.getProject());
+        String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, project.getProject());
         if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
             sourcePath=sourcePath.removeLastSegments(1);
         }

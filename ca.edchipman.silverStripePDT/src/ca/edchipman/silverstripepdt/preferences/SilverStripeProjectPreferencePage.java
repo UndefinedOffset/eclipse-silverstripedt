@@ -279,10 +279,10 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             
             
             
-            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, fProject.getProject());
-            String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, fProject.getProject());
-            String ssSiteConfigModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_siteconfig_module", SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, fProject.getProject());
-            String ssReportsModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_reports_module", SilverStripeVersion.DEFAULT_REPORTS_MODULE, fProject.getProject());
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, fProject.getProject());
+            String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, fProject.getProject());
+            String ssSiteConfigModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_SITECONFIG_MODULE, SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, fProject.getProject());
+            String ssReportsModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_REPORTS_MODULE, SilverStripeVersion.DEFAULT_REPORTS_MODULE, fProject.getProject());
             
             
             fCombo=new Combo(fGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
@@ -462,22 +462,22 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             
             
             //If the SilverStripe version value does not equal the preference we have changes
-            if(ssVersion.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_version", SilverStripeVersion.DEFAULT_VERSION, fProject.getProject()))==false) {
+            if(ssVersion.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, fProject.getProject()))==false) {
                 hasChanges=true;
             }
             
             //If the framework only value does not equal the preference we have changes
-            if(ssFrameworkModel.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_framework_model", SilverStripeVersion.FULL_CMS, fProject.getProject()))==false) {
+            if(ssFrameworkModel.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, fProject.getProject()))==false) {
                 hasChanges=true;
             }
             
             //If the siteconfig module value does not equal the preference we have changes
-            if(ssSiteConfigModule.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_siteconfig_module", SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, fProject.getProject()))==false) {
+            if(ssSiteConfigModule.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_SITECONFIG_MODULE, SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, fProject.getProject()))==false) {
                 hasChanges=true;
             }
             
             //If the reports module value does not equal the preference we have changes
-            if(ssReportsModule.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_reports_module", SilverStripeVersion.DEFAULT_REPORTS_MODULE, fProject.getProject()))==false) {
+            if(ssReportsModule.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_REPORTS_MODULE, SilverStripeVersion.DEFAULT_REPORTS_MODULE, fProject.getProject()))==false) {
                 hasChanges=true;
             }
             
@@ -493,10 +493,10 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
                 }
             } else {
                 // apply changes right away
-                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_version", ssVersion, fProject);
-                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_framework_model", ssFrameworkModel, fProject);
-                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_siteconfig_module", ssSiteConfigModule, fProject);
-                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue("silverstripe_reports_module", ssReportsModule, fProject);
+                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, ssVersion, fProject);
+                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, ssFrameworkModel, fProject);
+                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_SITECONFIG_MODULE, ssSiteConfigModule, fProject);
+                CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_REPORTS_MODULE, ssReportsModule, fProject);
                 
                 if (doBuild) {
                     CoreUtility.getBuildJob(fProject).schedule();
