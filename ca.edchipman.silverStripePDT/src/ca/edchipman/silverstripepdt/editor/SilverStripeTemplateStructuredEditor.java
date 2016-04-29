@@ -10,8 +10,8 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
+import ca.edchipman.silverstripepdt.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
-import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 
 @SuppressWarnings("restriction")
 public class SilverStripeTemplateStructuredEditor extends StructuredTextEditor {

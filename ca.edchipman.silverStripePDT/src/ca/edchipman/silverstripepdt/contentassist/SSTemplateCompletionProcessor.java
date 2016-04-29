@@ -40,8 +40,8 @@ import org.w3c.dom.Node;
 import org.eclipse.jface.text.templates.TemplateCompletionProcessor;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+import ca.edchipman.silverstripepdt.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
-import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.regions.SilverStripeRegionContext;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplate;
 

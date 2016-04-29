@@ -15,8 +15,8 @@ import org.eclipse.php.internal.core.util.project.observer.IProjectClosedObserve
 import org.eclipse.php.internal.core.util.project.observer.ProjectRemovedObserversAttacher;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+import ca.edchipman.silverstripepdt.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
-import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 
 @SuppressWarnings("restriction")
 public class LanguageModelInitializer extends BuildpathContainerInitializer {

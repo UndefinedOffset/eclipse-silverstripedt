@@ -25,8 +25,8 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
+import ca.edchipman.silverstripepdt.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
-import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 
 @SuppressWarnings("restriction")
 public class AddSilverStripeNatureAction implements IObjectActionDelegate {

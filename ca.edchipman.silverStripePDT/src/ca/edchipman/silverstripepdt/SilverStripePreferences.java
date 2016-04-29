@@ -1,4 +1,4 @@
-package ca.edchipman.silverstripepdt.preferences;
+package ca.edchipman.silverstripepdt;
 
 public class SilverStripePreferences {
     public static final String SILVERSTRIPE_VERSION = "silverstripe_version";

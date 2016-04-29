@@ -18,7 +18,7 @@ import org.eclipse.php.internal.core.preferences.PreferencesPropagator;
 import org.eclipse.php.internal.core.preferences.PreferencesPropagatorEvent;
 import org.eclipse.php.internal.core.preferences.PreferencesSupport;
 
-import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
+import ca.edchipman.silverstripepdt.SilverStripePreferences;
 
 @SuppressWarnings("restriction")
 public class SilverStripeVersionChangedHandler implements IResourceChangeListener {

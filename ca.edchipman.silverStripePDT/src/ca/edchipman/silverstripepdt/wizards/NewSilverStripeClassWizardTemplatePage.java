@@ -79,8 +79,8 @@ import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 
 import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 import ca.edchipman.silverstripepdt.SilverStripePluginImages;
+import ca.edchipman.silverstripepdt.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
-import ca.edchipman.silverstripepdt.preferences.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplate;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStore;
 
