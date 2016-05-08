@@ -417,7 +417,7 @@ class ${file_name}_Controller extends Page_Controller {
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
-     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     * @param {FieldList} $$fields Field Set that new fields will be added to
      */
     public function updateCMSFields(FieldList $$fields) {
         
@@ -466,7 +466,7 @@ class ${file_name}_Controller extends Page_Controller {
     enabled="true"
     autoinsert="true">/**
  * Gets fields used in the cms
- * @return {FieldSet} Fields to be used
+ * @return {FieldList} Fields to be used
  */
 public function getCMSFields() {
     $$fields=parent::getCMSFields();
@@ -515,9 +515,9 @@ $$lang['${file_name}']['${scope}']['${key_name}']='${text}';
     enabled="true"
     autoinsert="true">/**
  * Updates the fields used in the cms
- * @param {FieldSet} $$fields Fields to be extended
+ * @param {FieldList} $$fields Fields to be extended
  */
-public function updateCMSFields(FieldSet &amp;$$fields) {
+public function updateCMSFields(FieldList &amp;$$fields) {
     ${cursor}
 }</template>
 
@@ -529,9 +529,9 @@ public function updateCMSFields(FieldSet &amp;$$fields) {
     enabled="true"
     autoinsert="true">/**
  * Updates the actions used in the cms
- * @param {FieldSet} $$actions Actions to be extended
+ * @param {FieldList} $$actions Actions to be extended
  */
-public function updateCMSActions(FieldSet &amp;$$actions) {
+public function updateCMSActions(FieldList &amp;$$actions) {
     ${cursor}
 }</template>
 
