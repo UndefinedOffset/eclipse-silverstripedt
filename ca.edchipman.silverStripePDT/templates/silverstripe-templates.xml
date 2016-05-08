@@ -477,7 +477,7 @@ public function getCMSFields() {
 }</template>
 
 <template
-    name="getCMSFields"
+    name="getCMSValidator"
     description="A SilverStripe getCMSValidator() Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.getCMSValidator"
     context="php"
