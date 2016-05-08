@@ -477,6 +477,22 @@ public function getCMSFields() {
 }</template>
 
 <template
+    name="getCMSFields"
+    description="A SilverStripe getCMSFields() Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.getCMSValidator"
+    context="php"
+    enabled="true"
+    autoinsert="true">/**
+ * Gets validator used in the cms
+ * @return {Validator} Validator to be used
+ */
+public function getCMSValidator() {
+    return new RequiredFields(
+                            ${cursor}
+                        );
+}</template>
+
+<template
     name="lang"
     description="A SilverStripe 2.4 or earlier language file template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.lang"
