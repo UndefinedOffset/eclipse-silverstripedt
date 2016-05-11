@@ -525,35 +525,35 @@ $$lang['${file_name}']['${scope}']['${key_name}']='${text}';
 
 <template
     name="updateCMSFields"
-    description="A SilverStripe updateCMSFields() Template"
+    description="A SilverStripe 2.x updateCMSFields() Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.updateCMSFields"
     context="php"
     enabled="true"
     autoinsert="true">/**
  * Updates the fields used in the cms
- * @param {FieldList} $$fields Fields to be extended
+ * @param {FieldSet} $$fields Fields to be extended
  */
-public function updateCMSFields(FieldList &amp;$$fields) {
+public function updateCMSFields(FieldSet $$fields) {
     ${cursor}
 }</template>
 
 <template
     name="updateCMSActions"
-    description="A SilverStripe updateCMSActions Template"
+    description="A SilverStripe 2.x updateCMSActions() Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.updateCMSActions"
     context="php"
     enabled="true"
     autoinsert="true">/**
  * Updates the actions used in the cms
- * @param {FieldList} $$actions Actions to be extended
+ * @param {FieldSet} $$actions Actions to be extended
  */
-public function updateCMSActions(FieldList &amp;$$actions) {
+public function updateCMSActions(FieldSet $$actions) {
     ${cursor}
 }</template>
 
 <template
     name="updateCMSFields"
-    description="A SilverStripe 3.0 updateCMSFields() Template"
+    description="A SilverStripe 3.x updateCMSFields() Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.ss30.updateCMSFields"
     context="php"
     enabled="true"
@@ -567,7 +567,7 @@ public function updateCMSFields(FieldList $$fields) {
 
 <template
     name="updateCMSActions"
-    description="A SilverStripe 3.0 updateCMSActions Template"
+    description="A SilverStripe 3.x updateCMSActions() Template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.ss30.updateCMSActions"
     context="php"
     enabled="true"
