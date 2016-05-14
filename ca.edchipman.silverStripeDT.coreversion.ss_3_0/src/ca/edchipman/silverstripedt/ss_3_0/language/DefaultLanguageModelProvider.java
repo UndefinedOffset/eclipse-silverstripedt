@@ -17,11 +17,6 @@ public class DefaultLanguageModelProvider implements ISilverStripeLanguageModelP
      * @return String path to the language library
      */
     public String getLanguageLibraryPath(IScriptProject project, String ssFrameworkModel) {
-        //For framework only 3.0 focus into framework only
-        if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-            return LANGUAGE_LIBRARY_PATH + "3.0/framework";
-        }
-        
         return LANGUAGE_LIBRARY_PATH + "3.0";
     }
     

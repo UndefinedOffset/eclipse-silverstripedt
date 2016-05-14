@@ -181,20 +181,11 @@ public class LanguageModelInitializer extends BuildpathContainerInitializer {
     }
     
     static IPath getTargetLocation(ILanguageModelProvider provider, IPath sourcePath, IScriptProject project) {
-        String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, project.getProject());
-        if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-            sourcePath=sourcePath.removeLastSegments(1);
-        }
-        
         IPath destination=provider
                                 .getPlugin()
                                 .getStateLocation()
                                 .append("__language__")
                                 .append(sourcePath.lastSegment());
-        
-        if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-            destination=destination.append("framework");
-        }
         
         return destination;
     }

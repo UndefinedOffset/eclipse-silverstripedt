@@ -145,7 +145,6 @@ public class LanguageModelContainer implements IBuildpathContainer {
 
     protected IPath copyToInstanceLocation(ILanguageModelProvider provider, IPath path, IScriptProject project) {
         try {
-            String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, project.getProject());
             ISilverStripeLanguageModelProvider ssLangProvider=((DefaultLanguageModelProvider) provider).getLanguageModelProvider(project);
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("$nl$", Platform.getNL()); //$NON-NLS-1$
@@ -158,21 +157,10 @@ public class LanguageModelContainer implements IBuildpathContainer {
             
             //If we already know this language is up to date return the target path here
             if(ssLangProvider.getPackedLangUpToDate()==true) {
-                if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-                    targetPath=targetPath.removeLastSegments(1);
-                }
-                
                 return targetPath;
             }
             
             LocalFile targetDir = new LocalFile(targetPath.toFile());
-            
-            if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-                sourceFile=sourceFile.getParentFile();
-                sourceDir=new LocalFile(sourceFile);
-                targetDir=new LocalFile(targetPath.toFile().getParentFile());
-                rootPath=(IPath) targetPath.removeLastSegments(1);
-            }
             
             
             //Lock file detection/creation
@@ -220,13 +208,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
                     e.printStackTrace();
                 }
                 
-                File targetVersionFile;
-                if(ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY)) {
-                    targetVersionFile=new File(Path.fromOSString(targetPath.toFile().getParentFile().getAbsolutePath()).append("version").toOSString());
-                }else {
-                    targetVersionFile=new File(targetPath.append("version").toOSString());
-                }
-                
+                File targetVersionFile=new File(targetPath.append("version").toOSString());
                 if(targetVersionFile.exists()) {
                     try {
                         BufferedReader versionFileReader=new BufferedReader(new FileReader(targetVersionFile));
