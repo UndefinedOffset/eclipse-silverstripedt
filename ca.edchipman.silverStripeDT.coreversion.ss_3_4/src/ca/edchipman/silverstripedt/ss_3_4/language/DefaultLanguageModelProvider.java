@@ -16,7 +16,7 @@ public class DefaultLanguageModelProvider implements ISilverStripeLanguageModelP
      * @return String path to the language library
      */
     public String getLanguageLibraryPath(IScriptProject project, String ssFrameworkModel) {
-        return LANGUAGE_LIBRARY_PATH + "3.3";
+        return LANGUAGE_LIBRARY_PATH + "3.4";
     }
     
     /**
