@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
 public class SilverStripeVersion {
-    public static final String DEFAULT_VERSION="SS3.3";
+    public static final String DEFAULT_VERSION="SS3.4";
     
     public static final String FRAMEWORK_ONLY="framework";
     public static final String FULL_CMS="cms";
