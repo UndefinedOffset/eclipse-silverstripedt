@@ -26,7 +26,7 @@
         </loadfile>
         <script language="javascript">
             var stableVersion='3.3.'+resultStable.replace(/assets\/releases\/SilverStripe-cms-v3\.3\.(\d+)\.tar\.gz/,"$1");
-            project.setProperty("result31Version", stableVersion.replace(/\n|\r/g, ''));
+            project.setProperty("result33Version", stableVersion.replace(/\n|\r/g, ''));
         </script>
     	
         <get src="http://www.silverstripe.org/${resultStable}" dest="cache/silverstripe-3.3.tar.gz" verbose="true"/>

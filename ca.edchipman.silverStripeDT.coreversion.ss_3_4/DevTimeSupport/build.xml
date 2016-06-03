@@ -10,28 +10,28 @@
 	</target>
     
     <target name="setupEnviroment" depends="cleanupCache">
-    	<!-- Fetch 3.2 -->
-        <get src="http://www.silverstripe.org/software/download/release-archive/" dest="cache/release-archive.html" verbose="true"/>
+    	<!-- Fetch 3.4 -->
+        <get src="http://www.silverstripe.org/software/download/" dest="cache/stable-download.html" verbose="true"/>
         
-        <loadfile srcfile="cache/release-archive.html" property="resultStable">
+        <loadfile srcfile="cache/stable-download.html" property="resultStable">
             <filterchain>
                 <linecontains>
-                    <contains value="&lt;a href=&quot;assets/releases/SilverStripe-cms-v3.2."/>
+                    <contains value="&lt;a href=&quot;http://www.silverstripe.org/assets/releases/SilverStripe-cms-"/>
                     <contains value=".tar.gz"/>
                 </linecontains>
                 <tokenfilter>
-                    <replaceregex pattern="(\s*)&lt;a href=&quot;/assets/releases/SilverStripe-cms-v3.2.(.*)&quot; title=&quot;SilverStripe-cms-v(.*)&quot;&gt;tar.gz&lt;/span&gt;&lt;/a&gt;(\s*)|" replace="\2"/>
+                    <replaceregex pattern="(\s+)&lt;a href=&quot;http://www.silverstripe.org/(.*)&quot; class=&quot;btn btn-lg btn-primary tracklink&quot; type=&quot;button&quot; onClick=&quot;(.*)&quot;(\s*)&gt;Download TAR.GZ&lt;/a&gt;" replace="\2"/>
                 </tokenfilter>
             </filterchain>
         </loadfile>
         <script language="javascript">
-            var stableVersion='3.2.'+resultStable.replace(/assets\/releases\/SilverStripe-cms-v3\.2\.(\d+)\.tar\.gz/,"$1");
-            project.setProperty("result32Version", stableVersion.replace(/\n|\r/g, ''));
+            var stableVersion='3.4.'+resultStable.replace(/assets\/releases\/SilverStripe-cms-v3\.4\.(\d+)\.tar\.gz/,"$1");
+            project.setProperty("result34Version", stableVersion.replace(/\n|\r/g, ''));
         </script>
     	
-        <get src="http://www.silverstripe.org/${resultStable}" dest="cache/silverstripe-3.2.tar.gz" verbose="true"/>
+        <get src="http://www.silverstripe.org/${resultStable}" dest="cache/silverstripe-3.4.tar.gz" verbose="true"/>
         
-        <untar src="cache/silverstripe-3.2.tar.gz" dest="cache/SS3.2" compression="gzip">
+        <untar src="cache/silverstripe-3.4.tar.gz" dest="cache/SS3.4" compression="gzip">
             <patternset>
                 <include name="**/cms/code/*.php"/>
                 <include name="**/cms/code/**/*.php"/>
@@ -46,8 +46,8 @@
             </patternset>
         </untar>
         
-        <move file="cache/SS3.2" todir="../resources"/>
+        <move file="cache/SS3.4" todir="../resources"/>
         
-        <echo message="${result32Version}" file="../resources/SS3.2/version"/>
+        <echo message="${result34Version}" file="../resources/SS3.4/version"/>
     </target>
 </project>

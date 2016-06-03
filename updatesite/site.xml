@@ -6,6 +6,9 @@
    <feature url="features/ca.edchipman.silverstripepdt.Feature_2.1.0.jar" id="ca.edchipman.silverstripepdt.Feature" version="2.1.0">
       <category name="SilverStripeDT"/>
    </feature>
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_4.Feature_1.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_4.Feature" version="1.0.0">
+      <category name="SilverStripeDT.versions"/>
+   </feature>
    <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_3.Feature_1.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_3.Feature" version="1.0.0">
       <category name="SilverStripeDT.versions"/>
    </feature>
