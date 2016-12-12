@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="ca.edchipman.silverstripedt.coreversion.ss_3.5.Feature"
+      label="SilverStripe Developer Tools 3.5 Support"
+      version="1.0.0"
+      provider-name="Ed Chipman">
+
+   <description url="http://programs.edchipman.ca/eclipse/silverstripe-dt">
+      Adds support to SilverStripe DT for SilverStripe release 3.5.x
+   </description>
+
+   <copyright url="http://www.edchipman.ca">
+      Copyright 2016 Ed Chipman
+   </copyright>
+
+   <license url="">
+      Copyright (c) 2016, Ed Chipman
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+  Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+  Redistributions in binary form must reproduce the above copyright notice, this
+  list of conditions and the following disclaimer in the documentation and/or
+  other materials provided with the distribution.
+
+  Neither the name of Ed Chipman nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+   </license>
+
+   <url>
+      <update label="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://silverstripedt.edchipman.ca"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="ca.edchipman.silverstripepdt" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.php.core"/>
+      <import plugin="org.eclipse.dltk.core"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.ui.editors" version="3.8.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.dltk.ui"/>
+      <import plugin="org.eclipse.php.ui"/>
+      <import feature="ca.edchipman.silverstripepdt.Feature" version="2.0.0" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="ca.edchipman.silverStripeDT.coreversion.ss_3.5"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

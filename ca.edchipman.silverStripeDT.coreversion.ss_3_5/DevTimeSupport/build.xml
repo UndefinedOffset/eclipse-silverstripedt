@@ -10,28 +10,28 @@
 	</target>
     
     <target name="setupEnviroment" depends="cleanupCache">
-    	<!-- Fetch 3.3 -->
+    	<!-- Fetch 3.5 -->
         <get src="http://www.silverstripe.org/software/download/release-archive/" dest="cache/release-archive.html" verbose="true"/>
         
         <loadfile srcfile="cache/release-archive.html" property="resultStable">
             <filterchain>
                 <linecontains>
-                    <contains value="&lt;a href=&quot;assets/releases/SilverStripe-cms-v3.3."/>
+                    <contains value="&lt;a href=&quot;assets/releases/SilverStripe-cms-v3.5."/>
                     <contains value=".tar.gz"/>
                 </linecontains>
                 <tokenfilter>
-                    <replaceregex pattern="(\s*)&lt;a href=&quot;/assets/releases/SilverStripe-cms-v3.3.(.*)&quot; title=&quot;SilverStripe-cms-v(.*)&quot;&gt;tar.gz&lt;/span&gt;&lt;/a&gt;(\s*)|" replace="\2"/>
+                    <replaceregex pattern="(\s*)&lt;a href=&quot;/assets/releases/SilverStripe-cms-v3.5.(.*)&quot; title=&quot;SilverStripe-cms-v(.*)&quot;&gt;tar.gz&lt;/span&gt;&lt;/a&gt;(\s*)|" replace="\2"/>
                 </tokenfilter>
             </filterchain>
         </loadfile>
         <script language="javascript">
-            var stableVersion='3.3.'+resultStable.replace(/assets\/releases\/SilverStripe-cms-v3\.3\.(\d+)\.tar\.gz/,"$1");
-            project.setProperty("result33Version", stableVersion.replace(/\n|\r/g, ''));
+            var stableVersion='3.5.'+resultStable.replace(/assets\/releases\/SilverStripe-cms-v3\.5\.(\d+)\.tar\.gz/,"$1");
+            project.setProperty("result35Version", stableVersion.replace(/\n|\r/g, ''));
         </script>
     	
-        <get src="http://www.silverstripe.org/${resultStable}" dest="cache/silverstripe-3.3.tar.gz" verbose="true"/>
+        <get src="http://www.silverstripe.org/${resultStable}" dest="cache/silverstripe-3.5.tar.gz" verbose="true"/>
         
-        <untar src="cache/silverstripe-3.3.tar.gz" dest="cache/SS3.3" compression="gzip">
+        <untar src="cache/silverstripe-3.5.tar.gz" dest="cache/SS3.5" compression="gzip">
             <patternset>
                 <include name="**/cms/code/*.php"/>
                 <include name="**/cms/code/**/*.php"/>
@@ -46,8 +46,8 @@
             </patternset>
         </untar>
         
-        <move file="cache/SS3.3" todir="../resources"/>
+        <move file="cache/SS3.5" todir="../resources"/>
         
-        <echo message="${result33Version}" file="../resources/SS3.3/version"/>
+        <echo message="${result35Version}" file="../resources/SS3.5/version"/>
     </target>
 </project>

@@ -11,16 +11,16 @@
     
     <target name="setupEnviroment" depends="cleanupCache">
     	<!-- Fetch 3.4 -->
-        <get src="http://www.silverstripe.org/software/download/" dest="cache/stable-download.html" verbose="true"/>
+        <get src="http://www.silverstripe.org/software/download/release-archive/" dest="cache/release-archive.html" verbose="true"/>
         
-        <loadfile srcfile="cache/stable-download.html" property="resultStable">
+        <loadfile srcfile="cache/release-archive.html" property="resultStable">
             <filterchain>
                 <linecontains>
-                    <contains value="&lt;a href=&quot;http://www.silverstripe.org/assets/releases/SilverStripe-cms-"/>
+                    <contains value="&lt;a href=&quot;assets/releases/SilverStripe-cms-v3.4."/>
                     <contains value=".tar.gz"/>
                 </linecontains>
                 <tokenfilter>
-                    <replaceregex pattern="(\s+)&lt;a href=&quot;http://www.silverstripe.org/(.*)&quot; class=&quot;btn btn-lg btn-primary tracklink&quot; type=&quot;button&quot; onClick=&quot;(.*)&quot;(\s*)&gt;Download TAR.GZ&lt;/a&gt;" replace="\2"/>
+                    <replaceregex pattern="(\s*)&lt;a href=&quot;/assets/releases/SilverStripe-cms-v3.4.(.*)&quot; title=&quot;SilverStripe-cms-v(.*)&quot;&gt;tar.gz&lt;/span&gt;&lt;/a&gt;(\s*)|" replace="\2"/>
                 </tokenfilter>
             </filterchain>
         </loadfile>
