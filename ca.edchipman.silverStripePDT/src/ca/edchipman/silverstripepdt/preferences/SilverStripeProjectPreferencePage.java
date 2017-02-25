@@ -417,10 +417,10 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             this.frameworkGroup.setVisible(selectedOption.getSupportsFrameworkOnly());
             this.fFrameworkModel.setEnabled(selectedOption.getSupportsFrameworkOnly());
             
-            Boolean showModules=(selectedOption.getSupportsSiteConfigSO() || selectedOption.getSupportsReportsSO());
+            Boolean showModules=(this.fFrameworkModel.isEnabled() && this.fFrameworkModel.isSelected() && (selectedOption.getSupportsSiteConfigSO() || selectedOption.getSupportsReportsSO()));
             this.moduleGroup.setVisible(showModules);
-            this.fIncludeSiteConfigModule.setEnabled(selectedOption.getSupportsSiteConfigSO());
-            this.fIncludeReportsModule.setEnabled(selectedOption.getSupportsReportsSO());
+            this.fIncludeSiteConfigModule.setEnabled(selectedOption.getSupportsSiteConfigSO() && this.fFrameworkModel.isEnabled() && this.fFrameworkModel.isSelected());
+            this.fIncludeReportsModule.setEnabled(selectedOption.getSupportsReportsSO() && this.fFrameworkModel.isEnabled() && this.fFrameworkModel.isSelected());
             this._parent.layout();
         }
         

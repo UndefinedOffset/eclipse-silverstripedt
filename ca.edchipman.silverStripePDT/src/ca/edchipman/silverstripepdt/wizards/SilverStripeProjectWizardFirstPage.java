@@ -366,11 +366,13 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             fIncludeSiteConfigModule.setLabelText("Include SiteConfig Module"); //$NON-NLS-1$
             fIncludeSiteConfigModule.setDialogFieldListener(this);
             fIncludeSiteConfigModule.doFillIntoGrid(moduleGroup, 1);
+            fIncludeSiteConfigModule.setEnabled(false);
             
             fIncludeReportsModule = new SelectionButtonDialogField(SWT.CHECK);
             fIncludeReportsModule.setLabelText("Include Reports Module"); //$NON-NLS-1$
             fIncludeReportsModule.setDialogFieldListener(this);
             fIncludeReportsModule.doFillIntoGrid(moduleGroup, 1);
+            fIncludeReportsModule.setEnabled(false);
             
             
             // createContent
@@ -512,10 +514,10 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
             this.frameworkGroup.setVisible(selectedOption.getSupportsFrameworkOnly());
             this.fFrameworkModel.setEnabled(selectedOption.getSupportsFrameworkOnly());
             
-            Boolean showModules=(selectedOption.getSupportsSiteConfigSO() || selectedOption.getSupportsReportsSO());
+            Boolean showModules=(this.fFrameworkModel.isEnabled() && this.fFrameworkModel.isSelected() && (selectedOption.getSupportsSiteConfigSO() || selectedOption.getSupportsReportsSO()));
             this.moduleGroup.setVisible(showModules);
-            this.fIncludeSiteConfigModule.setEnabled(selectedOption.getSupportsSiteConfigSO());
-            this.fIncludeReportsModule.setEnabled(selectedOption.getSupportsReportsSO());
+            this.fIncludeSiteConfigModule.setEnabled(selectedOption.getSupportsSiteConfigSO() && this.fFrameworkModel.isEnabled() && this.fFrameworkModel.isSelected());
+            this.fIncludeReportsModule.setEnabled(selectedOption.getSupportsReportsSO() && this.fFrameworkModel.isEnabled() && this.fFrameworkModel.isSelected());
             this._parent.layout();
         }
     }
