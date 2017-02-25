@@ -159,6 +159,18 @@ MySQLDatabase:
 # Uncomment the above to enable a section specific for when the site is in dev mode
 </template>
 
+<template
+    name="New SilverStripe module project _config.yml template"
+    description="A new SilverStripe module project _config.yml template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newssmoduleproject.ss31.ymlconfig"
+    context="php_new_ss_project_context"
+    enabled="true">#---
+#Name: my_module
+#After:
+#    - "framework/*"
+#---
+# Stub config template for your module place you can uncomment this section and add your settings as needed
+</template>
 
 <template
     name="New SilverStripe project _config.php template"

@@ -227,7 +227,9 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                         CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
                         
                         //Create the empty config.yml
-                        new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName().concat("/_config"), "config.yml", monitor, "", 0, true);
+                        Template ymlConfigTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newssmoduleproject.ss31.ymlconfig");
+                        PHPTemplateStore.CompiledTemplate ymlConfigTemplate=PHPTemplateStore.compileTemplate(templateRegistry, ymlConfigTemplateToCompile, getProject().getName()+"/_config", "config.yml");
+                        new SilverStripeFileCreator().createFile(((Wizard)this.getWizard()), getProject().getName().concat("/_config"), "config.yml", monitor, ymlConfigTemplate.string, ymlConfigTemplate.offset, true);
                     }else {
                         monitor.worked(10);
                     }
@@ -409,7 +411,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 
                 
                 //Let the project creator perform custom module actions
-                projectCreator.createModuleLayout(((Wizard)this.getWizard()), getProject(), monitor, templateRegistry, templateStore, ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY), fFirstPage.IsModuleStdLayout());
+                projectCreator.createModuleLayout(((Wizard)this.getWizard()), getProject(), monitor, templateRegistry, templateStore, ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY));
                 
                 
                 // configure the buildpath entries, including the default
