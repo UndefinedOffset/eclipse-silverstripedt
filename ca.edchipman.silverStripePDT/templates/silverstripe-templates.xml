@@ -138,7 +138,7 @@ class ${file_name} extends ContentController {
 class ${file_name} extends Extension {
     /**
      * Adds the extra statics for this extension
-     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     * @return array Returns a multi-dimentional array defining extra statics and their values
      */
     public function extraStatics() {
         ${cursor}
@@ -146,7 +146,7 @@ class ${file_name} extends Extension {
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
-     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     * @param FieldSet $$fields Field Set that new fields will be added to
      */
     public function updateCMSFields(FieldSet &amp;$$fields) {
         
@@ -196,7 +196,7 @@ class ${file_name} extends DataExtension {
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
-     * @param {FieldList} $$fields Field List that new fields will be added to
+     * @param FieldList $$fields Field List that new fields will be added to
      */
     public function updateCMSFields(FieldList $$fields) {
         
@@ -233,7 +233,7 @@ class ${file_name} extends DataExtension {
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
-     * @param {FieldList} $$fields Field List that new fields will be added to
+     * @param FieldList $$fields Field List that new fields will be added to
      */
     public function updateCMSFields(FieldList $$fields) {
         
@@ -251,7 +251,7 @@ class ${file_name} extends DataExtension {
 class ${file_name} extends DataObjectDecorator {
     /**
      * Adds the extra statics for this extension
-     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     * @return array Returns a multi-dimentional array defining extra statics and their values
      */
     public function extraStatics() {
         ${cursor}
@@ -259,7 +259,7 @@ class ${file_name} extends DataObjectDecorator {
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
-     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     * @param FieldSet $$fields Field Set that new fields will be added to
      */
     public function updateCMSFields(FieldSet &amp;$$fields) {
         
@@ -365,7 +365,7 @@ class ${file_name}_Controller extends Page_Controller {
     autoinsert="true">class ${file_name} extends Extension {
     /**
      * Adds the extra statics for this extension
-     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     * @return array Returns a multi-dimentional array defining extra statics and their values
      */
     public function extraStatics() {
         ${cursor}
@@ -373,7 +373,7 @@ class ${file_name}_Controller extends Page_Controller {
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
-     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     * @param FieldSet $$fields Field Set that new fields will be added to
      */
     public function updateCMSFields(FieldSet &amp;$$fields) {
         
@@ -417,7 +417,7 @@ class ${file_name}_Controller extends Page_Controller {
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
-     * @param {FieldList} $$fields Field Set that new fields will be added to
+     * @param FieldList $$fields Field Set that new fields will be added to
      */
     public function updateCMSFields(FieldList $$fields) {
         
@@ -433,7 +433,7 @@ class ${file_name}_Controller extends Page_Controller {
     autoinsert="true">class ${file_name} extends DataObjectDecorator {
     /**
      * Adds the extra statics for this extension
-     * @return {array} Returns a multi-dimentional array defining extra statics and their values
+     * @return array Returns a multi-dimentional array defining extra statics and their values
      */
     public function extraStatics() {
         ${cursor}
@@ -441,7 +441,7 @@ class ${file_name}_Controller extends Page_Controller {
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
-     * @param {FieldSet} $$fields Field Set that new fields will be added to
+     * @param FieldSet $$fields Field Set that new fields will be added to
      */
     public function updateCMSFields(FieldSet &amp;$$fields) {
         
@@ -466,7 +466,7 @@ class ${file_name}_Controller extends Page_Controller {
     enabled="true"
     autoinsert="true">/**
  * Gets fields used in the cms
- * @return {FieldList} Fields to be used
+ * @return FieldList Fields to be used
  */
 public function getCMSFields() {
     $$fields=parent::getCMSFields();
@@ -484,7 +484,7 @@ public function getCMSFields() {
     enabled="true"
     autoinsert="true">/**
  * Gets validator used in the cms
- * @return {Validator} Validator to be used
+ * @return Validator Validator to be used
  */
 public function getCMSValidator() {
     return new RequiredFields(
@@ -531,7 +531,7 @@ $$lang['${file_name}']['${scope}']['${key_name}']='${text}';
     enabled="true"
     autoinsert="true">/**
  * Updates the fields used in the cms
- * @param {FieldSet} $$fields Fields to be extended
+ * @param FieldSet $$fields Fields to be extended
  */
 public function updateCMSFields(FieldSet $$fields) {
     ${cursor}
@@ -545,7 +545,7 @@ public function updateCMSFields(FieldSet $$fields) {
     enabled="true"
     autoinsert="true">/**
  * Updates the actions used in the cms
- * @param {FieldSet} $$actions Actions to be extended
+ * @param FieldSet $$actions Actions to be extended
  */
 public function updateCMSActions(FieldSet $$actions) {
     ${cursor}
@@ -559,7 +559,7 @@ public function updateCMSActions(FieldSet $$actions) {
     enabled="true"
     autoinsert="true">/**
  * Updates the fields used in the cms
- * @param {FieldList} $$fields Fields to be extended
+ * @param FieldList $$fields Fields to be extended
  */
 public function updateCMSFields(FieldList $$fields) {
     ${cursor}
@@ -573,7 +573,7 @@ public function updateCMSFields(FieldList $$fields) {
     enabled="true"
     autoinsert="true">/**
  * Updates the actions used in the cms
- * @param {FieldList} $$actions Actions to be extended
+ * @param FieldList $$actions Actions to be extended
  */
 public function updateCMSActions(FieldList $$actions) {
     ${cursor}
