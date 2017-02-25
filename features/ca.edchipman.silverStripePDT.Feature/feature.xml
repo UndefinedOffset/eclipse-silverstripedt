@@ -2,7 +2,7 @@
 <feature
       id="ca.edchipman.silverstripepdt.Feature"
       label="SilverStripe Developer Tools"
-      version="2.1.1"
+      version="2.2.0"
       provider-name="Ed Chipman">
 
    <description url="http://programs.edchipman.ca/eclipse/silverstripe-dt">
@@ -45,6 +45,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
    <url>
       <update label="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://silverstripedt.edchipman.ca"/>
+      <discovery label="SilverStripe Developer Tools" url="http://silverstripedt.edchipman.ca"/>
+      <discovery label="YEdit" url="http://dadacoalition.org/yedit"/>
    </url>
 
    <requires>

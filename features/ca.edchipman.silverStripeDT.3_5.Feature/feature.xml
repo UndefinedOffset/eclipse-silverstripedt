@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="ca.edchipman.silverstripedt.coreversion.ss_3.5.Feature"
+      id="ca.edchipman.silverstripedt.coreversion.ss_3_5.Feature"
       label="SilverStripe Developer Tools 3.5 Support"
       version="1.0.0"
       provider-name="Ed Chipman">
@@ -63,7 +63,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    </requires>
 
    <plugin
-         id="ca.edchipman.silverStripeDT.coreversion.ss_3.5"
+         id="ca.edchipman.silverStripeDT.coreversion.ss_3_5"
          download-size="0"
          install-size="0"
          version="0.0.0"
