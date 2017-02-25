@@ -108,8 +108,8 @@ public class SilverStripeVersion {
      * Gets the default version
      */
     public static String getDefaultVersion() {
-        if(SilverStripeVersion.getDefaultVersion().isEmpty()==false) {
-            return SilverStripeVersion.getDefaultVersion();
+        if(SilverStripeVersion.default_version.isEmpty()==false) {
+            return SilverStripeVersion.default_version;
         }
         
         return null;

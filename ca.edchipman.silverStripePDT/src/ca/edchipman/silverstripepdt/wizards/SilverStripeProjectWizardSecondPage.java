@@ -409,7 +409,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 
                 
                 //Let the project creator perform custom module actions
-                projectCreator.createModuleLayout(((Wizard)this.getWizard()), getProject(), monitor, templateRegistry, templateStore, ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY));
+                projectCreator.createModuleLayout(((Wizard)this.getWizard()), getProject(), monitor, templateRegistry, templateStore, ssFrameworkModel.equals(SilverStripeVersion.FRAMEWORK_ONLY), fFirstPage.IsModuleStdLayout());
                 
                 
                 // configure the buildpath entries, including the default

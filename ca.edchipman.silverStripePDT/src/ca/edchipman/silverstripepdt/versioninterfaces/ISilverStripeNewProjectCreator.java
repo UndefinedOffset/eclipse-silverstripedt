@@ -28,9 +28,10 @@ public interface ISilverStripeNewProjectCreator {
      * @param monitor Monitor to update when creating the layout
      * @param templateRegistry Template registry to look through
      * @param isFrameworkLayout If the project is a framework only project this is set to true
+     * @param isModuleStd 
      * @throws CoreException 
      */
-    public void createModuleLayout(Wizard wizard, IProject project, IProgressMonitor monitor, ContextTypeRegistry templateRegistry, TemplateStore templateStore, boolean isFrameworkLayout) throws CoreException;
+    public void createModuleLayout(Wizard wizard, IProject project, IProgressMonitor monitor, ContextTypeRegistry templateRegistry, TemplateStore templateStore, boolean isFrameworkLayout, boolean isModuleStdLayout) throws CoreException;
     
     /**
      * Performs the SilverStripe version specific tasks when creating new theme layout project
