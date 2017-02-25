@@ -624,10 +624,10 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
             try {
                 engine.searchAllTypeNames(
                         packPattern == null ? null : packPattern.toCharArray(),
-                        typeSearchFilter.getPackageFlags(), // TODO:
+                        typeSearchFilter.getPackageFlags(),
                         // https://bugs.eclipse.org/bugs/show_bug.cgi?id=176017
                         typePattern.toCharArray(),
-                        matchRule, // TODO:
+                        matchRule,
                         // https://bugs.eclipse.org/bugs/show_bug.cgi?id=176017
                         typeSearchFilter.getElementKind(), typeSearchFilter
                                 .getSearchScope(), requestor,

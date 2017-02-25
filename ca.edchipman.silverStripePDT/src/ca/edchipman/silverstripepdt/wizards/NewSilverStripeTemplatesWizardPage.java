@@ -226,7 +226,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
 
     public void createControl(Composite ancestor) {
         SilverStripeTemplateFileCreationWizard wizard=(SilverStripeTemplateFileCreationWizard) getWizard();
-        ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, wizard.getCurrentProject());
+        ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), wizard.getCurrentProject());
         
         
         findLanguageProvider(ssVersion);
@@ -349,7 +349,6 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
                     this._languageProvider=((ISilverStripeLanguageModelProvider) o);
                 }
             } catch (CoreException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

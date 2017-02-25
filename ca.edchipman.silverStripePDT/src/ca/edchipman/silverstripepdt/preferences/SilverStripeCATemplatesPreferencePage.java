@@ -53,7 +53,6 @@ public class SilverStripeCATemplatesPreferencePage extends TemplatePreferencePag
 		try {
 			this.getTemplateStore().load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

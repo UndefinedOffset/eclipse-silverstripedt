@@ -201,7 +201,7 @@ public class SilverStripeTemplateStore extends PHPTemplateStore {
     }
 
     private static boolean isValidTemplateId(String id) {
-        return id != null && id.trim().length() != 0; // TODO test validity?
+        return id != null && id.trim().length() != 0;
     }
 
     private void readIncludedTemplates(Collection templates, IConfigurationElement element) throws IOException {

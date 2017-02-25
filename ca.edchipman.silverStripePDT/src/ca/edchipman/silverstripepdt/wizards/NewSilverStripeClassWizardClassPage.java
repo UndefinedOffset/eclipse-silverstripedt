@@ -536,7 +536,6 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
                         
                         i++;
                     } catch (ModelException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }

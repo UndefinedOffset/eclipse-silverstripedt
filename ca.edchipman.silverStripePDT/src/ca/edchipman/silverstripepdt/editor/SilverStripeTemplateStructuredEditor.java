@@ -30,7 +30,7 @@ public class SilverStripeTemplateStructuredEditor extends StructuredTextEditor {
             IFile file = ((IFileEditorInput)input).getFile();
             IProject project = file.getProject();
 
-            this.ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, project);
+            this.ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), project);
         }
     }
     

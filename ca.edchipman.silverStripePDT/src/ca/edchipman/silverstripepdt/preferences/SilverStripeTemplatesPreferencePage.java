@@ -57,7 +57,6 @@ public class SilverStripeTemplatesPreferencePage extends TemplatePreferencePage 
 		try {
 			this.getTemplateStore().load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

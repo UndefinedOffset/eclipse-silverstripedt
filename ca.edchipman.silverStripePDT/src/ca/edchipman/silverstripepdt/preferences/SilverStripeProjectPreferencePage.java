@@ -280,7 +280,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             
             
             
-            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, fProject.getProject());
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), fProject.getProject());
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, fProject.getProject());
             String ssSiteConfigModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_SITECONFIG_MODULE, SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, fProject.getProject());
             String ssReportsModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_REPORTS_MODULE, SilverStripeVersion.DEFAULT_REPORTS_MODULE, fProject.getProject());
@@ -382,7 +382,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
         public void widgetDefaultSelected(SelectionEvent e) {
             //Find the default version radio and set the selection
             for(SSVersionOption versionOption : this.ssVersionRadios) {
-                if(versionOption.getSSVersion().equals(SilverStripeVersion.DEFAULT_VERSION)) {
+                if(versionOption.getSSVersion().equals(SilverStripeVersion.getDefaultVersion())) {
                     viewer.setSelection(new StructuredSelection(versionOption));
                     this.setSelection(versionOption);
                     break;
@@ -433,7 +433,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
         }
 
         protected boolean processChanges(IWorkbenchPreferenceContainer container) {
-            String ssVersion=SilverStripeVersion.DEFAULT_VERSION;
+            String ssVersion=SilverStripeVersion.getDefaultVersion();
             String ssFrameworkModel=SilverStripeVersion.FULL_CMS;
             String ssReportsModule=SilverStripeVersion.DEFAULT_REPORTS_MODULE;
             String ssSiteConfigModule=SilverStripeVersion.DEFAULT_SITECONFIG_MODULE;
@@ -463,7 +463,7 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
             
             
             //If the SilverStripe version value does not equal the preference we have changes
-            if(ssVersion.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, fProject.getProject()))==false) {
+            if(ssVersion.equals(CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), fProject.getProject()))==false) {
                 hasChanges=true;
             }
             
@@ -650,7 +650,6 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
 
         @Override
         public void widgetDefaultSelected(SelectionEvent e) {
-            // TODO Auto-generated method stub
             
         }
 

@@ -135,7 +135,6 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
             IFile file = project.getFile("images/treeicons/home-file.gif");
             file.create(stream, true, null);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -150,7 +149,6 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
             IFile file = project.getFile("images/treeicons/news-file.gif");
             file.create(stream, true, null);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

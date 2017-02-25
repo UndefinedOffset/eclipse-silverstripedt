@@ -12,7 +12,6 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
 public class SilverStripeVersion {
-    public static final String DEFAULT_VERSION="SS3.4";
     
     public static final String FRAMEWORK_ONLY="framework";
     public static final String FULL_CMS="cms";
@@ -23,6 +22,7 @@ public class SilverStripeVersion {
     public static final String REPORTS_MODULE_ENABLED="Y";
     
     private static LinkedHashMap<String, IConfigurationElement> lang_registry;
+    private static String default_version="";
     
     /**
      * Initializes the language registry when the plugin is activated by mapping the configuration elements to the language key
@@ -39,11 +39,22 @@ public class SilverStripeVersion {
             }
         });
         
+        
         SilverStripeVersion.lang_registry=new LinkedHashMap<String, IConfigurationElement>();
         if(extensions.length>0) {
+            Integer i=0;
+            
+            //Add all languages to the registry
             for(IConfigurationElement language : extensions) {
                 String versionKey="SS"+language.getAttribute("release_chain");
                 SilverStripeVersion.lang_registry.put(versionKey, language);
+                
+                //If we're looking at the first element set it as the default version
+                if(i==0) {
+                    SilverStripeVersion.default_version=versionKey;
+                }
+                
+                i++;
             }
         }
         
@@ -91,6 +102,17 @@ public class SilverStripeVersion {
         }
         
         return SilverStripeVersion.lang_registry;
+    }
+    
+    /**
+     * Gets the default version
+     */
+    public static String getDefaultVersion() {
+        if(SilverStripeVersion.getDefaultVersion().isEmpty()==false) {
+            return SilverStripeVersion.getDefaultVersion();
+        }
+        
+        return null;
     }
     
     public static class NoVersionsInstalledDialog implements Runnable {

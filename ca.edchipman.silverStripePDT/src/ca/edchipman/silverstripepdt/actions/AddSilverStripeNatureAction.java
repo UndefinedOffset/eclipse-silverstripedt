@@ -78,7 +78,7 @@ public class AddSilverStripeNatureAction implements IObjectActionDelegate {
         		//TODO Figure out why there is one nothing seems to be null in the trace and it appears to work
         	}
             
-            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, selProj);
+            CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), selProj);
             
             selProj.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 		}catch (Exception e) {

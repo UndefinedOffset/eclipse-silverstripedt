@@ -155,7 +155,6 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                     projectCreator=((ISilverStripeNewProjectCreator) o);
                 }
             } catch (CoreException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             

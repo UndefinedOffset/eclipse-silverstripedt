@@ -29,7 +29,7 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
      */
     public IPath getPath(IScriptProject project) {
         try {
-            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, project.getProject());
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), project.getProject());
             String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, project.getProject());
             
             
@@ -62,7 +62,7 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
      * @return Language provider for the current project
      */
     public ISilverStripeLanguageModelProvider getLanguageModelProvider(IScriptProject project) {
-        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, project.getProject());
+        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), project.getProject());
         
         return this.getLanguageModelProvider(ssVersion);
     }
@@ -83,7 +83,6 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
                     return (ISilverStripeLanguageModelProvider) o;
                 }
             } catch (CoreException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -122,7 +121,7 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
      * @return Language plugin for the current project
      */
     public Plugin getPlugin(IScriptProject project) {
-        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.DEFAULT_VERSION, project.getProject());
+        String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), project.getProject());
         
         IConfigurationElement languageProvider=SilverStripeVersion.getLanguageDefinition(ssVersion);
         if(languageProvider!=null) {
@@ -133,7 +132,6 @@ public class DefaultLanguageModelProvider implements ILanguageModelProvider {
                     return (AbstractUIPlugin) o;
                 }
             } catch (CoreException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

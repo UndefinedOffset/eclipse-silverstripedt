@@ -408,7 +408,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
                 option.setSupportsSiteConfigSO(version.getAttribute("supports_siteconfig_module")!=null && version.getAttribute("supports_siteconfig_module").toLowerCase().equals("true"));
                 option.setSupportsReportsSO(version.getAttribute("supports_reports_module")!=null && version.getAttribute("supports_reports_module").toLowerCase().equals("true"));
                 
-                if(versionCode.equals(SilverStripeVersion.DEFAULT_VERSION)) {
+                if(versionCode.equals(SilverStripeVersion.getDefaultVersion())) {
                     this._selectedVersion=option;
                     selectedOption=option;
                 }
@@ -477,7 +477,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         public void widgetDefaultSelected(SelectionEvent e) {
             //Find the default version radio and set the selection
             for(SSVersionOption versionOption : this.ssVersionRadios) {
-                if(versionOption.getSSVersion().equals(SilverStripeVersion.DEFAULT_VERSION)) {
+                if(versionOption.getSSVersion().equals(SilverStripeVersion.getDefaultVersion())) {
                     viewer.setSelection(new StructuredSelection(versionOption));
                     this.setSelection(versionOption);
                     break;

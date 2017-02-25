@@ -14,7 +14,6 @@ import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 public class SilverStripeBasePreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	public SilverStripeBasePreferencePage() {
-		// TODO Auto-generated constructor stub
 		super();
 		setPreferenceStore(SilverStripePDTPlugin.getDefault().getPreferenceStore());
 		setDescription("SilverStripe");
@@ -23,7 +22,6 @@ public class SilverStripeBasePreferencePage extends PreferencePage implements IW
 
 	@Override
 	protected Control createContents(Composite parent) {
-		// TODO Auto-generated method stub
 		initializeDialogUnits(parent);
 
 		Composite result = new Composite(parent, SWT.NONE);
@@ -38,7 +36,6 @@ public class SilverStripeBasePreferencePage extends PreferencePage implements IW
 	}
 
 	public void init(IWorkbench workbench) {
-		// TODO Auto-generated method stub
 		
 	}
 
