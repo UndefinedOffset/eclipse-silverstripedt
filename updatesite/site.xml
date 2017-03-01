@@ -3,7 +3,7 @@
    <description name="Ed Chipman&apos;s SilverStripe Developer Tools" url="http://silverstripedt.edchipman.ca">
       Update site for Ed Chipman&apos;s SilverStripe Developer Tools
    </description>
-   <feature url="features/ca.edchipman.silverstripepdt.Feature_2.2.0.jar" id="ca.edchipman.silverstripepdt.Feature" version="2.2.0">
+   <feature url="features/ca.edchipman.silverstripepdt.Feature_2.2.1.jar" id="ca.edchipman.silverstripepdt.Feature" version="2.2.1">
       <category name="SilverStripeDT"/>
    </feature>
    <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_5.Feature_1.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_5.Feature" version="1.0.0">
