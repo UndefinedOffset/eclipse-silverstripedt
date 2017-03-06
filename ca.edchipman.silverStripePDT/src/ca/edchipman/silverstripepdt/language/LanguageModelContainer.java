@@ -237,8 +237,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
             
             try {
                 if (update) {
-                    targetDir.delete(EFS.NONE, new NullProgressMonitor());
-                    sourceDir.copy(targetDir, EFS.NONE, new NullProgressMonitor());
+                    sourceDir.copy(targetDir, EFS.OVERWRITE, new NullProgressMonitor());
                 }else if(!targetInfo.exists()) {
                     sourceDir.copy(targetDir, EFS.NONE, new NullProgressMonitor());
                 }
