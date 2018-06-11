@@ -33,6 +33,9 @@
    <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_2_3.Feature_2.0.1.jar" id="ca.edchipman.silverstripedt.coreversion.ss_2_3.Feature" version="2.0.1">
       <category name="SilverStripeDT.versions"/>
    </feature>
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_7.Feature_1.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_7.Feature" version="1.0.0">
+      <category name="SilverStripeDT.versions"/>
+   </feature>
    <category-def name="SilverStripeDT" label="SilverStripe Developer Tools Core">
       <description>
          Addons to PDT for SilverStripe development, you must install at least one of the version supports.
