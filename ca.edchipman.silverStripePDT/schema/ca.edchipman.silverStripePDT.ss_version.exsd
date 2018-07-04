@@ -89,6 +89,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="uses_vendor_folder" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="language_provider" type="string" use="required">
             <annotation>
                <documentation>
