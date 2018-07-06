@@ -176,6 +176,13 @@ public class LanguageModelContainer implements IBuildpathContainer {
             
             LocalFile targetDir = new LocalFile(targetPath.toFile());
             
+            File targetFile=targetPath.toFile();
+            
+            //If the folder doesn't exist make it
+            if(targetFile.exists()==false) {
+            	targetFile.mkdirs();
+            }
+            
             
             //Lock file detection/creation
             File lockFile=Path.fromOSString(rootPath.toFile().getParentFile().getAbsolutePath()).append(rootPath.toFile().getName()+".lock").toFile();

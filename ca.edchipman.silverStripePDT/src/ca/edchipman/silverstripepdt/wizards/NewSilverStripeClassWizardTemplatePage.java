@@ -102,6 +102,7 @@ import ca.edchipman.silverstripepdt.SilverStripePreferences;
 import ca.edchipman.silverstripepdt.SilverStripeVersion;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplate;
 import ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStore;
+import ca.edchipman.silverstripepdt.wizards.SilverStripeProjectWizardSecondPage.SilverStripeFileCreator;
 
 import org.eclipse.swt.widgets.Label;
 
@@ -231,11 +232,6 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
 		final String containerName = firstPage.getContainerName();
 		final String fileName = firstPage.getFileName();
 		
-		final IFile file = this.createNewFile(containerName, fileName);
-		if (file == null) {
-			return;
-		}
-		
 		this.resetTableViewerInput();
 		
 		IScriptProject project = null;
@@ -250,116 +246,12 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
 		final PHPTemplateStore.CompiledTemplate template=this.compileTemplate(containerName, fileName, lineSeparator);
 		
 		try {
-			new FileCreator().createFile((Wizard) this.getWizard(), file, monitor, template.string, template.offset);
+			new SilverStripeFileCreator().createFile((Wizard) this.getWizard(), containerName, fileName, monitor, template.string, template.offset, true);
 			
 			saveLastSavedPreferences();
 		} finally {
 			monitor.done();
 		}
-	}
-	
-	/**
-	 * Creates a new file resource in the selected container and with the
-	 * selected name. Creates any missing resource containers along the path;
-	 * does nothing if the container resources already exist.
-	 * <p>
-	 * In normal usage, this method is invoked after the user has pressed Finish
-	 * on the wizard; the enablement of the Finish button implies that all
-	 * controls on on this page currently contain valid values.
-	 * </p>
-	 * <p>
-	 * Note that this page caches the new file once it has been successfully
-	 * created; subsequent invocations of this method will answer the same file
-	 * resource without attempting to create it again.
-	 * </p>
-	 * <p>
-	 * This method should be called within a workspace modify operation since it
-	 * creates resources.
-	 * </p>
-	 *
-	 * @return the created file resource, or <code>null</code> if the file was
-	 *         not created
-	 */
-	public IFile createNewFile(final String containerName, final String fileName) {
-		if (newFile != null) {
-			return newFile;
-		}
-
-		// create the new file and cache it if successful
-
-		final IPath containerPath = new Path(containerName);
-		IPath newFilePath = containerPath.append(fileName);
-		final IFile newFileHandle = createFileHandle(newFilePath);
-		final InputStream initialContents = null;
-
-		IRunnableWithProgress op = monitor -> {
-			CreateFileOperation op1 = new CreateFileOperation(newFileHandle, null, initialContents, IDEWorkbenchMessages.WizardNewFileCreationPage_title);
-			try {
-				// see bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=219901
-				// directly execute the operation so that the undo state is
-				// not preserved.  Making this undoable resulted in too many
-				// accidental file deletions.
-				op1.execute(monitor, WorkspaceUndoUtil
-						.getUIInfoAdapter(getShell()));
-			} catch (final ExecutionException e) {
-				getContainer().getShell().getDisplay().syncExec(
-						() -> {
-							if (e.getCause() instanceof CoreException) {
-								ErrorDialog
-										.openError(
-												getContainer()
-														.getShell(), // Was
-												// Utilities.getFocusShell()
-												IDEWorkbenchMessages.WizardNewFileCreationPage_errorTitle,
-												null, // no special
-												// message
-												((CoreException) e
-														.getCause())
-														.getStatus());
-							} else {
-								IDEWorkbenchPlugin
-										.log(
-												getClass(),
-												"createNewFile()", e.getCause()); //$NON-NLS-1$
-								MessageDialog
-										.openError(
-												getContainer()
-														.getShell(),
-												IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorTitle,
-												NLS
-														.bind(
-																IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorMessage,
-																e
-																		.getCause()
-																		.getMessage()));
-							}
-						});
-			}
-		};
-		try {
-			getContainer().run(true, true, op);
-		} catch (InterruptedException e) {
-			return null;
-		} catch (InvocationTargetException e) {
-			// Execution Exceptions are handled above but we may still get
-			// unexpected runtime errors.
-			IDEWorkbenchPlugin.log(getClass(),
-					"createNewFile()", e.getTargetException()); //$NON-NLS-1$
-			MessageDialog
-					.open(MessageDialog.ERROR,
-							getContainer().getShell(),
-							IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorTitle,
-							NLS
-									.bind(
-											IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorMessage,
-											e.getTargetException().getMessage()), SWT.SHEET);
-
-			return null;
-		}
-
-		newFile = newFileHandle;
-
-		return newFile;
 	}
 	
 	/**
