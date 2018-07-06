@@ -22,63 +22,63 @@ import ca.edchipman.silverstripepdt.wizards.NewSilverStripeTemplatesWizardPage;
  */
 @SuppressWarnings("restriction")
 public class SilverStripePDTPlugin extends AbstractUIPlugin {
-	// The plug-in ID
-	public static final String PLUGIN_ID = "ca.edchipman.silverstripepdt"; //$NON-NLS-1$
-	public static final String NATURE_ID = "ca.edchipman.silverstripepdt.LANGUAGE"; //$NON-NLS-1$
-	protected TemplateStore templateStore = null;
+    // The plug-in ID
+    public static final String PLUGIN_ID = "ca.edchipman.silverstripepdt"; //$NON-NLS-1$
+    public static final String NATURE_ID = "ca.edchipman.silverstripepdt.LANGUAGE"; //$NON-NLS-1$
+    protected TemplateStore templateStore = null;
     protected ContextTypeRegistry fContextTypeRegistry = null;
     
     protected TemplateStore caTemplateStore = null;
     protected ContextTypeRegistry caContextTypeRegistry = null;
     protected ContextTypeRegistry fClassContextTypeRegistry;
 
-	// The shared instance
-	private static SilverStripePDTPlugin plugin;
-	
-	/**
-	 * The constructor
-	 */
-	public SilverStripePDTPlugin() {}
+    // The shared instance
+    private static SilverStripePDTPlugin plugin;
+    
+    /**
+     * The constructor
+     */
+    public SilverStripePDTPlugin() {}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-		plugin = this;
-		
-		SilverStripeVersion.initLanguageRegistry(Platform.getExtensionRegistry());
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+     */
+    public void start(BundleContext context) throws Exception {
+        super.start(context);
+        plugin = this;
+        
+        SilverStripeVersion.initLanguageRegistry(Platform.getExtensionRegistry());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+     */
+    public void stop(BundleContext context) throws Exception {
+        plugin = null;
+        super.stop(context);
+    }
 
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
-	public static SilverStripePDTPlugin getDefault() {
-		return plugin;
-	}
-	
-	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path
-	 *
-	 * @param path the path
-	 * @return the image descriptor
-	 */
-	public static ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
+    /**
+     * Returns the shared instance
+     *
+     * @return the shared instance
+     */
+    public static SilverStripePDTPlugin getDefault() {
+        return plugin;
+    }
+    
+    /**
+     * Returns an image descriptor for the image file at the given
+     * plug-in relative path
+     *
+     * @param path the path
+     * @return the image descriptor
+     */
+    public static ImageDescriptor getImageDescriptor(String path) {
+        return imageDescriptorFromPlugin(PLUGIN_ID, path);
+    }
 
     /**
      * Returns the template context type registry for creating SilverStripe classes.

@@ -51,9 +51,9 @@ public class SilverStripeTemplateStore extends PHPTemplateStore {
     private static final String FILE= "file"; //$NON-NLS-1$
     private static final String TRANSLATIONS= "translations"; //$NON-NLS-1$
 
-	private IPersistentPreferenceStore fPreferenceStore;
+    private IPersistentPreferenceStore fPreferenceStore;
 
-	private String fKey;
+    private String fKey;
 
     public SilverStripeTemplateStore(ContextTypeRegistry registry, IPreferenceStore store, String key) {
         super(registry, store, key);
@@ -63,28 +63,28 @@ public class SilverStripeTemplateStore extends PHPTemplateStore {
     }
     
     /**
-	 * Loads the templates from contributions and preferences.
-	 *
-	 * @throws IOException if loading fails.
-	 */
-	public void load() throws IOException {
-		super.load();
-		
-		loadCustomTemplates();
-	}
+     * Loads the templates from contributions and preferences.
+     *
+     * @throws IOException if loading fails.
+     */
+    public void load() throws IOException {
+        super.load();
+        
+        loadCustomTemplates();
+    }
 
-	private void loadCustomTemplates() throws IOException {
-		String pref= fPreferenceStore.getString(fKey);
-		if (pref != null && pref.trim().length() > 0) {
-			Reader input= new StringReader(pref);
-			TemplateReaderWriter reader= new SilverStripeTemplateReaderWriter();
-			TemplatePersistenceData[] datas= reader.read(input);
-			for (int i= 0; i < datas.length; i++) {
-				TemplatePersistenceData data= datas[i];
-				add(data);
-			}
-		}
-	}
+    private void loadCustomTemplates() throws IOException {
+        String pref= fPreferenceStore.getString(fKey);
+        if (pref != null && pref.trim().length() > 0) {
+            Reader input= new StringReader(pref);
+            TemplateReaderWriter reader= new SilverStripeTemplateReaderWriter();
+            TemplatePersistenceData[] datas= reader.read(input);
+            for (int i= 0; i < datas.length; i++) {
+                TemplatePersistenceData data= datas[i];
+                add(data);
+            }
+        }
+    }
 
     /**
      * Loads the templates contributed via the templates extension point.
@@ -254,31 +254,31 @@ public class SilverStripeTemplateStore extends PHPTemplateStore {
         }
     }
 
-	/**
-	 * Saves the templates to the preferences.
-	 *
-	 * @throws IOException if the templates cannot be written
-	 */
-	public void save() throws IOException {
-		ArrayList custom= new ArrayList();
-		List<TemplatePersistenceData> fTemplates=Arrays.asList(this.getTemplateData(true));
-		for (Iterator it= fTemplates.iterator(); it.hasNext();) {
-			TemplatePersistenceData data= (TemplatePersistenceData) it.next();
-			if (data.isCustom() && !(data.isUserAdded() && data.isDeleted())) // don't save deleted user-added templates
-				custom.add(data);
-		}
+    /**
+     * Saves the templates to the preferences.
+     *
+     * @throws IOException if the templates cannot be written
+     */
+    public void save() throws IOException {
+        ArrayList custom= new ArrayList();
+        List<TemplatePersistenceData> fTemplates=Arrays.asList(this.getTemplateData(true));
+        for (Iterator it= fTemplates.iterator(); it.hasNext();) {
+            TemplatePersistenceData data= (TemplatePersistenceData) it.next();
+            if (data.isCustom() && !(data.isUserAdded() && data.isDeleted())) // don't save deleted user-added templates
+                custom.add(data);
+        }
 
-		StringWriter output= new StringWriter();
-		TemplateReaderWriter writer= new SilverStripeTemplateReaderWriter();
-		writer.save((TemplatePersistenceData[]) custom.toArray(new TemplatePersistenceData[custom.size()]), output);
+        StringWriter output= new StringWriter();
+        TemplateReaderWriter writer= new SilverStripeTemplateReaderWriter();
+        writer.save((TemplatePersistenceData[]) custom.toArray(new TemplatePersistenceData[custom.size()]), output);
 
-		this.stopListeningForPreferenceChanges();
-		try {
-			fPreferenceStore.setValue(fKey, output.toString());
-			if (fPreferenceStore instanceof IPersistentPreferenceStore)
-				((IPersistentPreferenceStore)fPreferenceStore).save();
-		} finally {
-			this.startListeningForPreferenceChanges();
-		}
-	}
+        this.stopListeningForPreferenceChanges();
+        try {
+            fPreferenceStore.setValue(fKey, output.toString());
+            if (fPreferenceStore instanceof IPersistentPreferenceStore)
+                ((IPersistentPreferenceStore)fPreferenceStore).save();
+        } finally {
+            this.startListeningForPreferenceChanges();
+        }
+    }
 }

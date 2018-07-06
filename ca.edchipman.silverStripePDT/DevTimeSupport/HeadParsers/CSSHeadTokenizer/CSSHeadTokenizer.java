@@ -139,119 +139,119 @@ public class CSSHeadTokenizer {
   /* user code: */
 
 
-	private boolean hasMore = true;
-	private final static int MAX_TO_SCAN = 8000;
-	StringBuffer string = new StringBuffer();
-	// state stack for easier state handling
-	private IntStack fStateStack = new IntStack();
-	private String valueText = null;
+    private boolean hasMore = true;
+    private final static int MAX_TO_SCAN = 8000;
+    StringBuffer string = new StringBuffer();
+    // state stack for easier state handling
+    private IntStack fStateStack = new IntStack();
+    private String valueText = null;
 
 
 
-	public CSSHeadTokenizer() {
-		super();
-	}
+    public CSSHeadTokenizer() {
+        super();
+    }
 
-	  public void reset (Reader in) {
-	  	/* the input device */
-	  	yy_reader = in;
+      public void reset (Reader in) {
+          /* the input device */
+          yy_reader = in;
 
-  		/* the current state of the DFA */
-  		yy_state = 0;
+          /* the current state of the DFA */
+          yy_state = 0;
 
-  		/* the current lexical state */
-  		yy_lexical_state = YYINITIAL;
+          /* the current lexical state */
+          yy_lexical_state = YYINITIAL;
 
-  		/* this buffer contains the current text to be matched and is
-  		 the source of the yytext() string */
-  		java.util.Arrays.fill(yy_buffer, (char)0);
+          /* this buffer contains the current text to be matched and is
+           the source of the yytext() string */
+          java.util.Arrays.fill(yy_buffer, (char)0);
 
-  		/* the textposition at the last accepting state */
-  		yy_markedPos = 0;
+          /* the textposition at the last accepting state */
+          yy_markedPos = 0;
 
-  		/* the textposition at the last state to be included in yytext */
-  		yy_pushbackPos = 0;
+          /* the textposition at the last state to be included in yytext */
+          yy_pushbackPos = 0;
 
-  		/* the current text position in the buffer */
-  		yy_currentPos = 0;
+          /* the current text position in the buffer */
+          yy_currentPos = 0;
 
-  		/* startRead marks the beginning of the yytext() string in the buffer */
-  		yy_startRead = 0;
+          /* startRead marks the beginning of the yytext() string in the buffer */
+          yy_startRead = 0;
 
-  		/** 
-  		 * endRead marks the last character in the buffer, that has been read
-  		 * from input 
-  		 */
-  		yy_endRead = 0;
+          /** 
+           * endRead marks the last character in the buffer, that has been read
+           * from input 
+           */
+          yy_endRead = 0;
 
-  		/* number of newlines encountered up to the start of the matched text */
-  		yyline = 0;
+          /* number of newlines encountered up to the start of the matched text */
+          yyline = 0;
 
-  		/* the number of characters up to the start of the matched text */
-  		yychar = 0;
+          /* the number of characters up to the start of the matched text */
+          yychar = 0;
 
-  		/**
-  		 * the number of characters from the last newline up to the start
-  		 * of the matched text
-  		 */
-  		yycolumn = 0; 
+          /**
+           * the number of characters from the last newline up to the start
+           * of the matched text
+           */
+          yycolumn = 0; 
 
-  		/** 
-  		 * yy_atBOL == true <=> the scanner is currently at the beginning 
-  		 * of a line
-  		 */
-  		yy_atBOL = false;
+          /** 
+           * yy_atBOL == true <=> the scanner is currently at the beginning 
+           * of a line
+           */
+          yy_atBOL = false;
 
-  		/* yy_atEOF == true <=> the scanner has returned a value for EOF */
-  		yy_atEOF = false;
+          /* yy_atEOF == true <=> the scanner has returned a value for EOF */
+          yy_atEOF = false;
 
-  		/* denotes if the user-EOF-code has already been executed */
-  		yy_eof_done = false;
-
-
-  		fStateStack.clear();
-  		
-  		hasMore = true;
-  		
-		// its a little wasteful to "throw away" first char array generated
-		// by class init (via auto generated code), but we really do want
-		// a small buffer for our head parsers.
-		if (yy_buffer.length != MAX_TO_SCAN) {
-			yy_buffer = new char[MAX_TO_SCAN];
-		}
-  		
-
-  	}
+          /* denotes if the user-EOF-code has already been executed */
+          yy_eof_done = false;
 
 
-	public final HeadParserToken getNextToken() throws IOException {
-		String context = null;
-		context = primGetNextToken();
-		HeadParserToken result = null;
-		if (valueText != null) {
-			result = createToken(context, yychar, valueText);
-			valueText = null;
-		} else {
-			result = createToken(context, yychar, yytext());
-		}
-		return result;
-	}
+          fStateStack.clear();
+          
+          hasMore = true;
+          
+        // its a little wasteful to "throw away" first char array generated
+        // by class init (via auto generated code), but we really do want
+        // a small buffer for our head parsers.
+        if (yy_buffer.length != MAX_TO_SCAN) {
+            yy_buffer = new char[MAX_TO_SCAN];
+        }
+          
 
-	public final boolean hasMoreTokens() {
-		return hasMore && yychar < MAX_TO_SCAN;
-	}
-	private void pushCurrentState() {
-		fStateStack.push(yystate());
+      }
 
-	}
 
-	private void popState() {
-		yybegin(fStateStack.pop());
-	}
-	private HeadParserToken createToken(String context, int start, String text) {
-		return new HeadParserToken(context, start, text);
-	}
-	
+    public final HeadParserToken getNextToken() throws IOException {
+        String context = null;
+        context = primGetNextToken();
+        HeadParserToken result = null;
+        if (valueText != null) {
+            result = createToken(context, yychar, valueText);
+            valueText = null;
+        } else {
+            result = createToken(context, yychar, yytext());
+        }
+        return result;
+    }
+
+    public final boolean hasMoreTokens() {
+        return hasMore && yychar < MAX_TO_SCAN;
+    }
+    private void pushCurrentState() {
+        fStateStack.push(yystate());
+
+    }
+
+    private void popState() {
+        yybegin(fStateStack.pop());
+    }
+    private HeadParserToken createToken(String context, int start, String text) {
+        return new HeadParserToken(context, start, text);
+    }
+    
 
 
 
@@ -427,7 +427,7 @@ public class CSSHeadTokenizer {
   private void yy_do_eof() {
     if (!yy_eof_done) {
       yy_eof_done = true;
-    	hasMore=false;
+        hasMore=false;
 
     }
   }

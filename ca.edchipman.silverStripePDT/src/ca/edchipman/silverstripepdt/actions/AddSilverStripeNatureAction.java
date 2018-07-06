@@ -31,23 +31,23 @@ import ca.edchipman.silverstripepdt.SilverStripeVersion;
 @SuppressWarnings("restriction")
 public class AddSilverStripeNatureAction implements IObjectActionDelegate {
 
-	private IProject selProj = null;
-	private IWorkbenchPart part = null; 
-	
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-		part = targetPart;
-	}
+    private IProject selProj = null;
+    private IWorkbenchPart part = null; 
+    
+    public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+        part = targetPart;
+    }
 
     public void run(IAction action) {
-		try {
-			if(selProj == null || selProj.getNature("org.eclipse.php.core.PHPNature")==null)
-				return;
-		}catch (CoreException e1) {
-			return;
-		}
-		
-		try {
-			IProjectDescription description = selProj.getProject().getDescription();
+        try {
+            if(selProj == null || selProj.getNature("org.eclipse.php.core.PHPNature")==null)
+                return;
+        }catch (CoreException e1) {
+            return;
+        }
+        
+        try {
+            IProjectDescription description = selProj.getProject().getDescription();
             String[] prevNatures = description.getNatureIds();
             String[] newNatures = new String[prevNatures.length + 1];
             newNatures[0] = SilverStripeNature.ID;                       
@@ -70,48 +70,48 @@ public class AddSilverStripeNatureAction implements IObjectActionDelegate {
             ScriptProject project=new ScriptProject(selProj, null);
             IBuildpathEntry ssBuildPath=DLTKCore.newContainerEntry(new Path(SilverStripePDTPlugin.NATURE_ID));
             List<IBuildpathEntry> buildPath = new ArrayList<IBuildpathEntry>();
-        	buildPath.add(ssBuildPath);
-        	
-        	try {
-        		BuildPathUtils.addNonDupEntriesToBuildPath(project, buildPath);
-        	}catch (NullPointerException e) {
-        		//TODO Figure out why there is one nothing seems to be null in the trace and it appears to work
-        	}
+            buildPath.add(ssBuildPath);
+            
+            try {
+                BuildPathUtils.addNonDupEntriesToBuildPath(project, buildPath);
+            }catch (NullPointerException e) {
+                //TODO Figure out why there is one nothing seems to be null in the trace and it appears to work
+            }
             
             CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), selProj);
             
             selProj.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		}catch (Exception e) {
-			MessageDialog.openInformation(
-			         this.part.getSite().getShell(),
-			         "SilverStripe PDT",
-			         "Could not add SilverStripe nature");
-			
-			e.printStackTrace();
-		}
-	}
+        }catch (Exception e) {
+            MessageDialog.openInformation(
+                     this.part.getSite().getShell(),
+                     "SilverStripe PDT",
+                     "Could not add SilverStripe nature");
+            
+            e.printStackTrace();
+        }
+    }
 
-	public void selectionChanged(IAction action, ISelection selection) {		
-		if(selection instanceof IStructuredSelection) {
-			IStructuredSelection structuredSel = (IStructuredSelection)selection;
-			if(!selection.isEmpty()) {
-				selProj = (IProject)structuredSel.getFirstElement();
+    public void selectionChanged(IAction action, ISelection selection) {        
+        if(selection instanceof IStructuredSelection) {
+            IStructuredSelection structuredSel = (IStructuredSelection)selection;
+            if(!selection.isEmpty()) {
+                selProj = (IProject)structuredSel.getFirstElement();
 
-				IProjectDescription description;
-				try {
-				    if(selProj.getProject().isAccessible()) {
-    					description = selProj.getProject().getDescription();
+                IProjectDescription description;
+                try {
+                    if(selProj.getProject().isAccessible()) {
+                        description = selProj.getProject().getDescription();
     
-    					if(description.hasNature(SilverStripeNature.ID)) {
-    						action.setEnabled(false);
-    					}
-				    }
-				} catch (CoreException e) {
-					e.printStackTrace();
-				}
-				
-			}
-		}
-	}	
-	
+                        if(description.hasNature(SilverStripeNature.ID)) {
+                            action.setEnabled(false);
+                        }
+                    }
+                } catch (CoreException e) {
+                    e.printStackTrace();
+                }
+                
+            }
+        }
+    }    
+    
 }

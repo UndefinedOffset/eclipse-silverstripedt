@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="tokenizer" default="setupEnviroment">
-	<target name="cleanupCache">
+    <target name="cleanupCache">
         <delete verbose="true">
             <fileset dir="cache" defaultexcludes="no">
                 <include name="*.*"/>
                 <exclude name=".gitignore"/>
             </fileset>
         </delete>
-	</target>
+    </target>
     
     <target name="setupEnviroment" depends="cleanupCache">
-    	<!-- Fetch 3.7 -->
+        <!-- Fetch 3.7 -->
         <get src="http://www.silverstripe.org/software/download/release-archive/" dest="cache/release-archive.html" verbose="true"/>
         
         <loadfile srcfile="cache/release-archive.html" property="resultStable">
@@ -28,7 +28,7 @@
             var stableVersion='3.7.'+resultStable.replace(/assets\/releases\/SilverStripe-cms-v3\.7\.(\d+)\.tar\.gz/,"$1");
             project.setProperty("result36Version", stableVersion.replace(/\n|\r/g, ''));
         </script>
-    	
+        
         <get src="http://www.silverstripe.org/${resultStable}" dest="cache/silverstripe-3.7.tar.gz" verbose="true"/>
         
         <untar src="cache/silverstripe-3.7.tar.gz" dest="cache/SS3.7" compression="gzip">

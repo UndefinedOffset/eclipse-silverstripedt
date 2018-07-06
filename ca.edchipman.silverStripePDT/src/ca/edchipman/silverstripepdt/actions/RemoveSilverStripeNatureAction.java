@@ -26,40 +26,40 @@ import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 @SuppressWarnings("restriction")
 public class RemoveSilverStripeNatureAction implements IObjectActionDelegate {
 
-	private IWorkbenchPart part = null;
-	private IProject selProj = null; 
-	
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-		part = targetPart;
-	}
+    private IWorkbenchPart part = null;
+    private IProject selProj = null; 
+    
+    public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+        part = targetPart;
+    }
 
     public void run(IAction action) {
-		if(selProj == null)
-			return;
-		
-		try {
-	        if(selProj.getProject().isAccessible()==false) {
-	            return;
-	        }
-	        
-			IProjectDescription description = selProj.getProject().getDescription();
-			
-			if(description.hasNature(SilverStripeNature.ID)) {
-				// remove the nature
-				String[] prevNatures = description.getNatureIds();
-				String[] newNatures = new String[prevNatures.length - 1];
-				
-				int i=0;
-				for (String nature : prevNatures) {
-					if(!nature.equals(SilverStripeNature.ID)) {
-						newNatures[i++] = nature;
-					}
-				}
-				
-				description.setNatureIds(newNatures);
-				selProj.getProject().setDescription(description, null);  
-	            
-	            //Restore asp and short tags setting
+        if(selProj == null)
+            return;
+        
+        try {
+            if(selProj.getProject().isAccessible()==false) {
+                return;
+            }
+            
+            IProjectDescription description = selProj.getProject().getDescription();
+            
+            if(description.hasNature(SilverStripeNature.ID)) {
+                // remove the nature
+                String[] prevNatures = description.getNatureIds();
+                String[] newNatures = new String[prevNatures.length - 1];
+                
+                int i=0;
+                for (String nature : prevNatures) {
+                    if(!nature.equals(SilverStripeNature.ID)) {
+                        newNatures[i++] = nature;
+                    }
+                }
+                
+                description.setNatureIds(newNatures);
+                selProj.getProject().setDescription(description, null);  
+                
+                //Restore asp and short tags setting
                 ProjectOptions.setSupportingASPTags(Boolean.parseBoolean(CorePreferencesSupport.getInstance().getPreferencesValue(Keys.EDITOR_USE_ASP_TAGS, null, null)), selProj.getProject());
                 CorePreferencesSupport.getInstance().setProjectSpecificPreferencesValue(Keys.EDITOR_USE_SHORT_TAGS, CorePreferencesSupport.getInstance().getPreferencesValue(Keys.EDITOR_USE_SHORT_TAGS, null, null), selProj.getProject());
                 
@@ -69,42 +69,42 @@ public class RemoveSilverStripeNatureAction implements IObjectActionDelegate {
                 IBuildpathEntry ssBuildPath=DLTKCore.newContainerEntry(new Path(SilverStripePDTPlugin.NATURE_ID));
                 
                 try {
-                	BuildPathUtils.removeEntryFromBuildPath(project, ssBuildPath);
-            	}catch (NullPointerException e) {
-            		//TODO Figure out why there is one nothing seems to be null in the trace and it appears to work
-            	}
+                    BuildPathUtils.removeEntryFromBuildPath(project, ssBuildPath);
+                }catch (NullPointerException e) {
+                    //TODO Figure out why there is one nothing seems to be null in the trace and it appears to work
+                }
                 
                 selProj.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-			}
-		}catch (Exception e) {
-			MessageDialog.openInformation(
-			         this.part.getSite().getShell(),
-			         "SilverStripe PDT",
-			         "Could not remove SilverStripe nature");
-			
-			e.printStackTrace();
-		}
-	}
+            }
+        }catch (Exception e) {
+            MessageDialog.openInformation(
+                     this.part.getSite().getShell(),
+                     "SilverStripe PDT",
+                     "Could not remove SilverStripe nature");
+            
+            e.printStackTrace();
+        }
+    }
 
-	public void selectionChanged(IAction action, ISelection selection) {		
-		if(selection instanceof IStructuredSelection) {
-			IStructuredSelection structuredSel = (IStructuredSelection)selection;
-			if(!selection.isEmpty()) {
-				selProj = (IProject)structuredSel.getFirstElement();
-				
-				IProjectDescription description;
-				try {
-					description = selProj.getProject().getDescription();
+    public void selectionChanged(IAction action, ISelection selection) {        
+        if(selection instanceof IStructuredSelection) {
+            IStructuredSelection structuredSel = (IStructuredSelection)selection;
+            if(!selection.isEmpty()) {
+                selProj = (IProject)structuredSel.getFirstElement();
+                
+                IProjectDescription description;
+                try {
+                    description = selProj.getProject().getDescription();
 
-					if(!description.hasNature(SilverStripeNature.ID)) {
-						action.setEnabled(false);
-					}
-				} catch (CoreException e) {
-					e.printStackTrace();
-				}
-				
-			}
-		}
-	}
-	
+                    if(!description.hasNature(SilverStripeNature.ID)) {
+                        action.setEnabled(false);
+                    }
+                } catch (CoreException e) {
+                    e.printStackTrace();
+                }
+                
+            }
+        }
+    }
+    
 }

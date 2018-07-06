@@ -59,11 +59,11 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
      * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#finishPage(org.eclipse.core.runtime.IProgressMonitor)
      */
     protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
-    	if(fPage.isClassMode()) {
-    		cPage.createType(monitor);
-    	}else {
-    		tPage.createFile(monitor);
-    	}
+        if(fPage.isClassMode()) {
+            cPage.createType(monitor);
+        }else {
+            tPage.createFile(monitor);
+        }
     }
     
     /*
@@ -110,7 +110,7 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
      */
     public IWizardPage getNextPage(IWizardPage page) {
         if(fPage.isClassMode()) {
-        	return cPage;
+            return cPage;
         }
         
         return tPage;

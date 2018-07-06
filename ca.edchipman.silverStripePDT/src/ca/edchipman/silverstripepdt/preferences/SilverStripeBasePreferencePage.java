@@ -13,30 +13,30 @@ import ca.edchipman.silverstripepdt.SilverStripePDTPlugin;
 
 public class SilverStripeBasePreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
-	public SilverStripeBasePreferencePage() {
-		super();
-		setPreferenceStore(SilverStripePDTPlugin.getDefault().getPreferenceStore());
-		setDescription("SilverStripe");
+    public SilverStripeBasePreferencePage() {
+        super();
+        setPreferenceStore(SilverStripePDTPlugin.getDefault().getPreferenceStore());
+        setDescription("SilverStripe");
 
-	}
+    }
 
-	@Override
-	protected Control createContents(Composite parent) {
-		initializeDialogUnits(parent);
+    @Override
+    protected Control createContents(Composite parent) {
+        initializeDialogUnits(parent);
 
-		Composite result = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
-		layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
-		layout.marginWidth = 0;
-		layout.verticalSpacing = convertVerticalDLUsToPixels(10);
-		layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
-		result.setLayout(layout);
+        Composite result = new Composite(parent, SWT.NONE);
+        GridLayout layout = new GridLayout();
+        layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+        layout.marginWidth = 0;
+        layout.verticalSpacing = convertVerticalDLUsToPixels(10);
+        layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+        result.setLayout(layout);
 
-		return result;
-	}
+        return result;
+    }
 
-	public void init(IWorkbench workbench) {
-		
-	}
+    public void init(IWorkbench workbench) {
+        
+    }
 
 }

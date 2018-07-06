@@ -108,18 +108,18 @@ import org.eclipse.swt.widgets.Label;
 
 @SuppressWarnings("restriction")
 public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTemplatesWizardPage {
-	public static final String NEW_CLASS_CONTEXTTYPE = "ss_new_class_context"; //$NON-NLS-1$
-	
-	private IFile newFile;
-	private ISelection selection;
-	private NewSilverStripeClassWizardPage firstPage;
-	private TableViewer fTableViewer;
-	private GridData data;
-	private SourceViewer fPatternViewer;
-	private Object fProject;
-	private TemplateStore fTemplateStore;
-	
-	/**
+    public static final String NEW_CLASS_CONTEXTTYPE = "ss_new_class_context"; //$NON-NLS-1$
+    
+    private IFile newFile;
+    private ISelection selection;
+    private NewSilverStripeClassWizardPage firstPage;
+    private TableViewer fTableViewer;
+    private GridData data;
+    private SourceViewer fPatternViewer;
+    private Object fProject;
+    private TemplateStore fTemplateStore;
+    
+    /**
      * Create the wizard.
      */
     public NewSilverStripeClassWizardTemplatePage(final ISelection selection, NewSilverStripeClassWizardPage firstPage) {
@@ -135,192 +135,192 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
     }
     
     public void createControl(Composite ancestor) {
-    	Composite parent = new Composite(ancestor, SWT.NONE);
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		parent.setLayout(layout);
+        Composite parent = new Composite(ancestor, SWT.NONE);
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 2;
+        parent.setLayout(layout);
 
-		// create composite for Templates table
-		Composite innerParent = new Composite(parent, SWT.NONE);
-		GridLayout innerLayout = new GridLayout();
-		innerLayout.numColumns = 2;
-		innerLayout.marginHeight = 0;
-		innerLayout.marginWidth = 0;
-		innerParent.setLayout(innerLayout);
-		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
-		innerParent.setLayoutData(gd);
+        // create composite for Templates table
+        Composite innerParent = new Composite(parent, SWT.NONE);
+        GridLayout innerLayout = new GridLayout();
+        innerLayout.numColumns = 2;
+        innerLayout.marginHeight = 0;
+        innerLayout.marginWidth = 0;
+        innerParent.setLayout(innerLayout);
+        GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+        innerParent.setLayoutData(gd);
 
-		// Create linked text to just to templates preference page
-		Link link = new Link(innerParent, SWT.NONE);
-		link.setText(getTemplatesLocationMessage());
-		data = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
-		link.setLayoutData(data);
-		link.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				linkClicked();
-			}
-		});
+        // Create linked text to just to templates preference page
+        Link link = new Link(innerParent, SWT.NONE);
+        link.setText(getTemplatesLocationMessage());
+        data = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
+        link.setLayoutData(data);
+        link.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                linkClicked();
+            }
+        });
 
-		// create table that displays templates
-		Table table = new Table(innerParent, SWT.BORDER | SWT.FULL_SELECTION);
+        // create table that displays templates
+        Table table = new Table(innerParent, SWT.BORDER | SWT.FULL_SELECTION);
 
-		data = new GridData(GridData.FILL_BOTH);
-		data.widthHint = convertWidthInCharsToPixels(2);
-		data.heightHint = convertHeightInCharsToPixels(10);
-		data.horizontalSpan = 2;
-		table.setLayoutData(data);
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-		TableLayout tableLayout = new TableLayout();
-		table.setLayout(tableLayout);
+        data = new GridData(GridData.FILL_BOTH);
+        data.widthHint = convertWidthInCharsToPixels(2);
+        data.heightHint = convertHeightInCharsToPixels(10);
+        data.horizontalSpan = 2;
+        table.setLayoutData(data);
+        table.setHeaderVisible(true);
+        table.setLinesVisible(true);
+        TableLayout tableLayout = new TableLayout();
+        table.setLayout(tableLayout);
 
-		TableColumn column1 = new TableColumn(table, SWT.NONE);
-		column1.setText(Messages.NewGenericFileTemplatesWizardPage_0);
+        TableColumn column1 = new TableColumn(table, SWT.NONE);
+        column1.setText(Messages.NewGenericFileTemplatesWizardPage_0);
 
-		TableColumn column2 = new TableColumn(table, SWT.NONE);
-		column2.setText(Messages.NewGenericFileTemplatesWizardPage_1);
+        TableColumn column2 = new TableColumn(table, SWT.NONE);
+        column2.setText(Messages.NewGenericFileTemplatesWizardPage_1);
 
-		fTableViewer = new TableViewer(table);
-		fTableViewer.setLabelProvider(new TemplateLabelProvider());
-		fTableViewer.setContentProvider(new TemplateContentProvider());
+        fTableViewer = new TableViewer(table);
+        fTableViewer.setLabelProvider(new TemplateLabelProvider());
+        fTableViewer.setContentProvider(new TemplateContentProvider());
 
-		fTableViewer.setComparator(new ViewerComparator() {
-			@Override
-			public int compare(Viewer viewer, Object object1, Object object2) {
-				if (object1 instanceof Template && object2 instanceof Template) {
-					Template left = (Template) object1;
-					Template right = (Template) object2;
-					int result = left.getName().compareToIgnoreCase(
-							right.getName());
-					if (result != 0)
-						return result;
-					return left.getDescription().compareToIgnoreCase(
-							right.getDescription());
-				}
-				return super.compare(viewer, object1, object2);
-			}
+        fTableViewer.setComparator(new ViewerComparator() {
+            @Override
+            public int compare(Viewer viewer, Object object1, Object object2) {
+                if (object1 instanceof Template && object2 instanceof Template) {
+                    Template left = (Template) object1;
+                    Template right = (Template) object2;
+                    int result = left.getName().compareToIgnoreCase(
+                            right.getName());
+                    if (result != 0)
+                        return result;
+                    return left.getDescription().compareToIgnoreCase(
+                            right.getDescription());
+                }
+                return super.compare(viewer, object1, object2);
+            }
 
-			@Override
-			public boolean isSorterProperty(Object element, String property) {
-				return true;
-			}
-		});
+            @Override
+            public boolean isSorterProperty(Object element, String property) {
+                return true;
+            }
+        });
 
-		fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-					public void selectionChanged(SelectionChangedEvent e) {
-						updateViewerInput();
-					}
-				});
+        fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+                    public void selectionChanged(SelectionChangedEvent e) {
+                        updateViewerInput();
+                    }
+                });
 
-		// create viewer that displays currently selected template's contents
-		fPatternViewer = doCreateViewer(parent);
+        // create viewer that displays currently selected template's contents
+        fPatternViewer = doCreateViewer(parent);
 
-		configureTableResizing(innerParent, table, column1, column2);
+        configureTableResizing(innerParent, table, column1, column2);
 
-		String helpId = getNewFileWizardTemplatePageHelpId();
-		if (helpId != null) {
-			PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, helpId);
-		}
-		resetTableViewerInput();
-		Dialog.applyDialogFont(parent);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IPHPHelpContextIds.NEW);
-		setControl(parent);
-	}
+        String helpId = getNewFileWizardTemplatePageHelpId();
+        if (helpId != null) {
+            PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, helpId);
+        }
+        resetTableViewerInput();
+        Dialog.applyDialogFont(parent);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IPHPHelpContextIds.NEW);
+        setControl(parent);
+    }
 
-	public void createFile(IProgressMonitor monitor) throws CoreException,InterruptedException {
-		final String containerName = firstPage.getContainerName();
-		final String fileName = firstPage.getFileName();
-		
-		this.resetTableViewerInput();
-		
-		IScriptProject project = null;
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IResource resource = root.findMember(new Path(containerName));
-		
-		if (!resource.exists() || !(resource instanceof IContainer)) {
-			project = DLTKCore.create(resource.getProject());
-		}
-		
-		String lineSeparator = Util.getLineSeparator(null, project);
-		final PHPTemplateStore.CompiledTemplate template=this.compileTemplate(containerName, fileName, lineSeparator);
-		
-		try {
-			new SilverStripeFileCreator().createFile((Wizard) this.getWizard(), containerName, fileName, monitor, template.string, template.offset, true);
-			
-			saveLastSavedPreferences();
-		} finally {
-			monitor.done();
-		}
-	}
-	
-	/**
-	 * Creates a file resource handle for the file with the given workspace
-	 * path. This method does not create the file resource; this is the
-	 * responsibility of <code>createFile</code>.
-	 *
-	 * @param filePath
-	 *            the path of the file resource to create a handle for
-	 * @return the new file resource handle
-	 * @see #createFile
-	 */
-	protected IFile createFileHandle(IPath filePath) {
-		return IDEWorkbenchPlugin.getPluginWorkspace().getRoot().getFile(filePath);
-	}
+    public void createFile(IProgressMonitor monitor) throws CoreException,InterruptedException {
+        final String containerName = firstPage.getContainerName();
+        final String fileName = firstPage.getFileName();
+        
+        this.resetTableViewerInput();
+        
+        IScriptProject project = null;
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IResource resource = root.findMember(new Path(containerName));
+        
+        if (!resource.exists() || !(resource instanceof IContainer)) {
+            project = DLTKCore.create(resource.getProject());
+        }
+        
+        String lineSeparator = Util.getLineSeparator(null, project);
+        final PHPTemplateStore.CompiledTemplate template=this.compileTemplate(containerName, fileName, lineSeparator);
+        
+        try {
+            new SilverStripeFileCreator().createFile((Wizard) this.getWizard(), containerName, fileName, monitor, template.string, template.offset, true);
+            
+            saveLastSavedPreferences();
+        } finally {
+            monitor.done();
+        }
+    }
+    
+    /**
+     * Creates a file resource handle for the file with the given workspace
+     * path. This method does not create the file resource; this is the
+     * responsibility of <code>createFile</code>.
+     *
+     * @param filePath
+     *            the path of the file resource to create a handle for
+     * @return the new file resource handle
+     * @see #createFile
+     */
+    protected IFile createFileHandle(IPath filePath) {
+        return IDEWorkbenchPlugin.getPluginWorkspace().getRoot().getFile(filePath);
+    }
 
-	/**
-	 * Returns template string to insert.
-	 * 
-	 * @return String to insert or null if none is to be inserted
-	 */
-	public CompiledTemplate compileTemplate() {
-		Template template = getSelectedTemplate();
-		return PHPTemplateStore.compileTemplate(getTemplatesContextTypeRegistry(), template);
-	}
+    /**
+     * Returns template string to insert.
+     * 
+     * @return String to insert or null if none is to be inserted
+     */
+    public CompiledTemplate compileTemplate() {
+        Template template = getSelectedTemplate();
+        return PHPTemplateStore.compileTemplate(getTemplatesContextTypeRegistry(), template);
+    }
 
-	public CompiledTemplate compileTemplate(String containerName, String fileName) {
-		Template template=getSelectedTemplate();
-		return PHPTemplateStore.compileTemplate(getTemplatesContextTypeRegistry(), template, containerName, fileName);
-	}
+    public CompiledTemplate compileTemplate(String containerName, String fileName) {
+        Template template=getSelectedTemplate();
+        return PHPTemplateStore.compileTemplate(getTemplatesContextTypeRegistry(), template, containerName, fileName);
+    }
 
-	public CompiledTemplate compileTemplate(String containerName, String fileName, String lineDelimiter) {
-		Template template=getSelectedTemplate();
-		return PHPTemplateStore.compileTemplate(getTemplatesContextTypeRegistry(), template, containerName,fileName, lineDelimiter);
-	}
-	
-	protected String getTemplateContextTypeId() {
-		return NewSilverStripeClassWizardTemplatePage.NEW_CLASS_CONTEXTTYPE;
-	}
-	
-	protected String getUseTemplateMessage() {
-		return "";
-	}
-	
-	protected ContextTypeRegistry getTemplatesContextTypeRegistry() {
-		return SilverStripePDTPlugin.getDefault().getNewClassContextRegistry();
-	}
+    public CompiledTemplate compileTemplate(String containerName, String fileName, String lineDelimiter) {
+        Template template=getSelectedTemplate();
+        return PHPTemplateStore.compileTemplate(getTemplatesContextTypeRegistry(), template, containerName,fileName, lineDelimiter);
+    }
+    
+    protected String getTemplateContextTypeId() {
+        return NewSilverStripeClassWizardTemplatePage.NEW_CLASS_CONTEXTTYPE;
+    }
+    
+    protected String getUseTemplateMessage() {
+        return "";
+    }
+    
+    protected ContextTypeRegistry getTemplatesContextTypeRegistry() {
+        return SilverStripePDTPlugin.getDefault().getNewClassContextRegistry();
+    }
 
-	protected String getTemplatesLocationMessage() {
-		ContextTypeRegistry templateContextRegistry = getTemplatesContextTypeRegistry();
-		TemplateContextType templateContextType = templateContextRegistry.getContextType(getTemplateContextTypeId());
-		String name = templateContextType.getName();
-		
-		return NLS.bind("Templates are \"{0}\" found in the <a>SilverStripe Templates</a> preference page.", name);
-	}
+    protected String getTemplatesLocationMessage() {
+        ContextTypeRegistry templateContextRegistry = getTemplatesContextTypeRegistry();
+        TemplateContextType templateContextType = templateContextRegistry.getContextType(getTemplateContextTypeId());
+        String name = templateContextType.getName();
+        
+        return NLS.bind("Templates are \"{0}\" found in the <a>SilverStripe Templates</a> preference page.", name);
+    }
 
-	protected String getPreferencePageId() {
-		return "ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage"; //$NON-NLS-1$
-	}
+    protected String getPreferencePageId() {
+        return "ca.edchipman.silverstripepdt.preferences.SilverStripeTemplatesPreferencePage"; //$NON-NLS-1$
+    }
 
-	protected IPreferenceStore getPreferenceStore() {
-		return SilverStripePDTPlugin.getDefault().getPreferenceStore();
-	}
+    protected IPreferenceStore getPreferenceStore() {
+        return SilverStripePDTPlugin.getDefault().getPreferenceStore();
+    }
 
-	protected String getNewFileWizardTemplatePageHelpId() {
-		return null;
-	}
-	
-	public IProject getProject() {
+    protected String getNewFileWizardTemplatePageHelpId() {
+        return null;
+    }
+    
+    public IProject getProject() {
         return firstPage.getProject();
     }
     
@@ -329,175 +329,175 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
     }
     
     public boolean getIsCurrentPage() {
-    	return this.isCurrentPage();
+        return this.isCurrentPage();
     }
-	
-	private void linkClicked() {
-		String pageId = getPreferencePageId();
-		PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(getShell(), pageId, new String[] { pageId }, null);
-		dialog.open();
-		fTableViewer.refresh();
-	}
+    
+    private void linkClicked() {
+        String pageId = getPreferencePageId();
+        PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(getShell(), pageId, new String[] { pageId }, null);
+        dialog.open();
+        fTableViewer.refresh();
+    }
 
-	private SourceViewer doCreateViewer(Composite parent) {
-		Label label = new Label(parent, SWT.NONE);
-		label.setText(Messages.NewGenericFileTemplatesWizardPage_2);
-		GridData data = new GridData();
-		data.horizontalSpan = 2;
-		label.setLayoutData(data);
+    private SourceViewer doCreateViewer(Composite parent) {
+        Label label = new Label(parent, SWT.NONE);
+        label.setText(Messages.NewGenericFileTemplatesWizardPage_2);
+        GridData data = new GridData();
+        data.horizontalSpan = 2;
+        label.setLayoutData(data);
 
-		SourceViewer viewer = createViewer(parent);
-		viewer.setEditable(false);
+        SourceViewer viewer = createViewer(parent);
+        viewer.setEditable(false);
 
-		Control control = viewer.getControl();
-		data = new GridData(GridData.FILL_BOTH);
-		data.horizontalSpan = 2;
-		data.heightHint = convertHeightInCharsToPixels(5);
-		control.setLayoutData(data);
+        Control control = viewer.getControl();
+        data = new GridData(GridData.FILL_BOTH);
+        data.horizontalSpan = 2;
+        data.heightHint = convertHeightInCharsToPixels(5);
+        control.setLayoutData(data);
 
-		return viewer;
-	}
+        return viewer;
+    }
 
-	/**
-	 * Creates, configures and returns a source viewer to present the template
-	 * pattern on the preference page. Clients may override to provide a custom
-	 * source viewer featuring e.g. syntax coloring.
-	 * 
-	 * @param parent
-	 *            the parent control
-	 * @return a configured source viewer
-	 */
-	private SourceViewer createViewer(Composite parent) {
-		//Hack to wake up PDT's template store (for some reason this is needed)
-		getTemplateStore();
-		
-		SourceViewerConfiguration sourceViewerConfiguration = new StructuredTextViewerConfiguration() {
-			StructuredTextViewerConfiguration baseConfiguration = new PHPStructuredTextViewerConfiguration();
+    /**
+     * Creates, configures and returns a source viewer to present the template
+     * pattern on the preference page. Clients may override to provide a custom
+     * source viewer featuring e.g. syntax coloring.
+     * 
+     * @param parent
+     *            the parent control
+     * @return a configured source viewer
+     */
+    private SourceViewer createViewer(Composite parent) {
+        //Hack to wake up PDT's template store (for some reason this is needed)
+        getTemplateStore();
+        
+        SourceViewerConfiguration sourceViewerConfiguration = new StructuredTextViewerConfiguration() {
+            StructuredTextViewerConfiguration baseConfiguration = new PHPStructuredTextViewerConfiguration();
 
-			@Override
-			public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-				return baseConfiguration
-						.getConfiguredContentTypes(sourceViewer);
-			}
+            @Override
+            public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
+                return baseConfiguration
+                        .getConfiguredContentTypes(sourceViewer);
+            }
 
-			@Override
-			public LineStyleProvider[] getLineStyleProviders(ISourceViewer sourceViewer, String partitionType) {
-				return baseConfiguration.getLineStyleProviders(sourceViewer, partitionType);
-			}
-		};
-		
-		SourceViewer viewer = new StructuredTextViewer(parent, null, null, false, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
-		((StructuredTextViewer) viewer).getTextWidget().setFont(JFaceResources.getFont("org.eclipse.wst.sse.ui.textfont")); //$NON-NLS-1$
-		IStructuredModel scratchModel = StructuredModelManager.getModelManager().createUnManagedStructuredModelFor(ContentTypeIdForPHP.ContentTypeID_PHP);
-		IDocument document = scratchModel.getStructuredDocument();
-		viewer.configure(sourceViewerConfiguration);
-		viewer.setDocument(document);
-		
-		return viewer;
-	}
+            @Override
+            public LineStyleProvider[] getLineStyleProviders(ISourceViewer sourceViewer, String partitionType) {
+                return baseConfiguration.getLineStyleProviders(sourceViewer, partitionType);
+            }
+        };
+        
+        SourceViewer viewer = new StructuredTextViewer(parent, null, null, false, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+        ((StructuredTextViewer) viewer).getTextWidget().setFont(JFaceResources.getFont("org.eclipse.wst.sse.ui.textfont")); //$NON-NLS-1$
+        IStructuredModel scratchModel = StructuredModelManager.getModelManager().createUnManagedStructuredModelFor(ContentTypeIdForPHP.ContentTypeID_PHP);
+        IDocument document = scratchModel.getStructuredDocument();
+        viewer.configure(sourceViewerConfiguration);
+        viewer.setDocument(document);
+        
+        return viewer;
+    }
 
-	/**
-	 * Updates the pattern viewer.
-	 */
-	private void updateViewerInput() {
-		Template template = getSelectedTemplate();
-		if (template != null) {
-			fPatternViewer.getDocument().set(template.getPattern());
-		}
-	}
+    /**
+     * Updates the pattern viewer.
+     */
+    private void updateViewerInput() {
+        Template template = getSelectedTemplate();
+        if (template != null) {
+            fPatternViewer.getDocument().set(template.getPattern());
+        }
+    }
 
-	/**
-	 * Get the currently selected template.
-	 * 
-	 * @return
-	 */
-	private Template getSelectedTemplate() {
-		Template template = null;
-		IStructuredSelection selection = (IStructuredSelection) fTableViewer.getSelection();
+    /**
+     * Get the currently selected template.
+     * 
+     * @return
+     */
+    private Template getSelectedTemplate() {
+        Template template = null;
+        IStructuredSelection selection = (IStructuredSelection) fTableViewer.getSelection();
 
-		if (selection.size() == 1) {
-			template = (Template) selection.getFirstElement();
-		}
-		return template;
-	}
+        if (selection.size() == 1) {
+            template = (Template) selection.getFirstElement();
+        }
+        return template;
+    }
 
-	/**
-	 * Correctly resizes the table so no phantom columns appear
-	 * 
-	 * @param parent
-	 *            the parent control
-	 * @param buttons
-	 *            the buttons
-	 * @param table
-	 *            the table
-	 * @param column1
-	 *            the first column
-	 * @param column2
-	 *            the second column
-	 * @param column3
-	 *            the third column
-	 */
-	private void configureTableResizing(final Composite parent,
-			final Table table, final TableColumn column1,
-			final TableColumn column2) {
-		parent.addControlListener(new ControlAdapter() {
-			@Override
-			public void controlResized(ControlEvent e) {
-				Rectangle area = parent.getClientArea();
-				Point preferredSize = table.computeSize(SWT.DEFAULT,
-						SWT.DEFAULT);
-				int width = area.width - 2 * table.getBorderWidth();
-				if (preferredSize.y > area.height) {
-					// Subtract the scrollbar width from the total column
-					// width
-					// if a vertical scrollbar will be required
-					Point vBarSize = table.getVerticalBar().getSize();
-					width -= vBarSize.x;
-				}
+    /**
+     * Correctly resizes the table so no phantom columns appear
+     * 
+     * @param parent
+     *            the parent control
+     * @param buttons
+     *            the buttons
+     * @param table
+     *            the table
+     * @param column1
+     *            the first column
+     * @param column2
+     *            the second column
+     * @param column3
+     *            the third column
+     */
+    private void configureTableResizing(final Composite parent,
+            final Table table, final TableColumn column1,
+            final TableColumn column2) {
+        parent.addControlListener(new ControlAdapter() {
+            @Override
+            public void controlResized(ControlEvent e) {
+                Rectangle area = parent.getClientArea();
+                Point preferredSize = table.computeSize(SWT.DEFAULT,
+                        SWT.DEFAULT);
+                int width = area.width - 2 * table.getBorderWidth();
+                if (preferredSize.y > area.height) {
+                    // Subtract the scrollbar width from the total column
+                    // width
+                    // if a vertical scrollbar will be required
+                    Point vBarSize = table.getVerticalBar().getSize();
+                    width -= vBarSize.x;
+                }
 
-				Point oldSize = table.getSize();
-				if (oldSize.x > width) {
-					// table is getting smaller so make the columns
-					// smaller first and then resize the table to
-					// match the client area width
-					column1.setWidth(width / 2);
-					column2.setWidth(width / 2);
-					table.setSize(width, area.height);
-				} else {
-					// table is getting bigger so make the table
-					// bigger first and then make the columns wider
-					// to match the client area width
-					table.setSize(width, area.height);
-					column1.setWidth(width / 2);
-					column2.setWidth(width / 2);
-				}
-			}
-		});
-	}
+                Point oldSize = table.getSize();
+                if (oldSize.x > width) {
+                    // table is getting smaller so make the columns
+                    // smaller first and then resize the table to
+                    // match the client area width
+                    column1.setWidth(width / 2);
+                    column2.setWidth(width / 2);
+                    table.setSize(width, area.height);
+                } else {
+                    // table is getting bigger so make the table
+                    // bigger first and then make the columns wider
+                    // to match the client area width
+                    table.setSize(width, area.height);
+                    column1.setWidth(width / 2);
+                    column2.setWidth(width / 2);
+                }
+            }
+        });
+    }
 
-	@Override
-	protected ProjectTemplateStore getTemplateStore() {
+    @Override
+    protected ProjectTemplateStore getTemplateStore() {
 
-		IProject project = getProject();
+        IProject project = getProject();
 
-		ProjectTemplateStore templateStore;
-		if (ProjectTemplateStore.hasProjectSpecificTempates(project)) {
-			templateStore = new ProjectTemplateStore(project);
-		} else {
-			templateStore = new ProjectTemplateStore(null);
-		}
+        ProjectTemplateStore templateStore;
+        if (ProjectTemplateStore.hasProjectSpecificTempates(project)) {
+            templateStore = new ProjectTemplateStore(project);
+        } else {
+            templateStore = new ProjectTemplateStore(null);
+        }
 
-		try {
-			templateStore.load();
-		} catch (IOException e) {
-			// Ignore the error.
-		}
-		return templateStore;
+        try {
+            templateStore.load();
+        } catch (IOException e) {
+            // Ignore the error.
+        }
+        return templateStore;
 
-	}
-	
-	public TemplateStore getSSTemplateStore() {
-		TemplateStore templateStore = new SilverStripeTemplateStore(getTemplatesContextTypeRegistry(), getPreferenceStore(), "ca.edchipman.silverstripepdt.SilverStripe.classtemplates");
+    }
+    
+    public TemplateStore getSSTemplateStore() {
+        TemplateStore templateStore = new SilverStripeTemplateStore(getTemplatesContextTypeRegistry(), getPreferenceStore(), "ca.edchipman.silverstripepdt.SilverStripe.classtemplates");
         
         try {
             templateStore.load();
@@ -507,145 +507,145 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
         
         return templateStore;
     }
-	
-	public void resetTableViewerInput() {
-		IProject newProject = getProject();
-		if ((fProject == null && fProject != newProject) || (fProject != null && !fProject.equals(newProject))) {
-			fProject = newProject;
-			fTemplateStore = getSSTemplateStore();
-			fTableViewer.setInput(fTemplateStore);
-			loadLastSavedPreferences();
-		}
-	}
-	
-	/**
-	 * Load the last template name used in New HTML File wizard.
-	 */
-	protected void loadLastSavedPreferences() {
-		String templateName = getPreferenceStore().getString(PreferenceConstants.NEW_PHP_FILE_TEMPLATE);
-		if (templateName == null || templateName.length() == 0) {
-			fLastSelectedTemplateName = ""; //$NON-NLS-1$
-		} else {
-			fLastSelectedTemplateName = templateName;
-		}
-		
-		setSelectedTemplate(fLastSelectedTemplateName);
-	}
+    
+    public void resetTableViewerInput() {
+        IProject newProject = getProject();
+        if ((fProject == null && fProject != newProject) || (fProject != null && !fProject.equals(newProject))) {
+            fProject = newProject;
+            fTemplateStore = getSSTemplateStore();
+            fTableViewer.setInput(fTemplateStore);
+            loadLastSavedPreferences();
+        }
+    }
+    
+    /**
+     * Load the last template name used in New HTML File wizard.
+     */
+    protected void loadLastSavedPreferences() {
+        String templateName = getPreferenceStore().getString(PreferenceConstants.NEW_PHP_FILE_TEMPLATE);
+        if (templateName == null || templateName.length() == 0) {
+            fLastSelectedTemplateName = ""; //$NON-NLS-1$
+        } else {
+            fLastSelectedTemplateName = templateName;
+        }
+        
+        setSelectedTemplate(fLastSelectedTemplateName);
+    }
 
-	/**
-	 * Select a template in the table viewer given the template name. If
-	 * template name cannot be found or templateName is null, just select first
-	 * item in table. If no items in table select nothing.
-	 * 
-	 * @param templateName
-	 */
-	private void setSelectedTemplate(String templateName) {
-		Object template = null;
+    /**
+     * Select a template in the table viewer given the template name. If
+     * template name cannot be found or templateName is null, just select first
+     * item in table. If no items in table select nothing.
+     * 
+     * @param templateName
+     */
+    private void setSelectedTemplate(String templateName) {
+        Object template = null;
 
-		if (templateName != null && templateName.length() > 0) {
-			// pick the last used template
-			template = fTemplateStore.findTemplate(templateName, getTemplateContextTypeId());
-		}
+        if (templateName != null && templateName.length() > 0) {
+            // pick the last used template
+            template = fTemplateStore.findTemplate(templateName, getTemplateContextTypeId());
+        }
 
-		// no record of last used template so just pick first element
-		if (template == null) {
-			// just pick first element
-			template = fTableViewer.getElementAt(0);
-		}
+        // no record of last used template so just pick first element
+        if (template == null) {
+            // just pick first element
+            template = fTableViewer.getElementAt(0);
+        }
 
-		if (template != null) {
-			IStructuredSelection selection = new StructuredSelection(template);
-			fTableViewer.setSelection(selection, true);
-		}
-	}
-	
-	/**
-	 * Save template name used for next call to New HTML File wizard.
-	 */
-	private void saveLastSavedPreferences() {
-		String templateName = ""; //$NON-NLS-1$
+        if (template != null) {
+            IStructuredSelection selection = new StructuredSelection(template);
+            fTableViewer.setSelection(selection, true);
+        }
+    }
+    
+    /**
+     * Save template name used for next call to New HTML File wizard.
+     */
+    private void saveLastSavedPreferences() {
+        String templateName = ""; //$NON-NLS-1$
 
-		Template template = getSelectedTemplate();
-		if (template != null) {
-			templateName = template.getName();
-		}
+        Template template = getSelectedTemplate();
+        if (template != null) {
+            templateName = template.getName();
+        }
 
-		getPreferenceStore().setValue(PreferenceConstants.NEW_PHP_FILE_TEMPLATE, templateName);
-	}
-	
-	/**
-	 * Label provider for templates.
-	 */
-	private class TemplateLabelProvider extends LabelProvider implements ITableLabelProvider {
+        getPreferenceStore().setValue(PreferenceConstants.NEW_PHP_FILE_TEMPLATE, templateName);
+    }
+    
+    /**
+     * Label provider for templates.
+     */
+    private class TemplateLabelProvider extends LabelProvider implements ITableLabelProvider {
 
-		/*
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
-		 * .lang.Object, int)
-		 */
-		public Image getColumnImage(Object element, int columnIndex) {
-			return null;
-		}
+        /*
+         * @see
+         * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
+         * .lang.Object, int)
+         */
+        public Image getColumnImage(Object element, int columnIndex) {
+            return null;
+        }
 
-		/*
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
-		 * lang.Object, int)
-		 */
-		public String getColumnText(Object element, int columnIndex) {
-			Template template = (Template) element;
+        /*
+         * @see
+         * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
+         * lang.Object, int)
+         */
+        public String getColumnText(Object element, int columnIndex) {
+            Template template = (Template) element;
 
-			switch (columnIndex) {
-			case 0:
-				return template.getName();
-			case 1:
-				return template.getDescription();
-			default:
-				return ""; //$NON-NLS-1$
-			}
-		}
-	}
-	
-	/**
-	 * Content provider for templates
-	 */
-	private class TemplateContentProvider implements IStructuredContentProvider {
-		/** The template store. */
-		private TemplateStore fStore;
+            switch (columnIndex) {
+            case 0:
+                return template.getName();
+            case 1:
+                return template.getDescription();
+            default:
+                return ""; //$NON-NLS-1$
+            }
+        }
+    }
+    
+    /**
+     * Content provider for templates
+     */
+    private class TemplateContentProvider implements IStructuredContentProvider {
+        /** The template store. */
+        private TemplateStore fStore;
 
-		/*
-		 * @see IContentProvider#dispose()
-		 */
-		public void dispose() {
-			fStore = null;
-		}
+        /*
+         * @see IContentProvider#dispose()
+         */
+        public void dispose() {
+            fStore = null;
+        }
 
-		/*
-		 * @see IStructuredContentProvider#getElements(Object)
-		 */
-		public Object[] getElements(Object input) {
-			String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), NewSilverStripeClassWizardTemplatePage.this.getProject());
-			Object[] templates=fStore.getTemplates(NewSilverStripeClassWizardTemplatePage.this.getTemplateContextTypeId());
-			List<Template> results=new ArrayList();
-			
-			for(int i=0;i<templates.length;i++) {
-				
-				if(templates[i] instanceof SilverStripeTemplate) {
-					SilverStripeTemplate ssTemplate = (SilverStripeTemplate) templates[i];
-					if(ssTemplate.ssVersions().length==0 || Arrays.asList(ssTemplate.ssVersions()).contains(ssVersion)) {
-						results.add(ssTemplate);
-					}
-				}
-			}
-			
-			return (Object[]) results.toArray(new Template[results.size()]);
-		}
+        /*
+         * @see IStructuredContentProvider#getElements(Object)
+         */
+        public Object[] getElements(Object input) {
+            String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), NewSilverStripeClassWizardTemplatePage.this.getProject());
+            Object[] templates=fStore.getTemplates(NewSilverStripeClassWizardTemplatePage.this.getTemplateContextTypeId());
+            List<Template> results=new ArrayList();
+            
+            for(int i=0;i<templates.length;i++) {
+                
+                if(templates[i] instanceof SilverStripeTemplate) {
+                    SilverStripeTemplate ssTemplate = (SilverStripeTemplate) templates[i];
+                    if(ssTemplate.ssVersions().length==0 || Arrays.asList(ssTemplate.ssVersions()).contains(ssVersion)) {
+                        results.add(ssTemplate);
+                    }
+                }
+            }
+            
+            return (Object[]) results.toArray(new Template[results.size()]);
+        }
 
-		/*
-		 * @see IContentProvider#inputChanged(Viewer, Object, Object)
-		 */
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			fStore = (TemplateStore) newInput;
-		}
-	}
+        /*
+         * @see IContentProvider#inputChanged(Viewer, Object, Object)
+         */
+        public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+            fStore = (TemplateStore) newInput;
+        }
+    }
 }

@@ -39,13 +39,13 @@ public class SilverStripeTemplate extends Template {
      * @param template The template to copy
      * @param ssVersions SilverStripe versions supported
      */
-	public SilverStripeTemplate(Template template, String[] ssVersions) {
-		super(template.getName(), template.getDescription(), template.getContextTypeId(), template.getPattern(), template.isAutoInsertable());
+    public SilverStripeTemplate(Template template, String[] ssVersions) {
+        super(template.getName(), template.getDescription(), template.getContextTypeId(), template.getPattern(), template.isAutoInsertable());
         
         this.fSSVersions=ssVersions;
-	}
+    }
 
-	/**
+    /**
      * Gets the ss versions for this template
      * @return array Array of SilverStripe Version codes
      */
@@ -53,20 +53,20 @@ public class SilverStripeTemplate extends Template {
         return this.fSSVersions;
     }
 
-	/*
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object o) {
-		if (!(o instanceof Template))
-			return false;
-		
-		if(!(o instanceof SilverStripeTemplate))
-			return super.equals(o);
-		
-		SilverStripeTemplate t=(SilverStripeTemplate) o;
-		if (t == this)
-			return true;
-		
-		return super.equals(o) && t.ssVersions().equals(this.fSSVersions);
-	}
+    /*
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object o) {
+        if (!(o instanceof Template))
+            return false;
+        
+        if(!(o instanceof SilverStripeTemplate))
+            return super.equals(o);
+        
+        SilverStripeTemplate t=(SilverStripeTemplate) o;
+        if (t == this)
+            return true;
+        
+        return super.equals(o) && t.ssVersions().equals(this.fSSVersions);
+    }
 }

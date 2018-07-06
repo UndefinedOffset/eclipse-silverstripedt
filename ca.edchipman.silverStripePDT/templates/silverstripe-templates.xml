@@ -113,6 +113,7 @@ class ${file_name} extends DataObject {
     private static $$defaults=array(
                                 );
     
+    
     ${cursor}
 }
 ?&gt;</template>

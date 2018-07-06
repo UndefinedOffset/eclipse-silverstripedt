@@ -48,13 +48,13 @@
             </fileset>
         </delete>
     </target>
-	
-	<target name="cleanupCache">
+    
+    <target name="cleanupCache">
         <delete verbose="true">
             <fileset dir="cache" defaultexcludes="no">
                 <include name="*.*"/>
                 <exclude name=".gitignore"/>
             </fileset>
         </delete>
-	</target>
+    </target>
 </project>

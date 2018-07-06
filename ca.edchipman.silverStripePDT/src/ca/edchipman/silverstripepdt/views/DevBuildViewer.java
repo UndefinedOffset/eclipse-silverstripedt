@@ -102,7 +102,7 @@ public class DevBuildViewer extends ViewPart {
             
             if(progressListener!=null) {
                 progressListener.resetProgressBar();
-            	progressListener.showProgressBar();
+                progressListener.showProgressBar();
             }
         }
     }
@@ -171,7 +171,7 @@ public class DevBuildViewer extends ViewPart {
          * Gets the currently active progress bar instance
          */
         public void showProgressBar() {
-        	progress.setVisible(true);
+            progress.setVisible(true);
         }
         
         /**

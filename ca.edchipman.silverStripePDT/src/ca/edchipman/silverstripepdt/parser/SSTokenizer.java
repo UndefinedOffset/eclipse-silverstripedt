@@ -947,10 +947,10 @@ public class SSTokenizer implements BlockTokenizer, DOMRegionContext, SilverStri
 
   /* error messages for the codes above */
   final private static String YY_ERROR_MSG[] = {
-    "Unkown internal scanner error",		//$NON-NLS-1$
-    "Internal error: unknown state",		//$NON-NLS-1$
-    "Error: could not match input",		//$NON-NLS-1$
-    "Error: pushback value was too large"	//$NON-NLS-1$
+    "Unkown internal scanner error",        //$NON-NLS-1$
+    "Internal error: unknown state",        //$NON-NLS-1$
+    "Error: could not match input",        //$NON-NLS-1$
+    "Error: pushback value was too large"    //$NON-NLS-1$
   };
 
   /**
@@ -1050,70 +1050,70 @@ public class SSTokenizer implements BlockTokenizer, DOMRegionContext, SilverStri
   /* user code: */
     public static boolean debugTokenizer = false;
     
-	private int fTokenCount = 0;
+    private int fTokenCount = 0;
  
-	// required holders for white-space compacting
-	private boolean fShouldLoadBuffered = false;
-	private String fBufferedContext = null;
-	private int fBufferedStart = 1;
-	private int fBufferedLength = 0;
-	private String f_context = null;
+    // required holders for white-space compacting
+    private boolean fShouldLoadBuffered = false;
+    private String fBufferedContext = null;
+    private int fBufferedStart = 1;
+    private int fBufferedLength = 0;
+    private String f_context = null;
 
-	// state stack for handling embedded regions
-	private IntStack fStateStack = new IntStack();
+    // state stack for handling embedded regions
+    private IntStack fStateStack = new IntStack();
 
-	private String context = null;
-	private int start = 0;
-	private int textLength = 0;
-	private int length = 0;
+    private String context = null;
+    private int start = 0;
+    private int textLength = 0;
+    private int length = 0;
 
-	// offset for tracking position specific block tags
-	private int fOffset = 0;
-	
-	// the name of the current tag being opened
-	private String fCurrentTagName = null;
+    // offset for tracking position specific block tags
+    private int fOffset = 0;
+    
+    // the name of the current tag being opened
+    private String fCurrentTagName = null;
 
-	// the list of tag name BlockMarkers
-	private List fBlockMarkers = new ArrayList();
+    // the list of tag name BlockMarkers
+    private List fBlockMarkers = new ArrayList();
 
-	// required to not seek text blocks on an end tag
-	private boolean fIsBlockingEnabled = false;
-	private boolean fIsCaseSensitiveBlocking = true;
+    // required to not seek text blocks on an end tag
+    private boolean fIsBlockingEnabled = false;
+    private boolean fIsCaseSensitiveBlocking = true;
 
-	private XMLParserRegionFactory fRegionFactory = new XMLParserRegionFactory();
+    private XMLParserRegionFactory fRegionFactory = new XMLParserRegionFactory();
 /**
  * user method 
  */
 public final void addBlockMarker(BlockMarker marker) {
-	if(containsTagName(marker.getTagName()))
-		return;
-	fBlockMarkers.add(marker);
+    if(containsTagName(marker.getTagName()))
+        return;
+    fBlockMarkers.add(marker);
 }
 /**
  * user method 
  */
 public final void removeBlockMarker(BlockMarker marker) {
-	fBlockMarkers.remove(marker);
+    fBlockMarkers.remove(marker);
 }
 /**
  * user method 
  */
 public final void removeBlockMarker(String tagname) {
-	if (fBlockMarkers != null) {
-		Iterator blocks = fBlockMarkers.iterator();
-		while (blocks.hasNext()) {
-			if (((BlockMarker) blocks.next()).getTagName().equals(tagname))
-				blocks.remove();
-		}
-	}
+    if (fBlockMarkers != null) {
+        Iterator blocks = fBlockMarkers.iterator();
+        while (blocks.hasNext()) {
+            if (((BlockMarker) blocks.next()).getTagName().equals(tagname))
+                blocks.remove();
+        }
+    }
 }
 /* user method */
 public final boolean isCaseSensitiveBlocking() {
-	return fIsCaseSensitiveBlocking;
+    return fIsCaseSensitiveBlocking;
 }
 /* user method */
 public final void setCaseSensitiveBlocking(boolean newValue) {
-	fIsCaseSensitiveBlocking = newValue;
+    fIsCaseSensitiveBlocking = newValue;
 }
 /* user method */
 public boolean getBlockMarkerCaseSensitivity() {
@@ -1121,52 +1121,52 @@ public boolean getBlockMarkerCaseSensitivity() {
 }
 /* user method */
 public boolean getBlockMarkerCaseSensitivity(String name) {
-	Iterator iterator = fBlockMarkers.iterator();
-	while(iterator.hasNext()) {
-		BlockMarker marker = (BlockMarker)iterator.next();
-		boolean casesensitive = marker.isCaseSensitive();
-		if(casesensitive && marker.getTagName().equals(name))
-			return casesensitive;
-		else if(!casesensitive && marker.getTagName().equalsIgnoreCase(name))
-			return casesensitive;
-	}
-	return true;
+    Iterator iterator = fBlockMarkers.iterator();
+    while(iterator.hasNext()) {
+        BlockMarker marker = (BlockMarker)iterator.next();
+        boolean casesensitive = marker.isCaseSensitive();
+        if(casesensitive && marker.getTagName().equals(name))
+            return casesensitive;
+        else if(!casesensitive && marker.getTagName().equalsIgnoreCase(name))
+            return casesensitive;
+    }
+    return true;
 }
 /* user method */
 public String getBlockMarkerContext() {
-	return getBlockMarkerContext(fCurrentTagName);
+    return getBlockMarkerContext(fCurrentTagName);
 }
 /* user method */
 public String getBlockMarkerContext(String name) {
-	Iterator iterator = fBlockMarkers.iterator();
-	while(iterator.hasNext()) {
-		BlockMarker marker = (BlockMarker)iterator.next();
-		if(marker.getTagName().equals(name))
-			return marker.getContext();
-	}
-	return BLOCK_TEXT;
+    Iterator iterator = fBlockMarkers.iterator();
+    while(iterator.hasNext()) {
+        BlockMarker marker = (BlockMarker)iterator.next();
+        if(marker.getTagName().equals(name))
+            return marker.getContext();
+    }
+    return BLOCK_TEXT;
 }
 /* user method */
 public List getBlockMarkers() {
-	return fBlockMarkers;
+    return fBlockMarkers;
 }
 /* user method */
 public final int getOffset() {
-	return fOffset + yychar;
+    return fOffset + yychar;
 }
 private final boolean isBlockMarker() {
-	return isBlockMarker(fCurrentTagName);
+    return isBlockMarker(fCurrentTagName);
 }
 private final boolean isBlockMarker(String tagName) {
-	if (!fIsBlockingEnabled)
-		return false;
-	return containsTagName(tagName);
+    if (!fIsBlockingEnabled)
+        return false;
+    return containsTagName(tagName);
 }
 /**
  * user method
  */
 public final void beginBlockTagScan(String newTagName) {
-	beginBlockMarkerScan(newTagName, BLOCK_TEXT);
+    beginBlockMarkerScan(newTagName, BLOCK_TEXT);
 }
 /**
  * user method
@@ -1175,23 +1175,23 @@ public final void beginBlockTagScan(String newTagName) {
  * start of a text block within a "newTagName" tag.
  *
  * Example: 
- *	Tokenizer toker = new Tokenizer();
- *	toker.setCaseSensitiveBlocking(false);
- *	toker.reset(new java.io.StringReader("afiuhqwkejhtasihgalkwhtq</scripter></scr></script>asgdasga"));
- *	toker.beginBlockMarkerScan("script", BLOCK_TEXT);
- *	toker.getRegions(); 
+ *    Tokenizer toker = new Tokenizer();
+ *    toker.setCaseSensitiveBlocking(false);
+ *    toker.reset(new java.io.StringReader("afiuhqwkejhtasihgalkwhtq</scripter></scr></script>asgdasga"));
+ *    toker.beginBlockMarkerScan("script", BLOCK_TEXT);
+ *    toker.getRegions(); 
  *
  * Returns:
- *	BLOCK_TEXT: 0-40
- *	XML_END_TAG_OPEN: 41-42
- *	XML_TAG_NAME: 43-48
- *	XML_TAG_CLOSE: 49-49
- *	XML_CONTENT: 50-57
+ *    BLOCK_TEXT: 0-40
+ *    XML_END_TAG_OPEN: 41-42
+ *    XML_TAG_NAME: 43-48
+ *    XML_TAG_CLOSE: 49-49
+ *    XML_CONTENT: 50-57
  *
  */
 public final void beginBlockMarkerScan(String newTagName, String blockcontext) {
-	yybegin(ST_BLOCK_TAG_SCAN);
-	fCurrentTagName = newTagName;
+    yybegin(ST_BLOCK_TAG_SCAN);
+    fCurrentTagName = newTagName;
 }
 /**
  * Method doScan.
@@ -1208,79 +1208,79 @@ public final void beginBlockMarkerScan(String newTagName, String blockcontext) {
  * @throws IOException
  */
 private final String doScan(String searchString, boolean requireTailSeparator, String searchContext, int exitState, int immediateFallbackState) throws IOException {
-	boolean stillSearching = true;
-	// Disable further block (probably)
-	fIsBlockingEnabled = false;
-	int searchStringLength = searchString.length();
-	int n = 0;
-	char lastCheckChar;
-	int i;
-	boolean same = false;
-	while (stillSearching) {
-		n = 0;
-		// Ensure that enough data from the input exists to compare against the search String.
-		n = yy_advance();
-		while(n != YYEOF && yy_currentPos < searchStringLength)
-			n = yy_advance();
-		// If the input was too short or we've exhausted the input, stop immediately.
-		if (n == YYEOF) {
-			stillSearching = false;
-		}
-		else {
-			same = true;
-			// Ensure that we've not encountered a complete block (<%%>) that was *shorter* than the closeTagString and
-			// thus found twice at current-targetLength [since the first scan would have come out this far anyway].
-			// Check the characters in the target versus the last targetLength characters read from the buffer
-			// and see if it matches
-			
-			// safety check for array accesses (yy_currentPos is the *last* character we can check against)
-			if(yy_currentPos >= searchStringLength && yy_currentPos <= yy_buffer.length) {
-				for(i = 0; i < searchStringLength; i++) {
-					if(same && fIsCaseSensitiveBlocking)
-						same = yy_buffer[i + yy_currentPos - searchStringLength] == searchString.charAt(i);
-					else if(same && !fIsCaseSensitiveBlocking)
-						same = Character.toLowerCase(yy_buffer[i + yy_currentPos - searchStringLength]) == Character.toLowerCase(searchString.charAt(i));
-				}
-			}
-			// safety check failed; no match is possible right now
-			else {
-				same = false;
-			}
-			if (same && requireTailSeparator && yy_currentPos < yy_buffer.length) {
-				// Additional check for close tags to ensure that targetString="</script" doesn't match
-				// "</scriptS"
-				lastCheckChar = yy_buffer[yy_currentPos];
-				// Succeed on "</script>" and "</script "
-				if(lastCheckChar == '>' || Character.isWhitespace(lastCheckChar))
-					stillSearching = false;
-			}
-			else {
-				stillSearching = !same || (yy_currentPos < yy_startRead + searchStringLength);
-			}
-		}
-	}
-	if (n != YYEOF || same) {
-		// We've stopped short of the end or definitely found a match
-		yy_markedPos = yy_currentPos - searchStringLength;
-		yy_currentPos = yy_markedPos + 1;
-		// If the searchString occurs at the very beginning of what would have
-		// been a Block, resume scanning normally immediately
-		if (yy_markedPos == yy_startRead) {
-			yybegin(immediateFallbackState);
-			return primGetNextToken();
-		}
-	}
-	else {
-		// We ran through the rest of the input
-		yy_markedPos = yy_currentPos;
-		yy_currentPos++;
-	}
-	yybegin(exitState);
-	// If the ending occurs at the very beginning of what would have
-	// been a Block, resume scanning normally immediately
-	if(yy_markedPos == yy_startRead)
-		return primGetNextToken();
-	return searchContext;
+    boolean stillSearching = true;
+    // Disable further block (probably)
+    fIsBlockingEnabled = false;
+    int searchStringLength = searchString.length();
+    int n = 0;
+    char lastCheckChar;
+    int i;
+    boolean same = false;
+    while (stillSearching) {
+        n = 0;
+        // Ensure that enough data from the input exists to compare against the search String.
+        n = yy_advance();
+        while(n != YYEOF && yy_currentPos < searchStringLength)
+            n = yy_advance();
+        // If the input was too short or we've exhausted the input, stop immediately.
+        if (n == YYEOF) {
+            stillSearching = false;
+        }
+        else {
+            same = true;
+            // Ensure that we've not encountered a complete block (<%%>) that was *shorter* than the closeTagString and
+            // thus found twice at current-targetLength [since the first scan would have come out this far anyway].
+            // Check the characters in the target versus the last targetLength characters read from the buffer
+            // and see if it matches
+            
+            // safety check for array accesses (yy_currentPos is the *last* character we can check against)
+            if(yy_currentPos >= searchStringLength && yy_currentPos <= yy_buffer.length) {
+                for(i = 0; i < searchStringLength; i++) {
+                    if(same && fIsCaseSensitiveBlocking)
+                        same = yy_buffer[i + yy_currentPos - searchStringLength] == searchString.charAt(i);
+                    else if(same && !fIsCaseSensitiveBlocking)
+                        same = Character.toLowerCase(yy_buffer[i + yy_currentPos - searchStringLength]) == Character.toLowerCase(searchString.charAt(i));
+                }
+            }
+            // safety check failed; no match is possible right now
+            else {
+                same = false;
+            }
+            if (same && requireTailSeparator && yy_currentPos < yy_buffer.length) {
+                // Additional check for close tags to ensure that targetString="</script" doesn't match
+                // "</scriptS"
+                lastCheckChar = yy_buffer[yy_currentPos];
+                // Succeed on "</script>" and "</script "
+                if(lastCheckChar == '>' || Character.isWhitespace(lastCheckChar))
+                    stillSearching = false;
+            }
+            else {
+                stillSearching = !same || (yy_currentPos < yy_startRead + searchStringLength);
+            }
+        }
+    }
+    if (n != YYEOF || same) {
+        // We've stopped short of the end or definitely found a match
+        yy_markedPos = yy_currentPos - searchStringLength;
+        yy_currentPos = yy_markedPos + 1;
+        // If the searchString occurs at the very beginning of what would have
+        // been a Block, resume scanning normally immediately
+        if (yy_markedPos == yy_startRead) {
+            yybegin(immediateFallbackState);
+            return primGetNextToken();
+        }
+    }
+    else {
+        // We ran through the rest of the input
+        yy_markedPos = yy_currentPos;
+        yy_currentPos++;
+    }
+    yybegin(exitState);
+    // If the ending occurs at the very beginning of what would have
+    // been a Block, resume scanning normally immediately
+    if(yy_markedPos == yy_startRead)
+        return primGetNextToken();
+    return searchContext;
 }
 /**
  * user method
@@ -1288,7 +1288,7 @@ private final String doScan(String searchString, boolean requireTailSeparator, S
  * A generic lookahead-like operation
  */
 private final String doBlockScan(String target, String targetContext, int immediateFallbackState) throws IOException {
-	return doScan(target, false, targetContext, immediateFallbackState, immediateFallbackState);
+    return doScan(target, false, targetContext, immediateFallbackState, immediateFallbackState);
 }
 /**
  * user method 
@@ -1296,7 +1296,7 @@ private final String doBlockScan(String target, String targetContext, int immedi
  */
 private final String doBlockTagScan() throws IOException {
         fIsCaseSensitiveBlocking = getBlockMarkerCaseSensitivity();
-	return doScan("</" + fCurrentTagName, true, getBlockMarkerContext(fCurrentTagName), YYINITIAL, YYINITIAL);
+    return doScan("</" + fCurrentTagName, true, getBlockMarkerContext(fCurrentTagName), YYINITIAL, YYINITIAL);
 }
 /**
  * user method
@@ -1312,93 +1312,93 @@ private final String doBlockTagScan() throws IOException {
  * so that whitespace can be collapsed.
  */
 public final ITextRegion getNextToken() throws IOException {
-	// load the starting non-whitespace token (assume that it is so)
-	if (fShouldLoadBuffered) {
-		context = fBufferedContext;
-		start = fBufferedStart;
-		textLength = length = fBufferedLength;
-		fShouldLoadBuffered = false;
-	}
-	else {
-		context = primGetNextToken();
-		if (context == XML_TAG_NAME) {
-			if(containsTagName(yy_buffer, yy_startRead, yy_markedPos-yy_startRead))
-				fCurrentTagName = yytext();
-			else
-				fCurrentTagName = null;
-		}
-		else if (context == XML_TAG_OPEN) {
-			fIsBlockingEnabled = true;
-		}
-		else if (context == XML_END_TAG_OPEN) {
-			fIsBlockingEnabled = false;
-		}
-		start = yychar;
-		textLength = length = yylength();
-		if (yy_atEOF) {
-			fTokenCount++;
-			return null;
-		}
-	}
-	// store the next token
-	f_context = primGetNextToken();
-	if (f_context == XML_TAG_NAME) {
-		if(containsTagName(yy_buffer, yy_startRead, yy_markedPos-yy_startRead))
-			fCurrentTagName = yytext();
-		else
-			fCurrentTagName = null;
-	}
-	else if (f_context == XML_TAG_OPEN) {
-		fIsBlockingEnabled = true;
-	}
-	else if (f_context == XML_END_TAG_OPEN) {
-		fIsBlockingEnabled = false;
-	}
-	fBufferedContext = f_context;
-	fBufferedStart = yychar;
-	fBufferedLength = yylength();
-	fShouldLoadBuffered = true;
-	if (fBufferedContext == WHITE_SPACE) {
-		fShouldLoadBuffered = false;
-		length += fBufferedLength;
-	}
-	if (context == null) {
-		// EOF
-		if (SSTokenizer.debugTokenizer) {
-			System.out.println(getClass().getName() + " discovered " + fTokenCount + " tokens."); //$NON-NLS-2$//$NON-NLS-1$
-		}
-		return null;
-	}
-	fTokenCount++;
-	return fRegionFactory.createToken(context, start, textLength, length, null, fCurrentTagName);
+    // load the starting non-whitespace token (assume that it is so)
+    if (fShouldLoadBuffered) {
+        context = fBufferedContext;
+        start = fBufferedStart;
+        textLength = length = fBufferedLength;
+        fShouldLoadBuffered = false;
+    }
+    else {
+        context = primGetNextToken();
+        if (context == XML_TAG_NAME) {
+            if(containsTagName(yy_buffer, yy_startRead, yy_markedPos-yy_startRead))
+                fCurrentTagName = yytext();
+            else
+                fCurrentTagName = null;
+        }
+        else if (context == XML_TAG_OPEN) {
+            fIsBlockingEnabled = true;
+        }
+        else if (context == XML_END_TAG_OPEN) {
+            fIsBlockingEnabled = false;
+        }
+        start = yychar;
+        textLength = length = yylength();
+        if (yy_atEOF) {
+            fTokenCount++;
+            return null;
+        }
+    }
+    // store the next token
+    f_context = primGetNextToken();
+    if (f_context == XML_TAG_NAME) {
+        if(containsTagName(yy_buffer, yy_startRead, yy_markedPos-yy_startRead))
+            fCurrentTagName = yytext();
+        else
+            fCurrentTagName = null;
+    }
+    else if (f_context == XML_TAG_OPEN) {
+        fIsBlockingEnabled = true;
+    }
+    else if (f_context == XML_END_TAG_OPEN) {
+        fIsBlockingEnabled = false;
+    }
+    fBufferedContext = f_context;
+    fBufferedStart = yychar;
+    fBufferedLength = yylength();
+    fShouldLoadBuffered = true;
+    if (fBufferedContext == WHITE_SPACE) {
+        fShouldLoadBuffered = false;
+        length += fBufferedLength;
+    }
+    if (context == null) {
+        // EOF
+        if (SSTokenizer.debugTokenizer) {
+            System.out.println(getClass().getName() + " discovered " + fTokenCount + " tokens."); //$NON-NLS-2$//$NON-NLS-1$
+        }
+        return null;
+    }
+    fTokenCount++;
+    return fRegionFactory.createToken(context, start, textLength, length, null, fCurrentTagName);
 }
 /* user method */
 public SSTokenizer(){
-	super();
+    super();
 }
 /* user method */
 public SSTokenizer(char[] charArray){
-		this(new CharArrayReader(charArray));
+        this(new CharArrayReader(charArray));
 }
 /* user method */
 public void reset(char[] charArray) {
-	reset(new CharArrayReader(charArray), 0);
+    reset(new CharArrayReader(charArray), 0);
 }
 /* user method */
 public void reset(char[] charArray, int newOffset) {
-	reset(new CharArrayReader(charArray), newOffset);
+    reset(new CharArrayReader(charArray), newOffset);
 }
 /* user method */
 public void reset(java.io.InputStream in) {
-	reset(new java.io.InputStreamReader(in), 0);
+    reset(new java.io.InputStreamReader(in), 0);
 }
 /* user method */
 public void reset(java.io.InputStream in, int newOffset) {
-	reset(new java.io.InputStreamReader(in), newOffset);
+    reset(new java.io.InputStreamReader(in), newOffset);
 }
 /* user method */
 public void reset(java.io.Reader in) {
-	reset(in, 0);
+    reset(in, 0);
 }
 /**
  * user method *
@@ -1411,92 +1411,92 @@ public void reset(java.io.Reader in) {
  * added.  Those code blocks were under the above copyright.
  */
 public void reset(java.io.Reader in, int newOffset) {
-	if (SSTokenizer.debugTokenizer) {
-		System.out.println("resetting tokenizer");//$NON-NLS-1$
-	}
-	fOffset = newOffset;
+    if (SSTokenizer.debugTokenizer) {
+        System.out.println("resetting tokenizer");//$NON-NLS-1$
+    }
+    fOffset = newOffset;
 
-	/* the input device */
-	yy_reader = in;
+    /* the input device */
+    yy_reader = in;
 
-	/* the current state of the DFA */
-	yy_state = 0;
+    /* the current state of the DFA */
+    yy_state = 0;
 
-	/* the current lexical state */
-	yy_lexical_state = YYINITIAL;
+    /* the current lexical state */
+    yy_lexical_state = YYINITIAL;
 
-	/* this buffer contains the current text to be matched and is
-	the source of the yytext() string */
-	java.util.Arrays.fill(yy_buffer, (char)0);
+    /* this buffer contains the current text to be matched and is
+    the source of the yytext() string */
+    java.util.Arrays.fill(yy_buffer, (char)0);
 
-	/* the textposition at the last accepting state */
-	yy_markedPos = 0;
+    /* the textposition at the last accepting state */
+    yy_markedPos = 0;
 
-	/* the textposition at the last state to be included in yytext */
-	//yy_pushbackPos = 0;
+    /* the textposition at the last state to be included in yytext */
+    //yy_pushbackPos = 0;
 
-	/* the current text position in the buffer */
-	yy_currentPos = 0;
+    /* the current text position in the buffer */
+    yy_currentPos = 0;
 
-	/* startRead marks the beginning of the yytext() string in the buffer */
-	yy_startRead = 0;
+    /* startRead marks the beginning of the yytext() string in the buffer */
+    yy_startRead = 0;
 
-	/** 
-	 * endRead marks the last character in the buffer, that has been read
-	 * from input 
-	 */
-	yy_endRead = 0;
+    /** 
+     * endRead marks the last character in the buffer, that has been read
+     * from input 
+     */
+    yy_endRead = 0;
 
-	/* number of newlines encountered up to the start of the matched text */
-	//yyline = 0;
+    /* number of newlines encountered up to the start of the matched text */
+    //yyline = 0;
 
-	/* the number of characters up to the start of the matched text */
-	yychar = 0;
+    /* the number of characters up to the start of the matched text */
+    yychar = 0;
 
-	/* yy_atEOF == true <=> the scanner has returned a value for EOF */
-	yy_atEOF = false;
+    /* yy_atEOF == true <=> the scanner has returned a value for EOF */
+    yy_atEOF = false;
 
-	/* denotes if the user-EOF-code has already been executed */
-	yy_eof_done = false;
+    /* denotes if the user-EOF-code has already been executed */
+    yy_eof_done = false;
 
 
-	/* user vars: */
-	fTokenCount = 0;
+    /* user vars: */
+    fTokenCount = 0;
  
-	fShouldLoadBuffered = false;
-	fBufferedContext = null;
-	fBufferedStart = 1;
-	fBufferedLength = 0;
-	fStateStack = new IntStack();
+    fShouldLoadBuffered = false;
+    fBufferedContext = null;
+    fBufferedStart = 1;
+    fBufferedLength = 0;
+    fStateStack = new IntStack();
 
-	context = null;
-	start = 0;
-	textLength = 0;
-	length = 0;
+    context = null;
+    start = 0;
+    textLength = 0;
+    length = 0;
 }
 
-	/**
-	 * user method
-	 *
-	 */
-	public BlockTokenizer newInstance() {
-		SSTokenizer newInstance = new SSTokenizer();
-		// global tagmarkers can be shared; they have no state and 
-		// are never destroyed (e.g. 'release')
-		for(int i = 0; i < fBlockMarkers.size(); i++) {
-			BlockMarker blockMarker = (BlockMarker) fBlockMarkers.get(i);
-			if(blockMarker.isGlobal())
-				newInstance.addBlockMarker(blockMarker);
-		}
-		return newInstance;
-	}
+    /**
+     * user method
+     *
+     */
+    public BlockTokenizer newInstance() {
+        SSTokenizer newInstance = new SSTokenizer();
+        // global tagmarkers can be shared; they have no state and 
+        // are never destroyed (e.g. 'release')
+        for(int i = 0; i < fBlockMarkers.size(); i++) {
+            BlockMarker blockMarker = (BlockMarker) fBlockMarkers.get(i);
+            if(blockMarker.isGlobal())
+                newInstance.addBlockMarker(blockMarker);
+        }
+        return newInstance;
+    }
 /* user method */
 private final String scanXMLCommentText() throws IOException {
-	// Scan for '-->' and return the text up to that point as
-	//   XML_COMMENT_TEXT unless the string occurs IMMEDIATELY, in which
-	//  case change to the ST_XML_COMMENT_END state and return the next
-	//  context as usual.
-	return doScan("-->", false, XML_COMMENT_TEXT, ST_XML_COMMENT_END, ST_XML_COMMENT_END);
+    // Scan for '-->' and return the text up to that point as
+    //   XML_COMMENT_TEXT unless the string occurs IMMEDIATELY, in which
+    //  case change to the ST_XML_COMMENT_END state and return the next
+    //  context as usual.
+    return doScan("-->", false, XML_COMMENT_TEXT, ST_XML_COMMENT_END, ST_XML_COMMENT_END);
 }
 /* user method */
 private final String scanSSCommentText() throws IOException {
@@ -1761,89 +1761,89 @@ private final String scanSSTemplateFunctionText() throws IOException {
     yy_markedPos -= number;
   }
 
-	/**
-	 * user method - skeleton.sed
-	 */
-	protected final boolean containsTagName(char[] markerTagName, int offset, int tagnameLength) {
-		for(int j = 0; j < fBlockMarkers.size(); j++) {
-			BlockMarker marker = (BlockMarker)fBlockMarkers.get(j);
-			if(marker.getTagName().length() == tagnameLength) {
-				boolean matchesSoFar = true;
-				for(int i = 0; i < tagnameLength && matchesSoFar; i++) {
-					if(marker.isCaseSensitive()) {
-						if(marker.getTagName().charAt(i) != markerTagName[i + offset])
-							matchesSoFar = false;
-					}
-					else {
-						if(Character.toLowerCase(marker.getTagName().charAt(i)) != Character.toLowerCase(markerTagName[i + offset]))
-							matchesSoFar = false;
-					}
-				}
-				if(matchesSoFar)
-					return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * user method - skeleton.sed
+     */
+    protected final boolean containsTagName(char[] markerTagName, int offset, int tagnameLength) {
+        for(int j = 0; j < fBlockMarkers.size(); j++) {
+            BlockMarker marker = (BlockMarker)fBlockMarkers.get(j);
+            if(marker.getTagName().length() == tagnameLength) {
+                boolean matchesSoFar = true;
+                for(int i = 0; i < tagnameLength && matchesSoFar; i++) {
+                    if(marker.isCaseSensitive()) {
+                        if(marker.getTagName().charAt(i) != markerTagName[i + offset])
+                            matchesSoFar = false;
+                    }
+                    else {
+                        if(Character.toLowerCase(marker.getTagName().charAt(i)) != Character.toLowerCase(markerTagName[i + offset]))
+                            matchesSoFar = false;
+                    }
+                }
+                if(matchesSoFar)
+                    return true;
+            }
+        }
+        return false;
+    }
 
-	/**
-	 * user method - skeleton.sed
-	 *
-	 * Return ALL of the regions scannable within the remaining text
-	 * Note: for verification use
-	 */
-	public final List getRegions() {
-		List tokens = new ArrayList();
-		ITextRegion region = null;
-		try {
-			region = getNextToken();
-			while(region != null) {
-				if (region != null) {
-					tokens.add(region);
-				}
-				region = getNextToken();
-			}
-		}
-		catch (StackOverflowError e) {
-			Logger.logException(getClass().getName()+": input could not be tokenized correctly at position " + getOffset(), e);//$NON-NLS-1$
-			throw e;
-		}
-		catch (Exception e) {
-			// Since this is convenience method and NOT the recommended 
-			// way of getting tokens, many errors are simply hidden
-			Logger.logException("Exception not handled retrieving regions: " + e.getLocalizedMessage(), e);//$NON-NLS-1$
-		}
-		return tokens;
-	}
-	/**
-	 * user method - skeleton.sed
-	 */
-	private final void dump(String s) {
-		//if (Debug.debugTokenizer) {
-			System.out.println(s + " (" + yychar + "-" + //$NON-NLS-2$//$NON-NLS-1$
-				(yylength() + yychar) + "):\'" +//$NON-NLS-1$
-					StringUtils.escape(yytext()) + "\'");//$NON-NLS-1$
-		//}
-	}
-	/* user method  - skeleton.sed */
-	public final boolean isEOF() {
-		return yy_atEOF;
-	}
+    /**
+     * user method - skeleton.sed
+     *
+     * Return ALL of the regions scannable within the remaining text
+     * Note: for verification use
+     */
+    public final List getRegions() {
+        List tokens = new ArrayList();
+        ITextRegion region = null;
+        try {
+            region = getNextToken();
+            while(region != null) {
+                if (region != null) {
+                    tokens.add(region);
+                }
+                region = getNextToken();
+            }
+        }
+        catch (StackOverflowError e) {
+            Logger.logException(getClass().getName()+": input could not be tokenized correctly at position " + getOffset(), e);//$NON-NLS-1$
+            throw e;
+        }
+        catch (Exception e) {
+            // Since this is convenience method and NOT the recommended 
+            // way of getting tokens, many errors are simply hidden
+            Logger.logException("Exception not handled retrieving regions: " + e.getLocalizedMessage(), e);//$NON-NLS-1$
+        }
+        return tokens;
+    }
+    /**
+     * user method - skeleton.sed
+     */
+    private final void dump(String s) {
+        //if (Debug.debugTokenizer) {
+            System.out.println(s + " (" + yychar + "-" + //$NON-NLS-2$//$NON-NLS-1$
+                (yylength() + yychar) + "):\'" +//$NON-NLS-1$
+                    StringUtils.escape(yytext()) + "\'");//$NON-NLS-1$
+        //}
+    }
+    /* user method  - skeleton.sed */
+    public final boolean isEOF() {
+        return yy_atEOF;
+    }
 /* user method - skeleton.sed */
 protected final boolean containsTagName(String markerTagName) {
-	Iterator blocks = fBlockMarkers.iterator();
-	while(blocks.hasNext()) {
-		BlockMarker marker = (BlockMarker)blocks.next();
-		if(marker.isCaseSensitive()) {
-			if(marker.getTagName().equals(markerTagName))
-				return true;
-		}
-		else {
-			if(marker.getTagName().equalsIgnoreCase(markerTagName))
-				return true;
-		}
-	}
-	return false;
+    Iterator blocks = fBlockMarkers.iterator();
+    while(blocks.hasNext()) {
+        BlockMarker marker = (BlockMarker)blocks.next();
+        if(marker.isCaseSensitive()) {
+            if(marker.getTagName().equals(markerTagName))
+                return true;
+        }
+        else {
+            if(marker.getTagName().equalsIgnoreCase(markerTagName))
+                return true;
+        }
+    }
+    return false;
 }
 
   /**
@@ -1908,8 +1908,8 @@ protected final boolean containsTagName(String markerTagName) {
 
         case 569: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("XSL processing instruction target");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("XSL processing instruction target");//$NON-NLS-1$
         yybegin(ST_XML_PI_ATTRIBUTE_NAME);
         return XML_TAG_NAME;
  }
@@ -1942,11 +1942,11 @@ protected final boolean containsTagName(String markerTagName) {
         case 549: 
         case 550: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("\nCDATA start");//$NON-NLS-1$
-	fStateStack.push(yystate());
-	yybegin(ST_CDATA_TEXT);
-	return XML_CDATA_OPEN;
+    if(SSTokenizer.debugTokenizer)
+        dump("\nCDATA start");//$NON-NLS-1$
+    fStateStack.push(yystate());
+    yybegin(ST_CDATA_TEXT);
+    return XML_CDATA_OPEN;
  }
         case 575: break;
         case 546: 
@@ -2007,26 +2007,26 @@ protected final boolean containsTagName(String markerTagName) {
         case 582: break;
         case 517: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("element");//$NON-NLS-1$
-	yybegin(ST_XML_ELEMENT_DECLARATION);
-	return XML_ELEMENT_DECLARATION;
+    if(SSTokenizer.debugTokenizer)
+        dump("element");//$NON-NLS-1$
+    yybegin(ST_XML_ELEMENT_DECLARATION);
+    return XML_ELEMENT_DECLARATION;
  }
         case 583: break;
         case 516: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("attlist");//$NON-NLS-1$
-	yybegin(ST_XML_ATTLIST_DECLARATION);
-	return XML_ATTLIST_DECLARATION;
+    if(SSTokenizer.debugTokenizer)
+        dump("attlist");//$NON-NLS-1$
+    yybegin(ST_XML_ATTLIST_DECLARATION);
+    return XML_ATTLIST_DECLARATION;
  }
         case 584: break;
         case 515: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("doctype");//$NON-NLS-1$
-	yybegin(ST_XML_DOCTYPE_DECLARATION);
-	return XML_DOCTYPE_DECLARATION;
+    if(SSTokenizer.debugTokenizer)
+        dump("doctype");//$NON-NLS-1$
+    yybegin(ST_XML_DOCTYPE_DECLARATION);
+    return XML_DOCTYPE_DECLARATION;
  }
         case 585: break;
         case 496: 
@@ -2047,25 +2047,25 @@ protected final boolean containsTagName(String markerTagName) {
         case 587: break;
         case 482: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("doctype external id");//$NON-NLS-1$
-	yybegin(ST_XML_DOCTYPE_ID_PUBLIC);
-	return XML_DOCTYPE_EXTERNAL_ID_PUBLIC;
+    if(SSTokenizer.debugTokenizer)
+        dump("doctype external id");//$NON-NLS-1$
+    yybegin(ST_XML_DOCTYPE_ID_PUBLIC);
+    return XML_DOCTYPE_EXTERNAL_ID_PUBLIC;
  }
         case 588: break;
         case 481: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("doctype external id");//$NON-NLS-1$
-	yybegin(ST_XML_DOCTYPE_ID_SYSTEM);
-	return XML_DOCTYPE_EXTERNAL_ID_SYSTEM;
+    if(SSTokenizer.debugTokenizer)
+        dump("doctype external id");//$NON-NLS-1$
+    yybegin(ST_XML_DOCTYPE_ID_SYSTEM);
+    return XML_DOCTYPE_EXTERNAL_ID_SYSTEM;
  }
         case 589: break;
         case 464: 
         case 507: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("DHTML processing instruction target");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("DHTML processing instruction target");//$NON-NLS-1$
         yybegin(ST_DHTML_ATTRIBUTE_NAME);
         return XML_TAG_NAME;
  }
@@ -2104,17 +2104,17 @@ protected final boolean containsTagName(String markerTagName) {
         case 594: break;
         case 374: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("\nCharRef");//$NON-NLS-1$
-	return XML_CHAR_REFERENCE;
+    if(SSTokenizer.debugTokenizer)
+        dump("\nCharRef");//$NON-NLS-1$
+    return XML_CHAR_REFERENCE;
  }
         case 595: break;
         case 371: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("\ncomment start");//$NON-NLS-1$
-	yybegin(ST_XML_COMMENT);
-	return XML_COMMENT_OPEN;
+    if(SSTokenizer.debugTokenizer)
+        dump("\ncomment start");//$NON-NLS-1$
+    yybegin(ST_XML_COMMENT);
+    return XML_COMMENT_OPEN;
  }
         case 596: break;
         case 370: 
@@ -2128,52 +2128,52 @@ protected final boolean containsTagName(String markerTagName) {
         case 334: 
         case 335: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("XML processing instruction target");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("XML processing instruction target");//$NON-NLS-1$
         yybegin(ST_XML_PI_ATTRIBUTE_NAME);
         return XML_TAG_NAME;
  }
         case 598: break;
         case 333: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("comment end");//$NON-NLS-1$
-	yybegin(YYINITIAL);
-	return XML_COMMENT_CLOSE;
+    if(SSTokenizer.debugTokenizer)
+        dump("comment end");//$NON-NLS-1$
+    yybegin(YYINITIAL);
+    return XML_COMMENT_CLOSE;
  }
         case 599: break;
         case 332: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("CDATA end");//$NON-NLS-1$
-	yybegin(fStateStack.pop());
-	return XML_CDATA_CLOSE;
+    if(SSTokenizer.debugTokenizer)
+        dump("CDATA end");//$NON-NLS-1$
+    yybegin(fStateStack.pop());
+    return XML_CDATA_CLOSE;
  }
         case 600: break;
         case 328: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("\nPEReference");//$NON-NLS-1$
-	return XML_PE_REFERENCE;
+    if(SSTokenizer.debugTokenizer)
+        dump("\nPEReference");//$NON-NLS-1$
+    return XML_PE_REFERENCE;
  }
         case 601: break;
         case 325: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("\nEntityRef");//$NON-NLS-1$
-	return XML_ENTITY_REFERENCE;
+    if(SSTokenizer.debugTokenizer)
+        dump("\nEntityRef");//$NON-NLS-1$
+    return XML_ENTITY_REFERENCE;
  }
         case 602: break;
         case 150: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("attlist close");//$NON-NLS-1$
-	if (SSTokenizer.debugTokenizer) {
-		if(fStateStack.peek()!=YYINITIAL)
-			System.out.println("end embedded region");//$NON-NLS-1$
-	}
-	yybegin(fStateStack.pop());
-	return XML_DECLARATION_CLOSE;
+    if(SSTokenizer.debugTokenizer)
+        dump("attlist close");//$NON-NLS-1$
+    if (SSTokenizer.debugTokenizer) {
+        if(fStateStack.peek()!=YYINITIAL)
+            System.out.println("end embedded region");//$NON-NLS-1$
+    }
+    yybegin(fStateStack.pop());
+    return XML_DECLARATION_CLOSE;
  }
         case 603: break;
         case 144: 
@@ -2185,22 +2185,22 @@ protected final boolean containsTagName(String markerTagName) {
         case 291: 
         case 356: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("attlist name");//$NON-NLS-1$
-	yybegin(ST_XML_ATTLIST_DECLARATION_CONTENT);
-	return XML_ATTLIST_DECL_NAME;
+    if(SSTokenizer.debugTokenizer)
+        dump("attlist name");//$NON-NLS-1$
+    yybegin(ST_XML_ATTLIST_DECLARATION_CONTENT);
+    return XML_ATTLIST_DECL_NAME;
  }
         case 604: break;
         case 143: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("elementdecl close");//$NON-NLS-1$
-	if (SSTokenizer.debugTokenizer) {
-		if(fStateStack.peek()!=YYINITIAL)
-			System.out.println("end embedded region");//$NON-NLS-1$
-	}
-	yybegin(fStateStack.pop());
-	return XML_DECLARATION_CLOSE;
+    if(SSTokenizer.debugTokenizer)
+        dump("elementdecl close");//$NON-NLS-1$
+    if (SSTokenizer.debugTokenizer) {
+        if(fStateStack.peek()!=YYINITIAL)
+            System.out.println("end embedded region");//$NON-NLS-1$
+    }
+    yybegin(fStateStack.pop());
+    return XML_DECLARATION_CLOSE;
  }
         case 605: break;
         case 137: 
@@ -2212,10 +2212,10 @@ protected final boolean containsTagName(String markerTagName) {
         case 280: 
         case 352: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("elementdecl name");//$NON-NLS-1$
-	yybegin(ST_XML_ELEMENT_DECLARATION_CONTENT);
-	return XML_ELEMENT_DECL_NAME;
+    if(SSTokenizer.debugTokenizer)
+        dump("elementdecl name");//$NON-NLS-1$
+    yybegin(ST_XML_ELEMENT_DECLARATION_CONTENT);
+    return XML_ELEMENT_DECL_NAME;
  }
         case 606: break;
         case 132: 
@@ -2224,10 +2224,10 @@ protected final boolean containsTagName(String markerTagName) {
         case 136: 
         case 267: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("doctype system reference");//$NON-NLS-1$
-	yybegin(ST_XML_DECLARATION_CLOSE);
-	return XML_DOCTYPE_EXTERNAL_ID_SYSREF;
+    if(SSTokenizer.debugTokenizer)
+        dump("doctype system reference");//$NON-NLS-1$
+    yybegin(ST_XML_DECLARATION_CLOSE);
+    return XML_DOCTYPE_EXTERNAL_ID_SYSREF;
  }
         case 607: break;
         case 127: 
@@ -2240,30 +2240,30 @@ protected final boolean containsTagName(String markerTagName) {
         case 260: 
         case 349: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("doctype public reference");//$NON-NLS-1$
-	yybegin(ST_XML_DOCTYPE_ID_SYSTEM);
-	return XML_DOCTYPE_EXTERNAL_ID_PUBREF;
+    if(SSTokenizer.debugTokenizer)
+        dump("doctype public reference");//$NON-NLS-1$
+    yybegin(ST_XML_DOCTYPE_ID_SYSTEM);
+    return XML_DOCTYPE_EXTERNAL_ID_PUBREF;
  }
         case 608: break;
         case 124: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("doctype type");//$NON-NLS-1$
-	yybegin(ST_XML_DOCTYPE_EXTERNAL_ID);
-	return XML_DOCTYPE_NAME;
+    if(SSTokenizer.debugTokenizer)
+        dump("doctype type");//$NON-NLS-1$
+    yybegin(ST_XML_DOCTYPE_EXTERNAL_ID);
+    return XML_DOCTYPE_NAME;
  }
         case 609: break;
         case 119: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("declaration end");//$NON-NLS-1$
-	if (SSTokenizer.debugTokenizer) {
-		if(fStateStack.peek()!=YYINITIAL)
-			System.out.println("end embedded region");//$NON-NLS-1$
-	}
-	yybegin(fStateStack.pop());
-	return XML_DECLARATION_CLOSE;
+    if(SSTokenizer.debugTokenizer)
+        dump("declaration end");//$NON-NLS-1$
+    if (SSTokenizer.debugTokenizer) {
+        if(fStateStack.peek()!=YYINITIAL)
+            System.out.println("end embedded region");//$NON-NLS-1$
+    }
+    yybegin(fStateStack.pop());
+    return XML_DECLARATION_CLOSE;
  }
         case 610: break;
         case 111: 
@@ -2293,24 +2293,24 @@ protected final boolean containsTagName(String markerTagName) {
         case 513: 
         case 535: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("attr value");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("attr value");//$NON-NLS-1$
         yybegin(ST_XML_ATTRIBUTE_NAME);
         return XML_TAG_ATTRIBUTE_VALUE;
  }
         case 611: break;
         case 110: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("equals");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("equals");//$NON-NLS-1$
         yybegin(ST_XML_ATTRIBUTE_VALUE);
         return XML_TAG_ATTRIBUTE_EQUALS;
  }
         case 612: break;
         case 108: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("attr name");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("attr name");//$NON-NLS-1$
         yybegin(ST_XML_EQUALS);
         return XML_TAG_ATTRIBUTE_NAME;
  }
@@ -2318,21 +2318,21 @@ protected final boolean containsTagName(String markerTagName) {
         case 103: 
         case 105: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("tag name");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("tag name");//$NON-NLS-1$
         yybegin(ST_XML_ATTRIBUTE_NAME);
         return XML_TAG_NAME;
  }
         case 614: break;
         case 101: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("tag close");//$NON-NLS-1$
-	if(isBlockMarker()) {
-        	yybegin(ST_BLOCK_TAG_SCAN);
-	}
-	else
-        	yybegin(YYINITIAL);
+    if(SSTokenizer.debugTokenizer)
+        dump("tag close");//$NON-NLS-1$
+    if(isBlockMarker()) {
+            yybegin(ST_BLOCK_TAG_SCAN);
+    }
+    else
+            yybegin(YYINITIAL);
         return XML_TAG_CLOSE;
  }
         case 615: break;
@@ -2341,32 +2341,32 @@ protected final boolean containsTagName(String markerTagName) {
         case 98: 
         case 230: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("DHTML processing instruction attribute value");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("DHTML processing instruction attribute value");//$NON-NLS-1$
         yybegin(ST_DHTML_ATTRIBUTE_NAME);
         return XML_TAG_ATTRIBUTE_VALUE;
  }
         case 616: break;
         case 94: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("DHTML processing instruction '='");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("DHTML processing instruction '='");//$NON-NLS-1$
         yybegin(ST_DHTML_ATTRIBUTE_VALUE);
         return XML_TAG_ATTRIBUTE_EQUALS;
  }
         case 617: break;
         case 92: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("DHTML processing instruction attribute name");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("DHTML processing instruction attribute name");//$NON-NLS-1$
         yybegin(ST_DHTML_EQUALS);
         return XML_TAG_ATTRIBUTE_NAME;
  }
         case 618: break;
         case 90: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("DHTML processing instruction end");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("DHTML processing instruction end");//$NON-NLS-1$
         yybegin(YYINITIAL);
         return XML_PI_CLOSE;
  }
@@ -2374,9 +2374,9 @@ protected final boolean containsTagName(String markerTagName) {
         case 57: 
         case 206: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("non-reference %");//$NON-NLS-1$
-	return XML_CONTENT;
+    if(SSTokenizer.debugTokenizer)
+        dump("non-reference %");//$NON-NLS-1$
+    return XML_CONTENT;
  }
         case 620: break;
         case 56: 
@@ -2428,18 +2428,18 @@ protected final boolean containsTagName(String markerTagName) {
         case 193: 
         case 196: 
           { 
-	if (SSTokenizer.debugTokenizer)
-		System.out.println("!!!unexpected!!!: \"" + yytext() + "\":" + //$NON-NLS-2$//$NON-NLS-1$
-			yychar + "-" + (yychar + yylength()));//$NON-NLS-1$
-	return UNDEFINED;
+    if (SSTokenizer.debugTokenizer)
+        System.out.println("!!!unexpected!!!: \"" + yytext() + "\":" + //$NON-NLS-2$//$NON-NLS-1$
+            yychar + "-" + (yychar + yylength()));//$NON-NLS-1$
+    return UNDEFINED;
  }
         case 621: break;
         case 55: 
         case 100: 
         case 118: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("\nstart tag open");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("\nstart tag open");//$NON-NLS-1$
         yybegin(ST_XML_TAG_NAME);
         return XML_TAG_OPEN;
  }
@@ -2455,9 +2455,9 @@ protected final boolean containsTagName(String markerTagName) {
         case 519: 
         case 538: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("attlist contentspec");//$NON-NLS-1$
-	return XML_ATTLIST_DECL_CONTENT;
+    if(SSTokenizer.debugTokenizer)
+        dump("attlist contentspec");//$NON-NLS-1$
+    return XML_ATTLIST_DECL_CONTENT;
  }
         case 623: break;
         case 27: 
@@ -2471,9 +2471,9 @@ protected final boolean containsTagName(String markerTagName) {
         case 518: 
         case 537: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("elementdecl contentspec");//$NON-NLS-1$
-	return XML_ELEMENT_DECL_CONTENT;
+    if(SSTokenizer.debugTokenizer)
+        dump("elementdecl contentspec");//$NON-NLS-1$
+    return XML_ELEMENT_DECL_CONTENT;
  }
         case 624: break;
         case 16: 
@@ -2509,9 +2509,9 @@ protected final boolean containsTagName(String markerTagName) {
         case 510: 
         case 534: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("inappropriate tag name");//$NON-NLS-1$
-	yybegin(YYINITIAL);
+    if(SSTokenizer.debugTokenizer)
+        dump("inappropriate tag name");//$NON-NLS-1$
+    yybegin(YYINITIAL);
         return XML_CONTENT;
  }
         case 625: break;
@@ -2536,8 +2536,8 @@ protected final boolean containsTagName(String markerTagName) {
         case 28: 
         case 72: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("white space");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("white space");//$NON-NLS-1$
         return WHITE_SPACE;
  }
         case 626: break;
@@ -2550,9 +2550,9 @@ protected final boolean containsTagName(String markerTagName) {
         case 324: 
         case 373: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("\nXML content");//$NON-NLS-1$
-	return XML_CONTENT;
+    if(SSTokenizer.debugTokenizer)
+        dump("\nXML content");//$NON-NLS-1$
+    return XML_CONTENT;
  }
         case 627: break;
         case 61: 
@@ -2560,27 +2560,27 @@ protected final boolean containsTagName(String markerTagName) {
         case 63: 
         case 64: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("CDATA text");//$NON-NLS-1$
-	String blockContext = doBlockScan("]]>", XML_CDATA_TEXT, ST_CDATA_END);//$NON-NLS-1$
-	if(blockContext == XML_CDATA_TEXT)
-		yybegin(ST_CDATA_END);
-	return blockContext;
+    if(SSTokenizer.debugTokenizer)
+        dump("CDATA text");//$NON-NLS-1$
+    String blockContext = doBlockScan("]]>", XML_CDATA_TEXT, ST_CDATA_END);//$NON-NLS-1$
+    if(blockContext == XML_CDATA_TEXT)
+        yybegin(ST_CDATA_END);
+    return blockContext;
  }
         case 628: break;
         case 67: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("LINE FEED");//$NON-NLS-1$
-	return WHITE_SPACE;
+    if(SSTokenizer.debugTokenizer)
+        dump("LINE FEED");//$NON-NLS-1$
+    return WHITE_SPACE;
  }
         case 629: break;
         case 68: 
         case 69: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("comment content");//$NON-NLS-1$
-	return scanXMLCommentText();
+    if(SSTokenizer.debugTokenizer)
+        dump("comment content");//$NON-NLS-1$
+    return scanXMLCommentText();
  }
         case 630: break;
         case 73: 
@@ -2604,8 +2604,8 @@ protected final boolean containsTagName(String markerTagName) {
         case 564: 
         case 567: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("processing instruction target");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("processing instruction target");//$NON-NLS-1$
         yybegin(ST_PI_WS);
         return XML_TAG_NAME;
  }
@@ -2620,22 +2620,22 @@ protected final boolean containsTagName(String markerTagName) {
         case 79: 
         case 80: 
           { 
-	// block scan until close is found
-	return doScan("?>", false, XML_PI_CONTENT, ST_XML_PI_TAG_CLOSE, ST_XML_PI_TAG_CLOSE);
+    // block scan until close is found
+    return doScan("?>", false, XML_PI_CONTENT, ST_XML_PI_TAG_CLOSE, ST_XML_PI_TAG_CLOSE);
  }
         case 633: break;
         case 82: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("XML processing instruction attribute name");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("XML processing instruction attribute name");//$NON-NLS-1$
         yybegin(ST_XML_PI_EQUALS);
         return XML_TAG_ATTRIBUTE_NAME;
  }
         case 634: break;
         case 83: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("XML processing instruction '='");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("XML processing instruction '='");//$NON-NLS-1$
         yybegin(ST_XML_PI_ATTRIBUTE_VALUE);
         return XML_TAG_ATTRIBUTE_EQUALS;
  }
@@ -2646,8 +2646,8 @@ protected final boolean containsTagName(String markerTagName) {
         case 88: 
         case 221: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("XML processing instruction attribute value");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("XML processing instruction attribute value");//$NON-NLS-1$
         yybegin(ST_XML_PI_ATTRIBUTE_NAME);
         return XML_TAG_ATTRIBUTE_VALUE;
  }
@@ -2751,17 +2751,17 @@ protected final boolean containsTagName(String markerTagName) {
         case 648: break;
         case 197: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("\nend tag open");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("\nend tag open");//$NON-NLS-1$
         yybegin(ST_XML_TAG_NAME);
         return XML_END_TAG_OPEN;
  }
         case 649: break;
         case 198: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("\nprocessing instruction start");//$NON-NLS-1$
-	yybegin(ST_PI);
+    if(SSTokenizer.debugTokenizer)
+        dump("\nprocessing instruction start");//$NON-NLS-1$
+    yybegin(ST_PI);
         return XML_PI_OPEN;
  }
         case 650: break;
@@ -2775,11 +2775,11 @@ protected final boolean containsTagName(String markerTagName) {
         case 651: break;
         case 200: 
           { 
-	fStateStack.push(yystate());
-	if(SSTokenizer.debugTokenizer)
-		dump("\ndeclaration start");//$NON-NLS-1$
+    fStateStack.push(yystate());
+    if(SSTokenizer.debugTokenizer)
+        dump("\ndeclaration start");//$NON-NLS-1$
         yybegin(ST_XML_DECLARATION);
-	return XML_DECLARATION_OPEN;
+    return XML_DECLARATION_OPEN;
  }
         case 652: break;
         case 204: 
@@ -2807,23 +2807,23 @@ protected final boolean containsTagName(String markerTagName) {
         case 654: break;
         case 212: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("processing instruction end");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("processing instruction end");//$NON-NLS-1$
         yybegin(YYINITIAL);
         return XML_PI_CLOSE;
  }
         case 655: break;
         case 216: 
           { 
-		// ended with nothing inside
+        // ended with nothing inside
         yybegin(YYINITIAL);
         return XML_PI_CLOSE;
  }
         case 656: break;
         case 217: 
           { 
-	if(SSTokenizer.debugTokenizer)
-		dump("XML processing instruction end");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("XML processing instruction end");//$NON-NLS-1$
         yybegin(YYINITIAL);
         return XML_PI_CLOSE;
  }
@@ -2831,8 +2831,8 @@ protected final boolean containsTagName(String markerTagName) {
         case 233: 
           { 
         yybegin(YYINITIAL);
-	if(SSTokenizer.debugTokenizer)
-		dump("empty tag close");//$NON-NLS-1$
+    if(SSTokenizer.debugTokenizer)
+        dump("empty tag close");//$NON-NLS-1$
         return XML_EMPTY_TAG_CLOSE;
  }
         case 658: break;
@@ -2840,7 +2840,7 @@ protected final boolean containsTagName(String markerTagName) {
         case 263: 
         case 271: 
           { 
-	return XML_DOCTYPE_INTERNAL_SUBSET;
+    return XML_DOCTYPE_INTERNAL_SUBSET;
  }
         case 659: break;
         case 295: 
@@ -2951,8 +2951,8 @@ protected final boolean containsTagName(String markerTagName) {
         case 151: 
         case 152: 
           { 
-		return doBlockTagScan();
-	 }
+        return doBlockTagScan();
+     }
         case 673: break;
         default: 
           if (yy_input == YYEOF && yy_startRead == yy_currentPos) {

@@ -142,25 +142,25 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
     }
 
     protected void updateStatus(final String message) {
-    	if(getContainerName().isEmpty()==false && getClassName().isEmpty()==false && (message==null || message.isEmpty())) {
-    		this.setPageComplete(true);
-    	}else {
-    		this.setPageComplete(false);
-    	}
-    	
-    	if(this.btnWizardModeModifiers[0].getSelection()==true) {
-    	    ((SilverStripeClassCreationWizard) this.getWizard()).setTemplateMode(true);
+        if(getContainerName().isEmpty()==false && getClassName().isEmpty()==false && (message==null || message.isEmpty())) {
+            this.setPageComplete(true);
+        }else {
+            this.setPageComplete(false);
+        }
+        
+        if(this.btnWizardModeModifiers[0].getSelection()==true) {
+            ((SilverStripeClassCreationWizard) this.getWizard()).setTemplateMode(true);
             if(this.isCurrentPage()) {
                 this.getContainer().updateButtons();
             }
-    	}else {
-    	    ((SilverStripeClassCreationWizard) this.getWizard()).setTemplateMode(false);
-    	    if(this.isCurrentPage()) {
-    	        this.getContainer().updateButtons();
-    	    }
-    	}
-    	
-    	
+        }else {
+            ((SilverStripeClassCreationWizard) this.getWizard()).setTemplateMode(false);
+            if(this.isCurrentPage()) {
+                this.getContainer().updateButtons();
+            }
+        }
+        
+        
         setErrorMessage(message);
     }
 
@@ -225,7 +225,7 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
      * @return True if in class mode false if not
      */
     public boolean isClassMode() {
-    	return btnWizardModeModifiers[1].getSelection();
+        return btnWizardModeModifiers[1].getSelection();
     }
     
     /**
@@ -233,7 +233,7 @@ public class NewSilverStripeClassWizardPage extends WizardPage {
      * @return True if in template mode false if not
      */
     public boolean isTemplateMode() {
-    	return btnWizardModeModifiers[0].getSelection();
+        return btnWizardModeModifiers[0].getSelection();
     }
 
     /**

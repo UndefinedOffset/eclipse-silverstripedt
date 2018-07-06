@@ -84,13 +84,13 @@ import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModel
 
 @SuppressWarnings("restriction")
 public class NewSilverStripeTemplatesWizardPage extends WizardPage {
-	public static final String NEW_SS_TEMPLATE_CONTEXTTYPE="php_ss";
+    public static final String NEW_SS_TEMPLATE_CONTEXTTYPE="php_ss";
     public static final String NEW_SS_30_TEMPLATE_CONTEXTTYPE="php_ss_30";
     public static final String NEW_SS_40_TEMPLATE_CONTEXTTYPE="php_ss_40";
     
     public String ssVersion="";
     
-	/**
+    /**
      * Content provider for templates
      */
     private class TemplateContentProvider implements IStructuredContentProvider {

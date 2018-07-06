@@ -130,7 +130,7 @@ public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegat
      */
     protected final IResource extractSelection(ISelection sel) {
         if(!(sel instanceof IStructuredSelection) || (sel instanceof TextSelection)) {
-        	IWorkbench iworkbench=PlatformUI.getWorkbench();
+            IWorkbench iworkbench=PlatformUI.getWorkbench();
             if (iworkbench==null) {
                 return null;
             }

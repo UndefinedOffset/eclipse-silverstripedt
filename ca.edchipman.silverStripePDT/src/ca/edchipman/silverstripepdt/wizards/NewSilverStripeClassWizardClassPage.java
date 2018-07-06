@@ -50,8 +50,8 @@ import ca.edchipman.silverstripepdt.wizards.SilverStripeProjectWizardSecondPage.
 
 @SuppressWarnings("restriction")
 public class NewSilverStripeClassWizardClassPage extends WizardPage {
-	private ISelection selection;
-	private NewSilverStripeClassWizardPage firstPage;
+    private ISelection selection;
+    private NewSilverStripeClassWizardPage firstPage;
     private Text superClass;
     private List interfaces;
     private Button btnSuperConstruct;
@@ -297,7 +297,7 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
     }
 
     public String getContainerName() {
-    	return firstPage.getContainerName();
+        return firstPage.getContainerName();
     }
 
     public IProject getProject() {
@@ -309,7 +309,7 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
     }
     
     public boolean getIsCurrentPage() {
-    	return this.isCurrentPage();
+        return this.isCurrentPage();
     }
     
     /**
@@ -383,7 +383,7 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
      * @return the classname name
      */
     public String getClassName() {
-    	return firstPage.getClassName();
+        return firstPage.getClassName();
     }
     
     /**

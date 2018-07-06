@@ -87,26 +87,26 @@ import ca.edchipman.silverstripepdt.controls.SSVersionOption;
 
 @SuppressWarnings("restriction")
 public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPage {
-	final String PHP_ID = "org.eclipse.php.ui.workingset.PHPWorkingSetPage"; //$NON-NLS-1$
-	final String RESOURCE_ID = "org.eclipse.ui.resourceWorkingSetPage"; //$NON-NLS-1$
-	final String TASK_ID = "org.eclipse.mylyn.tasks.ui.workingSet"; //$NON-NLS-1$
-	
+    final String PHP_ID = "org.eclipse.php.ui.workingset.PHPWorkingSetPage"; //$NON-NLS-1$
+    final String RESOURCE_ID = "org.eclipse.ui.resourceWorkingSetPage"; //$NON-NLS-1$
+    final String TASK_ID = "org.eclipse.mylyn.tasks.ui.workingSet"; //$NON-NLS-1$
+    
     protected SilverStripeLayoutGroup fLayoutGroup;
     protected SilverStripeVersionGroup fSSVersionGroup;
     
-	private NameGroup fNameGroup;
-	private LocationGroup fPHPLocationGroup;
-	private String fInitialName;
-	private VersionGroup fVersionGroup;
-	private SilverStripeJavaScriptSupportGroup fJavaScriptSupportGroup;
-	private DetectGroup fDetectGroup;
-	private Validator fPdtValidator;
-	private WorkingSetGroup fWorkingSetGroup;
-	private WizardFragment fragment;
-	private URI fCurrProjectLocation;
-	private boolean fKeepContent;
-	private boolean fProjectCreated = false;
-	private Boolean fIsAutobuild;
+    private NameGroup fNameGroup;
+    private LocationGroup fPHPLocationGroup;
+    private String fInitialName;
+    private VersionGroup fVersionGroup;
+    private SilverStripeJavaScriptSupportGroup fJavaScriptSupportGroup;
+    private DetectGroup fDetectGroup;
+    private Validator fPdtValidator;
+    private WorkingSetGroup fWorkingSetGroup;
+    private WizardFragment fragment;
+    private URI fCurrProjectLocation;
+    private boolean fKeepContent;
+    private boolean fProjectCreated = false;
+    private Boolean fIsAutobuild;
     
     public SilverStripeProjectWizardFirstPage() {
         super();
@@ -133,16 +133,16 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
 
         CompositeData data = new CompositeData();
         data.setParetnt(composite);
-		data.setSettings(getDialogSettings());
-		data.setObserver(fPHPLocationGroup);
+        data.setSettings(getDialogSettings());
+        data.setObserver(fPHPLocationGroup);
         fragment = (WizardFragment) Platform.getAdapterManager().loadAdapter(data, PHPProjectWizardFirstPage.class.getName());
 
         fVersionGroup = new VersionGroup(this, composite, PHPVersion.PHP5_6) {
-			@Override
-			public IEnvironment getEnvironment() {
-				return SilverStripeProjectWizardFirstPage.this.getEnvironment();
-			}
-		};
+            @Override
+            public IEnvironment getEnvironment() {
+                return SilverStripeProjectWizardFirstPage.this.getEnvironment();
+            }
+        };
         fLayoutGroup = new SilverStripeLayoutGroup(composite);
         fSSVersionGroup = new SilverStripeVersionGroup(composite);
         fJavaScriptSupportGroup = new SilverStripeJavaScriptSupportGroup(composite, this);
@@ -173,78 +173,78 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         setHelpContext(composite);
     }
 
-	public WorkingSetGroup createWorkingSetGroupSSDT(Composite composite, IStructuredSelection selection, String[] supportedWorkingSetTypes) {
-		if (fWorkingSetGroup != null) {
-			return fWorkingSetGroup;
-		}
-		
-		fWorkingSetGroup = new WorkingSetGroup(composite, selection, supportedWorkingSetTypes);
-		
-		return fWorkingSetGroup;
-	}
+    public WorkingSetGroup createWorkingSetGroupSSDT(Composite composite, IStructuredSelection selection, String[] supportedWorkingSetTypes) {
+        if (fWorkingSetGroup != null) {
+            return fWorkingSetGroup;
+        }
+        
+        fWorkingSetGroup = new WorkingSetGroup(composite, selection, supportedWorkingSetTypes);
+        
+        return fWorkingSetGroup;
+    }
 
-	public boolean isExistingLocation() {
-		return fPHPLocationGroup.isExistingLocation();
-	}
+    public boolean isExistingLocation() {
+        return fPHPLocationGroup.isExistingLocation();
+    }
 
-	public URI getLocationURI() {
-		IEnvironment environment = getEnvironment();
-		return environment.getURI(fPHPLocationGroup.getLocation());
-	}
+    public URI getLocationURI() {
+        IEnvironment environment = getEnvironment();
+        return environment.getURI(fPHPLocationGroup.getLocation());
+    }
 
-	public IEnvironment getEnvironment() {
-		return fPHPLocationGroup.getEnvironment();
-	}
+    public IEnvironment getEnvironment() {
+        return fPHPLocationGroup.getEnvironment();
+    }
 
-	/**
-	 * Creates a project resource handle for the current project name field value.
-	 * <p>
-	 * This method does not create the project resource; this is the responsibility
-	 * of <code>IProject::create</code> invoked by the new project resource wizard.
-	 * </p>
-	 * 
-	 * @return the new project resource handle
-	 */
-	public IProject getProjectHandle() {
-		return ResourcesPlugin.getWorkspace().getRoot().getProject(fNameGroup.getName());
-	}
+    /**
+     * Creates a project resource handle for the current project name field value.
+     * <p>
+     * This method does not create the project resource; this is the responsibility
+     * of <code>IProject::create</code> invoked by the new project resource wizard.
+     * </p>
+     * 
+     * @return the new project resource handle
+     */
+    public IProject getProjectHandle() {
+        return ResourcesPlugin.getWorkspace().getRoot().getProject(fNameGroup.getName());
+    }
 
-	public String getProjectName() {
-		return fNameGroup.getName();
-	}
+    public String getProjectName() {
+        return fNameGroup.getName();
+    }
 
-	public boolean isInWorkspace() {
-		return fPHPLocationGroup.isInWorkspace();
-	}
+    public boolean isInWorkspace() {
+        return fPHPLocationGroup.isInWorkspace();
+    }
 
-	public boolean isInLocalServer() {
-		return fPHPLocationGroup.isInLocalServer();
-	}
+    public boolean isInLocalServer() {
+        return fPHPLocationGroup.isInLocalServer();
+    }
 
-	public boolean getDetect() {
-		return fDetectGroup.mustDetect();
-	}
+    public boolean getDetect() {
+        return fDetectGroup.mustDetect();
+    }
     
     @Override
-	public void setVisible(boolean visible) {
-    	getControl().setVisible(visible);
+    public void setVisible(boolean visible) {
+        getControl().setVisible(visible);
 
-		fNameGroup.setFocus();
+        fNameGroup.setFocus();
 
-		if (visible) {
-			// if there is a project we are going from 2nd to 1st
-			// remove the project
-			removeProject();
-		} else {
-			IWizardPage currentPage = getContainer().getCurrentPage();
-			if (currentPage instanceof IPHPProjectCreateWizardPage) {
-				// going forward from 1st page to 2nd one
-				changeToNewProject();
-				((IPHPProjectCreateWizardPage) currentPage).initPage();
-			}
-		}
+        if (visible) {
+            // if there is a project we are going from 2nd to 1st
+            // remove the project
+            removeProject();
+        } else {
+            IWizardPage currentPage = getContainer().getCurrentPage();
+            if (currentPage instanceof IPHPProjectCreateWizardPage) {
+                // going forward from 1st page to 2nd one
+                changeToNewProject();
+                ((IPHPProjectCreateWizardPage) currentPage).initPage();
+            }
+        }
 
-	}
+    }
     
     /**
      * Gets the whether the new project is a project layout
@@ -254,24 +254,24 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         return fLayoutGroup.isProjectLayout();
     }
 
-	public boolean isDefaultVersionSelected() {
-		return fVersionGroup != null && fVersionGroup.fDefaultValues.isSelected();
-	}
+    public boolean isDefaultVersionSelected() {
+        return fVersionGroup != null && fVersionGroup.fDefaultValues.isSelected();
+    }
 
-	public PHPVersion getPHPVersionValue() {
-		if (fVersionGroup != null) {
-			return fVersionGroup.fConfigurationBlock.getPHPVersionValue();
-		}
-		return null;
-	}
+    public PHPVersion getPHPVersionValue() {
+        if (fVersionGroup != null) {
+            return fVersionGroup.fConfigurationBlock.getPHPVersionValue();
+        }
+        return null;
+    }
 
-	protected VersionGroup getVersionGroup() {
-		return fVersionGroup;
-	}
+    protected VersionGroup getVersionGroup() {
+        return fVersionGroup;
+    }
 
-	protected JavaScriptSupportGroup getJavaScriptSupportGroup() {
-		return fJavaScriptSupportGroup;
-	}
+    protected JavaScriptSupportGroup getJavaScriptSupportGroup() {
+        return fJavaScriptSupportGroup;
+    }
     
     /**
      * Gets the whether the new project is a theme layout
@@ -329,166 +329,166 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         return fSSVersionGroup.includeReports();
     }
 
-	private boolean canCreate(File file) {
-		while (!file.exists()) {
-			file = file.getParentFile();
-			if (file == null) {
-				return false;
-			}
-		}
+    private boolean canCreate(File file) {
+        while (!file.exists()) {
+            file = file.getParentFile();
+            if (file == null) {
+                return false;
+            }
+        }
 
-		return file.canWrite();
-	}
-	
-	/**
-	 * Helper method to create and open a IProject. The project location is configured. No natures are added.
-	 * 
-	 * @param project The handle of the project to create.
-	 * @param locationURI The location of the project or <code>null</code> to create the project in the workspace
-	 * @param monitor a progress monitor to report progress or <code>null</code> if progress reporting is not desired
-	 * @throws CoreException if the project couldn't be created
-	 * @see org.eclipse.core.resources.IProjectDescription#setLocationURI(java.net.URI)
-	 */
-	public void createProject(IProject project, URI locationURI, IProgressMonitor monitor) throws CoreException {
-		PHPProjectUtils.createProjectAt(project, locationURI, monitor);
-		fProjectCreated = true;
-	}
+        return file.canWrite();
+    }
+    
+    /**
+     * Helper method to create and open a IProject. The project location is configured. No natures are added.
+     * 
+     * @param project The handle of the project to create.
+     * @param locationURI The location of the project or <code>null</code> to create the project in the workspace
+     * @param monitor a progress monitor to report progress or <code>null</code> if progress reporting is not desired
+     * @throws CoreException if the project couldn't be created
+     * @see org.eclipse.core.resources.IProjectDescription#setLocationURI(java.net.URI)
+     */
+    public void createProject(IProject project, URI locationURI, IProgressMonitor monitor) throws CoreException {
+        PHPProjectUtils.createProjectAt(project, locationURI, monitor);
+        fProjectCreated = true;
+    }
 
-	protected void updateProject(IProgressMonitor monitor) throws CoreException, InterruptedException {
-		IProject projectHandle = this.getProjectHandle();
-		DLTKCore.create(projectHandle);
-		fCurrProjectLocation = getProjectLocationURI();
+    protected void updateProject(IProgressMonitor monitor) throws CoreException, InterruptedException {
+        IProject projectHandle = this.getProjectHandle();
+        DLTKCore.create(projectHandle);
+        fCurrProjectLocation = getProjectLocationURI();
 
-		if (monitor == null) {
-			monitor = new NullProgressMonitor();
-		}
-		try {
-			monitor.beginTask(NewWizardMessages.ScriptProjectWizardSecondPage_operation_initialize, 70);
-			if (monitor.isCanceled()) {
-				throw new OperationCanceledException();
-			}
+        if (monitor == null) {
+            monitor = new NullProgressMonitor();
+        }
+        try {
+            monitor.beginTask(NewWizardMessages.ScriptProjectWizardSecondPage_operation_initialize, 70);
+            if (monitor.isCanceled()) {
+                throw new OperationCanceledException();
+            }
 
-			URI realLocation = fCurrProjectLocation;
-			if (fCurrProjectLocation == null) { // inside workspace
-				try {
-					URI rootLocation = ResourcesPlugin.getWorkspace().getRoot().getLocationURI();
-					realLocation = new URI(rootLocation.getScheme(), null,
-							Path.fromPortableString(rootLocation.getPath()).append(projectHandle.getName()).toString(),
-							null);
-				} catch (URISyntaxException e) {
-					Assert.isTrue(false, "Can't happen"); //$NON-NLS-1$
-				}
-			}
+            URI realLocation = fCurrProjectLocation;
+            if (fCurrProjectLocation == null) { // inside workspace
+                try {
+                    URI rootLocation = ResourcesPlugin.getWorkspace().getRoot().getLocationURI();
+                    realLocation = new URI(rootLocation.getScheme(), null,
+                            Path.fromPortableString(rootLocation.getPath()).append(projectHandle.getName()).toString(),
+                            null);
+                } catch (URISyntaxException e) {
+                    Assert.isTrue(false, "Can't happen"); //$NON-NLS-1$
+                }
+            }
 
-			rememberExistingFiles(realLocation);
+            rememberExistingFiles(realLocation);
 
-			createProject(projectHandle, fCurrProjectLocation, new SubProgressMonitor(monitor, 20));
-		} finally {
-			monitor.done();
-		}
-	}
+            createProject(projectHandle, fCurrProjectLocation, new SubProgressMonitor(monitor, 20));
+        } finally {
+            monitor.done();
+        }
+    }
 
-	public void performFinish(IProgressMonitor monitor) {
-		Display.getDefault().asyncExec(() -> {
-			PHPUiPlugin.getDefault().getPreferenceStore().setValue((PreferenceConstants.JavaScriptSupportEnable), fJavaScriptSupportGroup.getSelection());
-			IWorkingSet[] workingSets = fWorkingSetGroup.getSelectedWorkingSets();
-			((NewElementWizard) getWizard()).getWorkbench().getWorkingSetManager().addToWorkingSets(getProjectHandle(), workingSets);
-		});
-	}
+    public void performFinish(IProgressMonitor monitor) {
+        Display.getDefault().asyncExec(() -> {
+            PHPUiPlugin.getDefault().getPreferenceStore().setValue((PreferenceConstants.JavaScriptSupportEnable), fJavaScriptSupportGroup.getSelection());
+            IWorkingSet[] workingSets = fWorkingSetGroup.getSelectedWorkingSets();
+            ((NewElementWizard) getWizard()).getWorkbench().getWorkingSetManager().addToWorkingSets(getProjectHandle(), workingSets);
+        });
+    }
 
-	/**
-	 * Called from the wizard on cancel.
-	 */
-	public void performCancel() {
-		if (fProjectCreated) {
-			removeProject();
-		}
-	}
+    /**
+     * Called from the wizard on cancel.
+     */
+    public void performCancel() {
+        if (fProjectCreated) {
+            removeProject();
+        }
+    }
     
     private void removeProject() {
-		if (fNameGroup == null || fNameGroup.getName() == null || fNameGroup.getName().length() == 0) {
-			return;
-		}
-		if (getProjectHandle() == null || !getProjectHandle().exists()) {
-			return;
-		}
+        if (fNameGroup == null || fNameGroup.getName() == null || fNameGroup.getName().length() == 0) {
+            return;
+        }
+        if (getProjectHandle() == null || !getProjectHandle().exists()) {
+            return;
+        }
 
-		IRunnableWithProgress op = new IRunnableWithProgress() {
-			@Override
-			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-				doRemoveProject(monitor);
-			}
-		};
+        IRunnableWithProgress op = new IRunnableWithProgress() {
+            @Override
+            public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+                doRemoveProject(monitor);
+            }
+        };
 
-		try {
-			getContainer().run(true, true, new WorkspaceModifyDelegatingOperation(op));
-		} catch (InvocationTargetException e) {
-			final String title = NewWizardMessages.ScriptProjectWizardSecondPage_error_remove_title;
-			final String message = NewWizardMessages.ScriptProjectWizardSecondPage_error_remove_message;
-			ExceptionHandler.handle(e, getShell(), title, message);
-		} catch (InterruptedException e) {
-			// cancel pressed
-		}
-	}
+        try {
+            getContainer().run(true, true, new WorkspaceModifyDelegatingOperation(op));
+        } catch (InvocationTargetException e) {
+            final String title = NewWizardMessages.ScriptProjectWizardSecondPage_error_remove_title;
+            final String message = NewWizardMessages.ScriptProjectWizardSecondPage_error_remove_message;
+            ExceptionHandler.handle(e, getShell(), title, message);
+        } catch (InterruptedException e) {
+            // cancel pressed
+        }
+    }
 
-	final void doRemoveProject(IProgressMonitor monitor) throws InvocationTargetException {
-		final boolean noProgressMonitor = (fCurrProjectLocation == null); // inside
-		// workspace
-		if (monitor == null || noProgressMonitor) {
-			monitor = new NullProgressMonitor();
-		}
-		monitor.beginTask(NewWizardMessages.ScriptProjectWizardSecondPage_operation_remove, 3);
-		try {
-			try {
-				boolean removeContent = !fKeepContent && getProjectHandle().isSynchronized(IResource.DEPTH_INFINITE);
-				getProjectHandle().delete(removeContent, false, new SubProgressMonitor(monitor, 2));
+    final void doRemoveProject(IProgressMonitor monitor) throws InvocationTargetException {
+        final boolean noProgressMonitor = (fCurrProjectLocation == null); // inside
+        // workspace
+        if (monitor == null || noProgressMonitor) {
+            monitor = new NullProgressMonitor();
+        }
+        monitor.beginTask(NewWizardMessages.ScriptProjectWizardSecondPage_operation_remove, 3);
+        try {
+            try {
+                boolean removeContent = !fKeepContent && getProjectHandle().isSynchronized(IResource.DEPTH_INFINITE);
+                getProjectHandle().delete(removeContent, false, new SubProgressMonitor(monitor, 2));
 
-			} finally {
-				CoreUtility.enableAutoBuild(fIsAutobuild.booleanValue()); // fIsAutobuild
-				// must
-				// be
-				// set
-				fIsAutobuild = null;
-			}
-		} catch (CoreException e) {
-			throw new InvocationTargetException(e);
-		} finally {
-			monitor.done();
-			fKeepContent = false;
-		}
-	}
+            } finally {
+                CoreUtility.enableAutoBuild(fIsAutobuild.booleanValue()); // fIsAutobuild
+                // must
+                // be
+                // set
+                fIsAutobuild = null;
+            }
+        } catch (CoreException e) {
+            throw new InvocationTargetException(e);
+        } finally {
+            monitor.done();
+            fKeepContent = false;
+        }
+    }
 
-	private void changeToNewProject() {
-		fKeepContent = this.getDetect();
+    private void changeToNewProject() {
+        fKeepContent = this.getDetect();
 
-		final IRunnableWithProgress op = new IRunnableWithProgress() {
-			@Override
-			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-				try {
-					if (fIsAutobuild == null) {
-						fIsAutobuild = Boolean.valueOf(CoreUtility.enableAutoBuild(false));
-					}
-					updateProject(monitor);
-				} catch (CoreException e) {
-					throw new InvocationTargetException(e);
-				} catch (OperationCanceledException e) {
-					throw new InterruptedException();
-				} finally {
-					monitor.done();
-				}
-			}
-		};
+        final IRunnableWithProgress op = new IRunnableWithProgress() {
+            @Override
+            public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+                try {
+                    if (fIsAutobuild == null) {
+                        fIsAutobuild = Boolean.valueOf(CoreUtility.enableAutoBuild(false));
+                    }
+                    updateProject(monitor);
+                } catch (CoreException e) {
+                    throw new InvocationTargetException(e);
+                } catch (OperationCanceledException e) {
+                    throw new InterruptedException();
+                } finally {
+                    monitor.done();
+                }
+            }
+        };
 
-		try {
-			getContainer().run(true, false, new WorkspaceModifyDelegatingOperation(op));
-		} catch (InvocationTargetException e) {
-			final String title = NewWizardMessages.ScriptProjectWizardSecondPage_error_title;
-			final String message = NewWizardMessages.ScriptProjectWizardSecondPage_error_message;
-			ExceptionHandler.handle(e, getShell(), title, message);
-		} catch (InterruptedException e) {
-			// cancel pressed
-		}
-	}
+        try {
+            getContainer().run(true, false, new WorkspaceModifyDelegatingOperation(op));
+        } catch (InvocationTargetException e) {
+            final String title = NewWizardMessages.ScriptProjectWizardSecondPage_error_title;
+            final String message = NewWizardMessages.ScriptProjectWizardSecondPage_error_message;
+            ExceptionHandler.handle(e, getShell(), title, message);
+        } catch (InterruptedException e) {
+            // cancel pressed
+        }
+    }
     
     /**
      * Request a project layout.
@@ -875,125 +875,125 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
     
     private class WorkingSetGroup {
 
-		private WorkingSetConfigurationBlock workingSetBlock;
+        private WorkingSetConfigurationBlock workingSetBlock;
 
-		public WorkingSetGroup(Composite composite, IStructuredSelection currentSelection, String[] workingSetTypes) {
-			Group workingSetGroup = new Group(composite, SWT.NONE);
-			workingSetGroup.setFont(composite.getFont());
-			workingSetGroup.setText(WorkbenchMessages.WorkingSetGroup_WorkingSets_group);
-			workingSetGroup.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        public WorkingSetGroup(Composite composite, IStructuredSelection currentSelection, String[] workingSetTypes) {
+            Group workingSetGroup = new Group(composite, SWT.NONE);
+            workingSetGroup.setFont(composite.getFont());
+            workingSetGroup.setText(WorkbenchMessages.WorkingSetGroup_WorkingSets_group);
+            workingSetGroup.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			GridLayout layout = new GridLayout(1, false);
-			layout.marginWidth = 0;
-			layout.marginHeight = 0;
-			workingSetGroup.setLayout(layout);
+            GridLayout layout = new GridLayout(1, false);
+            layout.marginWidth = 0;
+            layout.marginHeight = 0;
+            workingSetGroup.setLayout(layout);
 
-			workingSetBlock = new WorkingSetConfigurationBlock(workingSetTypes,
-					PHPUiPlugin.getDefault().getDialogSettings());
-			workingSetBlock.setWorkingSets(workingSetBlock.findApplicableWorkingSets(currentSelection));
-			workingSetBlock.createContent(workingSetGroup);
-		}
+            workingSetBlock = new WorkingSetConfigurationBlock(workingSetTypes,
+                    PHPUiPlugin.getDefault().getDialogSettings());
+            workingSetBlock.setWorkingSets(workingSetBlock.findApplicableWorkingSets(currentSelection));
+            workingSetBlock.createContent(workingSetGroup);
+        }
 
-		public IWorkingSet[] getSelectedWorkingSets() {
-			return workingSetBlock.getSelectedWorkingSets();
-		}
-	}
+        public IWorkingSet[] getSelectedWorkingSets() {
+            return workingSetBlock.getSelectedWorkingSets();
+        }
+    }
 
-	/**
-	 * Validate this page and show appropriate warnings and error NewWizardMessages.
-	 */
-	public final class Validator implements Observer {
-		@Override
-		public void update(Observable o, Object arg) {
-			final IWorkspace workspace = DLTKUIPlugin.getWorkspace();
-			final String name = fNameGroup.getName();
-			// check whether the project name field is empty
-			if (name.length() == 0) {
-				setErrorMessage(null);
-				setMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_enterProjectName);
-				setPageComplete(false);
-				return;
-			}
-			// check whether the project name is valid
-			final IStatus nameStatus = workspace.validateName(name, IResource.PROJECT);
-			if (!nameStatus.isOK()) {
-				setErrorMessage(nameStatus.getMessage());
-				setPageComplete(false);
-				return;
-			}
-			// check whether project already exists
-			final IProject handle = getProjectHandle();
+    /**
+     * Validate this page and show appropriate warnings and error NewWizardMessages.
+     */
+    public final class Validator implements Observer {
+        @Override
+        public void update(Observable o, Object arg) {
+            final IWorkspace workspace = DLTKUIPlugin.getWorkspace();
+            final String name = fNameGroup.getName();
+            // check whether the project name field is empty
+            if (name.length() == 0) {
+                setErrorMessage(null);
+                setMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_enterProjectName);
+                setPageComplete(false);
+                return;
+            }
+            // check whether the project name is valid
+            final IStatus nameStatus = workspace.validateName(name, IResource.PROJECT);
+            if (!nameStatus.isOK()) {
+                setErrorMessage(nameStatus.getMessage());
+                setPageComplete(false);
+                return;
+            }
+            // check whether project already exists
+            final IProject handle = getProjectHandle();
 
-			if (!isInLocalServer() && handle.exists()) {
-				setErrorMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_projectAlreadyExists);
-				setPageComplete(false);
-				return;
-			}
+            if (!isInLocalServer() && handle.exists()) {
+                setErrorMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_projectAlreadyExists);
+                setPageComplete(false);
+                return;
+            }
 
-			IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-			for (IProject currentProject : projects) {
-				String existingProjectName = currentProject.getName();
-				if (existingProjectName.equalsIgnoreCase(name)) {
-					setErrorMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_projectAlreadyExists);
-					setPageComplete(false);
-					return;
-				}
-			}
+            IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+            for (IProject currentProject : projects) {
+                String existingProjectName = currentProject.getName();
+                if (existingProjectName.equalsIgnoreCase(name)) {
+                    setErrorMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_projectAlreadyExists);
+                    setPageComplete(false);
+                    return;
+                }
+            }
 
-			final String location = fPHPLocationGroup.getLocation().toOSString();
-			// check whether location is empty
-			if (location.length() == 0) {
-				setErrorMessage(null);
-				setMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_enterLocation);
-				setPageComplete(false);
-				return;
-			}
-			// check whether the location is a syntactically correct path
-			if (!Path.EMPTY.isValidPath(location)) {
-				setErrorMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_invalidDirectory);
-				setPageComplete(false);
-				return;
-			}
-			// check whether the location has the workspace as prefix
-			IPath projectPath = Path.fromOSString(location);
-			if (!fPHPLocationGroup.isInWorkspace() && Platform.getLocation().isPrefixOf(projectPath)) {
-				setErrorMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_cannotCreateInWorkspace);
-				setPageComplete(false);
-				return;
-			}
-			// If we do not place the contents in the workspace validate the
-			// location.
-			if (!fPHPLocationGroup.isInWorkspace()) {
-				IEnvironment environment = getEnvironment();
-				if (EnvironmentManager.isLocal(environment)) {
-					final IStatus locationStatus = workspace.validateProjectLocation(handle, projectPath);
-					if (!locationStatus.isOK()) {
-						setErrorMessage(locationStatus.getMessage());
-						setPageComplete(false);
-						return;
-					}
+            final String location = fPHPLocationGroup.getLocation().toOSString();
+            // check whether location is empty
+            if (location.length() == 0) {
+                setErrorMessage(null);
+                setMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_enterLocation);
+                setPageComplete(false);
+                return;
+            }
+            // check whether the location is a syntactically correct path
+            if (!Path.EMPTY.isValidPath(location)) {
+                setErrorMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_invalidDirectory);
+                setPageComplete(false);
+                return;
+            }
+            // check whether the location has the workspace as prefix
+            IPath projectPath = Path.fromOSString(location);
+            if (!fPHPLocationGroup.isInWorkspace() && Platform.getLocation().isPrefixOf(projectPath)) {
+                setErrorMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_cannotCreateInWorkspace);
+                setPageComplete(false);
+                return;
+            }
+            // If we do not place the contents in the workspace validate the
+            // location.
+            if (!fPHPLocationGroup.isInWorkspace()) {
+                IEnvironment environment = getEnvironment();
+                if (EnvironmentManager.isLocal(environment)) {
+                    final IStatus locationStatus = workspace.validateProjectLocation(handle, projectPath);
+                    if (!locationStatus.isOK()) {
+                        setErrorMessage(locationStatus.getMessage());
+                        setPageComplete(false);
+                        return;
+                    }
 
-					if (!canCreate(projectPath.toFile())) {
-						setErrorMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_invalidDirectory);
-						setPageComplete(false);
-						return;
-					}
-				}
-			}
+                    if (!canCreate(projectPath.toFile())) {
+                        setErrorMessage(NewWizardMessages.ScriptProjectWizardFirstPage_Message_invalidDirectory);
+                        setPageComplete(false);
+                        return;
+                    }
+                }
+            }
 
-			if (fragment != null) {
-				fragment.getWizardModel().putObject("ProjectName", //$NON-NLS-1$
-						fNameGroup.getName());
-				if (!fragment.isComplete()) {
-					setErrorMessage((String) fragment.getWizardModel().getObject(ERROR_MESSAGE));
-					setPageComplete(false);
-					return;
-				}
-			}
+            if (fragment != null) {
+                fragment.getWizardModel().putObject("ProjectName", //$NON-NLS-1$
+                        fNameGroup.getName());
+                if (!fragment.isComplete()) {
+                    setErrorMessage((String) fragment.getWizardModel().getObject(ERROR_MESSAGE));
+                    setPageComplete(false);
+                    return;
+                }
+            }
 
-			setPageComplete(true);
-			setErrorMessage(null);
-			setMessage(null);
-		}
-	}
+            setPageComplete(true);
+            setErrorMessage(null);
+            setMessage(null);
+        }
+    }
 }

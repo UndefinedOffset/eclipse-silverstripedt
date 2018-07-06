@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="tokenizer" default="setupEnviroment">
-	<target name="cleanupCache">
+    <target name="cleanupCache">
         <delete verbose="true">
             <fileset dir="cache" defaultexcludes="no">
                 <include name="*.*"/>
                 <exclude name=".gitignore"/>
             </fileset>
         </delete>
-	</target>
+    </target>
     
     <target name="setupEnviroment" depends="cleanupCache">
         <!-- Fetch 3.0 latest -->

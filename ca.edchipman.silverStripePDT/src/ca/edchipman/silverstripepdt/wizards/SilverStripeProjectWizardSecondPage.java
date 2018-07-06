@@ -168,7 +168,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
                 includepathEntries = setProjectBaseIncludepath();
                 if (!getProject().getFile(FILENAME_BUILDPATH).exists()) {
 
-                	final IPath projectPath = getProject().getFullPath();
+                    final IPath projectPath = getProject().getFullPath();
                     List cpEntries = new ArrayList();
                     cpEntries.add(DLTKCore.newSourceEntry(projectPath));
                     cpEntries.add(DLTKCore.newContainerEntry(phpContainer));

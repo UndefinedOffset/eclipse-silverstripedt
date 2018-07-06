@@ -41,134 +41,134 @@ import ca.edchipman.silverstripepdt.templates.SilverStripeTemplateStore;
 
 @SuppressWarnings("restriction")
 public class SilverStripeCATemplatesPreferencePage extends TemplatePreferencePage {
-	public SilverStripeCATemplatesPreferencePage() {
-		setPreferenceStore(SilverStripePDTPlugin.getDefault().getPreferenceStore());
-		setTemplateStore(SilverStripePDTPlugin.getDefault().getCATemplateStore());
-		
-		//Build registry
-		ContributionContextTypeRegistry registry = new ContributionContextTypeRegistry();
-		registry.addContextType(new CodeTemplateContextType(SSTemplateCompletionProcessor.TEMPLATE_CONTEXT_ID));
-		
-		setTemplateStore(new SilverStripeTemplateStore(registry, this.getPreferenceStore(),"ca.edchipman.silverstripepdt.contentassist.templates"));
-		try {
-			this.getTemplateStore().load();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		setContextTypeRegistry(registry);
-	}
-	
-    public void performHelp() {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IPHPHelpContextIds.TEMPLATES_PREFERENCES);
-		getControl().notifyListeners(SWT.Help, new Event());
+    public SilverStripeCATemplatesPreferencePage() {
+        setPreferenceStore(SilverStripePDTPlugin.getDefault().getPreferenceStore());
+        setTemplateStore(SilverStripePDTPlugin.getDefault().getCATemplateStore());
+        
+        //Build registry
+        ContributionContextTypeRegistry registry = new ContributionContextTypeRegistry();
+        registry.addContextType(new CodeTemplateContextType(SSTemplateCompletionProcessor.TEMPLATE_CONTEXT_ID));
+        
+        setTemplateStore(new SilverStripeTemplateStore(registry, this.getPreferenceStore(),"ca.edchipman.silverstripepdt.contentassist.templates"));
+        try {
+            this.getTemplateStore().load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        setContextTypeRegistry(registry);
     }
-	
-	/*
-	 * @see PreferencePage#performCancel()
-	 */
-	public boolean performCancel() {
-		//Re-load the other template stores
-		try {
-			SilverStripePDTPlugin.getDefault().getCATemplateStore().load();
-		} catch (IOException e) {
-			openReadErrorDialog(e);
-			return false;
-		}
-		
-		return super.performCancel();
-	}
-	
-	/*
-	 * @see PreferencePage#performOk()
-	 */
-	public boolean performOk() {
-		//Re-load the other template stores
-		try {
-			SilverStripePDTPlugin.getDefault().getCATemplateStore().load();
-		} catch (IOException e) {
-			openReadErrorDialog(e);
-			return false;
-		}
-		
-		return super.performOk();
-	}
-	
-	/*
-	 * @since 3.2
-	 */
-	private void openReadErrorDialog(IOException ex) {
-		IStatus status= new Status(IStatus.ERROR, TextEditorPlugin.PLUGIN_ID, IStatus.OK, "Failed to read templates.", ex); //$NON-NLS-1$
-		TextEditorPlugin.getDefault().getLog().log(status);
-		String title="Reading Templates";
-		String message="Failed to read templates. See the error log for details.";
-		MessageDialog.openError(getShell(), title, message);
-	}
+    
+    public void performHelp() {
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IPHPHelpContextIds.TEMPLATES_PREFERENCES);
+        getControl().notifyListeners(SWT.Help, new Event());
+    }
+    
+    /*
+     * @see PreferencePage#performCancel()
+     */
+    public boolean performCancel() {
+        //Re-load the other template stores
+        try {
+            SilverStripePDTPlugin.getDefault().getCATemplateStore().load();
+        } catch (IOException e) {
+            openReadErrorDialog(e);
+            return false;
+        }
+        
+        return super.performCancel();
+    }
+    
+    /*
+     * @see PreferencePage#performOk()
+     */
+    public boolean performOk() {
+        //Re-load the other template stores
+        try {
+            SilverStripePDTPlugin.getDefault().getCATemplateStore().load();
+        } catch (IOException e) {
+            openReadErrorDialog(e);
+            return false;
+        }
+        
+        return super.performOk();
+    }
+    
+    /*
+     * @since 3.2
+     */
+    private void openReadErrorDialog(IOException ex) {
+        IStatus status= new Status(IStatus.ERROR, TextEditorPlugin.PLUGIN_ID, IStatus.OK, "Failed to read templates.", ex); //$NON-NLS-1$
+        TextEditorPlugin.getDefault().getLog().log(status);
+        String title="Reading Templates";
+        String message="Failed to read templates. See the error log for details.";
+        MessageDialog.openError(getShell(), title, message);
+    }
 
-	/**
-	 * Creates the edit dialog. Subclasses may override this method to provide a
-	 * custom dialog.
-	 *
-	 * @param template the template being edited
-	 * @param edit whether the dialog should be editable
-	 * @param isNameModifiable whether the template name may be modified
-	 * @return the created or modified template, or <code>null</code> if the edition failed
-	 * @since 3.1
-	 */
-	protected Template editTemplate(Template template, boolean edit, boolean isNameModifiable) {
-		IStructuredSelection selection= (IStructuredSelection) this.getTableViewer().getSelection();
+    /**
+     * Creates the edit dialog. Subclasses may override this method to provide a
+     * custom dialog.
+     *
+     * @param template the template being edited
+     * @param edit whether the dialog should be editable
+     * @param isNameModifiable whether the template name may be modified
+     * @return the created or modified template, or <code>null</code> if the edition failed
+     * @since 3.1
+     */
+    protected Template editTemplate(Template template, boolean edit, boolean isNameModifiable) {
+        IStructuredSelection selection= (IStructuredSelection) this.getTableViewer().getSelection();
 
-		Object[] objects= selection.toArray();
-		if ((objects != null) || (objects.length == 1)) {
-			TemplatePersistenceData data=(TemplatePersistenceData) selection.getFirstElement();
-			if(data.getTemplate() instanceof SilverStripeTemplate) {
-				template=new SilverStripeTemplate((SilverStripeTemplate) data.getTemplate());
-			}
-		}
-		
-		EditTemplateDialog dialog= new SSEditTemplateDialog(getShell(), template, edit, isNameModifiable, this.getContextTypeRegistry());
-		if (dialog.open() == Window.OK) {
-			return dialog.getTemplate();
-		}
-		return null;
-	}
+        Object[] objects= selection.toArray();
+        if ((objects != null) || (objects.length == 1)) {
+            TemplatePersistenceData data=(TemplatePersistenceData) selection.getFirstElement();
+            if(data.getTemplate() instanceof SilverStripeTemplate) {
+                template=new SilverStripeTemplate((SilverStripeTemplate) data.getTemplate());
+            }
+        }
+        
+        EditTemplateDialog dialog= new SSEditTemplateDialog(getShell(), template, edit, isNameModifiable, this.getContextTypeRegistry());
+        if (dialog.open() == Window.OK) {
+            return dialog.getTemplate();
+        }
+        return null;
+    }
     
     protected static class SSEditTemplateDialog extends EditTemplateDialog {
-    	private SilverStripeTemplate fOriginalTemplate;
-		private Template fNewTemplate;
-		private ArrayList<String> fSSVersions;
+        private SilverStripeTemplate fOriginalTemplate;
+        private Template fNewTemplate;
+        private ArrayList<String> fSSVersions;
         private ArrayList<SSVersionCheck> ssVersionChecks;
-    	
-    	
-		public SSEditTemplateDialog(Shell parent, Template template, boolean edit, boolean isNameModifiable, ContextTypeRegistry registry) {
-			super(parent, template, edit, isNameModifiable, registry);
-			
-			this.fNewTemplate=null;
-			if(template instanceof SilverStripeTemplate) {
-				this.fOriginalTemplate=(SilverStripeTemplate) template;
-			}
-		}
-		
-		protected Control createDialogArea(Composite ancestor) {
-			if(this.fOriginalTemplate!=null) {
-				super.createDialogArea(ancestor);
-			
-				Composite parent= new Composite(ancestor, SWT.NONE);
-				GridLayout layout= new GridLayout();
-				layout.numColumns= 2;
-				layout.marginHeight= convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
-				layout.marginWidth= convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
-				layout.verticalSpacing= convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
-				layout.horizontalSpacing= convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
-				parent.setLayout(layout);
-				parent.setLayoutData(new GridData(GridData.FILL_BOTH));
-				
-				
-	            Group fGroup = new Group(parent, SWT.NONE);
-	            fGroup.setFont(parent.getFont());
-	            fGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	            fGroup.setLayout(initGridLayout(new GridLayout(4, false), true));
-	            fGroup.setText("SilverStripe Versions"); //$NON-NLS-1$
+        
+        
+        public SSEditTemplateDialog(Shell parent, Template template, boolean edit, boolean isNameModifiable, ContextTypeRegistry registry) {
+            super(parent, template, edit, isNameModifiable, registry);
+            
+            this.fNewTemplate=null;
+            if(template instanceof SilverStripeTemplate) {
+                this.fOriginalTemplate=(SilverStripeTemplate) template;
+            }
+        }
+        
+        protected Control createDialogArea(Composite ancestor) {
+            if(this.fOriginalTemplate!=null) {
+                super.createDialogArea(ancestor);
+            
+                Composite parent= new Composite(ancestor, SWT.NONE);
+                GridLayout layout= new GridLayout();
+                layout.numColumns= 2;
+                layout.marginHeight= convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+                layout.marginWidth= convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+                layout.verticalSpacing= convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+                layout.horizontalSpacing= convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+                parent.setLayout(layout);
+                parent.setLayoutData(new GridData(GridData.FILL_BOTH));
+                
+                
+                Group fGroup = new Group(parent, SWT.NONE);
+                fGroup.setFont(parent.getFont());
+                fGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+                fGroup.setLayout(initGridLayout(new GridLayout(4, false), true));
+                fGroup.setText("SilverStripe Versions"); //$NON-NLS-1$
                 
                 
                 List<String> ssVersions=Arrays.asList(this.fOriginalTemplate.ssVersions());
@@ -190,18 +190,18 @@ public class SilverStripeCATemplatesPreferencePage extends TemplatePreferencePag
                     
                     ssVersionChecks.add(checkButton);
                 }
-	            
-            	
-	            return parent;
+                
+                
+                return parent;
             }
-			
-			return super.createDialogArea(ancestor);
-		}
-		
-		/*
-		 * @since 3.1
-		 */
-		protected void okPressed() {
+            
+            return super.createDialogArea(ancestor);
+        }
+        
+        /*
+         * @since 3.1
+         */
+        protected void okPressed() {
             if(SilverStripeVersion.getLangRegistry(true)==null) {
                 this.cancelPressed();
                 return;
@@ -219,44 +219,44 @@ public class SilverStripeCATemplatesPreferencePage extends TemplatePreferencePag
                     }
                 }
             }
-			
-			super.okPressed();
-		}
-		
-		/**
-		 * Initialize a grid layout with the default Dialog settings.
-		 */
-		public GridLayout initGridLayout(GridLayout layout, boolean margins) {
-			layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
-			if (margins) {
-				layout.marginWidth = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
-				layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
-			} else {
-				layout.marginWidth = 0;
-				layout.marginHeight = 0;
-			}
-			return layout;
-		}
+            
+            super.okPressed();
+        }
+        
+        /**
+         * Initialize a grid layout with the default Dialog settings.
+         */
+        public GridLayout initGridLayout(GridLayout layout, boolean margins) {
+            layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+            if (margins) {
+                layout.marginWidth = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+                layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+            } else {
+                layout.marginWidth = 0;
+                layout.marginHeight = 0;
+            }
+            return layout;
+        }
 
-		/**
-		 * Returns the created template.
-		 *
-		 * @return the created template
-		 * @since 3.1
-		 */
-		public Template getTemplate() {
-			if(this.fOriginalTemplate!=null) {
-				if(fNewTemplate==null) {
-					Template template=super.getTemplate();
-					
-					//Re-create the template
-					fNewTemplate=new SilverStripeTemplate(template, this.fSSVersions.toArray(new String[0]));
-				}
-				
-				return fNewTemplate;
-			}
-			
-			return super.getTemplate();
-		}
+        /**
+         * Returns the created template.
+         *
+         * @return the created template
+         * @since 3.1
+         */
+        public Template getTemplate() {
+            if(this.fOriginalTemplate!=null) {
+                if(fNewTemplate==null) {
+                    Template template=super.getTemplate();
+                    
+                    //Re-create the template
+                    fNewTemplate=new SilverStripeTemplate(template, this.fSSVersions.toArray(new String[0]));
+                }
+                
+                return fNewTemplate;
+            }
+            
+            return super.getTemplate();
+        }
     }
 }

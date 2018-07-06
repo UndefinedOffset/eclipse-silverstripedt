@@ -146,10 +146,10 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
         
         //Refresh
         if(getHighlighter()!=null) {
-    		getHighlighter().refreshDisplay();
-    	} else if(fRecHighlighter != null) {
-    		fRecHighlighter.refreshDisplay();
-    	}
+            getHighlighter().refreshDisplay();
+        } else if(fRecHighlighter != null) {
+            fRecHighlighter.refreshDisplay();
+        }
     }
     
     protected void loadColors() {
@@ -209,7 +209,7 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
             
             // check if preference changed is a style preference
             if (IStyleConstantsSS.SS_DELIM.equals(prefKey)) {
-            	styleKey=IStyleConstantsSS.SS_DELIM;
+                styleKey=IStyleConstantsSS.SS_DELIM;
             } else if (IStyleConstantsSS.SS_CONDITIONAL_OPEN.equals(prefKey)) {
                 styleKey=IStyleConstantsSS.SS_CONDITIONAL_OPEN;
             } else if (IStyleConstantsSS.SS_CONDITIONAL_TEXT.equals(prefKey)) {
@@ -273,19 +273,19 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
             } else if (IStyleConstantsSS.SS_I18N_CONTENT.equals(prefKey)) {
                 styleKey=IStyleConstantsSS.SS_I18N_CONTENT;
             } else if (IStyleConstantsSS.SS_I18N_CONTENT.equals(prefKey)) {
-            	styleKey=IStyleConstantsSS.SS_I18N_CONTENT;
+                styleKey=IStyleConstantsSS.SS_I18N_CONTENT;
             }
             
             if(styleKey!= null) {
-            	addTextAttribute(styleKey);
-            	
-            	if(getHighlighter() != null) {
-            		getHighlighter().refreshDisplay();
-            	} else if(fRecHighlighter != null) {
-            		fRecHighlighter.refreshDisplay();
-            	}
+                addTextAttribute(styleKey);
+                
+                if(getHighlighter() != null) {
+                    getHighlighter().refreshDisplay();
+                } else if(fRecHighlighter != null) {
+                    fRecHighlighter.refreshDisplay();
+                }
             } else {
-            	super.handlePropertyChange(event);
+                super.handlePropertyChange(event);
             }
         } else {
             super.handlePropertyChange(event);

@@ -21,22 +21,22 @@ import org.eclipse.php.internal.ui.wizards.PHPFileCreationWizard;
 public class SilverStripeTemplateFileCreationWizard extends PHPFileCreationWizard {
     protected NewSilverStripeTemplatesWizardPage newSSTemplatesWizardPage;
     
-	/**
-	 * Constructor for SampleNewWizard.
-	 */
-	public SilverStripeTemplateFileCreationWizard() {
-		super();
-		setWindowTitle("New SilverStripe Template File"); //$NON-NLS-1$
-	}
-	
-	public void addPages() {
-		phpFileCreationWizardPage = new SilverStripeFileCreationWizardPage(selection);
-		addPage(phpFileCreationWizardPage);
+    /**
+     * Constructor for SampleNewWizard.
+     */
+    public SilverStripeTemplateFileCreationWizard() {
+        super();
+        setWindowTitle("New SilverStripe Template File"); //$NON-NLS-1$
+    }
+    
+    public void addPages() {
+        phpFileCreationWizardPage = new SilverStripeFileCreationWizardPage(selection);
+        addPage(phpFileCreationWizardPage);
 
-		newSSTemplatesWizardPage = new NewSilverStripeTemplatesWizardPage();
-		addPage(newSSTemplatesWizardPage);
-	}
-	
+        newSSTemplatesWizardPage = new NewSilverStripeTemplatesWizardPage();
+        addPage(newSSTemplatesWizardPage);
+    }
+    
     /**
      * This method is called when 'Finish' button is pressed in the wizard. We
      * will create an operation and run it using wizard as execution context.
@@ -46,9 +46,9 @@ public class SilverStripeTemplateFileCreationWizard extends PHPFileCreationWizar
         final String fileName = phpFileCreationWizardPage.getFileName();
         
         final IFile file = phpFileCreationWizardPage.createNewFile();
-		if (file == null) {
-			return false;
-		}
+        if (file == null) {
+            return false;
+        }
         
         newSSTemplatesWizardPage.resetTableViewerInput();
         final PHPTemplateStore.CompiledTemplate template = this.newSSTemplatesWizardPage.compileTemplate(containerName, fileName);

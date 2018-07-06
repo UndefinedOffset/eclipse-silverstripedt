@@ -86,11 +86,11 @@ public class SilverStripeProjectPreferencePage extends PropertyAndPreferencePage
     }
     
     protected boolean isProjectPreferencePage() {
-    	return false;
+        return false;
     }
     
     protected boolean offerLink() {
-    	return false;
+        return false;
     }
     
     /*
