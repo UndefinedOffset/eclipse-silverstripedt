@@ -147,7 +147,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         fSSVersionGroup = new SilverStripeVersionGroup(composite);
         fJavaScriptSupportGroup = new SilverStripeJavaScriptSupportGroup(composite, this);
         
-        createWorkingSetGroup(composite, ((PHPProjectCreationWizard) getWizard()).getSelection(), new String[] { this.PHP_ID, this.RESOURCE_ID, this.TASK_ID });
+        createWorkingSetGroupSSDT(composite, ((PHPProjectCreationWizard) getWizard()).getSelection(), new String[] { this.PHP_ID, this.RESOURCE_ID, this.TASK_ID });
 
         fDetectGroup = new DetectGroup(composite, fPHPLocationGroup, fNameGroup);
 

@@ -79,7 +79,19 @@ public class LanguageModelContainer implements IBuildpathContainer {
                                     path = EnvironmentPathUtils.getFullPath(environment, path);
                                 }
                                 
-                                entries.add(DLTKCore.newLibraryEntry(path, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, BuildpathEntry.EXCLUDE_NONE, false, true));
+                                //Add the library entry ensuring the project itself is excluded
+                                IPath[] excludedPaths = { path };
+                                entries.add(DLTKCore.newLibraryEntry(path, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, excludedPaths, false, true));
+                            }else {
+                                Display.getDefault().asyncExec(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
+                                        messageBox.setMessage("Could not find the root of SilverStripe or the composer vendor folder. Make sure you have initialized your SilverStripe install, then close and re-open the project to enable autocomplete.");
+                                        messageBox.setText("Error finding the SilverStripe Root");
+                                        messageBox.open();
+                                    }
+                                });
                             }
                         }else {
                             // Copy files (if target directory is older) to the
@@ -272,7 +284,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
                     @Override
                     public void run() {
                         MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
-                        messageBox.setMessage("Could not unpack the SilverStripe Version Package, code hints will not be available for the SilverStripe Version Package. You can try closing and re-opening the project to attempt  again.");
+                        messageBox.setMessage("Could not unpack the SilverStripe Version Package, code hints will not be available for the SilverStripe Version Package. You can try closing and re-opening the project to attempt again.");
                         messageBox.setText("SilverStripe Version Package Unpack Error");
                         messageBox.open();
                     }
@@ -332,12 +344,6 @@ public class LanguageModelContainer implements IBuildpathContainer {
         //Test three folders up (aka a module)
         testPath=projectPath.removeLastSegments(3);
         if(testPath.append(".env").toFile().isFile() && testPath.append("vendor").toFile().isDirectory()) {
-            //If we're already in the vendor folder isolate to the SilverStripe folder
-            //TODO Can we instead just ignore the project itself on the build path?
-            if(projectPath.removeLastSegments(2).equals(testPath.append("vendor"))) {
-                return testPath.append("vendor").append("silverstripe");
-            }
-            
             return testPath.append("vendor");
         }
         
