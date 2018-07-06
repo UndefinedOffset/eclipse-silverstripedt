@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+<!-- new PHP templates -->
+<template
+    name="New SilverStripe 4.x Page Type"
+    description="A new SilverStripe 4.x Page type extending Page"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.pagetype"
+    context="ss_new_class_context"
+    ss-versions="SS4"
+    enabled="true">&lt;?php
+class ${file_name} extends Page {
+    private static $$db=array(
+                         );
+    
+    private static $$has_one=array(
+                             );
+    
+    private static $$has_many=array(
+                             );
+    
+    private static $$defaults=array(
+                                );
+    
+    ${cursor}
+}
+</template>
+
+<template
+    name="New SilverStripe 4.x Page Controller"
+    description="A new SilverStripe 4.x Page Controller extending PageController"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.pagecontroller"
+    context="ss_new_class_context"
+    ss-versions="SS4"
+    enabled="true">&lt;?php
+class ${file_name} extends PageController {
+    private static $$db=array(
+                         );
+    
+    private static $$has_one=array(
+                             );
+    
+    private static $$has_many=array(
+                             );
+    
+    private static $$defaults=array(
+                                );
+    
+    ${cursor}
+}
+</template>
+
+<template
+    name="New SilverStripe 4.x Data Object"
+    description="A new SilverStripe 4.x Data Object"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.dataobject"
+    context="ss_new_class_context"
+    ss-versions="SS4"
+    enabled="true">&lt;?php
+use SilverStripe\ORM\DataObject;
+
+class ${file_name} extends DataObject {
+    private static $$db=array(
+                         );
+    
+    private static $$has_one=array(
+                                );
+    
+    private static $$has_many=array(
+                                );
+    
+    private static $$belongs_many_many=array(
+                                        );
+    
+    private static $$many_many=array(
+                                 );
+    
+    private static $$defaults=array(
+                                );
+    
+    private static $$extensions=array(
+                                );
+    
+    
+    ${cursor}
+}
+</template>
+
+<template
+    name="New SilverStripe Controller"
+    description="A new SilverStripe Controller extending ContentController"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.controller"
+    context="ss_new_class_context"
+    ss-versions="SS4"
+    enabled="true">&lt;?php
+use SilverStripe\CMS\Controllers\ContentController;
+
+class ${file_name} extends ContentController {
+    ${cursor}
+}
+</template>
+
+<template
+    name="New SilverStripe 4.x Extension"
+    description="A SilverStripe 4.x Extension"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.extension"
+    context="ss_new_class_context"
+    enabled="true"
+    ss-versions="SS4"
+    autoinsert="true">&lt;?php
+use SilverStripe\Core\Extension;
+
+class ${file_name} extends Extension {
+    ${cursor}
+}
+</template>
+
+<template
+    name="New SilverStripe 4.x Data Extension"
+    description="A SilverStripe 4.x Data Extension"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.dataextension"
+    context="ss_new_class_context"
+    enabled="true"
+    ss-versions="SS4"
+    autoinsert="true">&lt;?php
+use SilverStripe\Forms\FieldList;
+use SilverStripe\ORM\DataExtension;
+
+class ${file_name} extends DataExtension {
+    private static $$db=array(
+                         );
+    
+    private static $$has_one=array(
+                             );
+    
+    private static $$has_many=array(
+                             );
+    
+    private static $$belongs_many_many=array(
+                                 );
+    
+    private static $$many_many=array(
+                                 );
+    
+    private static $$defaults=array(
+                                );
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param FieldList $$fields Field List that new fields will be added to
+     */
+    public function updateCMSFields(FieldList $$fields) {
+        
+    }
+}
+</template>
+
+<template
+    name="class"
+    description="A SilverStripe 4.x Extension"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.extension"
+    context="php"
+    enabled="true"
+    autoinsert="true">use SilverStripe\Core\Extension;
+
+class ${file_name} extends Extension {
+    ${cursor}
+}</template>
+
+<template
+    name="class"
+    description="A SilverStripe 4.x Data Extension"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.dataextension"
+    context="php"
+    enabled="true"
+    autoinsert="true">use SilverStripe\Forms\FieldList;
+use SilverStripe\ORM\DataExtension;
+
+class ${file_name} extends DataExtension {
+    public static $$db=array(
+                         );
+    
+    public static $$has_one=array(
+                             );
+    
+    public static $$has_many=array(
+                             );
+    
+    public static $$belongs_many_many=array(
+                                 );
+    
+    public static $$many_many=array(
+                                 );
+    
+    public static $$defaults=array(
+                                );
+    
+    /**
+     * Updates the CMS fields adding the fields defined in this extension
+     * @param FieldList $$fields Field Set that new fields will be added to
+     */
+    public function updateCMSFields(FieldList $$fields) {
+        
+    }
+}</template>
+</templates>

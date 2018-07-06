@@ -129,6 +129,7 @@ class ${file_name} extends DataObject {
     description="A new SilverStripe Controller extending ContentController"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.controller"
     context="ss_new_class_context"
+    ss-versions="SS2.3,SS2.4,SS3.0,SS3.1,SS3.2,SS3.3,SS3.4,SS3.5,SS3.6,SS3.7"
     enabled="true">&lt;?php
 class ${file_name} extends ContentController {
     ${cursor}
