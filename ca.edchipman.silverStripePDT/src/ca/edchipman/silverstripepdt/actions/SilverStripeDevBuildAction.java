@@ -8,7 +8,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.php.internal.core.documentModel.dom.ElementImplForPhp;
+import org.eclipse.php.internal.core.documentModel.dom.ElementImplForPHP;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
@@ -162,7 +162,7 @@ public class SilverStripeDevBuildAction implements IWorkbenchWindowActionDelegat
         }
         
         //If not IAdabptable get resource from the active editor
-        if(!(element instanceof IAdaptable) || (element instanceof ElementImplForPhp)) {
+        if(!(element instanceof IAdaptable) || (element instanceof ElementImplForPHP)) {
             IWorkbench iworkbench=PlatformUI.getWorkbench();
             if (iworkbench==null) {
                 return null;

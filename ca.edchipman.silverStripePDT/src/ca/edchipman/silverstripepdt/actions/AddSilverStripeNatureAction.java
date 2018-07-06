@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.php.internal.core.buildpath.BuildPathUtils;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.preferences.CorePreferenceConstants.Keys;
-import org.eclipse.php.internal.core.project.ProjectOptions;
+import org.eclipse.php.core.project.ProjectOptions;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -57,7 +57,7 @@ public class AddSilverStripeNatureAction implements IObjectActionDelegate {
             
             //Disable asp tags
             if(CorePreferencesSupport.getInstance().getPreferencesValue(Keys.EDITOR_USE_ASP_TAGS, null, null)=="true") {
-                ProjectOptions.setSupportingAspTags(false, selProj.getProject());
+                ProjectOptions.setSupportingASPTags(false, selProj.getProject());
             }
             
             //Disable short tags

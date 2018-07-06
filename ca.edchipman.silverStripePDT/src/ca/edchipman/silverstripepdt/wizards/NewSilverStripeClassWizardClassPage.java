@@ -26,8 +26,8 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.php.internal.core.PHPCoreConstants;
-import org.eclipse.php.internal.core.compiler.ast.nodes.PHPDocBlock;
-import org.eclipse.php.internal.core.compiler.ast.nodes.PHPDocTag;
+import org.eclipse.php.core.compiler.ast.nodes.PHPDocBlock;
+import org.eclipse.php.core.compiler.ast.nodes.PHPDocTag;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.typeinference.PHPModelUtils;
 import org.eclipse.php.internal.ui.PHPUIMessages;
@@ -599,7 +599,7 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
         
         PHPDocTag[] tags = docBlock.getTags();
         for(PHPDocTag tag : tags) {
-            result+=docFormatLine("@"+PHPDocTag.getTagKind(tag.getTagKind())+tag.getValue(), lineDelemiter, tabCharacter)+lineDelemiter;
+            result+=docFormatLine("@"+tag.getTagKind().getName()+tag.getValue(), lineDelemiter, tabCharacter)+lineDelemiter;
         }
         
         return result+tabCharacter+" */"+lineDelemiter;

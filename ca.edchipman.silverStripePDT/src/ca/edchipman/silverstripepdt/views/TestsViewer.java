@@ -25,8 +25,8 @@ import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.php.internal.core.documentModel.dom.ElementImplForPhp;
-import org.eclipse.php.internal.core.model.PhpModelAccess;
+import org.eclipse.php.internal.core.documentModel.dom.ElementImplForPHP;
+import org.eclipse.php.internal.core.model.PHPModelAccess;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.typeinference.PHPModelUtils;
 import org.eclipse.swt.SWT;
@@ -286,8 +286,8 @@ public class TestsViewer extends ViewPart {
             IScriptProject project=DLTKCore.create(fLastProject);
             IModelElement[] elements=new IModelElement[] { project };
             IDLTKSearchScope scope=SearchEngine.createSearchScope(elements, IDLTKSearchScope.SYSTEM_LIBRARIES, project.getLanguageToolkit());
-            IType[] unitTests=PhpModelAccess.getDefault().findTypes("SapphireTest", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor());
-            unitTests=this.concatTypeArray(unitTests, PhpModelAccess.getDefault().findTypes("FunctionalTest", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor()));
+            IType[] unitTests=PHPModelAccess.getDefault().findTypes("SapphireTest", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor());
+            unitTests=this.concatTypeArray(unitTests, PHPModelAccess.getDefault().findTypes("FunctionalTest", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor()));
             
             if(unitTests.length>0) {
                 IType sapphireTest=unitTests[0];
@@ -499,7 +499,7 @@ public class TestsViewer extends ViewPart {
         }
         
         //If not IAdabptable get resource from the active editor
-        if(!(element instanceof IAdaptable) || (element instanceof ElementImplForPhp)) {
+        if(!(element instanceof IAdaptable) || (element instanceof ElementImplForPHP)) {
             IWorkbench iworkbench=PlatformUI.getWorkbench();
             if (iworkbench==null) {
                 return null;

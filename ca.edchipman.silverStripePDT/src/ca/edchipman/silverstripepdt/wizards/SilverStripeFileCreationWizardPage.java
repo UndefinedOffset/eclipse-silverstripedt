@@ -1,6 +1,7 @@
 package ca.edchipman.silverstripepdt.wizards;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
@@ -29,7 +30,7 @@ public class SilverStripeFileCreationWizardPage extends PHPFileCreationWizardPag
 	public void createControl(final Composite parent) {
 		super.createControl(parent);
 		
-		setInitialFileName("newfile.ss");
+		setFileName("newfile.ss");
 		
 		if(SilverStripeVersion.getLangRegistry()==null) {
             this.setErrorMessage("No SilverStripe Versions are available cannot continue");
@@ -42,31 +43,31 @@ public class SilverStripeFileCreationWizardPage extends PHPFileCreationWizardPag
 	 * Ensures that both text fields are set.
 	 */
 	protected void dialogChanged() {
-		final String container = getContainerName();
+		final IPath container = this.getContainerFullPath();
 		final String fileName = getFileName();
 
-		if (container.length() == 0) {
-			updateStatus(PHPUIMessages.PHPFileCreationWizardPage_10); //$NON-NLS-1$
+		if (container.toString().length() == 0) {
+			setErrorMessage(PHPUIMessages.PHPFileCreationWizardPage_10); //$NON-NLS-1$
 			return;
 		}
 		final IContainer containerFolder = getContainer(container);
 		if (containerFolder == null || !containerFolder.exists()) {
-			updateStatus(PHPUIMessages.PHPFileCreationWizardPage_11); //$NON-NLS-1$
+			setErrorMessage(PHPUIMessages.PHPFileCreationWizardPage_11); //$NON-NLS-1$
 			return;
 		}
 		if (!containerFolder.getProject().isOpen()) {
-			updateStatus(PHPUIMessages.PHPFileCreationWizardPage_12); //$NON-NLS-1$
+			setErrorMessage(PHPUIMessages.PHPFileCreationWizardPage_12); //$NON-NLS-1$
 			return;
 		}
 		if (fileName != null
 				&& !fileName.equals("") && containerFolder.getFile(new Path(fileName)).exists()) { //$NON-NLS-1$
-			updateStatus(PHPUIMessages.PHPFileCreationWizardPage_14); //$NON-NLS-1$
+			setErrorMessage(PHPUIMessages.PHPFileCreationWizardPage_14); //$NON-NLS-1$
 			return;
 		}
 
 		int dotIndex = fileName.lastIndexOf('.');
 		if (fileName.length() == 0 || dotIndex == 0) {
-			updateStatus(PHPUIMessages.PHPFileCreationWizardPage_15); //$NON-NLS-1$
+			setErrorMessage(PHPUIMessages.PHPFileCreationWizardPage_15); //$NON-NLS-1$
 			return;
 		}
 
@@ -75,7 +76,7 @@ public class SilverStripeFileCreationWizardPage extends PHPFileCreationWizardPag
 			for (int i = 0; i < fileNameWithoutExtention.length(); i++) {
 				char ch = fileNameWithoutExtention.charAt(i);
 				if (!(Character.isJavaIdentifierPart(ch) || ch == '.' || ch == '-')) {
-					updateStatus(PHPUIMessages.PHPFileCreationWizardPage_16); //$NON-NLS-1$
+					setErrorMessage(PHPUIMessages.PHPFileCreationWizardPage_16); //$NON-NLS-1$
 					return;
 				}
 			}
@@ -86,10 +87,10 @@ public class SilverStripeFileCreationWizardPage extends PHPFileCreationWizardPag
 			StringBuffer buffer = new StringBuffer(PHPUIMessages.PHPFileCreationWizardPage_17); //$NON-NLS-1$
 			buffer.append(".ss");
 			buffer.append("]"); //$NON-NLS-1$
-			updateStatus(buffer.toString());
+			setErrorMessage(buffer.toString());
 			return;
 		}
 
-		updateStatus(null);
+		setErrorMessage(null);
 	}
 }

@@ -2,6 +2,7 @@ package ca.edchipman.silverstripepdt.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -41,9 +42,14 @@ public class SilverStripeTemplateFileCreationWizard extends PHPFileCreationWizar
      * will create an operation and run it using wizard as execution context.
      */
     public boolean performFinish() {
-        getProject();
-        final String containerName = phpFileCreationWizardPage.getContainerName();
+        final String containerName = phpFileCreationWizardPage.getContainerFullPath().toString();
         final String fileName = phpFileCreationWizardPage.getFileName();
+        
+        final IFile file = phpFileCreationWizardPage.createNewFile();
+		if (file == null) {
+			return false;
+		}
+        
         newSSTemplatesWizardPage.resetTableViewerInput();
         final PHPTemplateStore.CompiledTemplate template = this.newSSTemplatesWizardPage.compileTemplate(containerName, fileName);
 
@@ -51,9 +57,7 @@ public class SilverStripeTemplateFileCreationWizard extends PHPFileCreationWizar
             public void run(IProgressMonitor monitor)
                     throws InvocationTargetException {
                 try {
-                    new FileCreator().createFile(SilverStripeTemplateFileCreationWizard.this,
-                            containerName, fileName, monitor, template.string,
-                            template.offset);
+                    new FileCreator().createFile(SilverStripeTemplateFileCreationWizard.this, file, monitor, template.string, template.offset);
                 } catch (CoreException e) {
                     throw new InvocationTargetException(e);
                 } finally {
@@ -61,6 +65,7 @@ public class SilverStripeTemplateFileCreationWizard extends PHPFileCreationWizar
                 }
             }
         };
+        
         try {
             getContainer().run(true, false, op);
         } catch (InterruptedException e) {
@@ -72,11 +77,12 @@ public class SilverStripeTemplateFileCreationWizard extends PHPFileCreationWizar
                     realException.getMessage()); //$NON-NLS-1$
             return false;
         }
+        
         return true;
     }
     
     public IProject getCurrentProject() {
-        String projectName = phpFileCreationWizardPage.getContainerName();
+        String projectName = phpFileCreationWizardPage.getContainerFullPath().toString();
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(new Path(projectName));
         IProject project = null;

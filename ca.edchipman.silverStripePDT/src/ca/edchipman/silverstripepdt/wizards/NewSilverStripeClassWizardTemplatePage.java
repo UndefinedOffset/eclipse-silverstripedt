@@ -1,21 +1,35 @@
 package ca.edchipman.silverstripepdt.wizards;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.JFaceResources;
@@ -38,7 +52,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.php.internal.core.ast.util.Util;
@@ -71,6 +86,10 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PreferencesUtil;
+import org.eclipse.ui.ide.undo.CreateFileOperation;
+import org.eclipse.ui.ide.undo.WorkspaceUndoUtil;
+import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
+import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.ui.StructuredTextViewerConfiguration;
@@ -90,6 +109,7 @@ import org.eclipse.swt.widgets.Label;
 public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTemplatesWizardPage {
 	public static final String NEW_CLASS_CONTEXTTYPE = "ss_new_class_context"; //$NON-NLS-1$
 	
+	private IFile newFile;
 	private ISelection selection;
 	private NewSilverStripeClassWizardPage firstPage;
 	private TableViewer fTableViewer;
@@ -164,7 +184,7 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
 		fTableViewer.setLabelProvider(new TemplateLabelProvider());
 		fTableViewer.setContentProvider(new TemplateContentProvider());
 
-		fTableViewer.setSorter(new ViewerSorter() {
+		fTableViewer.setComparator(new ViewerComparator() {
 			@Override
 			public int compare(Viewer viewer, Object object1, Object object2) {
 				if (object1 instanceof Template && object2 instanceof Template) {
@@ -210,6 +230,12 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
 	public void createFile(IProgressMonitor monitor) throws CoreException,InterruptedException {
 		final String containerName = firstPage.getContainerName();
 		final String fileName = firstPage.getFileName();
+		
+		final IFile file = this.createNewFile(containerName, fileName);
+		if (file == null) {
+			return;
+		}
+		
 		this.resetTableViewerInput();
 		
 		IScriptProject project = null;
@@ -224,12 +250,130 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
 		final PHPTemplateStore.CompiledTemplate template=this.compileTemplate(containerName, fileName, lineSeparator);
 		
 		try {
-			new FileCreator().createFile((Wizard) this.getWizard(), containerName, fileName, monitor, template.string, template.offset);
+			new FileCreator().createFile((Wizard) this.getWizard(), file, monitor, template.string, template.offset);
 			
 			saveLastSavedPreferences();
 		} finally {
 			monitor.done();
 		}
+	}
+	
+	/**
+	 * Creates a new file resource in the selected container and with the
+	 * selected name. Creates any missing resource containers along the path;
+	 * does nothing if the container resources already exist.
+	 * <p>
+	 * In normal usage, this method is invoked after the user has pressed Finish
+	 * on the wizard; the enablement of the Finish button implies that all
+	 * controls on on this page currently contain valid values.
+	 * </p>
+	 * <p>
+	 * Note that this page caches the new file once it has been successfully
+	 * created; subsequent invocations of this method will answer the same file
+	 * resource without attempting to create it again.
+	 * </p>
+	 * <p>
+	 * This method should be called within a workspace modify operation since it
+	 * creates resources.
+	 * </p>
+	 *
+	 * @return the created file resource, or <code>null</code> if the file was
+	 *         not created
+	 */
+	public IFile createNewFile(final String containerName, final String fileName) {
+		if (newFile != null) {
+			return newFile;
+		}
+
+		// create the new file and cache it if successful
+
+		final IPath containerPath = new Path(containerName);
+		IPath newFilePath = containerPath.append(fileName);
+		final IFile newFileHandle = createFileHandle(newFilePath);
+		final InputStream initialContents = null;
+
+		IRunnableWithProgress op = monitor -> {
+			CreateFileOperation op1 = new CreateFileOperation(newFileHandle, null, initialContents, IDEWorkbenchMessages.WizardNewFileCreationPage_title);
+			try {
+				// see bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=219901
+				// directly execute the operation so that the undo state is
+				// not preserved.  Making this undoable resulted in too many
+				// accidental file deletions.
+				op1.execute(monitor, WorkspaceUndoUtil
+						.getUIInfoAdapter(getShell()));
+			} catch (final ExecutionException e) {
+				getContainer().getShell().getDisplay().syncExec(
+						() -> {
+							if (e.getCause() instanceof CoreException) {
+								ErrorDialog
+										.openError(
+												getContainer()
+														.getShell(), // Was
+												// Utilities.getFocusShell()
+												IDEWorkbenchMessages.WizardNewFileCreationPage_errorTitle,
+												null, // no special
+												// message
+												((CoreException) e
+														.getCause())
+														.getStatus());
+							} else {
+								IDEWorkbenchPlugin
+										.log(
+												getClass(),
+												"createNewFile()", e.getCause()); //$NON-NLS-1$
+								MessageDialog
+										.openError(
+												getContainer()
+														.getShell(),
+												IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorTitle,
+												NLS
+														.bind(
+																IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorMessage,
+																e
+																		.getCause()
+																		.getMessage()));
+							}
+						});
+			}
+		};
+		try {
+			getContainer().run(true, true, op);
+		} catch (InterruptedException e) {
+			return null;
+		} catch (InvocationTargetException e) {
+			// Execution Exceptions are handled above but we may still get
+			// unexpected runtime errors.
+			IDEWorkbenchPlugin.log(getClass(),
+					"createNewFile()", e.getTargetException()); //$NON-NLS-1$
+			MessageDialog
+					.open(MessageDialog.ERROR,
+							getContainer().getShell(),
+							IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorTitle,
+							NLS
+									.bind(
+											IDEWorkbenchMessages.WizardNewFileCreationPage_internalErrorMessage,
+											e.getTargetException().getMessage()), SWT.SHEET);
+
+			return null;
+		}
+
+		newFile = newFileHandle;
+
+		return newFile;
+	}
+	
+	/**
+	 * Creates a file resource handle for the file with the given workspace
+	 * path. This method does not create the file resource; this is the
+	 * responsibility of <code>createFile</code>.
+	 *
+	 * @param filePath
+	 *            the path of the file resource to create a handle for
+	 * @return the new file resource handle
+	 * @see #createFile
+	 */
+	protected IFile createFileHandle(IPath filePath) {
+		return IDEWorkbenchPlugin.getPluginWorkspace().getRoot().getFile(filePath);
 	}
 
 	/**

@@ -10,13 +10,12 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Preferences;
 import org.eclipse.php.internal.core.PHPCorePlugin;
+import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.preferences.IPreferencesPropagatorListener;
 import org.eclipse.php.internal.core.preferences.PreferencePropagatorFactory;
 import org.eclipse.php.internal.core.preferences.PreferencesPropagator;
 import org.eclipse.php.internal.core.preferences.PreferencesPropagatorEvent;
-import org.eclipse.php.internal.core.preferences.PreferencesSupport;
 
 import ca.edchipman.silverstripepdt.SilverStripePreferences;
 
@@ -27,12 +26,11 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
 
     private PreferencesPropagator preferencesPropagator;
     private static final String NODES_QUALIFIER = PHPCorePlugin.ID;
-    private static final Preferences store = PHPCorePlugin.getDefault().getPluginPreferences();
 
     private static SilverStripeVersionChangedHandler instance = new SilverStripeVersionChangedHandler();
 
     private SilverStripeVersionChangedHandler() {
-        preferencesPropagator = PreferencePropagatorFactory.getPreferencePropagator(NODES_QUALIFIER, store);
+        preferencesPropagator = PreferencePropagatorFactory.getPreferencePropagator(NODES_QUALIFIER);
         ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
     }
 
@@ -40,12 +38,11 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
         return instance;
     }
 
-    private void projectVersionChanged(IProject project,
-            PreferencesPropagatorEvent event) {
-        HashSet listeners = projectListeners.get(project);
+    private void projectVersionChanged(IProject project, PreferencesPropagatorEvent event) {
+        HashSet<IPreferencesPropagatorListener> listeners = projectListeners.get(project);
         if (listeners != null) {
-            for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-                IPreferencesPropagatorListener listener = (IPreferencesPropagatorListener) iter
+            for (Iterator<IPreferencesPropagatorListener> iter = listeners.iterator(); iter.hasNext();) {
+                IPreferencesPropagatorListener listener = iter
                         .next();
                 listener.preferencesEventOccured(event);
             }
@@ -64,21 +61,20 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
             if (event.getNewValue() == null) {
                 // We take the workspace settings since there was a move from
                 // project-specific to workspace setings.
-                String newValue = PreferencesSupport.getWorkspacePreferencesValue((String) event.getKey(),store);
+                String newValue = CorePreferencesSupport.getInstance().getWorkspacePreferencesValue((String) event.getKey());
                 if (newValue == null || newValue.equals(event.getOldValue())) {
                     return; // No need to send a notification
                 }
-                event = new PreferencesPropagatorEvent(event.getSource(), event
-                        .getOldValue(), newValue, event.getKey());
+                
+                event = new PreferencesPropagatorEvent(event.getSource(), event.getOldValue(), newValue, event.getKey());
             } else if (event.getOldValue() == null) {
                 // In this case there was a move from the workspace setting to a
                 // project-specific setting.
                 // At this stage the new value of the project-specific will
                 // always be as the workspace, so there is
                 // no need to send a notification.
-                String preferencesValue = PreferencesSupport.getWorkspacePreferencesValue((String) event.getKey(),store);
-                if (preferencesValue != null
-                        && preferencesValue.equals(event.getNewValue())) {
+                String preferencesValue = CorePreferencesSupport.getInstance().getWorkspacePreferencesValue((String) event.getKey());
+                if (preferencesValue != null && preferencesValue.equals(event.getNewValue())) {
                     return; // No need to send a notification
                 }
             }
@@ -110,7 +106,7 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
             return;
         }
         IProject project = listener.getProject();
-        HashSet listeners = projectListeners.get(project);
+        HashSet<IPreferencesPropagatorListener> listeners = projectListeners.get(project);
         if (listeners != null) {
             listeners.remove(listener);
         }
@@ -121,7 +117,7 @@ public class SilverStripeVersionChangedHandler implements IResourceChangeListene
             return;
         }
         
-        projectListeners.put(project, new HashSet());
+        projectListeners.put(project, new HashSet<IPreferencesPropagatorListener>());
 
         // register as a listener to the PP on this project
         PreferencesPropagatorListener listener = new PreferencesPropagatorListener(project);

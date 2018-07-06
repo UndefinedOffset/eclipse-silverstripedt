@@ -25,8 +25,8 @@ import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.php.internal.core.documentModel.dom.ElementImplForPhp;
-import org.eclipse.php.internal.core.model.PhpModelAccess;
+import org.eclipse.php.internal.core.documentModel.dom.ElementImplForPHP;
+import org.eclipse.php.internal.core.model.PHPModelAccess;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.typeinference.PHPModelUtils;
 import org.eclipse.swt.SWT;
@@ -283,8 +283,8 @@ public class TasksViewer extends ViewPart {
             IScriptProject project=DLTKCore.create(fLastProject);
             IModelElement[] elements=new IModelElement[] { project };
             IDLTKSearchScope scope=SearchEngine.createSearchScope(elements, IDLTKSearchScope.SYSTEM_LIBRARIES, project.getLanguageToolkit());
-            IType[] buildTypes=PhpModelAccess.getDefault().findTypes("BuildTask", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor());
-            buildTypes=this.concatTypeArray(buildTypes, PhpModelAccess.getDefault().findTypes("MigrationTask", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor()));
+            IType[] buildTypes=PHPModelAccess.getDefault().findTypes("BuildTask", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor());
+            buildTypes=this.concatTypeArray(buildTypes, PHPModelAccess.getDefault().findTypes("MigrationTask", MatchRule.EXACT, 0, 0, scope, new NullProgressMonitor()));
             if(buildTypes.length>1) {
                 IType buildTaskType=buildTypes[0];
                 IType migrationTaskType=buildTypes[1];
@@ -497,7 +497,7 @@ public class TasksViewer extends ViewPart {
         }
         
         //If not IAdabptable get resource from the active editor
-        if(!(element instanceof IAdaptable) || (element instanceof ElementImplForPhp)) {
+        if(!(element instanceof IAdaptable) || (element instanceof ElementImplForPHP)) {
             IWorkbench iworkbench=PlatformUI.getWorkbench();
             if (iworkbench==null) {
                 return null;

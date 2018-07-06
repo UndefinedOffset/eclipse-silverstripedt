@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -27,7 +28,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.jface.text.templates.persistence.TemplatePersistenceData;
 import org.eclipse.jface.text.templates.persistence.TemplateReaderWriter;
-import org.eclipse.php.internal.core.util.text.StringUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -336,7 +336,7 @@ public class SilverStripeTemplateReaderWriter extends TemplateReaderWriter {
 					String[] ssVersions=((SilverStripeTemplate) template).ssVersions();
 					if(ssVersions.length>0) {
 						Attr ssVersionAttr=document.createAttribute(SS_VERSIONS_ATTRIBUTE);
-						ssVersionAttr.setValue(validateXML(StringUtils.implodeStrings(Arrays.asList(ssVersions), ",")));
+						ssVersionAttr.setValue(validateXML(SilverStripeTemplateReaderWriter.implodeStrings(Arrays.asList(ssVersions), ",")));
 						attributes.setNamedItem(ssVersionAttr);
 					}
 				}
@@ -393,5 +393,17 @@ public class SilverStripeTemplateReaderWriter extends TemplateReaderWriter {
 				throw new IOException("Character reference \"&#" + Integer.toString(ch) + "\" is an invalid XML character."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return string;
+	}
+	
+	protected static String implodeStrings(Iterable<String> strings, String glue) {
+		StringBuffer stringBuffer = new StringBuffer();
+		for (Iterator<String> i = strings.iterator(); i.hasNext();) {
+			String varClassName = i.next();
+			stringBuffer.append(varClassName);
+			if (i.hasNext()) {
+				stringBuffer.append(glue);
+			}
+		}
+		return stringBuffer.toString();
 	}
 }

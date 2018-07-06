@@ -48,7 +48,7 @@ import org.eclipse.php.internal.core.includepath.IncludePath;
 import org.eclipse.php.internal.core.includepath.IncludePathManager;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.php.internal.core.preferences.CorePreferenceConstants.Keys;
-import org.eclipse.php.internal.core.project.ProjectOptions;
+import org.eclipse.php.core.project.ProjectOptions;
 import org.eclipse.php.internal.ui.Logger;
 import org.eclipse.php.internal.ui.PHPUIMessages;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
@@ -496,11 +496,11 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
             init(DLTKCore.create(getProject()), buildpathEntries, false);
 
             // setting PHP4/5 and ASP-Tags :
-            setPhpLangOptions();
+            setPHPLangOptions();
             
             //Disable asp tags
             if(CorePreferencesSupport.getInstance().getPreferencesValue(Keys.EDITOR_USE_ASP_TAGS, null, null)=="true") {
-                ProjectOptions.setSupportingAspTags(false, getProject());
+                ProjectOptions.setSupportingASPTags(false, getProject());
             }
             
             //Disable short tags
@@ -675,8 +675,7 @@ public class SilverStripeProjectWizardSecondPage extends PHPProjectWizardSecondP
          */
         public IFile createFile(Wizard wizard, String containerName, String fileName, IProgressMonitor monitor, String contents, final int offset, final String editorID, final boolean openFileOnCreate) throws CoreException {
             // create a sample file
-            monitor.beginTask(
-                    NLS.bind(PHPUIMessages.newPhpFile_create, fileName), 2);
+            monitor.beginTask(NLS.bind("Creating file \"{0}\"", fileName), 2);
             IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
             IResource resource = root.findMember(new Path(containerName));
             if (resource==null || !resource.exists() || !(resource instanceof IContainer)) {
