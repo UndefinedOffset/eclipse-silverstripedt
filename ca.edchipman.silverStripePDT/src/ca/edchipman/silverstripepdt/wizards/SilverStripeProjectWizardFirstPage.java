@@ -62,7 +62,6 @@ import org.eclipse.php.internal.ui.wizards.WizardFragment;
 import org.eclipse.php.internal.ui.wizards.PHPProjectWizardFirstPage.JavaScriptSupportGroup;
 import org.eclipse.php.internal.ui.wizards.PHPProjectWizardFirstPage.Validator;
 import org.eclipse.php.internal.ui.wizards.PHPProjectWizardFirstPage.VersionGroup;
-import org.eclipse.php.internal.ui.workingset.IWorkingSetIds;
 import org.eclipse.php.ui.util.PHPProjectUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -88,6 +87,10 @@ import ca.edchipman.silverstripepdt.controls.SSVersionOption;
 
 @SuppressWarnings("restriction")
 public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPage {
+	final String PHP_ID = "org.eclipse.php.ui.workingset.PHPWorkingSetPage"; //$NON-NLS-1$
+	final String RESOURCE_ID = "org.eclipse.ui.resourceWorkingSetPage"; //$NON-NLS-1$
+	final String TASK_ID = "org.eclipse.mylyn.tasks.ui.workingSet"; //$NON-NLS-1$
+	
     protected SilverStripeLayoutGroup fLayoutGroup;
     protected SilverStripeVersionGroup fSSVersionGroup;
     
@@ -130,8 +133,8 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
 
         CompositeData data = new CompositeData();
         data.setParetnt(composite);
-        data.setSettings(getDialogSettings());
-        data.setObserver(fPHPLocationGroup);
+		data.setSettings(getDialogSettings());
+		data.setObserver(fPHPLocationGroup);
         fragment = (WizardFragment) Platform.getAdapterManager().loadAdapter(data, PHPProjectWizardFirstPage.class.getName());
 
         fVersionGroup = new VersionGroup(this, composite, PHPVersion.PHP5_6) {
@@ -144,7 +147,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
         fSSVersionGroup = new SilverStripeVersionGroup(composite);
         fJavaScriptSupportGroup = new SilverStripeJavaScriptSupportGroup(composite, this);
         
-        createWorkingSetGroup(composite, ((PHPProjectCreationWizard) getWizard()).getSelection(), new String[] { IWorkingSetIds.PHP_ID, IWorkingSetIds.RESOURCE_ID, IWorkingSetIds.TASK_ID });
+        createWorkingSetGroup(composite, ((PHPProjectCreationWizard) getWizard()).getSelection(), new String[] { this.PHP_ID, this.RESOURCE_ID, this.TASK_ID });
 
         fDetectGroup = new DetectGroup(composite, fPHPLocationGroup, fNameGroup);
 
@@ -391,6 +394,15 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
 			IWorkingSet[] workingSets = fWorkingSetGroup.getSelectedWorkingSets();
 			((NewElementWizard) getWizard()).getWorkbench().getWorkingSetManager().addToWorkingSets(getProjectHandle(), workingSets);
 		});
+	}
+
+	/**
+	 * Called from the wizard on cancel.
+	 */
+	public void performCancel() {
+		if (fProjectCreated) {
+			removeProject();
+		}
 	}
     
     private void removeProject() {
@@ -969,7 +981,7 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
 				}
 			}
 
-			if (fPdtValidator != null) {
+			if (fragment != null) {
 				fragment.getWizardModel().putObject("ProjectName", //$NON-NLS-1$
 						fNameGroup.getName());
 				if (!fragment.isComplete()) {
