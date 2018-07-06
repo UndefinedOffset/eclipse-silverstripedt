@@ -69,18 +69,21 @@ class ${file_name} extends DataObject {
                          );
     
     public static $$has_one=array(
-                             );
+                            );
     
     public static $$has_many=array(
-                             );
+                                );
     
     public static $$belongs_many_many=array(
-                                 );
+                                        );
     
     public static $$many_many=array(
                                  );
     
     public static $$defaults=array(
+                                );
+    
+    public static $$extensions=array(
                                 );
     
     ${cursor}
@@ -99,18 +102,21 @@ class ${file_name} extends DataObject {
                          );
     
     private static $$has_one=array(
-                             );
+                                );
     
     private static $$has_many=array(
-                             );
+                                );
     
     private static $$belongs_many_many=array(
-                                 );
+                                        );
     
     private static $$many_many=array(
                                  );
     
     private static $$defaults=array(
+                                );
+    
+    private static $$extensions=array(
                                 );
     
     
