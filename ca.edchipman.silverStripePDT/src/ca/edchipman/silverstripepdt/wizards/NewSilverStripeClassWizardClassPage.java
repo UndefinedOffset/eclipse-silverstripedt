@@ -529,9 +529,14 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
                         
                         String source = method.getSource().trim();
                         source = source.replaceFirst("((^abstract(\\s))|(\\s)abstract(\\s))", "");
+                        if(source.lastIndexOf(';')+1==source.length()) {
+                            source = source.substring(0, source.length()-1);
+                        }else if(source.lastIndexOf('}')+1==source.length()) {
+                            source = source.substring(0, source.lastIndexOf('{')).trim();
+                        }
                         
-                        source = (i>0 ? lineDelimiter+tabCharacter+lineDelimiter+tabCharacter:"")+renderDocBlock(docBlock,lineDelimiter,tabCharacter)+tabCharacter+source.substring(0, source.length()-1);
-                        source += " {"+lineDelimiter+tabCharacter+tabCharacter+"//@TODO Automatically created abstract method stub"+lineDelimiter+tabCharacter+"}";
+                        source = (i>0 ? lineDelimiter + tabCharacter + lineDelimiter + tabCharacter:"") + renderDocBlock(docBlock, lineDelimiter, tabCharacter) + source;
+                        source += " {" + lineDelimiter + tabCharacter + tabCharacter+"//@TODO Automatically created abstract method stub" + lineDelimiter + tabCharacter + "}";
                         finalFile+=source;
                         
                         i++;
@@ -593,16 +598,21 @@ public class NewSilverStripeClassWizardClassPage extends WizardPage {
     }
     
     private String renderDocBlock(PHPDocBlock docBlock, String lineDelemiter, String tabCharacter) {
-        String result="/**"+lineDelemiter;
+        //If we don't have a doc block return
+        if(docBlock==null) {
+            return "";
+        }
         
-        result+=docFormatLine(docBlock.getShortDescription(), lineDelemiter, tabCharacter)+lineDelemiter+tabCharacter+" * "+lineDelemiter;
+        String result = "/**" + lineDelemiter;
+        
+        result += docFormatLine(docBlock.getShortDescription(), lineDelemiter, tabCharacter)+lineDelemiter+tabCharacter+" * "+lineDelemiter;
         
         PHPDocTag[] tags = docBlock.getTags();
         for(PHPDocTag tag : tags) {
-            result+=docFormatLine("@"+tag.getTagKind().getName()+tag.getValue(), lineDelemiter, tabCharacter)+lineDelemiter;
+            result += docFormatLine("@"+tag.getTagKind().getName()+tag.getValue(), lineDelemiter, tabCharacter) + lineDelemiter;
         }
         
-        return result+tabCharacter+" */"+lineDelemiter;
+        return result + tabCharacter + " */" + lineDelemiter + tabCharacter;
     }
     
     private String docFormatLine(String content, String lineDelemiter, String tabCharacter) {
