@@ -29,6 +29,7 @@ public class RegisterResolvers implements IStartup {
             ContextTypeRegistry registry = PHPUiPlugin.getDefault().getCodeTemplateContextRegistry();
             registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE));
             registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE));
+            registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_40_TEMPLATE_CONTEXTTYPE));
         } else {
             // register listener to get informed, when plug-in becomes active
             final BundleContext bundleContext = SilverStripePDTPlugin.getDefault().getBundle().getBundleContext();

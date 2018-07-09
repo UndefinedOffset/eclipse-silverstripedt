@@ -106,6 +106,7 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
 
             registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE));
             registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE));
+            registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_40_TEMPLATE_CONTEXTTYPE));
             registry.addContextType(new CodeTemplateContextType(NewSilverStripeProjectWizard.NEW_SS_PROJECT_TEMPLATE_CONTEXTTYPE));
 
             fContextTypeRegistry = registry;
@@ -144,6 +145,7 @@ public class SilverStripePDTPlugin extends AbstractUIPlugin {
             registry.addContextType(new CodeTemplateContextType(SSTemplateCompletionProcessor.TEMPLATE_CONTEXT_ID));
             registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_TEMPLATE_CONTEXTTYPE));
             registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_30_TEMPLATE_CONTEXTTYPE));
+            registry.addContextType(new CodeTemplateContextType(NewSilverStripeTemplatesWizardPage.NEW_SS_40_TEMPLATE_CONTEXTTYPE));
 
             caContextTypeRegistry = registry;
         }

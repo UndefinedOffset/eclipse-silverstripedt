@@ -39,7 +39,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
@@ -279,7 +279,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
         fTableViewer.setLabelProvider(new TemplateLabelProvider());
         fTableViewer.setContentProvider(new TemplateContentProvider(this._languageProvider));
 
-        fTableViewer.setSorter(new ViewerSorter() {
+        fTableViewer.setComparator(new ViewerComparator() {
             public int compare(Viewer viewer, Object object1, Object object2) {
                 if ((object1 instanceof Template) && (object2 instanceof Template)) {
                     Template left = (Template) object1;
@@ -307,7 +307,7 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
         fPatternViewer = doCreateViewer(parent);
 
         fTemplateStore = SilverStripePDTPlugin.getDefault().getTemplateStore();
-        
+
         if(SilverStripeVersion.getLangRegistry(true)==null) {
             this.setErrorMessage("No SilverStripe Versions are available cannot continue");
             parent.setEnabled(false);
@@ -543,16 +543,12 @@ public class NewSilverStripeTemplatesWizardPage extends WizardPage {
      */
     public CompiledTemplate compileTemplate() {
         Template template = getSelectedTemplate();
-        return PHPTemplateStore.compileTemplate(
-                getTemplatesContextTypeRegistry(), template);
+        return PHPTemplateStore.compileTemplate(getTemplatesContextTypeRegistry(), template);
     }
 
-    public CompiledTemplate compileTemplate(String containerName,
-            String fileName) {
+    public CompiledTemplate compileTemplate(String containerName, String fileName) {
         Template template = getSelectedTemplate();
-        return PHPTemplateStore.compileTemplate(
-                getTemplatesContextTypeRegistry(), template, containerName,
-                fileName);
+        return PHPTemplateStore.compileTemplate(getTemplatesContextTypeRegistry(), template, containerName, fileName);
     }
 
     protected ContextTypeRegistry getTemplatesContextTypeRegistry() {
