@@ -142,35 +142,29 @@ body.mceContentBody a.broken { background-color: #FF7B71; border: 1px red solid;
     context="php_new_ss_project_context"
     enabled="true">form fieldset { border: 0; margin: 0; padding: 0; }
 
-.message.bad, .message.required, .message.validation { background: #FED0D0 !important; border: 4px solid #FF7373 !important; margin: 0 0 15px 0 !important; padding: 5px !important; display: block; color: #DC1313 !important; width: 292px; }
+.message.bad, .message.required, .message.validation { background: #FED0D0 !important; display: block; color: #DC1313 !important; border: 4px solid #FF7373 !important; margin: 0 0 15px 0 !important; padding: 5px !important; }
 
-.message.warning { background: none repeat scroll 0 0 #FFFFEA !important; border: 4px solid #F7F8B4 !important; margin: 0 auto 15px auto !important; padding: 5px !important; color: #979908 !important; width: 292px; }
+.message.warning { background: #FFFFEA !important; display: block; color: #979908 !important; border: 4px solid #F7F8B4 !important; margin: 0 auto 15px auto !important; padding: 5px !important; }
 
-.message.good, .message.success { display: block; background: none repeat scroll 0 0 #EAFFEC !important; border: 4px solid #B4F8BC !important; margin: 0 0 15px 0 !important; padding: 5px !important; color: #089916 !important; }
+.message.good, .message.success { background: #EAFFEC !important; display: block; color: #089916 !important; border: 4px solid #B4F8BC !important; margin: 0 0 15px 0 !important; padding: 5px !important; }
 
-form div.field { clear: both; margin-top: 14px; }
-
-form p.field { clear: both; }
+form div.field { clear: both; margin-top: 20px; }
 
 form div.middleColumn { margin-top: 4px; }
 
-form label { display: block; font-size: 1.1em; color: #000000; text-align: left !important; }
+form label { display: block; font-size: 1em; color: #000000; text-align: left !important; }
 
 form .field.checkbox label { display: inline; }
 
-form label.FormHeading { font-size: 1.3em; color: #ff7200; font-weight: bold; }
+form label.FormHeading { font-size: 1.3em; color: #FF7200; font-weight: bold; }
 
-form input.text, form textarea, form select { width: 300px; color: #000000 !important; background: #FFFFFF; border: 1px solid #CCCCCC; padding: 3px; }
-
-form input.numeric { width: 20px; background: #f0f0f0; border: 1px solid #CCCCCC; padding: 3px; color: #000; margin-right: 4px; }
+form input.text, form textarea, form select { background: #FFFFFF; font-size: 1em; color: #000000 !important; width: 300px; border: 1px solid #CCCCCC; padding: 3px; }
 
 form textarea { resize: none; }
 
-form input.year { width: 35px; }
+form .btn-toolbar, form .Actions { margin: 20px 0 0; }
 
-form p.Actions { text-align: right; padding: 0 22px 15px 0; }
-
-form p.Actions input { padding: 2px; }
+form .btn-toolbar input, form .btn-toolbar button, form .Actions input, form .Actions button { font-size: 1em; }
 
 #MemberLoginForm_LoginForm #Remember label { display: inline; }
 
@@ -586,51 +580,59 @@ body.mceContentBody a.broken {
     description="A new SilverStripe theme form.scss template"
     id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.form.src"
     context="php_new_ss_project_context"
-    enabled="true">/* GENERIC FORM STYLING */
+    enabled="true">@import &quot;base&quot;;
+
+/* GENERIC FORM STYLING */
 form fieldset {
     border: 0;
+    
     margin: 0;
     padding: 0;
 }
 
 .message.bad, .message.required, .message.validation {
     background: #FED0D0 !important;
-    border: 4px solid #FF7373 !important;
-    margin: 0 0 15px 0 !important;
-    padding: 5px !important;
+    
     display: block;
+    
     color: #DC1313 !important;
     
-    width: 292px;
+    border: 4px solid #FF7373 !important;
+    
+    margin: 0 0 15px 0 !important;
+    padding: 5px !important;
 }
 
 .message.warning {
-    background: none repeat scroll 0 0 #FFFFEA !important;
-    border: 4px solid #F7F8B4 !important;
-    margin: 0 auto 15px auto !important;
-    padding: 5px !important;
+    background: #FFFFEA !important;
+    
+    display: block;
+    
     color: #979908 !important;
     
-    width: 292px;
+    border: 4px solid #F7F8B4 !important;
+    
+    margin: 0 auto 15px auto !important;
+    padding: 5px !important;
 }
 
 .message.good, .message.success {
+    background: #EAFFEC !important;
+    
     display: block;
-    background: none repeat scroll 0 0 #EAFFEC !important;
+    
+    color: #089916 !important;
+    
     border: 4px solid #B4F8BC !important;
+    
     margin: 0 0 15px 0 !important;
     padding: 5px !important;
-    color: #089916 !important;
 }
 
 form div.field {
     clear: both;
     
-    margin-top: 14px;
-}
-
-form p.field {
-    clear: both;
+    margin-top: 20px;
 }
 
 form div.middleColumn {
@@ -639,7 +641,7 @@ form div.middleColumn {
 
 form label {
     display: block;
-    font-size: 1.1em;
+    font-size: 1em;
     color: #000000;
     
     text-align: left !important;
@@ -651,42 +653,34 @@ form .field.checkbox label {
 
 form label.FormHeading {
     font-size: 1.3em;
-    color: #ff7200;
+    color: #FF7200;
+    
     font-weight: bold;
 }
 
 form input.text, form textarea, form select {
-    width: 300px;
-    color: #000000 !important;
     background: #FFFFFF;
+    
+    font-size: 1em;
+    color: #000000 !important;
+    
+    width: 300px;
+    
     border: 1px solid #CCCCCC;
+    
     padding: 3px;
-}
-
-form input.numeric {
-    width: 20px;
-    background: #f0f0f0;
-    border: 1px solid #CCCCCC;
-    padding: 3px;
-    color: #000;
-    margin-right: 4px;
 }
 
 form textarea {
     resize: none;
 }
 
-form input.year {
-    width: 35px;
+form .btn-toolbar, form .Actions {
+    margin: 20px 0 0;
 }
 
-form p.Actions {
-    text-align: right;
-    padding: 0 22px 15px 0;
-}
-
-form p.Actions input {
-    padding: 2px;
+form .btn-toolbar input, form .btn-toolbar button, form .Actions input, form .Actions button {
+    font-size: 1em;
 }
 
 #MemberLoginForm_LoginForm #Remember label {
