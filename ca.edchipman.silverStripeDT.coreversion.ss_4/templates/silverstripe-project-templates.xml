@@ -1,136 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <templates>
-
-<!-- new PHP templates -->
 <template
-    name="New SilverStripe project _config.php template"
+    name="New SilverStripe 4.x project _config.php template"
     description="A new SilverStripe project _config.php template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssproject.config"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newproject.config"
     context="php_new_ss_project_context"
     enabled="true">&lt;?php
-global $$project;
-$$project = 'mysite';
+use SilverStripe\Security\Member;
+use SilverStripe\Security\PasswordValidator;
 
-global $$databaseConfig;
-$$databaseConfig = array(
-    "type" => "MySQLDatabase",
-    "server" => "localhost",
-    "username" => "USERNAME",
-    "password" => "PASSWORD",
-    "database" => "DATABASE",
-);
+// remove PasswordValidator for SilverStripe 5.0
+$$validator = new PasswordValidator();
 
-MySQLDatabase::set_connection_charset('utf8');
-
-
-// Sites running on the following servers will be run in development mode.
-Director::set_dev_servers(array(
-    'localhost',
-    '127.0.0.1'
-));
-Director::set_environment_type('dev');
-
-//Set Admin Email
-Email::setAdminEmail('me@example.com');
-
-//Set's the current theme
-SSViewer::set_theme('THEME NAME');
-
-//Enable nested urls
-SiteTree::enable_nested_urls();
-
-//Error Logging
-if(Director::isLive()) {
-    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::WARN);
-    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::ERR);
-}
-?&gt;</template>
+$$validator->minLength(8);
+$$validator->checkHistoricalPasswords(6);
+Member::set_password_validator($$validator);
+</template>
 
 
 <template
-    name="New SilverStripe project _config.php template"
-    description="A new SilverStripe project _config.php template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssproject.ss30.config"
-    context="php_new_ss_project_context"
-    enabled="true">&lt;?php
-global $$project;
-$$project = 'mysite';
-
-global $$databaseConfig;
-$$databaseConfig = array(
-    "type" => "MySQLDatabase",
-    "server" => "localhost",
-    "username" => "USERNAME",
-    "password" => "PASSWORD",
-    "database" => "DATABASE",
-);
-
-MySQLDatabase::set_connection_charset('utf8');
-
-
-// Enable development mode.
-Director::set_environment_type('dev');
-
-//Set Admin Email
-Email::setAdminEmail('me@example.com');
-
-//Set's the current theme
-SSViewer::set_theme('THEME NAME');
-
-//Enable nested urls
-SiteTree::enable_nested_urls();
-
-//Error Logging
-if(Director::isLive()) {
-    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::WARN);
-    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::ERR);
-}
-?&gt;</template>
-
-
-<template
-    name="New SilverStripe project _config.php template"
-    description="A new SilverStripe project _config.php template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssproject.ss30.framework.config"
-    context="php_new_ss_project_context"
-    enabled="true">&lt;?php
-global $$project;
-$$project = 'mysite';
-
-global $$databaseConfig;
-$$databaseConfig = array(
-    "type" => "MySQLDatabase",
-    "server" => "localhost",
-    "username" => "USERNAME",
-    "password" => "PASSWORD",
-    "database" => "DATABASE",
-);
-
-MySQLDatabase::set_connection_charset('utf8');
-
-
-// Enable development mode.
-Director::set_environment_type('dev');
-
-//Set Admin Email
-Email::setAdminEmail('me@example.com');
-
-//Set's the current theme
-SSViewer::set_theme('THEME NAME');
-
-//Error Logging
-if(Director::isLive()) {
-    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::WARN);
-    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::ERR);
-}
-?&gt;</template>
-
-
-<template
-    name="New SilverStripe project _config.yml template"
+    name="New SilverStripe 4.x project _config.yml template"
     description="A new SilverStripe project _config.yml template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssproject.ss31.ymlconfig"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newproject.ymlconfig"
     context="php_new_ss_project_context"
     enabled="true">---
 Name: mysite
@@ -138,21 +29,25 @@ After:
     - "framework/*"
     - "cms/*"
 ---
-Director:
-    environment_type: "dev"
+SilverStripe\View\SSViewer:
+  themes:
+    - '$$public'
+    - "THEME NAME"
+    - '$$default'
 
-Email:
+
+SilverStripe\Control\Email\Email:
     admin_email: "me@example.com"
 
-SSViewer:
-    theme: "THEME NAME"
 
-MySQLDatabase:
-    connection_charset: "utf8"
+SilverStripe\Core\Manifest\ModuleManifest:
+  project: mysite
+
 
 #---
 #Name: mysite_dev
-#After: '#mysite'
+#After:
+#    - "#mysite"
 #Only:
 #    environment: "dev"
 #---
@@ -160,102 +55,23 @@ MySQLDatabase:
 </template>
 
 <template
-    name="New SilverStripe module project _config.yml template"
-    description="A new SilverStripe module project _config.yml template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssmoduleproject.ss31.ymlconfig"
+    name="New SilverStripe 4.x module _config.php template"
+    description="A new SilverStripe module _config.php template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newmodule.config"
     context="php_new_ss_project_context"
-    enabled="true">#---
-#Name: my_module
-#After:
-#    - "framework/*"
-#---
-# Stub config template for your module place you can uncomment this section and add your settings as needed
+    enabled="true">&lt;?php
+
 </template>
 
 <template
-    name="New SilverStripe project _config.php template"
-    description="A new SilverStripe project _config.php template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssproject.ss31.config"
+    name="New SilverStripe 4.x project Page class template"
+    description="A new SilverStripe 4.x project Page class template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newproject.defaultpage"
     context="php_new_ss_project_context"
     enabled="true">&lt;?php
-global $$project;
-$$project = 'mysite';
+use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\Security\Permission;
 
-global $$databaseConfig;
-$$databaseConfig = array(
-    "type" => "MySQLDatabase",
-    "server" => "localhost",
-    "username" => "USERNAME",
-    "password" => "PASSWORD",
-    "database" => "DATABASE",
-);
-
-
-//Error Logging
-if(Director::isLive()) {
-    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::WARN);
-    SS_Log::add_writer(new SS_LogEmailWriter('me@example.com'), SS_Log::ERR);
-}
-?&gt;</template>
-
-
-<template
-    name="New SilverStripe project _config.php template"
-    description="A new SilverStripe project _config.php template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssproject.ss23.config"
-    context="php_new_ss_project_context"
-    enabled="true">&lt;?php
-global $$project;
-$$project = 'mysite';
-
-global $$databaseConfig;
-$$databaseConfig = array(
-    "type" => "MySQLDatabase",
-    "server" => "localhost",
-    "username" => "USERNAME",
-    "password" => "PASSWORD",
-    "database" => "DATABASE",
-);
-
-
-// Sites running on the following servers will be run in development mode.
-Director::set_dev_servers(array(
-    'localhost',
-    '127.0.0.1'
-));
-Director::set_environment_type('dev');
-
-//Set Admin Email
-Email::setAdminEmail('me@example.com');
-
-//Set's the current theme
-SSViewer::set_theme('THEME NAME');
-
-
-//Error Logging
-if(Director::isLive()) {
-    Debug::send_warnings_to('me@example.com');
-    Debug::sent_errors_to('me@example.com');
-}
-?&gt;</template>
-
-
-<template
-    name="New SilverStripe module _config.php template"
-    description="A new SilverStripe module _config.php template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssmodule.config"
-    context="php_new_ss_project_context"
-    enabled="true">&lt;?php
-
-?&gt;</template>
-
-
-<template
-    name="New SilverStripe project Page class template"
-    description="A new SilverStripe project Page class template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssproject.defaultpage"
-    context="php_new_ss_project_context"
-    enabled="true">&lt;?php
 class Page extends SiteTree {
     public static $$db=array(
                            );
@@ -275,121 +91,444 @@ class Page extends SiteTree {
         }
     }
 }
-
-class Page_Controller extends ContentController {
-    public function init() {
-        parent::init();
-    }
-    
-    /**
-     * Site search form 
-     */ 
-    public function SearchForm() {
-        $$searchText = (isset($$_REQUEST['Search']) ? $$_REQUEST['Search']:'Search');
-        $$fields = new FieldSet(
-                                new TextField("Search", "", $$searchText)
-                            );
-        $$actions = new FieldSet(
-                                new FormAction('results', 'Search')
-                            );
-        
-        return new SearchForm($$this, "SearchForm", $$fields, $$actions);
-    }
-    
-    /**
-     * Process and render search results
-     */
-    public function results($$data, $$form){
-        $$data = array(
-            'Results' => $$form->getResults(),
-            'Query' => $$form->getSearchQuery(),
-            'Title' => DBField::create('Varchar','Search Results')
-        );
-        
-        return $$this->customise($$data)->renderWith(array('Page_results', 'Page'));
-    }
-}
-?&gt;</template>
-
+</template>
 
 <template
-    name="New SilverStripe 3.0 project Page class template"
-    description="A new SilverStripe 3.0 project Page class template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssproject.ss30.defaultpage"
+    name="New SilverStripe 4.x project Page Controller class template"
+    description="A new SilverStripe 4.x project Page class template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newproject.defaultpagecontroller"
     context="php_new_ss_project_context"
     enabled="true">&lt;?php
-class Page extends SiteTree {
-    public static $$db=array(
-                           );
-    
-    public static $$defaults=array(
-                                );
-    
-    /**
-     * Gets whether the user is an administrator
-     * @return bool True if the user is an admin false if not
-     */
-    public function getIsAdmin() {
-        if(Permission::check('ADMIN')) {
-            return true;
-        }else {
-            return false;
-        }
-    }
-}
+use SilverStripe\CMS\Controllers\ContentController;
 
-class Page_Controller extends ContentController {
-    public function init() {
+class PageController extends ContentController {
+    protected function init() {
         parent::init();
+
     }
 }
-?&gt;</template>
-
+</template>
 
 <template
-    name="New SilverStripe 3.1 project Page class template"
-    description="A new SilverStripe 3.1 project Page class template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newssproject.ss31.defaultpage"
-    context="php_new_ss_project_context"
-    enabled="true">&lt;?php
-class Page extends SiteTree {
-    private static $$db=array(
-                           );
-    
-    private static $$defaults=array(
-                                );
-    
-    /**
-     * Gets whether the user is an administrator
-     * @return bool True if the user is an admin false if not
-     */
-    public function getIsAdmin() {
-        if(Permission::check('ADMIN')) {
-            return true;
-        }else {
-            return false;
-        }
-    }
-}
-
-class Page_Controller extends ContentController {
-    public function init() {
-        parent::init();
-    }
-}
-?&gt;</template>
-
-
-<template
-    name="New SilverStripe theme editor.css template"
+    name="New SilverStripe 4.x theme editor.css template"
     description="A new SilverStripe theme editor.css template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newsstheme.editor"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.editor"
+    context="php_new_ss_project_context"
+    enabled="true">@import url(typography.css);
+body.mceContentBody { min-height: 200px; font-size: 62.5%; }
+
+body.mceContentBody a.broken { background-color: #FF7B71; border: 1px red solid; }
+
+.typography hr { margin: 20px 0; padding: 0; border: 0; border-bottom: 1px solid #CECECE; }
+
+.typography img.right, .typography .captionImage.right, .typography .media.right, .typography .embed.right { float: right; margin: 0 0 20px 20px; }
+
+.typography img.left, .typography .captionImage.left, .typography .media.left, .typography .embed.left { float: left; margin: 0 20px 20px 0; }
+
+.typography img.center, .typography .captionImage.center, .typography .media.center, .typography .embed.center { display: block; margin: 20px auto; }
+
+.typography blockquote { border-left: 11px solid #747474; margin: 20px 0 20px 67px; padding-left: 24px; }
+
+.typography .captionImage img { float: none !important; margin: 0 !important; }
+
+/*# sourceMappingURL=editor.css.map */
+</template>
+
+
+<template
+    name="New SilverStripe 4.x theme form.css template"
+    description="A new SilverStripe theme form.css template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.form"
+    context="php_new_ss_project_context"
+    enabled="true">form fieldset { border: 0; margin: 0; padding: 0; }
+
+.message.bad, .message.required, .message.validation { background: #FED0D0 !important; border: 4px solid #FF7373 !important; margin: 0 0 15px 0 !important; padding: 5px !important; display: block; color: #DC1313 !important; width: 292px; }
+
+.message.warning { background: none repeat scroll 0 0 #FFFFEA !important; border: 4px solid #F7F8B4 !important; margin: 0 auto 15px auto !important; padding: 5px !important; color: #979908 !important; width: 292px; }
+
+.message.good, .message.success { display: block; background: none repeat scroll 0 0 #EAFFEC !important; border: 4px solid #B4F8BC !important; margin: 0 0 15px 0 !important; padding: 5px !important; color: #089916 !important; }
+
+form div.field { clear: both; margin-top: 14px; }
+
+form p.field { clear: both; }
+
+form div.middleColumn { margin-top: 4px; }
+
+form label { display: block; font-size: 1.1em; color: #000000; text-align: left !important; }
+
+form .field.checkbox label { display: inline; }
+
+form label.FormHeading { font-size: 1.3em; color: #ff7200; font-weight: bold; }
+
+form input.text, form textarea, form select { width: 300px; color: #000000 !important; background: #FFFFFF; border: 1px solid #CCCCCC; padding: 3px; }
+
+form input.numeric { width: 20px; background: #f0f0f0; border: 1px solid #CCCCCC; padding: 3px; color: #000; margin-right: 4px; }
+
+form textarea { resize: none; }
+
+form input.year { width: 35px; }
+
+form p.Actions { text-align: right; padding: 0 22px 15px 0; }
+
+form p.Actions input { padding: 2px; }
+
+#MemberLoginForm_LoginForm #Remember label { display: inline; }
+
+/*# sourceMappingURL=form.css.map */
+</template>
+
+
+<template
+    name="New SilverStripe 4.x theme layout.css template"
+    description="A new SilverStripe theme layout.css template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.layout"
+    context="php_new_ss_project_context"
+    enabled="true">html, body { margin: 0; padding: 0; }
+
+a img { border: 0; }
+
+*:focus { outline: 0; }
+
+.clear { clear: both; }
+
+.inner { position: relative; max-width: 1062px; margin: 0 auto; padding: 0 74px; }
+
+.typography img.center, .typography .captionImage.center, .typography .media.center, .typography .embed.center { display: block; margin: 20px auto; }
+
+.typography img.left, .typography .captionImage.left, .typography .media.left, .typography .embed.left { float: left; margin: 0 20px 20px 0; }
+
+.typography img.right, .typography .captionImage.right, .typography .media.right, .typography .embed.right { float: right; margin: 0 0 20px 20px; }
+
+.typography .captionImage img { float: none !important; margin: 0 !important; }
+
+.typography blockquote { border-left: 11px solid #CECECE; margin: 1em 2.5em; padding-left: 24px; }
+
+.pagination:before { clear: both; display: block; content: ' '; width: 0; height: 0; font-size: 0; line-height: 0; visibility: hidden; }
+
+.pagination a, .pagination strong, .pagination span { display: inline-block; min-width: 10px; margin-bottom: 10px; padding: 0 12px; vertical-align: top; border: 1px solid #009DD9; border-radius: 2px; }
+
+.pagination a:hover { border-color: #00B9FF; }
+
+.pagination a + a, .pagination strong + a, .pagination span + a, .pagination a + span, .pagination a + strong { margin-left: 10px; }
+
+.pagination strong, .pagination span { border-color: #999999; }
+
+.pagination .fa-fw { width: 0.53em; }
+
+.typography img.center, .typography .captionImage.center, .typography .media.center { display: block; margin: 20px auto; }
+
+.typography img.left, .typography .captionImage.left, .typography .media.left { float: left; margin: 0 20px 20px 0; }
+
+.typography img.right, .typography .captionImage.right, .typography .media.right { float: right; margin: 0 0 20px 20px; }
+
+#Header { height: 100px; }
+
+/*# sourceMappingURL=layout.css.map */
+</template>
+
+<template
+    name="New SilverStripe 4.x theme typography.css template"
+    description="A new SilverStripe theme typography.css template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.typography"
+    context="php_new_ss_project_context"
+    enabled="true">.typography * { font-family: Arial, Verdana, sans-serif; }
+
+.typography { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+.far, .far *, .fas, .fas *, .fal, .fal *, .fa, .fa * { font-family: 'Font Awesome 5 Free' !important; }
+
+.fab, .fab * { font-family: 'Font Awesome 5 Free' !important; }
+
+.fal, .fal * { font-weight: 300 !important; }
+
+.far, .far * { font-weight: 400 !important; }
+
+.fab, .fab * { font-weight: normal !important; }
+
+.fas, .fas *, .fa, .fa * { font-weight: 900 !important; }
+
+.typography blockquote { margin-left: 20px; }
+
+.typography hr { padding: 0; margin: 20px 0; border: 0; border-bottom: 3px solid #2D67B2; }
+
+.typography p, .typography ul li, .typography ol li, .typography a { font-size: 16px; color: #151515; }
+
+.typography p { margin: 20px 0; line-height: 1.4em; }
+
+.typography blockquote, .typography blockquote * { font-style: italic; color: #747474; }
+
+.typography ul, .typography ol { margin-left: 10px; margin-bottom: 20px; }
+
+.typography ul li, .typography ol li { margin: 4px 10px; line-height: 1.4em; }
+
+.typography ul &gt; li { list-style-type: disc; }
+
+.typography ol &gt; li { list-style-type: decimal; }
+
+.typography h1, .typography h2, .typography h3, .typography h4, .typography h5, .typography h6 { color: #0083C8; margin: 20px 0; line-height: 1.4em; }
+
+.typography h1, .typography h4 { font-weight: bold; }
+
+.typography h2, .typography h3 { font-weight: normal; }
+
+.typography h1 { font-size: 2.2em; }
+
+.typography h2 { font-size: 2.2em; }
+
+.typography h3 { font-size: 1.6em; }
+
+.typography h4 { font-size: 1.4em; }
+
+.typography h5 { font-size: 1.2em; }
+
+.typography h6 { font-size: 1em; }
+
+.typography a { font-size: 1em; color: #0083C8; text-decoration: none; }
+
+.typography a:hover { text-decoration: underline; }
+
+.typography table tr td { padding: 3px 5px; }
+
+.typography .left { text-align: left; }
+
+.typography .center { text-align: center; }
+
+.typography .right { text-align: right; }
+
+.typography p.MsoNormal, .typography p.MsoBodyText { margin: 0; }
+
+.pagination { text-align: center; }
+
+.pagination a, .pagination strong, .pagination span { font-weight: 700; color: #009DD9; line-height: 34px; text-align: center; }
+
+.pagination a:hover { color: #00B9FF; text-decoration: none; }
+
+.pagination strong, .pagination span { color: #999999; }
+
+/*# sourceMappingURL=typography.css.map */
+</template>
+
+<template
+    name="New SilverStripe 4.x theme menu.css template"
+    description="A new SilverStripe theme menu.css template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.menu"
+    context="php_new_ss_project_context"
+    enabled="true">div.menuwrapper { position: relative; height: 39px; z-index: 30; user-select: none; -moz-user-select: none; }
+
+div.menuwrapper .menu-close { background: #E2231A; display: none; height: 56px; padding: 0; }
+
+div.menuwrapper .menu-close button { float: right; background: transparent; width: 45px; padding: 0; border: 0; cursor: pointer; }
+
+div.menuwrapper .menu-close .close .fas { font-size: 24px; color: #FFFFFF; line-height: 56px; }
+
+ul.menu-bar { margin: 0; padding: 0; list-style-type: none; }
+
+ul.menu-bar li { float: left; position: relative; margin: 0; padding: 0; list-style-type: none; }
+
+ul.menu-bar a { display: block; color: #FFFFFF; text-decoration: none; line-height: 42px; padding: 0 13px; }
+
+ul.menu-bar a span { display: block; font-family: Arial, sans-serif; font-weight: bold; font-size: 16px; color: #151515; text-transform: uppercase; line-height: 39px; }
+
+ul.menu-bar li:hover a, ul.menu-bar a:hover, ul.menu-bar a:active, ul.menu-bar a.current { background: #00B9FF; text-decoration: none; -webkit-border-top-left-radius: 2px; -webkit-border-top-right-radius: 2px; -moz-border-radius-topleft: 2px; -moz-border-radius-topright: 2px; border-top-left-radius: 2px; border-top-right-radius: 2px; }
+
+ul.menu-bar li:hover a span, ul.menu-bar a:hover span, ul.menu-bar a:active span, ul.menu-bar a.current span { color: #FFFFFF; }
+
+ul.menu-bar li + li { margin-left: 6px; }
+
+ul.menu-bar li .open-child { background: transparent; display: none; padding: 0; border: 0; cursor: pointer; }
+
+ul.menu-bar li:hover ul, ul.menu-bar li a:hover ul { display: block; position: absolute; left: 0; top: 38px; height: auto; margin: 0; color: black; z-index: 5; }
+
+ul.menu-bar li ul { display: none; margin: 0; padding: 0; list-style: none; background: #FFFFFF; width: 274px; -moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); -webkit-box-shadow: 2px 2px 4px 0.72px rgba(0, 0, 0, 0.1); box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); }
+
+ul.menu-bar li ul li { float: none; position: relative; margin: 0; padding: 0; }
+
+ul.menu-bar li a:hover ul a, ul.menu-bar li:hover ul a { display: block; background: transparent; font-size: 16px; color: #151515; text-decoration: none; text-transform: none; line-height: 28px; padding: 4px 13px; -webkit-border-radius: 0; -webkit-border-radius: 0; -moz-border-radius: 0; -moz-border-radius: 0; border-radius: 0; border-radius: 0; }
+
+ul.menu-bar li ul li:hover a, ul.menu-bar li:hover ul a:focus, ul.menu-bar li:hover ul a:active, ul.menu-bar li:hover ul a:hover { background: #00B9FF; color: #FFFFFF; }
+
+ul.menu-bar li ul a.current { color: #00B9FF; }
+
+ul.menu-bar li:hover ul li ul, ul.menu-bar li a:hover ul li a ul { display: none; }
+
+ul.menu-bar li:hover ul li:hover ul, ul.menu-bar li a:hover ul li a:hover ul { background: #FFFFFF; display: block; position: absolute; top: 0; left: 274px; color: #151515; width: 274px; }
+
+ul.menu-bar li:hover ul li:hover ul li a { background: transparent; color: #151515; line-height: 28px; padding: 4px 13px; }
+
+ul.menu-bar li:hover ul li:hover ul li a:hover, ul.menu-bar li a:hover ul li a:hover ul li a:hover { background: #00B9FF; color: #FFFFFF; }
+
+ul.menu-bar li ul li ul a.current { color: #00B9FF !important; }
+
+ul.menu-bar li ul li ul li:hover a.current, ul.menu-bar li ul a.current:focus, ul.menu-bar li ul a.current:hover, ul.menu-bar li ul a.current:active { color: #FFFFFF !important; }
+
+#mobile-menu-trigger { display: none; }
+
+@media only screen and (max-width: 1064px) { html.menu-open, html.menu-open body { position: relative; overflow: hidden; -ms-touch-action: none; touch-action: none; }
+  #mobile-menu-trigger { display: block; position: absolute; right: 20px; top: 36px; font-size: 24px; color: #151515; line-height: 52px; }
+  #mobile-menu-trigger .fas { font-size: 24px; }
+  div.menuwrapper { background: #5C5C5C; position: fixed; top: 0; right: -320px; left: auto; width: 320px; height: 100%; margin: 0; overflow-x: hidden; overflow-y: auto; -webkit-transition: right 0.3s ease-in-out 0s; transition: right 0.3s ease-in-out 0s; -webkit-overflow-scrolling: touch; z-index: 5000; }
+  div.menuwrapper .menu-close { display: block; }
+  ul.menu-bar { border-bottom: 1px solid #494949; }
+  ul.menu-bar a.current { background: transparent; color: #FFFFFF; }
+  ul.menu-bar a, ul.menu-bar li:hover a span, ul.menu-bar a:hover span, ul.menu-bar a:active span, ul.menu-bar li ul li ul li:hover a.current, ul.menu-bar li ul a.current:focus, ul.menu-bar li ul a.current:hover, ul.menu-bar li ul a.current:active { color: #FFFFFF !important; }
+  ul.menu-bar li, ul.menu-bar li + li { float: none; position: relative; margin: 0; }
+  ul.menu-bar li + li { border-top: 1px solid #494949; }
+  ul.menu-bar li.separator { display: none; }
+  ul.menu-bar li.show-only-mobile { display: list-item; }
+  ul.menu-bar &gt; li:nth-child(2) ul { margin-left: 0; }
+  ul.menu-bar a { padding: 0 22px; }
+  ul.menu-bar a span { font-weight: 500; font-size: 16px; color: #FFFFFF; text-transform: none; line-height: 50px; }
+  ul.menu-bar li.contact-link a span { font-weight: 700; }
+  ul.menu-bar &gt; li:hover &gt; a, ul.menu-bar &gt; a:hover, ul.menu-bar &gt; a:active, ul.menu-bar &gt; a.current { background: #595959; }
+  ul.menu-bar li .open-child { display: inline-block; position: absolute; top: 0; right: 0; width: 46px; height: 50px; border-left: 1px solid #494949; margin-left: 5px; text-align: center; cursor: pointer; z-index: 5; }
+  ul.menu-bar li .open-child .fas { font-weight: bold; font-size: 16px; color: #FFFFFF; }
+  ul.menu-bar li:hover ul, ul.menu-bar li:hover ul, ul.menu-bar li:hover ul li:hover ul, ul.menu-bar li a:hover ul li a:hover ul { display: none; }
+  ul.menu-bar li ul { background: transparent; min-width: 0; border: 0; padding: 0; box-shadow: none !important; }
+  ul.menu-bar li ul, ul.menu-bar li:hover ul, ul.menu-bar li ul li ul, ul.menu-bar li ul li:hover ul, ul.menu-bar li:hover ul li:hover ul, ul.menu-bar li a:hover ul li a:hover ul { background: #454545; position: relative; left: 0; top: 0; width: 100%; min-width: 0; max-width: none; }
+  ul.menu-bar li ul li &gt; a:hover, ul.menu-bar li ul li &gt; a:active, ul.menu-bar li ul li &gt; a:focus, ul.menu-bar li ul li:hover &gt; a, ul.menu-bar li:hover ul a:hover, ul.menu-bar li:hover ul li:hover ul li a:hover { background: #00B9FF; }
+  ul.menu-bar li ul li ul { background: #333333 !important; }
+  ul.menu-bar li &gt; ul { padding: 0; }
+  ul.menu-bar li ul li .open-child { border-left-color: #3B3B3B; }
+  ul.menu-bar li ul li, ul.menu-bar li:hover ul li, ul.menu-bar li:hover ul li ul li, ul.menu-bar li:hover ul li:hover ul li { border-bottom: 1px solid #3B3B3B; }
+  ul.menu-bar li ul:last-child li:last-child, ul.menu-bar li:hover ul:last-child li:last-child, ul.menu-bar li ul li ul li:last-child, ul.menu-bar li:hover ul li:hover ul li:last-child { border-bottom: none; }
+  ul.menu-bar li ul li a, ul.menu-bar li:hover ul li a, ul.menu-bar li ul li a, ul.menu-bar li:hover ul li a, ul.menu-bar li ul li ul li a, ul.menu-bar li:hover ul li:hover ul li a ul.menu-bar li ul li ul li a, ul.menu-bar li:hover ul li:hover ul li a { font-size: 16px; font-weight: 500; color: #FFFFFF; padding: 0 15px 0 30px; line-height: 50px; }
+  ul.menu-bar li ul li ul li a, ul.menu-bar li:hover ul li:hover ul li a { padding-left: 38px !important; }
+  ul.menu-bar ul li ul li + li { border-top-color: #494949 !important; }
+  ul.menu-bar ul li ul li { border-bottom-color: #2F2F2F !important; } }
+@media only screen and (max-width: 600px) { #mobile-menu-trigger { font-size: 30px; right: 10px; width: 42px; line-height: 42px; text-align: center; }
+  #mobile-menu-trigger span { display: none; }
+  div.menuwrapper .menu-close button { line-height: 45px; }
+  #Header .menuwrapper .menu-close:after { clear: both; display: block; content: ' '; width: 0; height: 0; font-size: 0; line-height: 0; visibility: hidden; } }
+
+/*# sourceMappingURL=menu.css.map */
+</template>
+
+<template
+    name="New SilverStripe 4.x theme responsive.css template"
+    description="A new SilverStripe theme responsive.css template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.responsive"
+    context="php_new_ss_project_context"
+    enabled="true">@media only screen and (max-width: 1064px) { img, iframe, object, embed { max-width: 100%; height: auto; } }
+
+/*# sourceMappingURL=responsive.css.map */
+</template>
+
+<template
+    name="New SilverStripe 4.x theme _base.scss template"
+    description="A new SilverStripe theme _base.scss template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.base.src"
+    context="php_new_ss_project_context"
+    enabled="true">//Base Font Size
+$$base-font-size: 16px;
+
+
+//Default Font Color
+$$default-font-color: #151515;
+
+
+//Link Colors
+$$link-color: #009DD9;
+$$link-hover-color: #00B9FF;
+
+
+//Page Basics
+$$page-rails: 74px;
+$$page-caps: 45px;
+$$page-max-width: 1210px;
+$$page-margin-width: ($$page-max-width - ($$page-rails * 2));
+
+
+//Font Family
+$$default-font-family: Arial, Verdana, sans-serif;
+
+
+//Font Weights
+$$font-weight-medium: 500;
+$$font-weight-light: 300;
+$$font-weight-normal: 400;
+$$font-weight-bold: 700;
+
+
+//Line Height
+$$default-line-height: 1.4em;
+
+
+//Responsive Break Points
+$$responsive-tablet-break: 1064px;
+$$responsive-mobile-break: 600px;
+
+
+//Font Awesome Weights
+$$font-awesome-weight-regular: 400;
+$$font-awesome-weight-light: 300;
+$$font-awesome-weight-solid: 900;
+$$font-awesome-weight-brands: normal;
+
+
+//Font Awesome Bootstraps
+@mixin font-awesome-bootstrap {
+    display: inline-block;
+
+    font-family: 'Font Awesome 5 Pro' !important;
+    font-size: 1em;
+    font-style: normal !important;
+    font-weight: 400;
+
+    line-height: 1;
+
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    vertical-align: middle;
+}
+
+@mixin font-awesome-brands-bootstrap {
+    display: inline-block;
+
+    font-family: 'Font Awesome 5 Brands' !important;
+    font-size: 1em;
+    font-style: normal !important;
+    font-weight: normal;
+
+    line-height: 1;
+
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    vertical-align: middle;
+}
+
+//After Clear Fix
+@mixin ssdt-clearfix {
+    clear: both;
+
+    display: block;
+
+    content: ' ';
+
+    width: 0;
+    height: 0;
+
+    font-size: 0;
+
+    line-height: 0;
+
+    visibility: hidden;
+}
+</template>
+
+<template
+    name="New SilverStripe 4.x theme editor.scss template"
+    description="A new SilverStripe theme editor.scss template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.editor.src"
     context="php_new_ss_project_context"
     enabled="true">/**
  * This support file is used to style the WYSIWYG editor in the CMS
  */
 
-@import "typography.css";
+@import &quot;typography.css&quot;;
 
 body.mceContentBody {
     min-height: 200px;
@@ -401,18 +540,51 @@ body.mceContentBody a.broken {
     border: 1px red solid;
 }
 
-.typography img.center {
+.typography hr {
+    margin: 20px 0;
+    padding: 0;
+
+    border: 0;
+
+    border-bottom: 1px solid #CECECE;
+}
+
+.typography img.right, .typography .captionImage.right, .typography .media.right, .typography .embed.right {
+    float: right;
+
+    margin: 0 0 20px 20px;
+}
+
+.typography img.left, .typography .captionImage.left, .typography .media.left, .typography .embed.left {
+    float: left;
+
+    margin: 0 20px 20px 0;
+}
+
+.typography img.center, .typography .captionImage.center, .typography .media.center, .typography .embed.center {
     display: block;
 
-    margin: 0 auto;
+    margin: 20px auto;
+}
+
+.typography blockquote {
+    border-left: 11px solid #747474;
+
+    margin: 20px 0 20px 67px;
+    padding-left: 24px;
+}
+
+.typography .captionImage img {
+    float: none !important;
+
+    margin: 0 !important;
 }
 </template>
 
-
 <template
-    name="New SilverStripe theme form.css template"
-    description="A new SilverStripe theme form.css template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newsstheme.form"
+    name="New SilverStripe 4.x theme form.scss template"
+    description="A new SilverStripe theme form.scss template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.form.src"
     context="php_new_ss_project_context"
     enabled="true">/* GENERIC FORM STYLING */
 form fieldset {
@@ -522,13 +694,19 @@ form p.Actions input {
 }
 </template>
 
-
 <template
-    name="New SilverStripe theme layout.css template"
-    description="A new SilverStripe theme layout.css template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newsstheme.layout"
+    name="New SilverStripe 4.x theme layout.scss template"
+    description="A new SilverStripe theme layout.scss template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.layout.src"
     context="php_new_ss_project_context"
-    enabled="true">/* Global Resetting */
+    enabled="true">@import &quot;base&quot;;
+
+/* Global Resetting */
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 a img {
     border: 0;
 }
@@ -542,76 +720,81 @@ a img {
 }
 
 /* Layout CSS */
-#Main {
-    margin: 20px auto;
-    width: 955px;
-}
+.inner {
+    position: relative;
 
-#PageComments {
-    background: #E9E9E9;
-    border: 1px solid #CCCCCC;
-    border-bottom: 0;
-    padding: 0;
-    margin: 0;
-}
-
-#PageComments li {
-    list-style: none;
-    padding: 5px;
-    margin: 0;
-    border-bottom: 1px dotted #bbb;
-}
-            
-#PageNumbers {
-    padding: 5px;
-    border: 1px solid #DDDDDD;
-    background: #E9E9E9;
-}
-
-#PageNumbers * {
-    padding: 0 5px;
-}
-
-.typography img.center {
-    display: block;
+    max-width: $$page-margin-width;
 
     margin: 0 auto;
-}
-</template>
-
-
-<template
-    name="New SilverStripe 3.0 theme layout.css template"
-    description="A new SilverStripe theme layout.css template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newsstheme.ss30.layout"
-    context="php_new_ss_project_context"
-    enabled="true">/* Global Resetting */
-a img {
-    border: 0;
+    padding: 0 $$page-rails;
 }
 
-*:focus {
-    outline: 0;
-}
+.typography img.center, .typography .captionImage.center, .typography .media.center, .typography .embed.center {
+    display: block;
 
-.clear {
-    clear: both;
-}
-
-/* Layout CSS */
-#Main {
     margin: 20px auto;
-    width: 955px;
-}
-            
-#PageNumbers {
-    padding: 5px;
-    border: 1px solid #DDDDDD;
-    background: #E9E9E9;
 }
 
-#PageNumbers * {
-    padding: 0 5px;
+.typography img.left, .typography .captionImage.left, .typography .media.left, .typography .embed.left {
+    float: left;
+
+    margin: 0 20px 20px 0;
+}
+
+.typography img.right, .typography .captionImage.right, .typography .media.right, .typography .embed.right {
+    float: right;
+
+    margin: 0 0 20px 20px;
+}
+
+.typography .captionImage img {
+    float: none !important;
+
+    margin: 0 !important;
+}
+
+.typography blockquote {
+    border-left: 11px solid #CECECE;
+
+    margin: 1em 2.5em;
+    padding-left: 24px;
+}
+
+
+/**** Pagination ****/
+.pagination:before {
+    @include ssdt-clearfix;
+}
+
+.pagination a, .pagination strong, .pagination span {
+    display: inline-block;
+
+    min-width: 10px;
+
+    margin-bottom: 10px;
+    padding: 0 12px;
+
+    vertical-align: top;
+
+    border: 1px solid $$link-color;
+
+    border-radius: 2px;
+}
+
+.pagination a:hover {
+    border-color: $$link-hover-color;
+}
+
+.pagination a + a, .pagination strong + a, .pagination span + a, .pagination a + span, .pagination a + strong {
+    margin-left: 10px;
+}
+
+.pagination strong, .pagination span {
+    border-color: #999999;
+}
+
+.pagination .fa-fw {
+    width: 0.53em;
 }
 
 .typography img.center, .typography .captionImage.center, .typography .media.center {
@@ -632,25 +815,605 @@ a img {
     margin: 0 0 20px 20px;
 }
 
-.typography .captionImage img {
-    float: none !important;
 
-    margin: 0 !important;
+/**** Header ****/
+#Header {
+    height: 100px;
 }
 </template>
 
+<template
+    name="New SilverStripe 4.x theme menu.scss template"
+    description="A new SilverStripe theme menu.scss template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.menu.src"
+    context="php_new_ss_project_context"
+    enabled="true">@import &quot;base&quot;;
+
+div.menuwrapper {
+    position: relative;
+
+    height: 39px;
+
+    z-index: 30;
+
+    user-select: none;
+    -moz-user-select: none;
+}
+
+div.menuwrapper .menu-close {
+    background: #E2231A;
+
+    display: none;
+
+    height: 56px;
+
+    padding: 0;
+}
+
+div.menuwrapper .menu-close button {
+    float: right;
+
+    background: transparent;
+
+    width: 45px;
+
+    padding: 0;
+
+    border: 0;
+
+    cursor: pointer;
+}
+
+div.menuwrapper .menu-close .close .fas {
+    font-size: 24px;
+    color: #FFFFFF;
+
+    line-height: 56px;
+}
+
+ul.menu-bar {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+ul.menu-bar li {
+    float: left;
+
+    position: relative;
+
+    margin: 0;
+    padding: 0;
+
+    list-style-type: none;
+}
+
+ul.menu-bar a {
+    display: block;
+
+    color: #FFFFFF;
+
+    text-decoration: none;
+
+    line-height: 42px;
+
+    padding: 0 13px;
+}
+
+ul.menu-bar a span {
+    display: block;
+
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: $$base-font-size;
+    color: $$default-font-color;
+
+    text-transform: uppercase;
+
+    line-height: 39px;
+}
+
+ul.menu-bar li:hover a, ul.menu-bar a:hover, ul.menu-bar a:active, ul.menu-bar a.current {
+    background: $$link-hover-color;
+
+    text-decoration: none;
+
+    -webkit-border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+ul.menu-bar li:hover a span, ul.menu-bar a:hover span, ul.menu-bar a:active span, ul.menu-bar a.current span {
+    color: #FFFFFF;
+}
+
+ul.menu-bar li + li {
+    margin-left: 6px;
+}
+
+ul.menu-bar li .open-child {
+    background: transparent;
+
+    display: none;
+
+    padding: 0;
+
+    border: 0;
+
+    cursor: pointer;
+}
+
+
+/** SECOND LEVEL MENUS **/
+ul.menu-bar li:hover ul,
+ul.menu-bar li a:hover ul {
+    display: block;
+
+    position: absolute;
+    left: 0;
+    top: 38px;
+
+    height: auto;
+
+    margin: 0;
+
+    color: black;
+
+    z-index: 5;
+}
+
+ul.menu-bar li ul {
+    display: none;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+    background: #FFFFFF;
+
+    width: 274px;
+
+    -moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 2px 2px 4px 0.72px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+ul.menu-bar li ul li {
+    float: none;
+    position: relative;
+
+    margin: 0;
+    padding: 0;
+}
+
+ul.menu-bar li a:hover ul a,
+ul.menu-bar li:hover ul a {
+    display: block;
+
+    background: transparent;
+
+    font-size: $$base-font-size;
+    color: $$default-font-color;
+
+    text-decoration: none;
+    text-transform: none;
+
+    line-height: 28px;
+
+    padding: 4px 13px;
+
+    -webkit-border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border-radius: 0;
+}
+
+ul.menu-bar li ul li:hover a, ul.menu-bar li:hover ul a:focus, ul.menu-bar li:hover ul a:active, ul.menu-bar li:hover ul a:hover {
+    background: $$link-hover-color;
+
+    color: #FFFFFF;
+}
+
+ul.menu-bar li ul a.current {
+    color: $$link-hover-color;
+}
+
+
+/** THIRD LEVEL MENUS **/
+ul.menu-bar li:hover ul li ul, ul.menu-bar li a:hover ul li a ul {
+    display: none;
+}
+
+ul.menu-bar li:hover ul li:hover ul, ul.menu-bar li a:hover ul li a:hover ul {
+    background: #FFFFFF;
+
+    display: block;
+
+    position: absolute;
+    top: 0;
+    left: 274px;
+
+    color: $$default-font-color;
+
+    width: 274px;
+}
+
+ul.menu-bar li:hover ul li:hover ul li a {
+    background: transparent;
+
+    color: $$default-font-color;
+
+    line-height: 28px;
+
+    padding: 4px 13px;
+
+}
+
+ul.menu-bar li:hover ul li:hover ul li a:hover,
+ul.menu-bar li a:hover ul li a:hover ul li a:hover {
+    background: $$link-hover-color;
+
+    color: #FFFFFF;
+}
+
+ul.menu-bar li ul li ul a.current {
+    color: $$link-hover-color !important;
+}
+
+ul.menu-bar li ul li ul li:hover a.current, ul.menu-bar li ul a.current:focus, ul.menu-bar li ul a.current:hover, ul.menu-bar li ul a.current:active {
+    color: #FFFFFF !important;
+}
+
+#mobile-menu-trigger {
+    display: none;
+}
+
+
+/**** Anything less than 1065px - tablet view ****/
+@media only screen and (max-width: $$responsive-tablet-break) {
+    html.menu-open, html.menu-open body {
+        position: relative;
+
+        overflow: hidden;
+        -ms-touch-action: none;
+        touch-action: none;
+    }
+
+    /**** menu ****/
+    #mobile-menu-trigger {
+        display: block;
+
+        position: absolute;
+        right: 20px;
+        top: 36px;
+
+        font-size: 24px;
+        color: $$default-font-color;
+
+        line-height: 52px;
+    }
+
+    #mobile-menu-trigger .fas {
+        font-size: 24px;
+    }
+
+    div.menuwrapper {
+        background: #5C5C5C;
+
+        position: fixed;
+        top: 0;
+        right: -320px;
+        left: auto;
+
+        width: 320px;
+        height: 100%;
+
+        margin: 0;
+
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        -webkit-transition: right 0.3s ease-in-out 0s;
+        transition: right 0.3s ease-in-out 0s;
+        -webkit-overflow-scrolling: touch;
+
+        z-index: 5000;
+    }
+
+    div.menuwrapper .menu-close {
+        display: block;
+    }
+
+    ul.menu-bar {
+        border-bottom: 1px solid #494949;
+    }
+
+    ul.menu-bar a.current {
+        background: transparent;
+
+        color: #FFFFFF;
+    }
+
+    ul.menu-bar a, ul.menu-bar li:hover a span, ul.menu-bar a:hover span, ul.menu-bar a:active span,
+    ul.menu-bar li ul li ul li:hover a.current, ul.menu-bar li ul a.current:focus, ul.menu-bar li ul a.current:hover, ul.menu-bar li ul a.current:active {
+        color: #FFFFFF !important;
+    }
+
+    ul.menu-bar li, ul.menu-bar li + li {
+        float: none;
+
+        position: relative;
+
+        margin: 0;
+    }
+
+    ul.menu-bar li + li {
+        border-top: 1px solid #494949;
+    }
+
+    ul.menu-bar li.separator {
+        display: none;
+    }
+
+    ul.menu-bar li.show-only-mobile {
+        display: list-item;
+    }
+
+    ul.menu-bar &gt; li:nth-child(2) ul {
+        margin-left: 0;
+    }
+
+    ul.menu-bar a {
+        padding: 0 22px;
+    }
+
+    ul.menu-bar a span {
+        font-weight: $$font-weight-medium;
+        font-size: 16px;
+        color: #FFFFFF;
+
+        text-transform: none;
+
+        line-height: 50px;
+    }
+
+    ul.menu-bar li.contact-link a span {
+        font-weight: $$font-weight-bold;
+    }
+
+    ul.menu-bar &gt; li:hover &gt; a, ul.menu-bar &gt; a:hover, ul.menu-bar &gt; a:active, ul.menu-bar &gt; a.current {
+        background: #595959;
+    }
+
+    ul.menu-bar li .open-child {
+        display: inline-block;
+
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        width: 46px;
+        height: 50px;
+
+        border-left: 1px solid #494949;
+
+        margin-left: 5px;
+
+        text-align: center;
+
+        cursor: pointer;
+
+        z-index: 5;
+    }
+
+    ul.menu-bar li .open-child .fas {
+        font-weight: bold;
+        font-size: 16px;
+        color: #FFFFFF;
+    }
+
+
+    /**** second level menus ****/
+    ul.menu-bar li:hover ul, ul.menu-bar li:hover ul, ul.menu-bar li:hover ul li:hover ul, ul.menu-bar li a:hover ul li a:hover ul {
+        display: none;
+    }
+
+    ul.menu-bar li ul {
+        background: transparent;
+
+        min-width: 0;
+
+        border: 0;
+
+        padding: 0;
+
+        box-shadow: none !important;
+    }
+
+    ul.menu-bar li ul, ul.menu-bar li:hover ul, ul.menu-bar li ul li ul, ul.menu-bar li ul li:hover ul,
+    ul.menu-bar li:hover ul li:hover ul, ul.menu-bar li a:hover ul li a:hover ul {
+        background: #454545;
+
+        position: relative;
+        left: 0;
+        top: 0;
+
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+    }
+
+    ul.menu-bar li ul li &gt; a:hover, ul.menu-bar li ul li &gt; a:active, ul.menu-bar li ul li &gt; a:focus,
+    ul.menu-bar li ul li:hover &gt; a, ul.menu-bar li:hover ul a:hover, ul.menu-bar li:hover ul li:hover ul li a:hover {
+        background: #00B9FF;
+    }
+
+    ul.menu-bar li ul li ul {
+        background: #333333 !important;
+    }
+
+    ul.menu-bar li &gt; ul {
+        padding: 0;
+    }
+
+    ul.menu-bar li ul li .open-child {
+        border-left-color: #3B3B3B;
+    }
+
+    ul.menu-bar li ul li, ul.menu-bar li:hover ul li,
+    ul.menu-bar li:hover ul li ul li, ul.menu-bar li:hover ul li:hover ul li {
+        border-bottom: 1px solid #3B3B3B;
+    }
+
+    ul.menu-bar li ul:last-child li:last-child, ul.menu-bar li:hover ul:last-child li:last-child,
+    ul.menu-bar li ul li ul li:last-child, ul.menu-bar li:hover ul li:hover ul li:last-child {
+        border-bottom: none;
+    }
+
+    ul.menu-bar li ul li a, ul.menu-bar li:hover ul li a, ul.menu-bar li ul li a, ul.menu-bar li:hover ul li a, ul.menu-bar li ul li ul li a, ul.menu-bar li:hover ul li:hover ul li a
+    ul.menu-bar li ul li ul li a, ul.menu-bar li:hover ul li:hover ul li a {
+        font-size: 16px;
+        font-weight: $$font-weight-medium;
+        color: #FFFFFF;
+
+        padding: 0 15px 0 30px;
+
+        line-height: 50px;
+    }
+
+    ul.menu-bar li ul li ul li a,
+    ul.menu-bar li:hover ul li:hover ul li a {
+        padding-left: 38px !important;
+    }
+
+    ul.menu-bar ul li ul li + li {
+        border-top-color: #494949 !important;
+    }
+
+    ul.menu-bar ul li ul li {
+        border-bottom-color: #2F2F2F !important;
+    }
+}
+
+
+/**** Screen width smaller 600px for example iPhone 6 (portrait) ****/
+@media only screen and (max-width: $$responsive-mobile-break) {
+    #mobile-menu-trigger {
+        font-size: 30px;
+
+        right: 10px;
+
+        width: 42px;
+
+        line-height: 42px;
+
+        text-align: center;
+    }
+
+    #mobile-menu-trigger span {
+        display: none;
+    }
+
+    div.menuwrapper .menu-close button {
+        line-height: 45px;
+    }
+
+    #Header .menuwrapper .menu-close:after {
+        @include ssdt-clearfix;
+    }
+}
+</template>
 
 <template
-    name="New SilverStripe theme typography.css template"
-    description="A new SilverStripe theme typography.css template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newsstheme.typography"
+    name="New SilverStripe 4.x theme responsive.scss template"
+    description="A new SilverStripe theme responsive.scss template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.responsive.src"
     context="php_new_ss_project_context"
-    enabled="true">/**
+    enabled="true">@import &quot;base&quot;;
+
+
+/**** Anything less than $$responsive-tablet-break ****/
+@media only screen and (max-width: $$responsive-tablet-break) {
+    img, iframe, object, embed {
+        max-width: 100%;
+        height: auto;
+    }
+
+
+}
+
+
+/**** Screen width smaller than $$responsive-mobile-break ****/
+@media only screen and (max-width: $$responsive-mobile-break) {
+
+}
+
+
+/**** Retina displays ****/
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2) {
+
+}
+
+/**** Styles for Portrait screen ****/
+@media all and (orientation: portrait) {
+
+}
+
+/**** Styles for Landscape screen ****/
+@media all and (orientation: landscape) {
+
+}
+</template>
+
+<template
+    name="New SilverStripe 4.x theme typography.scss template"
+    description="A new SilverStripe theme typography.scss template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.typography.src"
+    context="php_new_ss_project_context"
+    enabled="true">@import &quot;base&quot;;
+
+/**
  * This typography file is included in the WYSIWYG editor
  */
 .typography * {
-    font-family: Verdana,Arial,sans-serif;
-    font-size: 12px;
+    font-family: $$default-font-family;
+}
+
+.typography {
+    font-size: $$base-font-size;
+
+    -webkit-text-size-adjust: 100%;
+}
+
+.far, .far *, .fas, .fas *, .fal, .fal *, .fa, .fa * {
+    font-family: 'Font Awesome 5 Free' !important;
+}
+
+.fab, .fab * {
+    font-family: 'Font Awesome 5 Free' !important;
+}
+
+.fal, .fal * {
+    font-weight: $$font-awesome-weight-light !important;
+}
+
+.far, .far * {
+    font-weight: $$font-awesome-weight-regular !important;
+}
+
+.fab, .fab * {
+    font-weight: $$font-awesome-weight-brands !important;
+}
+
+.fas, .fas *, .fa, .fa * {
+    font-weight: $$font-awesome-weight-solid !important;
 }
 
 .typography blockquote {
@@ -660,9 +1423,9 @@ a img {
 .typography hr {
     padding: 0;
     margin: 20px 0;
-    
+
     border: 0;
-    
+
     border-bottom: 3px solid #2D67B2;
 }
 
@@ -670,197 +1433,19 @@ a img {
 .typography ul li,
 .typography ol li,
 .typography a {
-    color: #343434;
-    font-size: 12px;
+    font-size: $$base-font-size;
+    color: $$default-font-color;
 }
 
 .typography p {
-    margin-bottom: 20px;
+    margin: 20px 0;
+
+    line-height: $$default-line-height;
 }
 
-
-/** CMS LIST STYLES **/
-.typography ul,
-.typography ol {
-    margin-left: 10px;
-    margin-bottom: 20px;
-}
-
-    .typography ul li,
-    .typography ol li {
-        margin: 4px 10px;
-        line-height: 1.4em;
-    }
-    
-        .typography ul &gt; li {
-            list-style-type: disc;
-        }
-        
-        .typography ol &gt; li {
-            list-style-type: decimal;
-        }
-
-/* HEADER STYLES */
-
-.typography h1,
-.typography h2,
-.typography h3,
-.typography h4 {
-    margin-bottom: 14px;
-    color: #0083C8;
-}
-
-.typography h1,
-.typography h4 {
-    font-weight: bold;
-}
-
-.typography h2,
-.typography h3 {
-    font-weight: normal;
-}
-
-    .typography h1 {
-        font-size: 2.2em;
-    }
-    
-    .typography h2 {
-        font-size: 2.2em;
-    }
-    
-    .typography h3 {
-        font-size: 1.6em;
-    }
-    
-    .typography h4 {
-        font-size: 1.4em;
-    }
-
-/* LINK STYLES */
-.typography a {
-    color: #0083C8;
-    font-size: 1em;
-    text-decoration: none;
-}
-
-    .typography a:hover {
-        text-decoration: underline;
-    }
-    
-    
-.typography table {
-    font-size: 1.1em;
-}
-
-    .typography table tr td {
-        padding: 3px 5px;
-    }
-
-    
-/* WYSIWYG EDITOR ALIGNMENT CLASSES */
-.typography .left {
-    text-align:left;
-}
-
-.typography .center {
-    text-align:center;
-}
-
-.typography .right {
-    text-align:right;
-}
-
-.typography img.right {
-    float:right;
-}
-
-.typography img.left {
-    float:left;
-}
-
-.typography p.MsoNormal, .typography p.MsoBodyText {
-    margin: 0;
-}
-
-/* OTHER */
-#PageComments {
-    list-style: none;
-}
-
-#PageComments li {
-    list-style: none;
-    padding: 5px;
-    margin: 0;
-    font-size: 1em;
-    border-bottom: 1px dotted #bbb;
-}
-
-#PageComments li p span {
+.typography blockquote, .typography blockquote * {
     font-style: italic;
-}
-
-#PageComments a.deletelink {
-    font-weight: bold;
-}
-
-#PageNumbers {
-    font-weight: bold;
-    color: #333333;
-    font-size: 1.1em;
-    text-align: center;
-}
-
-#PageNumbers * {
-    line-height: 1.5em;
-}
-
-#PageNumbers a {
-    color: #0083C8;
-    text-decoration: none;
-}
-
-#PageNumbers a:hover {
-    text-decoration: underline;
-}
-</template>
-
-
-<template
-    name="New SilverStripe 3.0 theme typography.css template"
-    description="A new SilverStripe theme typography.css template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newsstheme.ss30.typography"
-    context="php_new_ss_project_context"
-    enabled="true">/**
- * This typography file is included in the WYSIWYG editor
- */
-.typography * {
-    font-family: Verdana,Arial,sans-serif;
-    font-size: 12px;
-}
-
-.typography blockquote {
-    margin-left: 20px;
-}
-
-.typography hr {
-    padding: 0;
-    margin: 20px 0;
-    
-    border: 0;
-    
-    border-bottom: 3px solid #2D67B2;
-}
-
-.typography p,
-.typography ul li,
-.typography ol li,
-.typography a {
-    color: #343434;
-    font-size: 12px;
-}
-
-.typography p {
-    margin-bottom: 20px;
+    color: #747474;
 }
 
 
@@ -871,28 +1456,34 @@ a img {
     margin-bottom: 20px;
 }
 
-    .typography ul li,
-    .typography ol li {
-        margin: 4px 10px;
-        line-height: 1.4em;
-    }
-    
-        .typography ul &gt; li {
-            list-style-type: disc;
-        }
-        
-        .typography ol &gt; li {
-            list-style-type: decimal;
-        }
+.typography ul li,
+.typography ol li {
+    margin: 4px 10px;
+
+    line-height: $$default-line-height;
+}
+
+.typography ul &gt; li {
+    list-style-type: disc;
+}
+
+.typography ol &gt; li {
+    list-style-type: decimal;
+}
 
 /* HEADER STYLES */
 
 .typography h1,
 .typography h2,
 .typography h3,
-.typography h4 {
-    margin-bottom: 14px;
+.typography h4,
+.typography h5 ,
+.typography h6  {
     color: #0083C8;
+
+    margin: 20px 0;
+
+    line-height: $$default-line-height;
 }
 
 .typography h1,
@@ -905,231 +1496,452 @@ a img {
     font-weight: normal;
 }
 
-    .typography h1 {
-        font-size: 2.2em;
-    }
-    
-    .typography h2 {
-        font-size: 2.2em;
-    }
-    
-    .typography h3 {
-        font-size: 1.6em;
-    }
-    
-    .typography h4 {
-        font-size: 1.4em;
-    }
+.typography h1 {
+    font-size: 2.2em;
+}
+
+.typography h2 {
+    font-size: 2.2em;
+}
+
+.typography h3 {
+    font-size: 1.6em;
+}
+
+.typography h4 {
+    font-size: 1.4em;
+}
+
+.typography h5 {
+    font-size: 1.2em;
+}
+
+.typography h6 {
+    font-size: 1em;
+}
 
 /* LINK STYLES */
 .typography a {
-    color: #0083C8;
     font-size: 1em;
+    color: #0083C8;
+
     text-decoration: none;
 }
 
-    .typography a:hover {
-        text-decoration: underline;
-    }
-    
-    
-.typography table {
-    font-size: 1.1em;
+.typography a:hover {
+    text-decoration: underline;
 }
 
-    .typography table tr td {
-        padding: 3px 5px;
-    }
+.typography table tr td {
+    padding: 3px 5px;
+}
 
-    
+
 /* WYSIWYG EDITOR ALIGNMENT CLASSES */
 .typography .left {
-    text-align:left;
+    text-align: left;
 }
 
 .typography .center {
-    text-align:center;
+    text-align: center;
 }
 
 .typography .right {
-    text-align:right;
-}
-
-.typography img.right {
-    float:right;
-}
-
-.typography img.left {
-    float:left;
+    text-align: right;
 }
 
 .typography p.MsoNormal, .typography p.MsoBodyText {
     margin: 0;
 }
 
-/* OTHER */
-#PageNumbers {
-    font-weight: bold;
-    color: #333333;
-    font-size: 1.1em;
+
+/**** Pagination ****/
+.pagination {
     text-align: center;
 }
 
-#PageNumbers * {
-    line-height: 1.5em;
+.pagination a, .pagination strong, .pagination span {
+    font-weight: $$font-weight-bold;
+    color: $$link-color;
+
+    line-height: 34px;
+
+    text-align: center;
 }
 
-#PageNumbers a {
-    color: #0083C8;
+.pagination a:hover {
+    color: $$link-hover-color;
+
     text-decoration: none;
 }
 
-#PageNumbers a:hover {
-    text-decoration: underline;
+.pagination strong, .pagination span {
+    color: #999999;
 }
 </template>
 
+<template
+    name="New SilverStripe 4.x theme Page.js template"
+    description="A new SilverStripe theme Page.js template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.page_script"
+    context="php_new_ss_project_context"
+    enabled="true">/**
+ * Detects if the browser is displaying the design in the tablet mode
+ * @return {bool} Boolean true if in mobile mode false otherwise
+ */
+function isTabletMode() {
+    if(typeof window.matchMedia!=='undefined') {
+        var mq=window.matchMedia('only screen and (max-width: 1064px)');
+
+        return mq.matches;
+    }else {
+        return (window.innerWidth&lt;=1064);
+    }
+}
+
+/**
+ * Detects if the browser is displaying the design in the mobile mode
+ * @return {bool} Boolean true if in mobile mode false otherwise
+ */
+function isMobileMode() {
+    if(typeof window.matchMedia!=='undefined') {
+        var mq=window.matchMedia('only screen and (max-width: 600px)');
+
+        return mq.matches;
+    }else {
+        return (window.innerWidth&lt;=600);
+    }
+}
+
+(function($$) {
+    var domReady=false;
+    var resizeTimer=null;
+    var wasMobile=false;
+    var wasTablet=false;
+
+    $$(document).ready(function(e) {
+        domReady=true;
+
+
+        if(isMobileMode()) {
+            wasMobile=true;
+        }
+
+        if(isTabletMode()) {
+            //bind click event to mobile menu button
+            $$('#mobile-menu-trigger').click(showMobileMenu);
+
+            //bind click event to menu close button
+            $$('#Header .menuwrapper .menu-close .close').click(hideMobileMenu);
+
+            //bind click event to mobile menu open child button
+            $$('ul.menu-bar .open-child').click(toggleMobileMenuChildren);
+
+            wasTablet=true;
+        }
+    });
+
+    $$(window).resize(function() {
+        if(domReady==false) {
+            return;
+        }
+
+        if(resizeTimer) {
+            clearTimeout(resizeTimer);
+        }
+
+        resizeTimer=setTimeout(resizeDone, 200);
+    });
+
+    /**
+     * Handles when the resize has stopped, many browsers fire as the resize is happening which is too much
+     */
+    function resizeDone() {
+        //Clear the resize timer
+        if(resizeTimer) {
+            clearTimeout(resizeTimer);
+        }
+
+
+        if(wasMobile==false &amp;&amp; isMobileMode()) {
+            wasMobile=true;
+        }else if(wasMobile &amp;&amp; isMobileMode()==false) {
+            wasMobile=false;
+        }
+
+        if(wasTablet==false &amp;&amp; isTabletMode()) {
+            //bind click event to mobile menu button
+            $$('#mobile-menu-trigger').click(showMobileMenu);
+
+            //bind click event to menu close button
+            $$('#Header .menuwrapper .menu-close .close').click(hideMobileMenu);
+
+            //bind click event to mobile menu open child button
+            $$('ul.menu-bar .open-child').click(toggleMobileMenuChildren);
+
+            wasTablet=true;
+        }else if(wasTablet &amp;&amp; isTabletMode()==false) {
+            //Remove the menu open style
+            $$('html').removeClass('menu-open');
+
+            $$(document.body).off('touchmove', blockTouchMove);
+
+
+            //Remove the right style
+            $$('#Header .top-bar .menuwrapper')
+                                            .css('right', '')
+                                            .off('touchstart', iOSBounceStop)
+                                            .off('touchmove', propagationStop);
+
+
+            //Remove the display for sub menus
+            $$('#Header .top-bar .menuwrapper ul.menu-bar ul').css('display', '');
+
+            //bind click event to mobile menu button
+            $$('#mobile-menu-trigger').off('click', showMobileMenu);
+
+            //bind click event to menu close button
+            $$('#Header .menuwrapper .menu-close .close').off('click', hideMobileMenu);
+
+            //bind click event to mobile menu open child button
+            $$('ul.menu-bar .open-child').off('click', toggleMobileMenuChildren);
+
+            wasTablet=false;
+        }
+
+
+        $$(window).trigger('sawlorresize');
+    }
+
+    /**
+     * Shows the mobile menu
+     * @param e Event Data
+     */
+    function showMobileMenu(e) {
+        e.preventDefault();
+
+
+        $$('#Header .menuwrapper')
+                                .css('right', '0')
+                                .on('touchstart', iOSBounceStop)
+                                .on('touchmove', propagationStop);
+
+        $$('html').addClass('menu-open');
+        $$(document.body).on('touchmove', blockTouchMove);
+    }
+
+    /**
+     * Hides the mobile menu
+     */
+    function hideMobileMenu() {
+        $$('html').removeClass('menu-open');
+
+        $$('#Header .menuwrapper')
+                                .css('right', '')
+                                .off('touchstart', iOSBounceStop)
+                                .off('touchmove', propagationStop);
+
+        //Hide all sub-menus
+        $$('#Header .menuwrapper ul li .open-child i.fa-chevron-up').each(function() {
+            var self=$$(this);
+
+            self.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            self.closest('li').children('.column-wrap, ul').hide();
+        });
+
+
+        $$(document.body).off('touchmove', blockTouchMove);
+    }
+
+    /**
+     * Block touch move
+     */
+    function blockTouchMove(e) {
+        e.preventDefault();
+    }
+
+    /**
+     * Stops the iOS bouncing scroll effect
+     */
+    function iOSBounceStop(e) {
+        if(e.currentTarget.scrollTop===0) {
+            e.currentTarget.scrollTop=1;
+        }else if(e.currentTarget.scrollHeight===e.currentTarget.scrollTop+e.currentTarget.offsetHeight) {
+            e.currentTarget.scrollTop-=1;
+        }
+    }
+
+    /**
+     * Stops propagation of events
+     */
+    function propagationStop(e) {
+        var target=$$(e.currentTarget);
+        if(target[0].scrollHeight&gt;target.height()) {
+            e.stopPropagation();
+        }
+    }
+
+    /**
+     * Toggle's children in the mobile menu
+     * @param e Event Data
+     */
+    function toggleMobileMenuChildren(e) {
+        e.preventDefault();
+
+        var self=$$(this);
+        var icon=self.children('i');
+        var subMenu=self.siblings('ul');
+
+        icon.toggleClass('fa-chevron-down').toggleClass('fa-chevron-up');
+
+        subMenu.slideToggle();
+
+        //Hide all sub-menus
+        if(icon.hasClass('fa-chevron-down')) {
+            subMenu.find('li .open-child i.fa-chevron-up').each(function() {
+                var self=$$(this);
+
+                self.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                self.closest('li').children('ul').hide();
+            });
+        }
+    }
+})(jQuery);
+</template>
 
 <template
-    name="New SilverStripe theme Page_results.ss template"
-    description="A new SilverStripe theme Page_results.ss template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newsstheme.pageresults"
+    name="New SilverStripe 4.x theme config.rb template"
+    description="A new SilverStripe theme config.rb template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.config_rb"
     context="php_new_ss_project_context"
-    enabled="true">&lt;div class=&quot;typography&quot;&gt;
-    &lt;% if Results %&gt;
-        &lt;ul id=&quot;SearchResults&quot;&gt;
-            &lt;% control Results %&gt;
-                &lt;li&gt;
-                    &lt;% if MenuTitle %&gt;
-                        &lt;h3&gt;&lt;a class=&quot;searchResultHeader&quot; href=&quot;$$Link&quot;&gt;$$MenuTitle&lt;/a&gt;&lt;/h3&gt;
-                    &lt;% else %&gt;
-                        &lt;h3&gt;&lt;a class=&quot;searchResultHeader&quot; href=&quot;$$Link&quot;&gt;$$Title&lt;/a&gt;&lt;/h3&gt;
-                    &lt;% end_if %&gt;
-                    &lt;a class=&quot;readMoreLink&quot; href=&quot;$$Link&quot; title=&quot;Read more about &amp;quot;{$$Title}&amp;quot;&quot;&gt;Read more about &amp;quot;{$$Title}&amp;quot;...&lt;/a&gt;
-                &lt;/li&gt;
-            &lt;% end_control %&gt;
-        &lt;/ul&gt;
-    &lt;% else %&gt;
-        &lt;p&gt;Sorry, your search query did not return any results.&lt;/p&gt;
-    &lt;% end_if %&gt;
-    
-    &lt;% if Results.MoreThanOnePage %&gt;
-        &lt;div id=&quot;PageNumbers&quot;&gt;
-            &lt;% if Results.NotLastPage %&gt;
-                &lt;a class=&quot;next&quot; href=&quot;$$Results.NextLink&quot; title=&quot;View the next page&quot;&gt;Next&lt;/a&gt;
-            &lt;% end_if %&gt;
-            
-            &lt;% if Results.NotFirstPage %&gt;
-                &lt;a class=&quot;prev&quot; href=&quot;$$Results.PrevLink&quot; title=&quot;View the previous page&quot;&gt;Prev&lt;/a&gt;
-            &lt;% end_if %&gt;
-            
-            &lt;span&gt;
-                &lt;% control Results.SummaryPagination(5) %&gt;
-                    &lt;% if CurrentBool %&gt;
-                        $$PageNum
-                    &lt;% else %&gt;
-                        &lt;a href=&quot;$$Link&quot; title=&quot;View page number $$PageNum&quot;&gt;$$PageNum&lt;/a&gt;
-                    &lt;% end_if %&gt;
-                &lt;% end_control %&gt;
-            &lt;/span&gt;
-        &lt;/div&gt;
-    &lt;% end_if %&gt;
-&lt;/div&gt;</template>
+    enabled="true"># Require any additional compass plugins here.
+require 'compass-colors'
+require 'compass/import-once/activate'
 
+project_type = :stand_alone
+# Set this to the root of your project when deployed:
+http_path = &quot;/&quot;
+css_dir = &quot;css&quot;
+sass_dir = &quot;scss&quot;
+images_dir = &quot;images&quot;
+javascripts_dir = &quot;javascript&quot;
+output_style = :compact
+
+# To enable relative paths to assets via compass helper functions. Uncomment:
+relative_assets = true
+
+# Disable comments in the output. We want admin comments to be verbose.
+line_comments = false
+
+# Disable asset cache buster. Using :none doesn't work in some versions of compass.
+asset_cache_buster do |http_path, real_path|
+    nil
+end
+
+sourcemap = true
+
+sass_options = { :unix_newlines =&gt; true }
+
+Encoding.default_external = &quot;utf-8&quot;
+
+# Removing all comments by applying a monkey patch to SASS compiler
+class Sass::Tree::Visitors::Perform &lt; Sass::Tree::Visitors::Base
+    # Removes all comments completely
+    def visit_comment(node)
+        return []
+    end
+end
+
+module Compass::ImportOnce::Importer
+  def find(uri, options, *args)
+    uri, force_import = handle_force_import(uri.gsub(/^\(NOT IMPORTED\) /, ''))
+    maybe_replace_with_dummy_engine(super(uri, options, *args), options, force_import)
+  end
+end
+</template>
 
 <template
     name="New SilverStripe theme Navigation.ss template"
     description="A new SilverStripe theme Navigation.ss template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newsstheme.navigation"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.navigation"
     context="php_new_ss_project_context"
-    enabled="true">&lt;ul class=&quot;menu-bar&quot;&gt;
-    &lt;% control Menu(1) %&gt;
-        &lt;li>
-            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&lt;% if Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$$MenuTitle.XML&lt;/span&gt;&lt;/a&gt;
-            &lt;% if Children %&gt;
-                &lt;ul&gt;
-                    &lt;% control Children %&gt;
-                        &lt;li>
-                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;&gt;$$MenuTitle.XML&lt;/a&gt;
-                            
-                            &lt;% if Children %&gt;
-                                &lt;ul&gt;
-                                    &lt;% control Children %&gt;
-                                        &lt;li&gt;
-                                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;>$$MenuTitle.XML&lt;/a&gt;
-                                        &lt;/li&gt;
-                                    &lt;% end_control %&gt;
-                                &lt;/ul&gt;
-                            &lt;% end_if %&gt;
-                        &lt;/li&gt;
-                    &lt;% end_control %&gt;
-                &lt;/ul&gt;
-            &lt;% end_if %&gt;
-        &lt;/li&gt;
-    &lt;% end_control %&gt;
-&lt;/ul&gt;</template>
-
-
-<template
-    name="New SilverStripe 3.0 theme Navigation.ss template"
-    description="A new SilverStripe 3.0 theme Navigation.ss template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newsstheme.ss30.navigation"
-    context="php_new_ss_project_context"
-    enabled="true">&lt;ul class=&quot;menu-bar&quot;&gt;
-    &lt;% loop $$Menu(1) %&gt;
-        &lt;li>
-            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&lt;% if $$Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$$MenuTitle.XML&lt;/span&gt;&lt;/a&gt;
-            &lt;% if $$Children %&gt;
-                &lt;ul&gt;
-                    &lt;% loop $$Children %&gt;
-                        &lt;li>
-                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;&gt;$$MenuTitle.XML&lt;/a&gt;
-                            
-                            &lt;% if $$Children %&gt;
-                                &lt;ul&gt;
-                                    &lt;% loop $$Children %&gt;
-                                        &lt;li&gt;
-                                            &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;>$$MenuTitle.XML&lt;/a&gt;
-                                        &lt;/li&gt;
-                                    &lt;% end_loop %&gt;
-                                &lt;/ul&gt;
-                            &lt;% end_if %&gt;
-                        &lt;/li&gt;
-                    &lt;% end_loop %&gt;
-                &lt;/ul&gt;
-            &lt;% end_if %&gt;
-        &lt;/li&gt;
-    &lt;% end_loop %&gt;
-&lt;/ul&gt;</template>
-
-<template
-    name="New Top Level SilverStripe 3.x (Framework Only) Template"
-    description="A new Top Level SilverStripe 3.x (Framework Only) Template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newss.ss30.framework.toplevel"
-    context="php_ss_40"
-    ss-versions="SS3.0"
-    enabled="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; &gt;
-    &lt;head&gt;
-        &lt;title&gt;$$Title.XML&lt;/title&gt;
-        $$MetaTags(false)
-        &lt;% base_tag %&gt;
-        
-        &lt;% require themedCSS(layout) %&gt;
-        &lt;% require themedCSS(typography) %&gt;
-        &lt;% require themedCSS(form) %&gt;
-    &lt;/head&gt;
-    &lt;body class=&quot;typography&quot;&gt;
-        &lt;div id=&quot;Main&quot;&gt;
-            &lt;% include Navigation %&gt;
-            
-            &lt;div id=&quot;Content&quot;&gt;
-                $$Layout
-            &lt;/div&gt;
+    enabled="true">&lt;% cached 'mainMenu', $$ID, $$SiteConfig.LastEdited, $$List('SilverStripe\CMS\Model\SiteTree').Max('LastEdited'), $$LastEdited, $$current_stage %&gt;
+    &lt;div class=&quot;menuwrapper&quot;&gt;
+        &lt;div class=&quot;menu-close &lt;% if $$CurrentSegment %&gt;$$CurrentSegment.LowerCase&lt;% end_if %&gt;&quot;&gt;
+            &lt;button class=&quot;close&quot; title=&quot;Close Menu&quot;&gt;&lt;i class=&quot;fas fa-times&quot;&gt;&lt;/i&gt;&lt;/button&gt;
         &lt;/div&gt;
+        &lt;nav&gt;
+            &lt;ul class=&quot;menu-bar&quot;&gt;
+                &lt;% if $$SiteConfig.ContactPage %&gt;
+                    &lt;li class=&quot;show-only-mobile contact-link&quot;&gt;&lt;a href=&quot;$$SiteConfig.ContactPage.Link&quot;&gt;&lt;span&gt;Contact Us&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;% end_if %&gt;
+
+                &lt;% loop $$Menu(1) %&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&lt;% if $$Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$$MenuTitle.XML&lt;/span&gt;&lt;/a&gt;
+                        &lt;% if $$Children %&gt;
+                            &lt;button class=&quot;open-child&quot; title=&quot;$$MenuTitle.ATT Sub-Menu&quot;&gt;&lt;i class=&quot;fas fa-chevron-down&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+
+                            &lt;ul&gt;
+                                &lt;% loop $$Children %&gt;
+                                    &lt;li&gt;
+                                        &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;&gt;$$MenuTitle.XML&lt;/a&gt;
+
+                                        &lt;% if $$Children %&gt;
+                                            &lt;button class=&quot;open-child&quot; title=&quot;$$MenuTitle.ATT Sub-Menu&quot;&gt;&lt;i class=&quot;fas fa-chevron-down&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+
+                                            &lt;ul&gt;
+                                                &lt;% loop $$Children %&gt;
+                                                    &lt;li&gt;
+                                                        &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&quot;&gt;$$MenuTitle.XML&lt;/a&gt;
+                                                    &lt;/li&gt;
+                                                &lt;% end_loop %&gt;
+                                            &lt;/ul&gt;
+                                        &lt;% end_if %&gt;
+                                    &lt;/li&gt;
+                                &lt;% end_loop %&gt;
+                            &lt;/ul&gt;
+                        &lt;% end_if %&gt;
+                    &lt;/li&gt;
+                &lt;% end_loop %&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/div&gt;
+
+    &lt;a href=&quot;#&quot; id=&quot;mobile-menu-trigger&quot; title=&quot;Menu&quot;&gt;&lt;i class=&quot;fas fa-bars&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+&lt;% end_cached %&gt;
+</template>
+
+
+<template
+    name="New SilverStripe 4.x theme Pagination.ss template"
+    description="A new SilverStripe 4.x theme Pagination.ss template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.pagination"
+    context="php_new_ss_project_context"
+    enabled="true">&lt;%-- NOTE: Before including this, you will need to wrap the include in a with block  --%&gt;
+
+&lt;% if $$MoreThanOnePage %&gt;
+    &lt;p class=&quot;pagination&quot;&gt;&lt;%--
+        --%&gt;&lt;% if $$NotFirstPage %&gt;&lt;%--
+            --%&gt;&lt;a class=&quot;prev&quot; href=&quot;{$$PrevLink}&quot; title=&quot;Previous Page&quot;&gt;&lt;i class=&quot;fas fa-fw fa-angle-left&quot;&gt;&lt;!-- --&gt;&lt;/i&gt;&lt;/a&gt;&lt;%--
+        --%&gt;&lt;% end_if %&gt;&lt;%--
+    
+        --%&gt;&lt;% loop $$PaginationSummary %&gt;&lt;%--
+            --%&gt;&lt;% if $$CurrentBool %&gt;&lt;%--
+                --%&gt;&lt;strong&gt;$$PageNum&lt;/strong&gt;&lt;%--
+            --%&gt;&lt;% else %&gt;&lt;%--
+                --%&gt;&lt;% if $$Link %&gt;&lt;%--
+                    --%&gt;&lt;a href=&quot;$$Link&quot;&gt;$$PageNum&lt;/a&gt;&lt;%--
+                --%&gt;&lt;% else %&gt;&lt;%--
+                    --%&gt;&lt;span&gt;...&lt;/span&gt;&lt;%--
+                --%&gt;&lt;% end_if %&gt;&lt;%--
+            --%&gt;&lt;% end_if %&gt;&lt;%--
+        --%&gt;&lt;% end_loop %&gt;&lt;%--
         
-        &lt;script type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-    &lt;/body&gt;
-&lt;/html&gt;</template>
+        --%&gt;&lt;% if $$NotLastPage %&gt;&lt;%--
+            --%&gt;&lt;a class=&quot;next&quot; href=&quot;{$$NextLink}&quot; title=&quot;Next Page&quot;&gt;&lt;i class=&quot;fas fa-fw fa-angle-right&quot;&gt;&lt;!-- --&gt;&lt;/i&gt;&lt;/a&gt;&lt;%--
+        --%&gt;&lt;% end_if %&gt;&lt;%--
+    --%&gt;&lt;/p&gt;
+&lt;% end_if %&gt;
+</template>
 </templates>

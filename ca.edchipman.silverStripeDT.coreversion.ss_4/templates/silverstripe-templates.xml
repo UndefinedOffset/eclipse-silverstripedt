@@ -4,7 +4,7 @@
 <!-- new PHP templates -->
 <template
     name="New SilverStripe 4.x Page Type"
-    description="A new SilverStripe 4.x Page type extending Page"
+    description="A SilverStripe 4.x Page type extending Page"
     id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.pagetype"
     context="ss_new_class_context"
     ss-versions="SS4"
@@ -28,7 +28,7 @@ class ${file_name} extends Page {
 
 <template
     name="New SilverStripe 4.x Page Controller"
-    description="A new SilverStripe 4.x Page Controller extending PageController"
+    description="A SilverStripe 4.x Page Controller extending PageController"
     id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.pagecontroller"
     context="ss_new_class_context"
     ss-versions="SS4"
@@ -52,7 +52,7 @@ class ${file_name} extends PageController {
 
 <template
     name="New SilverStripe 4.x Data Object"
-    description="A new SilverStripe 4.x Data Object"
+    description="A SilverStripe 4.x Data Object"
     id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.dataobject"
     context="ss_new_class_context"
     ss-versions="SS4"
@@ -87,15 +87,29 @@ class ${file_name} extends DataObject {
 </template>
 
 <template
-    name="New SilverStripe Controller"
-    description="A new SilverStripe Controller extending ContentController"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.controller"
+    name="New SilverStripe 4.x Content Controller"
+    description="A SilverStripe 4.x Content Controller extending ContentController"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.contentcontroller"
     context="ss_new_class_context"
     ss-versions="SS4"
     enabled="true">&lt;?php
 use SilverStripe\CMS\Controllers\ContentController;
 
 class ${file_name} extends ContentController {
+    ${cursor}
+}
+</template>
+
+<template
+    name="New SilverStripe 4.x Controller"
+    description="A SilverStripe 4.x Controller extending Controller"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newphp.controller"
+    context="ss_new_class_context"
+    ss-versions="SS4"
+    enabled="true">&lt;?php
+use SilverStripe\Control\Controller;
+
+class ${file_name} extends Controller {
     ${cursor}
 }
 </template>
@@ -203,4 +217,95 @@ class ${file_name} extends DataExtension {
         
     }
 }</template>
+<template
+    name="New Top Level SilverStripe 4.x Template"
+    description="A Top Level SilverStripe 4.x Template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.theme.toplevel"
+    context="php_ss_40"
+    ss-versions="SS4"
+    enabled="true">&lt;!DOCTYPE html PUBLIC&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;title&gt;$$Title.XML - $$SiteConfig.Title.XML&lt;% if $$SiteConfig.Tagline %&gt; - $$SiteConfig.Tagline.XML&lt;% end_if %&gt;&lt;/title&gt;
+
+        $$MetaTags(false)
+
+        &lt;% base_tag %&gt;
+
+        &lt;% require themedCSS(layout) %&gt;
+        &lt;% require themedCSS(typography) %&gt;
+        &lt;% require themedCSS(menu) %&gt;
+        &lt;% require themedCSS(form) %&gt;
+        &lt;% require themedCSS(responsive) %&gt;
+    &lt;/head&gt;
+    &lt;body class=&quot;typography&quot;&gt;
+        &lt;div id=&quot;Header&quot; class=&quot;inner&quot;&gt;
+            &lt;% include Navigation %&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;Content&quot; class=&quot;inner&quot;&gt;
+            $$Layout
+        &lt;/div&gt;
+
+        &lt;script type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</template>
+
+
+
+<template
+    name="New Top Level SilverStripe 4.x (Framework Only) Template"
+    description="A Top Level SilverStripe 4.x (Framework Only) Template"
+    id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.framework.toplevel"
+    context="php_ss_40"
+    ss-versions="SS4"
+    enabled="true">&lt;!DOCTYPE html PUBLIC&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;title&gt;$$Title.XML&lt;/title&gt;
+
+        $$MetaTags(false)
+
+        &lt;% base_tag %&gt;
+
+        &lt;% require themedCSS(layout) %&gt;
+        &lt;% require themedCSS(typography) %&gt;
+        &lt;% require themedCSS(menu) %&gt;
+        &lt;% require themedCSS(form) %&gt;
+        &lt;% require themedCSS(responsive) %&gt;
+    &lt;/head&gt;
+    &lt;body class=&quot;typography&quot;&gt;
+        &lt;div id=&quot;Header&quot; class=&quot;inner&quot;&gt;
+            &lt;% include Navigation %&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;Content&quot; class=&quot;inner&quot;&gt;
+            $$Layout
+        &lt;/div&gt;
+
+        &lt;script type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</template>
+
+<template
+    name="New SilverStripe 4.x Layout Template"
+    description="A SilverStripe 4.x Layout Template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.theme.layout"
+    context="php_ss_40"
+    ss-versions="SS4"
+    enabled="true">&lt;h1&gt;$$Title.XML&lt;/h1&gt;
+
+$$Content
+$$Form</template>
+
+<template
+    name="New Blank SilverStripe Template"
+    description="A blank SilverStripe Template"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.theme.blank"
+    context="php_ss_40"
+    ss-versions="SS4"
+    enabled="true">
+</template>
 </templates>

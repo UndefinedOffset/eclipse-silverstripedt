@@ -96,6 +96,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="supports_tests" type="boolean" use="default" value="true">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="language_provider" type="string" use="required">
             <annotation>
                <documentation>
