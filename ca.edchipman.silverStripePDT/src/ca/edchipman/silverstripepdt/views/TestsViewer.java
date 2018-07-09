@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IModelElement;
@@ -63,6 +64,8 @@ import org.eclipse.swt.custom.ScrolledComposite;
 
 import ca.edchipman.silverstripepdt.SilverStripeNature;
 import ca.edchipman.silverstripepdt.SilverStripePluginImages;
+import ca.edchipman.silverstripepdt.SilverStripePreferences;
+import ca.edchipman.silverstripepdt.SilverStripeVersion;
 
 @SuppressWarnings("restriction")
 public class TestsViewer extends ViewPart {
@@ -171,22 +174,37 @@ public class TestsViewer extends ViewPart {
         IResource currentSelection=extractSelection(getSite().getWorkbenchWindow().getSelectionService().getSelection());
         if(currentSelection!=null) {
             IProject project=currentSelection.getProject();
+            
             try {
                 if(project.hasNature(SilverStripeNature.ID)) {
-                    String siteBase=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_site_base", null, project);
-                    if(siteBase!=null && siteBase.isEmpty()==false) {
-                        refreshAction.setEnabled(true);
-                        fLastProject=project;
-                        
-                        this.getSite().getPage().addPartListener(viewPartListener);
-                    }else {
+                    String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), project);
+                    IConfigurationElement versionDef=SilverStripeVersion.getLanguageDefinition(ssVersion);
+                    
+                    if(versionDef.getAttribute("supports_tests")!=null && versionDef.getAttribute("supports_tests").toLowerCase().equals("false")) {
                         refreshAction.setEnabled(false);
                         
-                        fErrorLabel.setText("You have not set the site base for this project, you can set this on the project's preferences for SilverStripe");
+                        fErrorLabel.setText("The project's version of SilverStripe does not support the tests view");
                         fErrorView.layout();
                         if(fViewStackLayout.topControl!=fErrorView) {
                             fViewStackLayout.topControl=fErrorView;
                             fViewStack.layout();
+                        }
+                    }else {
+                        String siteBase=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_site_base", null, project);
+                        if(siteBase!=null && siteBase.isEmpty()==false) {
+                            refreshAction.setEnabled(true);
+                            fLastProject=project;
+                            
+                            this.getSite().getPage().addPartListener(viewPartListener);
+                        }else {
+                            refreshAction.setEnabled(false);
+                            
+                            fErrorLabel.setText("You have not set the site base for this project, you can set this on the project's preferences for SilverStripe");
+                            fErrorView.layout();
+                            if(fViewStackLayout.topControl!=fErrorView) {
+                                fViewStackLayout.topControl=fErrorView;
+                                fViewStack.layout();
+                            }
                         }
                     }
                 }else {
@@ -420,29 +438,43 @@ public class TestsViewer extends ViewPart {
     protected void handleSelectionChange(IProject _project) {
         try {
             if(_project.hasNature(SilverStripeNature.ID)) {
-                String siteBase=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_site_base", null, _project);
-                if(siteBase!=null && siteBase.isEmpty()==false) {
-                    refreshAction.setEnabled(true);
-                    
-                    if(fLastProject==null || _project.getName().equals(fLastProject.getName())==false) {
-                        fTestsBrowser.setUrl("about:blank");
-                        fLastProject=_project;
-                        
-                        if(fViewStackLayout.topControl!=fTestsView) {
-                            fViewStackLayout.topControl=fTestsView;
-                            fViewStack.layout();
-                        }
-                        
-                        this.refreshTests();
-                    }
-                }else {
+                String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), _project.getProject());
+                IConfigurationElement versionDef=SilverStripeVersion.getLanguageDefinition(ssVersion);
+                
+                if(versionDef.getAttribute("supports_tests")!=null && versionDef.getAttribute("supports_tests").toLowerCase().equals("false")) {
                     refreshAction.setEnabled(false);
                     
-                    fErrorLabel.setText("You have not set the site base for this project, you can set this on the project's preferences for SilverStripe");
+                    fErrorLabel.setText("The project's version of SilverStripe does not support the tests view");
                     fErrorView.layout();
                     if(fViewStackLayout.topControl!=fErrorView) {
                         fViewStackLayout.topControl=fErrorView;
                         fViewStack.layout();
+                    }
+                }else {
+                    String siteBase=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue("silverstripe_site_base", null, _project);
+                    if(siteBase!=null && siteBase.isEmpty()==false) {
+                        refreshAction.setEnabled(true);
+                        
+                        if(fLastProject==null || _project.getName().equals(fLastProject.getName())==false) {
+                            fTestsBrowser.setUrl("about:blank");
+                            fLastProject=_project;
+                            
+                            if(fViewStackLayout.topControl!=fTestsView) {
+                                fViewStackLayout.topControl=fTestsView;
+                                fViewStack.layout();
+                            }
+                            
+                            this.refreshTests();
+                        }
+                    }else {
+                        refreshAction.setEnabled(false);
+                        
+                        fErrorLabel.setText("You have not set the site base for this project, you can set this on the project's preferences for SilverStripe");
+                        fErrorView.layout();
+                        if(fViewStackLayout.topControl!=fErrorView) {
+                            fViewStackLayout.topControl=fErrorView;
+                            fViewStack.layout();
+                        }
                     }
                 }
             }else {
