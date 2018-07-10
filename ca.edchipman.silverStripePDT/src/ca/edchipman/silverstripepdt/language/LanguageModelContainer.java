@@ -45,6 +45,8 @@ public class LanguageModelContainer implements IBuildpathContainer {
     private IBuildpathEntry[] buildPathEntries;
     private IScriptProject fProject;
     private Job buildJob;
+    protected static Boolean vendorDialogOpen=false;
+    protected static Boolean extractErrorDialogOpen=false;
     
 
     public LanguageModelContainer(IPath containerPath, IScriptProject project) {
@@ -75,7 +77,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
                     // in provider's plug-in:
                     IPath path = null;
                     if(versionDef.getAttribute("uses_vendor_folder")!=null && versionDef.getAttribute("uses_vendor_folder").toLowerCase().equals("true")) {
-                        path = this.resolveVendorFolder();
+                        //path = this.resolveVendorFolder();
                         
                         if(path != null) {
                             LanguageModelInitializer.addPathName(path, provider.getName());
@@ -88,15 +90,21 @@ public class LanguageModelContainer implements IBuildpathContainer {
                             IPath[] excludedPaths = { path };
                             entries.add(DLTKCore.newLibraryEntry(path, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, excludedPaths, false, true));
                         }else {
-                            Display.getDefault().asyncExec(new Runnable() {
-                                @Override
-                                public void run() {
-                                    MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
-                                    messageBox.setMessage("Could not find the root of SilverStripe or the composer vendor folder. Make sure you have initialized your SilverStripe install, then close and re-open the project to enable autocomplete.");
-                                    messageBox.setText("Error finding the SilverStripe Root");
-                                    messageBox.open();
-                                }
-                            });
+                            if(LanguageModelContainer.vendorDialogOpen == false) {
+                                LanguageModelContainer.vendorDialogOpen = true;
+                                
+                                Display.getDefault().asyncExec(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
+                                        messageBox.setMessage("Could not find the root of SilverStripe or the composer vendor folder. Make sure you have initialized your SilverStripe install, then close and re-open the project to enable autocomplete.");
+                                        messageBox.setText("Error finding the SilverStripe Root");
+                                        messageBox.open();
+                                        
+                                        LanguageModelContainer.vendorDialogOpen = false;
+                                    }
+                                });
+                            }
                         }
                     }else {
                         path = provider.getPath(project);
@@ -288,15 +296,21 @@ public class LanguageModelContainer implements IBuildpathContainer {
                     lockFile.delete();
                 }
                 
-                Display.getDefault().asyncExec(new Runnable() {
-                    @Override
-                    public void run() {
-                        MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
-                        messageBox.setMessage("Could not unpack the SilverStripe Version Package, code hints will not be available for the SilverStripe Version Package. You can try closing and re-opening the project to attempt again.");
-                        messageBox.setText("SilverStripe Version Package Unpack Error");
-                        messageBox.open();
-                    }
-                });
+                if(LanguageModelContainer.extractErrorDialogOpen == false) {
+                    LanguageModelContainer.extractErrorDialogOpen = true;
+                    
+                    Display.getDefault().asyncExec(new Runnable() {
+                        @Override
+                        public void run() {
+                            MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
+                            messageBox.setMessage("Could not unpack the SilverStripe Version Package, code hints will not be available for the SilverStripe Version Package. You can try closing and re-opening the project to attempt again.");
+                            messageBox.setText("SilverStripe Version Package Unpack Error");
+                            messageBox.open();
+                            
+                            LanguageModelContainer.extractErrorDialogOpen = false;
+                        }
+                    });
+                }
                 
                 Logger.logException(e);
                 return null;
