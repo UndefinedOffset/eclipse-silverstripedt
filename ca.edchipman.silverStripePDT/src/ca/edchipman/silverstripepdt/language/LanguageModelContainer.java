@@ -77,7 +77,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
                     // in provider's plug-in:
                     IPath path = null;
                     if(versionDef.getAttribute("uses_vendor_folder")!=null && versionDef.getAttribute("uses_vendor_folder").toLowerCase().equals("true")) {
-                        //path = this.resolveVendorFolder();
+                        path = this.resolveVendorFolder();
                         
                         if(path != null) {
                             LanguageModelInitializer.addPathName(path, provider.getName());
