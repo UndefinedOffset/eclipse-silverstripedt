@@ -32,6 +32,7 @@ import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import ca.edchipman.silverstripepdt.SilverStripePreferences;
@@ -40,11 +41,11 @@ import ca.edchipman.silverstripepdt.versioninterfaces.ISilverStripeLanguageModel
 
 @SuppressWarnings("restriction")
 public class LanguageModelContainer implements IBuildpathContainer {
-
     private IPath containerPath;
     private IBuildpathEntry[] buildPathEntries;
     private IScriptProject fProject;
     private Job buildJob;
+    
 
     public LanguageModelContainer(IPath containerPath, IScriptProject project) {
         this.containerPath = containerPath;
@@ -55,7 +56,13 @@ public class LanguageModelContainer implements IBuildpathContainer {
         if (buildPathEntries == null) {
             try {
                 List<IBuildpathEntry> entries = new LinkedList<IBuildpathEntry>();
-                String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, SilverStripeVersion.getDefaultVersion(), fProject.getProject());
+                String ssVersion=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_VERSION, null, fProject.getProject());
+                
+                //If the project preferences aren't loaded yet stop
+                if(ssVersion == null || ssVersion.isEmpty()) {
+                    return (IBuildpathEntry[]) entries.toArray(new IBuildpathEntry[entries.size()]);
+                }
+                
                 String ssFrameworkModel=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_FRAMEWORK_MODEL, SilverStripeVersion.FULL_CMS, project.getProject());
                 String ssSiteConfigModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_SITECONFIG_MODULE, SilverStripeVersion.DEFAULT_SITECONFIG_MODULE, project.getProject());
                 String ssReportsModule=CorePreferencesSupport.getInstance().getProjectSpecificPreferencesValue(SilverStripePreferences.SILVERSTRIPE_REPORTS_MODULE, SilverStripeVersion.DEFAULT_REPORTS_MODULE, project.getProject());
@@ -64,36 +71,36 @@ public class LanguageModelContainer implements IBuildpathContainer {
                 
 
                 for (ILanguageModelProvider provider:LanguageModelInitializer.getContributedProviders()) {
-
                     // Get the location where language model files reside
                     // in provider's plug-in:
-                    IPath path = provider.getPath(project);
-                    if (path != null) {
-                        if(versionDef.getAttribute("uses_vendor_folder")!=null && versionDef.getAttribute("uses_vendor_folder").toLowerCase().equals("true")) {
-                            path = this.resolveVendorFolder();
+                    IPath path = null;
+                    if(versionDef.getAttribute("uses_vendor_folder")!=null && versionDef.getAttribute("uses_vendor_folder").toLowerCase().equals("true")) {
+                        path = this.resolveVendorFolder();
+                        
+                        if(path != null) {
+                            LanguageModelInitializer.addPathName(path, provider.getName());
                             
-                            if(path != null) {
-                                LanguageModelInitializer.addPathName(path, provider.getName());
-                                
-                                if(environment != null) {
-                                    path = EnvironmentPathUtils.getFullPath(environment, path);
-                                }
-                                
-                                //Add the library entry ensuring the project itself is excluded
-                                IPath[] excludedPaths = { path };
-                                entries.add(DLTKCore.newLibraryEntry(path, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, excludedPaths, false, true));
-                            }else {
-                                Display.getDefault().asyncExec(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
-                                        messageBox.setMessage("Could not find the root of SilverStripe or the composer vendor folder. Make sure you have initialized your SilverStripe install, then close and re-open the project to enable autocomplete.");
-                                        messageBox.setText("Error finding the SilverStripe Root");
-                                        messageBox.open();
-                                    }
-                                });
+                            if(environment != null) {
+                                path = EnvironmentPathUtils.getFullPath(environment, path);
                             }
+                            
+                            //Add the library entry ensuring the project itself is excluded
+                            IPath[] excludedPaths = { path };
+                            entries.add(DLTKCore.newLibraryEntry(path, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, excludedPaths, false, true));
                         }else {
+                            Display.getDefault().asyncExec(new Runnable() {
+                                @Override
+                                public void run() {
+                                    MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(), SWT.ICON_ERROR | SWT.OK);
+                                    messageBox.setMessage("Could not find the root of SilverStripe or the composer vendor folder. Make sure you have initialized your SilverStripe install, then close and re-open the project to enable autocomplete.");
+                                    messageBox.setText("Error finding the SilverStripe Root");
+                                    messageBox.open();
+                                }
+                            });
+                        }
+                    }else {
+                        path = provider.getPath(project);
+                        if (path != null) {
                             // Copy files (if target directory is older) to the
                             // plug-in state
                             // location:
@@ -166,6 +173,7 @@ public class LanguageModelContainer implements IBuildpathContainer {
                 Logger.logException(e);
             }
         }
+        
         return buildPathEntries;
     }
 
