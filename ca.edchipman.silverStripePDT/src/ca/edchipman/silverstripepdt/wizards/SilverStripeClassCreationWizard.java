@@ -26,8 +26,6 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
     protected ISelection selection;
     protected NewSilverStripeClassWizardPage fPage;
     protected NewSilverStripeClassWizardTemplatePage tPage;
-    protected NewSilverStripeClassWizardClassPage cPage;
-    protected boolean inTemplateMode=false;
     
     public SilverStripeClassCreationWizard() {
         setWindowTitle("New SilverStripe Class");
@@ -48,9 +46,6 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
         fPage = new NewSilverStripeClassWizardPage(selection);
         addPage(fPage);
         
-        cPage = new NewSilverStripeClassWizardClassPage(selection, fPage);
-        addPage(cPage);
-        
         tPage = new NewSilverStripeClassWizardTemplatePage(selection, fPage);
         addPage(tPage);
     }
@@ -59,18 +54,14 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
      * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#finishPage(org.eclipse.core.runtime.IProgressMonitor)
      */
     protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
-        if(fPage.isClassMode()) {
-            cPage.createType(monitor);
-        }else {
-            tPage.createFile(monitor);
-        }
+        tPage.createFile(monitor);
     }
     
     /*
      * (non-Javadoc) Method declared on IWizard.
      */
     public boolean canFinish() {
-        return ((fPage.getIsCurrentPage() && fPage.isPageComplete() && this.inTemplateMode) || cPage.getIsCurrentPage() || tPage.getIsCurrentPage());
+        return ((fPage.getIsCurrentPage() && fPage.isPageComplete()) || tPage.getIsCurrentPage());
     }
     
     @Override
@@ -109,10 +100,6 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
      * return the page that was added to this wizard after the given page.
      */
     public IWizardPage getNextPage(IWizardPage page) {
-        if(fPage.isClassMode()) {
-            return cPage;
-        }
-        
         return tPage;
     }
     
@@ -130,9 +117,5 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
      */
     protected ISchedulingRule getSchedulingRule() {
         return ResourcesPlugin.getWorkspace().getRoot(); // look all by default
-    }
-    
-    public void setTemplateMode(boolean mode) {
-        this.inTemplateMode=mode;
     }
 }
