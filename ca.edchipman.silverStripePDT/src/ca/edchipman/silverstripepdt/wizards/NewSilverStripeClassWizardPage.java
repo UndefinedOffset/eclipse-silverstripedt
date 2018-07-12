@@ -9,6 +9,8 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IScriptProject;
+import org.eclipse.dltk.internal.ui.wizards.buildpath.SetFilterWizardPage;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
@@ -19,6 +21,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
 
@@ -51,11 +54,18 @@ public class NewSilverStripeClassWizardPage extends WizardPage implements Listen
         Composite container = new Composite(parent, SWT.NULL);
 
         setControl(container);
-        GridLayout gl_container = new GridLayout(3, false);
+        GridLayout gl_container = new GridLayout(1, false);
         gl_container.verticalSpacing = 9;
         container.setLayout(gl_container);
         
         resourceGroup=new ResourceAndContainerGroup(container, this, "Class Name:", IDEWorkbenchMessages.WizardNewFileCreationPage_file, false, 250);
+        
+        String lastTemplate=this.getLastTemplateName();
+        if(lastTemplate.length()>0) {
+            Label finishNextLabel = new Label(container, SWT.FILL);
+            finishNextLabel.setText("Clicking finish will create a new class based on the \""+lastTemplate+"\" template, click next to change templates");
+            finishNextLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
+        }
         
         initialize();
         validatePage(true);
@@ -64,7 +74,7 @@ public class NewSilverStripeClassWizardPage extends WizardPage implements Listen
     /**
      * Load the last template name used in New HTML File wizard.
      */
-    protected String getLastTemplateName() {
+    public String getLastTemplateName() {
         return SilverStripePDTPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.NEW_PHP_FILE_TEMPLATE);
     }
     
@@ -85,8 +95,7 @@ public class NewSilverStripeClassWizardPage extends WizardPage implements Listen
     protected IContainer getContainer(final String text) {
         final Path path = new Path(text);
 
-        final IResource resource = ResourcesPlugin.getWorkspace().getRoot()
-                .findMember(path);
+        final IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(path);
         return resource instanceof IContainer ? (IContainer) resource : null;
     }
     

@@ -178,9 +178,9 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
                             right.getName());
                     if (result != 0)
                         return result;
-                    return left.getDescription().compareToIgnoreCase(
-                            right.getDescription());
+                    return left.getDescription().compareToIgnoreCase(right.getDescription());
                 }
+                
                 return super.compare(viewer, object1, object2);
             }
 
@@ -359,8 +359,7 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
 
             @Override
             public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-                return baseConfiguration
-                        .getConfiguredContentTypes(sourceViewer);
+                return baseConfiguration.getConfiguredContentTypes(sourceViewer);
             }
 
             @Override
@@ -386,6 +385,10 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
         Template template = getSelectedTemplate();
         if (template != null) {
             fPatternViewer.getDocument().set(template.getPattern());
+            
+            this.setPageComplete(true);
+        }else {
+            this.setPageComplete(false);
         }
     }
 
@@ -401,6 +404,7 @@ public class NewSilverStripeClassWizardTemplatePage extends NewGenericFileTempla
         if (selection.size() == 1) {
             template = (Template) selection.getFirstElement();
         }
+        
         return template;
     }
 

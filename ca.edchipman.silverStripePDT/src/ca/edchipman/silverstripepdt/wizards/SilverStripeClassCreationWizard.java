@@ -61,7 +61,7 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
      * (non-Javadoc) Method declared on IWizard.
      */
     public boolean canFinish() {
-        return ((fPage.getIsCurrentPage() && fPage.isPageComplete()) || tPage.getIsCurrentPage());
+        return ((fPage.getIsCurrentPage() && fPage.isPageComplete() && fPage.getLastTemplateName().length()>0) || (tPage.getIsCurrentPage() && tPage.isPageComplete()));
     }
     
     @Override
@@ -95,14 +95,6 @@ public class SilverStripeClassCreationWizard extends Wizard implements INewWizar
         return true;
     }
 
-    /*
-     * (non-Javadoc) Method declared on IWizard. The default behavior is to
-     * return the page that was added to this wizard after the given page.
-     */
-    public IWizardPage getNextPage(IWizardPage page) {
-        return tPage;
-    }
-    
     protected void handleFinishException(Shell shell, InvocationTargetException e) {
         ExceptionHandler.handle(e, shell, "New", "Creation of class failed.");
     }
