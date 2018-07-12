@@ -135,7 +135,7 @@
             target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <documentationTextHover
             class="org.eclipse.wst.html.ui.internal.taginfo.HTMLTagInfoHoverProcessor"
-            target="org.eclipse.wst.html.HTML_DEFAULT">
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource">
         </documentationTextHover>
         <provisionalConfiguration
             type="sourceeditingtexttools"
@@ -152,7 +152,15 @@
         <provisionalConfiguration
             type="org.eclipse.jface.text.quickassist.IQuickAssistProcessor"
             class="org.eclipse.wst.xml.ui.internal.correction.XMLQuickAssistProcessor"
-            target="org.eclipse.wst.html.HTML_DEFAULT" />
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        <provisionalConfiguration
+            type="org.eclipse.jface.text.quickassist.IQuickAssistProcessor"
+            class="org.eclipse.wst.html.ui.internal.text.correction.HTMLAttributeValidationQuickFixProcessor"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
+        <provisionalConfiguration
+            type="org.eclipse.jface.text.quickassist.IQuickAssistProcessor"
+            class="org.eclipse.wst.html.ui.internal.text.correction.HTMLSyntaxValidationQuickFixProcessor"
+            target="ca.edchipman.silverstripepdt.SilverStripeTemplateSource" />
         <provisionalConfiguration
             type="autoeditstrategy"
             class="org.eclipse.wst.html.ui.internal.autoedit.StructuredAutoEditStrategyHTML"
