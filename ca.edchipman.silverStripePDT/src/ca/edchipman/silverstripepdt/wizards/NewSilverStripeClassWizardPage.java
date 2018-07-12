@@ -69,6 +69,8 @@ public class NewSilverStripeClassWizardPage extends WizardPage implements Listen
         
         initialize();
         validatePage(true);
+        
+        resourceGroup.setFocus();
     }
     
     /**
