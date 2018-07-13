@@ -65,12 +65,10 @@ public class LineStyleProviderForSS extends LineStyleProviderForHTML {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_END_IF);
         } else if (type == SilverStripeRegionContext.SS_BASE_TAG) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_BASE_TAG);
-        } else if (type == SilverStripeRegionContext.SS_COMMENT_OPEN) {
+        } else if (type == SilverStripeRegionContext.SS_COMMENT_OPEN || type == SilverStripeRegionContext.SS_COMMENT_CLOSE) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_COMMENT_DELIM);
         } else if (type == SilverStripeRegionContext.SS_COMMENT_TEXT) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_COMMENT_TEXT);
-        } else if (type == SilverStripeRegionContext.SS_COMMENT_CLOSE) {
-            return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_COMMENT_DELIM);
         } else if (type == SilverStripeRegionContext.SS_REQUIREMENT_OPEN) {
             return (TextAttribute)getTextAttributes().get(IStyleConstantsSS.SS_REQUIREMENT_OPEN);
         } else if (type == SilverStripeRegionContext.SS_REQUIREMENT_CONTENT) {
