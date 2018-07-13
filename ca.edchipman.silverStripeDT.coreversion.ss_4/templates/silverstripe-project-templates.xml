@@ -6,6 +6,7 @@
     id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newproject.config"
     context="php_new_ss_project_context"
     enabled="true">&lt;?php
+use SilverStripe\Forms\HTMLEditor\TinyMCEConfig;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\PasswordValidator;
 
@@ -15,6 +16,21 @@ $$validator = new PasswordValidator();
 $$validator->minLength(8);
 $$validator->checkHistoricalPasswords(6);
 Member::set_password_validator($$validator);
+
+
+// Re-add a few components to the WYSIWYG
+TinyMCEConfig::get('cms')->addButtonsToLine(1, array(
+    '|',
+    'undo',
+    'redo'
+));
+
+TinyMCEConfig::get('cms')->insertButtonsBefore('paste', array(
+    'cut',
+    'copy'
+));
+
+TinyMCEConfig::get('cms')->setOption('contextmenu', TinyMCEConfig::get('cms')->getOption('contextmenu') . ' | cut copy paste pastetext');
 </template>
 
 
