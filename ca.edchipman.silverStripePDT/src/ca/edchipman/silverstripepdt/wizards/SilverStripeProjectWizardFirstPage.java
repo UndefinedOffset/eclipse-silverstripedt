@@ -94,19 +94,19 @@ public class SilverStripeProjectWizardFirstPage extends PHPProjectWizardFirstPag
     protected SilverStripeLayoutGroup fLayoutGroup;
     protected SilverStripeVersionGroup fSSVersionGroup;
     
-    private NameGroup fNameGroup;
-    private LocationGroup fPHPLocationGroup;
-    private String fInitialName;
-    private VersionGroup fVersionGroup;
-    private SilverStripeJavaScriptSupportGroup fJavaScriptSupportGroup;
-    private DetectGroup fDetectGroup;
-    private Validator fPdtValidator;
-    private WorkingSetGroup fWorkingSetGroup;
-    private WizardFragment fragment;
-    private URI fCurrProjectLocation;
-    private boolean fKeepContent;
-    private boolean fProjectCreated = false;
-    private Boolean fIsAutobuild;
+    protected NameGroup fNameGroup;
+    protected LocationGroup fPHPLocationGroup;
+    protected String fInitialName;
+    protected VersionGroup fVersionGroup;
+    protected SilverStripeJavaScriptSupportGroup fJavaScriptSupportGroup;
+    protected DetectGroup fDetectGroup;
+    protected Validator fPdtValidator;
+    protected WorkingSetGroup fWorkingSetGroup;
+    protected WizardFragment fragment;
+    protected URI fCurrProjectLocation;
+    protected boolean fKeepContent;
+    protected boolean fProjectCreated = false;
+    protected Boolean fIsAutobuild;
     
     public SilverStripeProjectWizardFirstPage() {
         super();
