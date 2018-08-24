@@ -30,12 +30,23 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
     public void createProjectLayout(Wizard wizard, IProject project, IProgressMonitor monitor, ContextTypeRegistry templateRegistry, TemplateStore templateStore, boolean isFrameworkLayout) throws CoreException {
         //Generate the Page.php file
         if(isFrameworkLayout==false) {
-            Template pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.newproject.defaultpage");
+            Template pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newproject.defaultpage");
             PHPTemplateStore.CompiledTemplate pageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageTemplateToCompile, project.getName()+"/code", "Page.php");
             new SilverStripeFileCreator().createFile(wizard, project.getName()+"/code", "Page.php", monitor, pageTemplate.string, pageTemplate.offset);
             
+
+            //Create the config folder
+            IPath ymlConfigPath = new Path("code/control");
+            if (ymlConfigPath.segmentCount() > 0) {
+                IFolder folder=project.getFolder(ymlConfigPath);
+                CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
+            } else {
+                monitor.worked(10);
+            }
+            
+            
             //Generate the PageController.php file
-            Template pageControllerTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.newproject.defaultpagecontroller");
+            Template pageControllerTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newproject.defaultpagecontroller");
             PHPTemplateStore.CompiledTemplate pageControllerTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageControllerTemplateToCompile, project.getName()+"/code/control", "PageController.php");
             new SilverStripeFileCreator().createFile(wizard, project.getName()+"/code/control", "PageController.php", monitor, pageControllerTemplate.string, pageControllerTemplate.offset);
         }
@@ -52,13 +63,13 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
         
         
         //Create config.yml
-        Template ymlConfigTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.newproject.ymlconfig");
+        Template ymlConfigTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newproject.ymlconfig");
         PHPTemplateStore.CompiledTemplate ymlConfigTemplate=PHPTemplateStore.compileTemplate(templateRegistry, ymlConfigTemplateToCompile, project.getName()+"/_config", "config.yml");
         new SilverStripeFileCreator().createFile(wizard, project.getName()+"/_config", "config.yml", monitor, ymlConfigTemplate.string, ymlConfigTemplate.offset, true);
         
         
         //Generate the _config.php file
-        Template configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.newproject.config");
+        Template configTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newproject.config");
         PHPTemplateStore.CompiledTemplate configTemplate=PHPTemplateStore.compileTemplate(templateRegistry, configTemplateToCompile, project.getName(), "_config.php");
         new SilverStripeFileCreator().createFile(wizard, project.getName(), "_config.php", monitor, configTemplate.string, configTemplate.offset, true);
     }

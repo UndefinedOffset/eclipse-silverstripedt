@@ -2,7 +2,7 @@
 <feature
       id="ca.edchipman.silverstripedt.coreversion.ss_4.Feature"
       label="SilverStripe Developer Tools 4 Support"
-      version="1.0.1"
+      version="1.0.2"
       provider-name="Ed Chipman">
 
    <description url="http://programs.edchipman.ca/eclipse/silverstripe-dt">
