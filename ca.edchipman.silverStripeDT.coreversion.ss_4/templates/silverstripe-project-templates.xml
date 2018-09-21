@@ -43,7 +43,6 @@ TinyMCEConfig::get('cms')->setOption('contextmenu', TinyMCEConfig::get('cms')->g
 Name: mysite
 After: 
     - "framework/*"
-    - "cms/*"
 ---
 SilverStripe\View\SSViewer:
   themes:
@@ -89,10 +88,10 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Security\Permission;
 
 class Page extends SiteTree {
-    public static $$db=array(
+    private static $$db=array(
                            );
     
-    public static $$defaults=array(
+    private static $$defaults=array(
                                 );
     
     /**

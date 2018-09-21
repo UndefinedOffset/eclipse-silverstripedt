@@ -6,7 +6,7 @@
    <feature url="features/ca.edchipman.silverstripepdt.Feature_2.3.0.jar" id="ca.edchipman.silverstripepdt.Feature" version="2.3.0">
       <category name="SilverStripeDT"/>
    </feature>
-   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_4.Feature_1.0.2.jar" id="ca.edchipman.silverstripedt.coreversion.ss_4.Feature" version="1.0.2">
+   <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_4.Feature_1.0.3.jar" id="ca.edchipman.silverstripedt.coreversion.ss_4.Feature" version="1.0.3">
       <category name="SilverStripeDT.versions"/>
    </feature>
    <feature url="features/ca.edchipman.silverstripedt.coreversion.ss_3_7.Feature_1.0.0.jar" id="ca.edchipman.silverstripedt.coreversion.ss_3_7.Feature" version="1.0.0">

@@ -95,6 +95,17 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
      * @throws CoreException 
      */
     public void createThemeLayout(Wizard wizard, IProject project, IProgressMonitor monitor, ContextTypeRegistry templateRegistry, TemplateStore templateStore, boolean isFrameworkLayout) throws CoreException {
+        //Create the scss folder
+        IPath folderPath = new Path("scss");
+        IFolder folder;
+        if (folderPath.segmentCount() > 0) {
+            folder = project.getFolder(folderPath);
+            CoreUtility.createFolder(folder, true, true, new SubProgressMonitor(monitor, 10));
+        } else {
+            monitor.worked(10);
+        }
+        
+        
         //Generate the editor.css file
         Template editorTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.editor");
         PHPTemplateStore.CompiledTemplate editorTemplate=PHPTemplateStore.compileTemplate(templateRegistry, editorTemplateToCompile, project.getName()+"/css", "editor.css");
@@ -177,7 +188,7 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
         //Generate the top level Page.ss file
         Template tlPageTemplateToCompile;
         if(isFrameworkLayout) {
-            tlPageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.framework.toplevel");
+            tlPageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.framework.toplevel");
         } else {
             tlPageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.toplevel");
         }
@@ -191,7 +202,7 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
         
         
         //Generate the Page.ss file
-        Template pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.layout");
+        Template pageTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.layout.ss");
         PHPTemplateStore.CompiledTemplate pageTemplate=PHPTemplateStore.compileTemplate(templateRegistry, pageTemplateToCompile, project.getName()+"/templates/Layout", "Page.ss");
         
         

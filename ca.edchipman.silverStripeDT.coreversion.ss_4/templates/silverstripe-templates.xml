@@ -183,22 +183,22 @@ class ${file_name} extends Extension {
 use SilverStripe\ORM\DataExtension;
 
 class ${file_name} extends DataExtension {
-    public static $$db=array(
+    private static $$db=array(
                          );
     
-    public static $$has_one=array(
+    private static $$has_one=array(
                              );
     
-    public static $$has_many=array(
+    private static $$has_many=array(
                              );
     
-    public static $$belongs_many_many=array(
+    private static $$belongs_many_many=array(
                                  );
     
-    public static $$many_many=array(
+    private static $$many_many=array(
                                  );
     
-    public static $$defaults=array(
+    private static $$defaults=array(
                                 );
     
     /**
@@ -212,7 +212,7 @@ class ${file_name} extends DataExtension {
 <template
     name="New Top Level SilverStripe 4.x Template"
     description="A Top Level SilverStripe 4.x Template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.theme.toplevel"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.toplevel"
     context="php_ss_40"
     ss-versions="SS4"
     enabled="true">&lt;!DOCTYPE html PUBLIC&gt;
@@ -284,7 +284,7 @@ class ${file_name} extends DataExtension {
 <template
     name="New SilverStripe 4.x Layout Template"
     description="A SilverStripe 4.x Layout Template"
-    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.theme.layout"
+    id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.layout.ss"
     context="php_ss_40"
     ss-versions="SS4"
     enabled="true">&lt;h1&gt;$$Title.XML&lt;/h1&gt;
