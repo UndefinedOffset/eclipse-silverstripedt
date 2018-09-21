@@ -163,12 +163,12 @@ public class NewSilverStripeProjectCreator implements ISilverStripeNewProjectCre
         new SilverStripeFileCreator().createFile(wizard, project.getName()+"/scss", "typography.scss", monitor, typographySRCTemplate.string, typographySRCTemplate.offset);
         
         //Generate the menu.scss file
-        Template menuSRCTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.menu");
+        Template menuSRCTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.menu.src");
         PHPTemplateStore.CompiledTemplate menuSRCTemplate=PHPTemplateStore.compileTemplate(templateRegistry, menuSRCTemplateToCompile, project.getName()+"/scss", "menu.scss");
         new SilverStripeFileCreator().createFile(wizard, project.getName()+"/scss", "menu.scss", monitor, menuSRCTemplate.string, menuSRCTemplate.offset);
         
         //Generate the responsive.scss file
-        Template responsiveSRCTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.responsive");
+        Template responsiveSRCTemplateToCompile=templateStore.findTemplateById("ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.responsive.src");
         PHPTemplateStore.CompiledTemplate responsiveSRCTemplate=PHPTemplateStore.compileTemplate(templateRegistry, responsiveSRCTemplateToCompile, project.getName()+"/scss", "responsive.scss");
         new SilverStripeFileCreator().createFile(wizard, project.getName()+"/scss", "responsive.scss", monitor, responsiveSRCTemplate.string, responsiveSRCTemplate.offset);
         
