@@ -1881,10 +1881,6 @@ end
         &lt;/div&gt;
         &lt;nav&gt;
             &lt;ul class=&quot;menu-bar&quot;&gt;
-                &lt;% if $$SiteConfig.ContactPage %&gt;
-                    &lt;li class=&quot;show-only-mobile contact-link&quot;&gt;&lt;a href=&quot;$$SiteConfig.ContactPage.Link&quot;&gt;&lt;span&gt;Contact Us&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
-                &lt;% end_if %&gt;
-
                 &lt;% loop $$Menu(1) %&gt;
                     &lt;li&gt;
                         &lt;a href=&quot;$$Link&quot; class=&quot;$$LinkingMode&lt;% if $$Children %&gt; menu&lt;% end_if %&gt;&quot;&gt;&lt;span&gt;$$MenuTitle.XML&lt;/span&gt;&lt;/a&gt;
