@@ -215,7 +215,7 @@ class ${file_name} extends DataExtension {
     id="ca.edchipman.silverStripeDT.coreversion.ss_4.templates.newtheme.toplevel"
     context="php_ss_40"
     ss-versions="SS4"
-    enabled="true">&lt;!DOCTYPE html PUBLIC&gt;
+    enabled="true">&lt;!DOCTYPE html&gt;
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; lang=&quot;en&quot;&gt;
     &lt;head&gt;
         &lt;title&gt;$$Title.XML - $$SiteConfig.Title.XML&lt;% if $$SiteConfig.Tagline %&gt; - $$SiteConfig.Tagline.XML&lt;% end_if %&gt;&lt;/title&gt;
@@ -252,7 +252,7 @@ class ${file_name} extends DataExtension {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newss.ss30.framework.toplevel"
     context="php_ss_40"
     ss-versions="SS4"
-    enabled="true">&lt;!DOCTYPE html PUBLIC&gt;
+    enabled="true">&lt;!DOCTYPE html&gt;
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; lang=&quot;en&quot;&gt;
     &lt;head&gt;
         &lt;title&gt;$$Title.XML&lt;/title&gt;
