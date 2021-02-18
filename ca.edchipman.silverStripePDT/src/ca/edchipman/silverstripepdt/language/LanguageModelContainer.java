@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IBuildpathContainer;
 import org.eclipse.dltk.core.IBuildpathEntry;
+import org.eclipse.dltk.core.IModelStatus;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.environment.EnvironmentManager;
 import org.eclipse.dltk.core.environment.EnvironmentPathUtils;
@@ -82,12 +83,14 @@ public class LanguageModelContainer implements IBuildpathContainer {
                         if(path != null) {
                             LanguageModelInitializer.addPathName(path, provider.getName());
                             
+                            IPath projectPath = new Path("**").append(project.getProject().getLocation().makeRelativeTo(path).append("**"));
+                            
                             if(environment != null) {
                                 path = EnvironmentPathUtils.getFullPath(environment, path);
                             }
                             
                             //Add the library entry ensuring the project itself is excluded
-                            IPath[] excludedPaths = { path };
+                            IPath[] excludedPaths = { projectPath, new Path("**/*.inc") };
                             entries.add(DLTKCore.newLibraryEntry(path, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, excludedPaths, false, true));
                         }else {
                             if(LanguageModelContainer.vendorDialogOpen == false) {
