@@ -9,23 +9,21 @@
     context="ss_new_class_context"
     ss-versions="SS2.3,SS2.4,SS3.0"
     enabled="true">&lt;?php
-class ${file_name} extends Page {
-    public static $$db=array(
-                         );
+class ${file_name} extends Page
+{
+    public static $$db = [];
     
-    public static $$has_one=array(
-                             );
+    public static $$has_one = [];
     
-    public static $$has_many=array(
-                             );
+    public static $$has_many = [];
     
-    public static $$defaults=array(
-                                );
+    public static $$defaults = [];
     
     ${cursor}
 }
 
-class ${file_name}_Controller extends Page_Controller {
+class ${file_name}_Controller extends Page_Controller
+{
     
 }
 ?&gt;</template>
@@ -36,23 +34,21 @@ class ${file_name}_Controller extends Page_Controller {
     context="ss_new_class_context"
     ss-versions="SS3.1,SS3.2,SS3.3,SS3.4,SS3.5,SS3.6,SS3.7"
     enabled="true">&lt;?php
-class ${file_name} extends Page {
-    private static $$db=array(
-                         );
+class ${file_name} extends Page
+{
+    private static $$db = [];
     
-    private static $$has_one=array(
-                             );
+    private static $$has_one = [];
     
-    private static $$has_many=array(
-                             );
+    private static $$has_many = [];
     
-    private static $$defaults=array(
-                                );
+    private static $$defaults = [];
     
     ${cursor}
 }
 
-class ${file_name}_Controller extends Page_Controller {
+class ${file_name}_Controller extends Page_Controller
+{
     
 }
 ?&gt;</template>
@@ -64,27 +60,21 @@ class ${file_name}_Controller extends Page_Controller {
     context="ss_new_class_context"
     ss-versions="SS2.3,SS2.4,SS3.0"
     enabled="true">&lt;?php
-class ${file_name} extends DataObject {
-    public static $$db=array(
-                         );
+class ${file_name} extends DataObject
+{
+    public static $$db = [];
     
-    public static $$has_one=array(
-                            );
+    public static $$has_one = [];
     
-    public static $$has_many=array(
-                                );
+    public static $$has_many = [];
     
-    public static $$belongs_many_many=array(
-                                        );
+    public static $$belongs_many_many = [];
     
-    public static $$many_many=array(
-                                 );
+    public static $$many_many = [];
     
-    public static $$defaults=array(
-                                );
+    public static $$defaults = [];
     
-    public static $$extensions=array(
-                                );
+    public static $$extensions = [];
     
     ${cursor}
 }
@@ -97,27 +87,21 @@ class ${file_name} extends DataObject {
     context="ss_new_class_context"
     ss-versions="SS3.1,SS3.2,SS3.3,SS3.4,SS3.5,SS3.6,SS3.7"
     enabled="true">&lt;?php
-class ${file_name} extends DataObject {
-    private static $$db=array(
-                         );
+class ${file_name} extends DataObject
+{
+    private static $$db = [];
     
-    private static $$has_one=array(
-                                );
+    private static $$has_one = [];
     
-    private static $$has_many=array(
-                                );
+    private static $$has_many = [];
     
-    private static $$belongs_many_many=array(
-                                        );
+    private static $$belongs_many_many = [];
     
-    private static $$many_many=array(
-                                 );
+    private static $$many_many = [];
     
-    private static $$defaults=array(
-                                );
+    private static $$defaults = [];
     
-    private static $$extensions=array(
-                                );
+    private static $$extensions = [];
     
     
     ${cursor}
@@ -131,7 +115,8 @@ class ${file_name} extends DataObject {
     context="ss_new_class_context"
     ss-versions="SS2.3,SS2.4,SS3.0,SS3.1,SS3.2,SS3.3,SS3.4,SS3.5,SS3.6,SS3.7"
     enabled="true">&lt;?php
-class ${file_name} extends ContentController {
+class ${file_name} extends ContentController
+{
     ${cursor}
 }
 ?&gt;</template>
@@ -143,12 +128,14 @@ class ${file_name} extends ContentController {
     context="ss_new_class_context"
     ss-versions="SS2.3,SS2.4"
     enabled="true">&lt;?php
-class ${file_name} extends Extension {
+class ${file_name} extends Extension
+{
     /**
      * Adds the extra statics for this extension
      * @return array Returns a multi-dimentional array defining extra statics and their values
      */
-    public function extraStatics() {
+    public function extraStatics()
+    {
         ${cursor}
     }
     
@@ -156,7 +143,8 @@ class ${file_name} extends Extension {
      * Updates the CMS fields adding the fields defined in this extension
      * @param FieldSet $$fields Field Set that new fields will be added to
      */
-    public function updateCMSFields(FieldSet &amp;$$fields) {
+    public function updateCMSFields(FieldSet &amp;$$fields)
+    {
         
     }
 }
@@ -170,7 +158,8 @@ class ${file_name} extends Extension {
     enabled="true"
     ss-versions="SS3.0,SS3.1,SS3.2,SS3.3,SS3.4,SS3.5,SS3.6,SS3.7"
     autoinsert="true">&lt;?php
-class ${file_name} extends Extension {
+class ${file_name} extends Extension
+{
     ${cursor}
 }
 ?&gt;</template>
@@ -183,30 +172,26 @@ class ${file_name} extends Extension {
     enabled="true"
     ss-versions="SS3.0"
     autoinsert="true">&lt;?php
-class ${file_name} extends DataExtension {
-    public static $$db=array(
-                         );
+class ${file_name} extends DataExtension
+{
+    public static $$db = [];
     
-    public static $$has_one=array(
-                             );
+    public static $$has_one = [];
     
-    public static $$has_many=array(
-                             );
+    public static $$has_many = [];
     
-    public static $$belongs_many_many=array(
-                                 );
+    public static $$belongs_many_many = [];
     
-    public static $$many_many=array(
-                                 );
+    public static $$many_many = [];
     
-    public static $$defaults=array(
-                                );
+    public static $$defaults = [];
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
      * @param FieldList $$fields Field List that new fields will be added to
      */
-    public function updateCMSFields(FieldList $$fields) {
+    public function updateCMSFields(FieldList $$fields)
+    {
         
     }
 }
@@ -220,30 +205,26 @@ class ${file_name} extends DataExtension {
     enabled="true"
     ss-versions="SS3.1,SS3.2,SS3.3,SS3.4,SS3.5,SS3.6,SS3.7"
     autoinsert="true">&lt;?php
-class ${file_name} extends DataExtension {
-    private static $$db=array(
-                         );
+class ${file_name} extends DataExtension
+{
+    private static $$db = [];
     
-    private static $$has_one=array(
-                             );
+    private static $$has_one = [];
     
-    private static $$has_many=array(
-                             );
+    private static $$has_many = [];
     
-    private static $$belongs_many_many=array(
-                                 );
+    private static $$belongs_many_many = [];
     
-    private static $$many_many=array(
-                                 );
+    private static $$many_many = [];
     
-    private static $$defaults=array(
-                                );
+    private static $$defaults = [];
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
      * @param FieldList $$fields Field List that new fields will be added to
      */
-    public function updateCMSFields(FieldList $$fields) {
+    public function updateCMSFields(FieldList $$fields)
+    {
         
     }
 }
@@ -256,12 +237,14 @@ class ${file_name} extends DataExtension {
     context="ss_new_class_context"
     ss-versions="SS2.3,SS2.4"
     enabled="true">&lt;?php
-class ${file_name} extends DataObjectDecorator {
+class ${file_name} extends DataObjectDecorator
+{
     /**
      * Adds the extra statics for this extension
      * @return array Returns a multi-dimentional array defining extra statics and their values
      */
-    public function extraStatics() {
+    public function extraStatics()
+    {
         ${cursor}
     }
     
@@ -269,7 +252,8 @@ class ${file_name} extends DataObjectDecorator {
      * Updates the CMS fields adding the fields defined in this extension
      * @param FieldSet $$fields Field Set that new fields will be added to
      */
-    public function updateCMSFields(FieldSet &amp;$$fields) {
+    public function updateCMSFields(FieldSet &amp;$$fields)
+    {
         
     }
 }
@@ -281,7 +265,8 @@ class ${file_name} extends DataObjectDecorator {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.newphp.class"
     context="ss_new_class_context"
     enabled="true">&lt;?php
-class ${file_name} {
+class ${file_name}
+{
     ${cursor}
 }
 ?&gt;</template>
@@ -306,23 +291,21 @@ global $$lang;
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.pagetype"
     context="php"
     enabled="true"
-    autoinsert="true">class ${file_name} extends Page {
-    public static $$db=array(
-                         );
+    autoinsert="true">class ${file_name} extends Page
+{
+    public static $$db = [];
     
-    public static $$has_one=array(
-                             );
+    public static $$has_one = [];
     
-    public static $$has_many=array(
-                             );
+    public static $$has_many = [];
     
-    public static $$defaults=array(
-                                );
+    public static $$defaults = [];
     
     ${cursor}
 }
 
-class ${file_name}_Controller extends Page_Controller {
+class ${file_name}_Controller extends Page_Controller
+{
     
 }</template>
 
@@ -332,24 +315,20 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.dataobject"
     context="php"
     enabled="true"
-    autoinsert="true">class ${file_name} extends DataObject {
-    public static $$db=array(
-                         );
+    autoinsert="true">class ${file_name} extends DataObject
+{
+    public static $$db = [];
     
-    public static $$has_one=array(
-                             );
+    public static $$has_one = [];
     
     public static $$has_many=array(
                              );
     
-    public static $$belongs_many_many=array(
-                                 );
+    public static $$belongs_many_many = [];
     
-    public static $$many_many=array(
-                                 );
+    public static $$many_many = [];
     
-    public static $$defaults=array(
-                                );
+    public static $$defaults = [];
     
     ${cursor}
 }</template>
@@ -360,7 +339,8 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.controller"
     context="php"
     enabled="true"
-    autoinsert="true">class ${file_name} extends ContentController {
+    autoinsert="true">class ${file_name} extends ContentController
+{
     ${cursor}
 }</template>
 
@@ -370,12 +350,14 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.extension"
     context="php"
     enabled="true"
-    autoinsert="true">class ${file_name} extends Extension {
+    autoinsert="true">class ${file_name} extends Extension
+{
     /**
      * Adds the extra statics for this extension
      * @return array Returns a multi-dimentional array defining extra statics and their values
      */
-    public function extraStatics() {
+    public function extraStatics()
+    {
         ${cursor}
     }
     
@@ -383,7 +365,8 @@ class ${file_name}_Controller extends Page_Controller {
      * Updates the CMS fields adding the fields defined in this extension
      * @param FieldSet $$fields Field Set that new fields will be added to
      */
-    public function updateCMSFields(FieldSet &amp;$$fields) {
+    public function updateCMSFields(FieldSet &amp;$$fields)
+    {
         
     }
 }</template>
@@ -394,7 +377,8 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.ss30.extension"
     context="php"
     enabled="true"
-    autoinsert="true">class ${file_name} extends Extension {
+    autoinsert="true">class ${file_name} extends Extension
+{
     ${cursor}
 }</template>
 
@@ -404,30 +388,26 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.ss30.dataextension"
     context="php"
     enabled="true"
-    autoinsert="true">class ${file_name} extends DataExtension {
-    public static $$db=array(
-                         );
+    autoinsert="true">class ${file_name} extends DataExtension
+{
+    public static $$db = [];
     
-    public static $$has_one=array(
-                             );
+    public static $$has_one = [];
     
-    public static $$has_many=array(
-                             );
+    public static $$has_many = [];
     
-    public static $$belongs_many_many=array(
-                                 );
+    public static $$belongs_many_many = [];
     
-    public static $$many_many=array(
-                                 );
+    public static $$many_many = [];
     
-    public static $$defaults=array(
-                                );
+    public static $$defaults = [];
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
      * @param FieldList $$fields Field Set that new fields will be added to
      */
-    public function updateCMSFields(FieldList $$fields) {
+    public function updateCMSFields(FieldList $$fields)
+    {
         
     }
 }</template>
@@ -438,12 +418,14 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.dod"
     context="php"
     enabled="true"
-    autoinsert="true">class ${file_name} extends DataObjectDecorator {
+    autoinsert="true">class ${file_name} extends DataObjectDecorator
+{
     /**
      * Adds the extra statics for this extension
      * @return array Returns a multi-dimentional array defining extra statics and their values
      */
-    public function extraStatics() {
+    public function extraStatics()
+    {
         ${cursor}
     }
     
@@ -451,7 +433,8 @@ class ${file_name}_Controller extends Page_Controller {
      * Updates the CMS fields adding the fields defined in this extension
      * @param FieldSet $$fields Field Set that new fields will be added to
      */
-    public function updateCMSFields(FieldSet &amp;$$fields) {
+    public function updateCMSFields(FieldSet &amp;$$fields)
+    {
         
     }
 }</template>
@@ -462,7 +445,8 @@ class ${file_name}_Controller extends Page_Controller {
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.class"
     context="php"
     enabled="true"
-    autoinsert="true">class ${file_name} {
+    autoinsert="true">class ${file_name}
+{
     ${cursor}
 }</template>
 
@@ -476,8 +460,9 @@ class ${file_name}_Controller extends Page_Controller {
  * Gets fields used in the cms
  * @return FieldList Fields to be used
  */
-public function getCMSFields() {
-    $$fields=parent::getCMSFields();
+public function getCMSFields()
+{
+    $$fields = parent::getCMSFields();
     
     ${cursor}
     
@@ -494,10 +479,11 @@ public function getCMSFields() {
  * Gets validator used in the cms
  * @return Validator Validator to be used
  */
-public function getCMSValidator() {
+public function getCMSValidator()
+{
     return new RequiredFields(
-                            ${cursor}
-                        );
+        ${cursor}
+    );
 }</template>
 
 <template
@@ -507,7 +493,7 @@ public function getCMSValidator() {
     context="php"
     enabled="true">global $$lang;
 
-$$lang['${file_name}']['${scope}']['${key_name}']='${text}';
+$$lang['${file_name}']['${scope}']['${key_name}'] = '${text}';
 </template>
 
 <template
@@ -515,7 +501,7 @@ $$lang['${file_name}']['${scope}']['${key_name}']='${text}';
     description="A SilverStripe language file line template"
     id="ca.edchipman.silverstripepdt.SilverStripe.templates.langline"
     context="php"
-    enabled="true">$$lang['${file_name}']['${scope}']['${key_name}']='${text}';</template>
+    enabled="true">$$lang['${file_name}']['${scope}']['${key_name}'] = '${text}';</template>
 
 <template
     name="extension"
@@ -541,7 +527,8 @@ $$lang['${file_name}']['${scope}']['${key_name}']='${text}';
  * Updates the fields used in the cms
  * @param FieldSet $$fields Fields to be extended
  */
-public function updateCMSFields(FieldSet $$fields) {
+public function updateCMSFields(FieldSet $$fields)
+{
     ${cursor}
 }</template>
 
@@ -555,7 +542,8 @@ public function updateCMSFields(FieldSet $$fields) {
  * Updates the actions used in the cms
  * @param FieldSet $$actions Actions to be extended
  */
-public function updateCMSActions(FieldSet $$actions) {
+public function updateCMSActions(FieldSet $$actions)
+{
     ${cursor}
 }</template>
 
@@ -569,7 +557,8 @@ public function updateCMSActions(FieldSet $$actions) {
  * Updates the fields used in the cms
  * @param FieldList $$fields Fields to be extended
  */
-public function updateCMSFields(FieldList $$fields) {
+public function updateCMSFields(FieldList $$fields)
+{
     ${cursor}
 }</template>
 
@@ -583,7 +572,8 @@ public function updateCMSFields(FieldList $$fields) {
  * Updates the actions used in the cms
  * @param FieldList $$actions Actions to be extended
  */
-public function updateCMSActions(FieldList $$actions) {
+public function updateCMSActions(FieldList $$actions)
+{
     ${cursor}
 }</template>
 

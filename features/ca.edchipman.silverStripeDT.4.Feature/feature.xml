@@ -2,7 +2,7 @@
 <feature
       id="ca.edchipman.silverstripedt.coreversion.ss_4.Feature"
       label="SilverStripe Developer Tools 4 Support"
-      version="1.0.3"
+      version="1.0.4"
       provider-name="Ed Chipman">
 
    <description url="http://programs.edchipman.ca/eclipse/silverstripe-dt">
@@ -10,11 +10,11 @@
    </description>
 
    <copyright url="http://www.edchipman.ca">
-      Copyright 2018 Ed Chipman
+      Copyright 2021 Ed Chipman
    </copyright>
 
    <license url="">
-      Copyright (c) 2018, Ed Chipman
+      Copyright (c) 2021, Ed Chipman
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,

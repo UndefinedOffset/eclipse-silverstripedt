@@ -87,21 +87,21 @@ SilverStripe\Core\Manifest\ModuleManifest:
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Security\Permission;
 
-class Page extends SiteTree {
-    private static $$db=array(
-                           );
+class Page extends SiteTree
+{
+    private static $$db = [];
     
-    private static $$defaults=array(
-                                );
+    private static $$defaults = [];
     
     /**
      * Gets whether the user is an administrator
      * @return bool True if the user is an admin false if not
      */
-    public function getIsAdmin() {
-        if(Permission::check('ADMIN')) {
+    public function getIsAdmin()
+    {
+        if (Permission::check('ADMIN')) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -116,8 +116,10 @@ class Page extends SiteTree {
     enabled="true">&lt;?php
 use SilverStripe\CMS\Controllers\ContentController;
 
-class PageController extends ContentController {
-    protected function init() {
+class PageController extends ContentController
+{
+    protected function init()
+    {
         parent::init();
 
     }

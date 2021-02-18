@@ -9,18 +9,15 @@
     context="ss_new_class_context"
     ss-versions="SS4"
     enabled="true">&lt;?php
-class ${file_name} extends Page {
-    private static $$db=array(
-                         );
+class ${file_name} extends Page
+{
+    private static $$db = [];
     
-    private static $$has_one=array(
-                             );
+    private static $$has_one = [];
     
-    private static $$has_many=array(
-                             );
+    private static $$has_many = [];
     
-    private static $$defaults=array(
-                                );
+    private static $$defaults = [];
     
     ${cursor}
 }
@@ -33,8 +30,10 @@ class ${file_name} extends Page {
     context="ss_new_class_context"
     ss-versions="SS4"
     enabled="true">&lt;?php
-class ${file_name} extends PageController {
-    protected function init() {
+class ${file_name} extends PageController
+{
+    protected function init()
+    {
         parent::init();
         
         ${cursor}
@@ -51,27 +50,21 @@ class ${file_name} extends PageController {
     enabled="true">&lt;?php
 use SilverStripe\ORM\DataObject;
 
-class ${file_name} extends DataObject {
-    private static $$db=array(
-                         );
+class ${file_name} extends DataObject
+{
+    private static $$db = [];
     
-    private static $$has_one=array(
-                                );
+    private static $$has_one = [];
     
-    private static $$has_many=array(
-                                );
+    private static $$has_many = [];
     
-    private static $$belongs_many_many=array(
-                                        );
+    private static $$belongs_many_many = [];
     
-    private static $$many_many=array(
-                                 );
+    private static $$many_many = [];
     
-    private static $$defaults=array(
-                                );
+    private static $$defaults = [];
     
-    private static $$extensions=array(
-                                );
+    private static $$extensions = [];
     
     
     ${cursor}
@@ -87,7 +80,8 @@ class ${file_name} extends DataObject {
     enabled="true">&lt;?php
 use SilverStripe\CMS\Controllers\ContentController;
 
-class ${file_name} extends ContentController {
+class ${file_name} extends ContentController
+{
     ${cursor}
 }
 </template>
@@ -101,7 +95,8 @@ class ${file_name} extends ContentController {
     enabled="true">&lt;?php
 use SilverStripe\Control\Controller;
 
-class ${file_name} extends Controller {
+class ${file_name} extends Controller
+{
     ${cursor}
 }
 </template>
@@ -116,7 +111,8 @@ class ${file_name} extends Controller {
     autoinsert="true">&lt;?php
 use SilverStripe\Core\Extension;
 
-class ${file_name} extends Extension {
+class ${file_name} extends Extension
+{
     ${cursor}
 }
 </template>
@@ -132,30 +128,26 @@ class ${file_name} extends Extension {
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataExtension;
 
-class ${file_name} extends DataExtension {
-    private static $$db=array(
-                         );
+class ${file_name} extends DataExtension
+{
+    private static $$db = [];
     
-    private static $$has_one=array(
-                             );
+    private static $$has_one = [];
     
-    private static $$has_many=array(
-                             );
+    private static $$has_many = [];
     
-    private static $$belongs_many_many=array(
-                                 );
+    private static $$belongs_many_many = [];
     
-    private static $$many_many=array(
-                                 );
+    private static $$many_many = [];
     
-    private static $$defaults=array(
-                                );
+    private static $$defaults = [];
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
      * @param FieldList $$fields Field List that new fields will be added to
      */
-    public function updateCMSFields(FieldList $$fields) {
+    public function updateCMSFields(FieldList $$fields)
+    {
         
     }
 }
@@ -169,7 +161,8 @@ class ${file_name} extends DataExtension {
     enabled="true"
     autoinsert="true">use SilverStripe\Core\Extension;
 
-class ${file_name} extends Extension {
+class ${file_name} extends Extension
+{
     ${cursor}
 }</template>
 
@@ -182,30 +175,26 @@ class ${file_name} extends Extension {
     autoinsert="true">use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataExtension;
 
-class ${file_name} extends DataExtension {
-    private static $$db=array(
-                         );
+class ${file_name} extends DataExtension
+{
+    private static $$db = [];
     
-    private static $$has_one=array(
-                             );
+    private static $$has_one = [];
     
-    private static $$has_many=array(
-                             );
+    private static $$has_many = [];
     
-    private static $$belongs_many_many=array(
-                                 );
+    private static $$belongs_many_many = [];
     
-    private static $$many_many=array(
-                                 );
+    private static $$many_many = [];
     
-    private static $$defaults=array(
-                                );
+    private static $$defaults = [];
     
     /**
      * Updates the CMS fields adding the fields defined in this extension
      * @param FieldList $$fields Field Set that new fields will be added to
      */
-    public function updateCMSFields(FieldList $$fields) {
+    public function updateCMSFields(FieldList $$fields)
+    {
         
     }
 }</template>
