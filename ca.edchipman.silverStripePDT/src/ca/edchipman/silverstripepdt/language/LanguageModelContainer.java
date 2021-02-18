@@ -15,12 +15,17 @@ import java.util.List;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.internal.filesystem.local.LocalFile;
-import org.eclipse.core.runtime.*;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IBuildpathContainer;
 import org.eclipse.dltk.core.IBuildpathEntry;
-import org.eclipse.dltk.core.IModelStatus;
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.environment.EnvironmentManager;
 import org.eclipse.dltk.core.environment.EnvironmentPathUtils;
@@ -33,7 +38,6 @@ import org.eclipse.php.internal.core.preferences.CorePreferencesSupport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import ca.edchipman.silverstripepdt.SilverStripePreferences;
@@ -83,14 +87,12 @@ public class LanguageModelContainer implements IBuildpathContainer {
                         if(path != null) {
                             LanguageModelInitializer.addPathName(path, provider.getName());
                             
-                            IPath projectPath = new Path("**").append(project.getProject().getLocation().makeRelativeTo(path).append("**"));
-                            
                             if(environment != null) {
                                 path = EnvironmentPathUtils.getFullPath(environment, path);
                             }
                             
                             //Add the library entry ensuring the project itself is excluded
-                            IPath[] excludedPaths = { projectPath, new Path("**/*.inc") };
+                            IPath[] excludedPaths = { new Path("**/*.inc") };
                             entries.add(DLTKCore.newLibraryEntry(path, BuildpathEntry.NO_ACCESS_RULES, BuildpathEntry.NO_EXTRA_ATTRIBUTES, BuildpathEntry.INCLUDE_ALL, excludedPaths, false, true));
                         }else {
                             if(LanguageModelContainer.vendorDialogOpen == false) {
